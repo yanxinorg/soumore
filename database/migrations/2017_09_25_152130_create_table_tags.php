@@ -17,8 +17,8 @@ class CreateTableTags extends Migration
          Schema::create('tags', function (Blueprint $table) {
             $table->increments('id')->unsigned()->comment('标签id');                       
             $table->string('name',128)->unique()->comment('标签名称');
-            $table->string('en_name',128)->nullable()->comment('标签英文名称');
-            $table->string('thumb')->nullable()->comment('标签图标');                    
+            $table->string('thumb')->nullable()->comment('标签图标');  
+            $table->string('mime')->nullable()->comment('缩略图类型');
             $table->text('desc')->nullable()->comment('标签描述');        
             $table->integer('cate_id')->unsigned()->index()->default(0)->comment('标签默认分类'); 
             $table->integer('watchs')->unsigned()->index()->default(0)->comment('该标签关注数'); 

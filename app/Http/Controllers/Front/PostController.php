@@ -409,6 +409,7 @@ class PostController extends Controller
         $this->validate($request, [
             'id'=>'required|numeric|exists:posts,id'
         ]);
+        
         //查询文章
         $datas = DB::table('posts')
         ->join('users', 'posts.user_id', '=', 'users.id')

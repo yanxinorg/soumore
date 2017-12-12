@@ -6,7 +6,7 @@
                 <section class="panel">
                         <header class="panel-heading">标签话题
                             <span class="tools pull-right">
-                                 <a href="" >新增话题</a>
+                                 <a href="{{ url('/back/tag/create') }}" >新增话题</a>
                              </span>
                         </header>
                         <div class="panel-body">
@@ -20,105 +20,21 @@
                             <div class="btn-group pull-right">
                                 <input type="text" class="form-control" aria-controls="dynamic-table">
                             </div>
-
                             <div id="gallery" class="media-gal">
-                                <div class="images item " >
+                               @foreach($datas as $data)
+                                <div class="audio images item " >
                                     <a href="#myModal" data-toggle="modal">
-                                        <img src="images/gallery/image1.jpg" alt="" />
+                                        <img src="{{ route('getTopicImg', $data->id) }}" />
                                     </a>
-                                    <p>img01.jpg </p>
+                                    <p>{{ $data->name }}</p>
                                 </div>
-
-                                <div class=" audio item " >
-                                    <a href="#myModal" data-toggle="modal">
-                                        <img src="images/gallery/image2.jpg" alt="" />
-                                    </a>
-                                    <p>img02.jpg </p>
-                                </div>
-
-                                <div class=" video item " >
-                                    <a href="#myModal" data-toggle="modal">
-                                        <img src="images/gallery/image3.jpg" alt="" />
-                                    </a>
-                                    <p>img03.jpg </p>
-                                </div>
-
-                                <div class=" images audio item " >
-                                    <a href="#myModal" data-toggle="modal">
-                                        <img src="images/gallery/image4.jpg" alt="" />
-                                    </a>
-                                    <p>img04.jpg </p>
-                                </div>
-
-                                <div class=" images documents item " >
-                                    <a href="#myModal" data-toggle="modal">
-                                        <img src="images/gallery/image5.jpg" alt="" />
-                                    </a>
-                                    <p>img05.jpg </p>
-                                </div>
-
-                                <div class=" audio item " >
-                                    <a href="#myModal" data-toggle="modal">
-                                        <img src="images/gallery/image1.jpg" alt="" />
-                                    </a>
-                                    <p>img01.jpg </p>
-                                </div>
-
-                                <div class=" documents item " >
-                                    <a href="#myModal" data-toggle="modal">
-                                        <img src="images/gallery/image2.jpg" alt="" />
-                                    </a>
-                                    <p>img02.jpg </p>
-                                </div>
-                                <div class=" video item " >
-                                    <a href="#myModal" data-toggle="modal">
-                                        <img src="images/gallery/image3.jpg" alt="" />
-                                    </a>
-                                    <p>img03.jpg </p>
-                                </div>
-
-                                <div class=" images item " >
-                                    <a href="#myModal" data-toggle="modal">
-                                        <img src="images/gallery/image4.jpg" alt="" />
-                                    </a>
-                                    <p>img04.jpg </p>
-                                </div>
-
-                                <div class=" documents item " >
-                                    <a href="#myModal" data-toggle="modal">
-                                        <img src="images/gallery/image5.jpg" alt="" />
-                                    </a>
-                                    <p>img05.jpg </p>
-                                </div>
-
-                                <div class=" video item " >
-                                    <a href="#myModal" data-toggle="modal">
-                                        <img src="images/gallery/image1.jpg" alt="" />
-                                    </a>
-                                    <p>img01.jpg </p>
-                                </div>
-
-                                <div class=" audio images item " >
-                                    <a href="#myModal" data-toggle="modal">
-                                        <img src="images/gallery/image2.jpg" alt="" />
-                                    </a>
-                                    <p>img02.jpg </p>
-                                </div>
-
+								@endforeach()
                             </div>
-
                             <div class="col-md-12 text-center clearfix">
                                 <ul class="pagination">
-                                    <li><a href="#">«</a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#">»</a></li>
+                                    <div class="paginate" style="text-align:center;">{{ $datas->links() }}</div>
                                 </ul>
                             </div>
-
                             <!-- Modal -->
                             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -127,7 +43,6 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                             <h4 class="modal-title">Edit Media Gallery</h4>
                                         </div>
-
                                         <div class="modal-body row">
 
                                             <div class="col-md-5 img-modal">

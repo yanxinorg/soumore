@@ -40,14 +40,7 @@ class FileController extends Controller
     	return (new Response($file, 200))->header('Content-Type', $thumb[0]->mime);
     }
     
-    //获取标签缩略图
-    public function getTagImg($id)
-    {
-    	$thumb = TagModel::where('id', '=', $id)->get();
-    	$file = Storage::disk('local')->get($thumb[0]['thumb']);
-    	return (new Response($file, 200))->header('Content-Type', $thumb[0]->mime);
-    }
-    
+
     //获取文章缩略图
     public function getPostImg($id)
     {
@@ -85,6 +78,13 @@ class FileController extends Controller
     	return (new Response($file, 200))->header('Content-Type', 'image/jpeg');
     }
     
+    //获取标签缩略图
+    public function getTopicImg($id)
+    {
+    	$thumb = TagModel::where('id', '=', $id)->get();
+    	$file = Storage::disk('local')->get($thumb[0]['thumb']);
+    	return (new Response($file, 200))->header('Content-Type', $thumb[0]->mime);
+    }
     
     //存储文章缩略图
     public static function savePostImg($file,$route = 'article')

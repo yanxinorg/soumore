@@ -145,7 +145,7 @@
 			         <div class="paginate" style="text-align:center;">{!! $datas->appends(array('cid'=>$cid,'tid'=>$tid))->render() !!}</div>
                     </section>
                 </section>
-          	<div class="paginate" style="text-align:center;"></div>
+          	
           </div>
           <div class="col-md-2 col-sm-2" >
              @component('wenda.slot.mycenterslot')

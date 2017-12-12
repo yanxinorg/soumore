@@ -8,6 +8,6 @@ class TagModel extends Model
 {
 	protected $table = 'tags';
 	public $timestamps = TRUE;
-	protected $fillable = ['name','thumb','desc','en_name'];
+	protected $fillable = ['name','thumb','desc','status','mime'];
 	
 }

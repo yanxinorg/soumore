@@ -285,6 +285,9 @@ Route::get('/auth/weixin', 'Common\SocializeController@weixinAuth');
 //微信社会化监听
 Route::get('/auth/weixin_redirect', 'Common\SocializeController@weixinCallback');
 
+
+
+
 //后台管理
 Route::get('/admin', 'Back\AdminController@index')->middleware('authed');
 
@@ -303,17 +306,17 @@ Route::post('/back/cate/store', 'Back\CategoryController@store');
 //添加子分类
 Route::get('/back/cate/addchild', 'Back\CategoryController@addChild');
 
-//标签列表
+//话题列表
 Route::get('/back/tag', 'Back\TagController@index');
 
-//标签编辑
-Route::get('/back/tag/edit', ['as' => 'tag.edit', 'uses' => 'Back\TagController@edit']);
+//新增话题
+Route::get('/back/tag/create', 'Back\TagController@create');
 
-//标签更新
-Route::post('/back/tag/update', 'Back\TagController@update');
+//保存话题
+Route::post('/back/tag/store', 'Back\TagController@store');
 
-//获取标签图片
-Route::get('/back/tag/thumb/{id}', ['as' => 'getTagImg', 'uses' => 'Common\FileController@getTagImg']);
+//获取话题图片
+Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\FileController@getTopicImg']);
 
 //用户列表
 Route::get('/back/user', 'Back\UserController@index');

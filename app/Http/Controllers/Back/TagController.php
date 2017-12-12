@@ -12,14 +12,57 @@ class TagController extends Controller
     //
 	public function index()
 	{
-		$datas = TagModel::paginate('5');
-		$tag = TagModel::all()->take(1);;
-		return view('back.tag.index',[
-				'datas'=>$datas,
-				'tag'=>$tag[0],
-				'tid'=>''
-		]);
+		$datas = TagModel::paginate('18');
+		return view('back.tag.index',['datas'=>$datas]);
 	}
+	
+	//新增话题
+	public function create()
+	{
+		return view('back.tag.create');
+	}
+	
+	//保存话题
+	public function store(Request $request)
+	{
+		$this->validate($request, [
+				'name'=>'required|unique:category,name',
+				'desc'=>'required',
+				'thumb'=>'required|mimes:jpeg,png,jpg',
+				'status'=>'required|numeric'
+		],[
+				'required'=>':attribute不能为空',
+				'mimes'=>'图片格式错误',
+				'unique'=>':attribute已存在'
+		],[
+				'name'=>'话题名称',
+				'desc'=>'话题描述',
+				'thumb'=>'缩略图',
+		]);
+		$file = $request->file('thumb');
+		 
+		$extention = $file->getClientOriginalExtension();
+		//话题缩略图
+		$filepath = FileController::saveCateImg($file,'topic');
+		
+		$result = TagModel::create([
+				'name'=>$request->get('name'),
+				'thumb'=>$filepath,
+				'mime'=>$file->getClientMimeType(),
+				'desc'=>$request->get('desc'),
+				'status'=>$request->get('status')
+		]);
+		if($result)
+		{
+			return redirect('/back/tag');
+		}
+		return redirect()->back()->withErrors([
+				'msg'=>'创建失败'
+		]);
+		
+	}
+	
+	
 	//编辑话题
 	public function edit(Request $request)
 	{
