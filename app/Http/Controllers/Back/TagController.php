@@ -69,7 +69,7 @@ class TagController extends Controller
 		$this->validate($request, [
 			'id'=>'required|numeric|exists:tags,id'
 		]);
-		$datas = TagModel::paginate('5');
+		$datas = TagModel::paginate('18');
 		$tag = TagModel::where('id',$request->get('id'))->get();
 		return view('back.tag.index',['tag'=>$tag[0],'datas'=>$datas,'tid'=>$request->get('id')]);
 	}
@@ -103,5 +103,27 @@ class TagController extends Controller
 		]);
 	}
 	
+	// 删除话题
+	public function delete(Request $request)
+	{
+		$this->validate($request, [
+				'id'=>'required|numeric|exists:tags,id'
+		]);
+		//删除该话题
+		$results = TagModel::where('id',$request->get('id'))->delete();
+		if($results)
+		{
+			$data = [
+					'code'=>'1',
+					'msg'=>'删除成功'
+			];
+		}else{
+			$data = [
+					'code'=>'0',
+					'msg'=>'删除失败'
+			];
+		}
+		return $data;
+	}
 	
 }

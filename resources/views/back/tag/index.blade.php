@@ -10,81 +10,51 @@
                              </span>
                         </header>
                         <div class="panel-body">
-                            <ul id="filters" class="media-filter">
-                                <li><a href="#" data-filter="*"> All</a></li>
-                                <li><a href="#" data-filter=".images">Images</a></li>
-                                <li><a href="#" data-filter=".audio">Audio</a></li>
-                                <li><a href="#" data-filter=".video">Video</a></li>
-                                <li><a href="#" data-filter=".documents">Documents</a></li>
-                            </ul>
-                            <div class="btn-group pull-right">
-                                <input type="text" class="form-control" aria-controls="dynamic-table">
-                            </div>
-                            <div id="gallery" class="media-gal">
-                               @foreach($datas as $data)
-                                <div class="audio images item " >
-                                    <a href="#myModal" data-toggle="modal">
-                                        <img src="{{ route('getTopicImg', $data->id) }}" />
-                                    </a>
-                                    <p>{{ $data->name }}</p>
-                                </div>
-								@endforeach()
-                            </div>
-                            <div class="col-md-12 text-center clearfix">
-                                <ul class="pagination">
-                                    <div class="paginate" style="text-align:center;">{{ $datas->links() }}</div>
-                                </ul>
-                            </div>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title">Edit Media Gallery</h4>
-                                        </div>
-                                        <div class="modal-body row">
-
-                                            <div class="col-md-5 img-modal">
-                                                <img src="images/gallery/image1.jpg" alt="">
-                                                <a href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit Image</a>
-                                                <a href="#" class="btn btn-white btn-sm"><i class="fa fa-eye"></i> View Full Size</a>
-
-                                                <p class="mtop10"><strong>File Name:</strong> img01.jpg</p>
-                                                <p><strong>File Type:</strong> jpg</p>
-                                                <p><strong>Resolution:</strong> 300x200</p>
-                                                <p><strong>Uploaded By:</strong> <a href="#">ThemeBucket</a></p>
-                                            </div>
-                                            <div class="col-md-7">
-                                                <div class="form-group">
-                                                    <label> Name</label>
-                                                    <input id="name" value="img01.jpg" class="form-control">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label> Tittle Text</label>
-                                                    <input id="title" value="awesome image" class="form-control">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label> Description</label>
-                                                    <textarea rows="2" class="form-control"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label> Link URL</label>
-                                                    <input id="link" value="images/gallery/img01.jpg" class="form-control">
-                                                </div>
-                                                <div class="pull-right">
-                                                    <button class="btn btn-danger btn-sm" type="button">Delete</button>
-                                                    <button class="btn btn-success btn-sm" type="button">Save changes</button>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- modal -->
-
+                             <!--body wrapper start-->
+						        <div class="wrapper">
+						            <div class="panel">
+						                <table class="table table-bordered table-invoice">
+						                    <thead>
+						                    <tr>
+						                        <th>#</th>
+						                        <th>话题名称</th>
+						                        <th>话题描述</th>
+						                        <th class="text-center">话题缩略图</th>
+						                        <th class="text-center">话题状态</th>
+						                        <th class="text-center">创建时间</th>
+						                        <th class="text-center">操作</th>
+						                    </tr>
+						                    </thead>
+						                    <tbody>
+						                    @foreach($datas as $data)
+						                    <tr>
+						                        <td>{{ $data->id }}</td>
+						                        <td>
+						                            <h4>{{ $data->name }}</h4>
+						                        </td>
+						                        <td>
+						                            <p>{{ $data->desc }}</p>
+						                        </td>
+						                        <td class="text-center"><img alt="话题缩略图" style="width:128px;" src="{{ route('getTopicImg', $data->id) }}"></td>
+						                        <td class="text-center">
+						                        	@if( $data->status == 1)
+						                             <button type="button" class="btn btn-success btn-xs">启用</button>
+													@else
+													 <button type="button" class="btn btn-danger btn-xs">禁用</button>
+													@endif
+						                        </td>
+						                        <td class="text-center"><strong>{{ $data->created_at }}</strong></td>
+						                        <td class="text-center">
+						                        <a href="javascript:void(0);" class="btn btn-info btn-xs">编辑</a>
+			                            		<a href="javascript:void(0);" onclick="del({{ $data->id }});" class="btn btn-danger btn-xs">删除</a>
+						                        </td>
+						                    </tr>
+						                    @endforeach
+						                    </tbody>
+						                </table>
+						            </div>
+						        </div>
+						        <!--body wrapper end-->
                         </div>
                     </section>
             </div>
@@ -95,6 +65,7 @@
 <script type="text/javascript" src="{{ URL::asset('back/js/modernizr.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('back/js/jquery.nicescroll.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('back/js/jquery.isotope.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('back/layer/layer.js') }}"></script>
 <script type="text/javascript">
     $(function() {
         var $container = $('#gallery');
@@ -106,7 +77,6 @@
                 queue: false
             }
         });
-
         // filter items when filter link is clicked
         $('#filters a').click(function() {
             var selector = $(this).attr('data-filter');
@@ -114,6 +84,29 @@
             return false;
         });
     });
+
+    function del(id){
+        layer.confirm('确认删除该话题？', {
+            btn: ['确认','取消'] //按钮
+        },function(){
+            $.post("{{ url('/back/tag/delete') }}",
+                    {
+                    "_token":'{{ csrf_token() }}',
+                    "id": id,
+                    },function(data){
+                        if(data.code)
+                        {
+                            layer.msg(data.msg);
+                            location.reload();
+                        }else{
+                            layer.msg(data.msg);
+                            }
+                    });
+            },function(){
+                
+                });
+        
+    }
 </script>
 @stop
 @endsection

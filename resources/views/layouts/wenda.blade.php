@@ -37,7 +37,7 @@ z-index:9999;
       	<li class="menuItem "><a href="{{ url('/about') }}">关于</a></li>
         <li class="menuItem "><a href="{{ url('/post') }}">文章</a></li>
         <li class="menuItem"><a href="{{ url('/question') }}">问答</a></li>
-<!--         <li class="menuItem "><a href="{{ url('/topic') }}">话题</a></li> -->
+        <li class="menuItem "><a href="{{ url('/topic') }}">话题</a></li>
       </ul>
       <form action="{{ url('/search') }}" method="post" class="navbar-form navbar-left" >
       	{{ csrf_field() }}

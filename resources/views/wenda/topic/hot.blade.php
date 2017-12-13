@@ -7,6 +7,9 @@
 	text-align:center;
 	padding:4px 0px;
 }
+.main-content .wrapper .directory-info-row .nav li.active{
+	background-color:#EEEEEE;
+}
 </style>
 <?php 
 use App\Models\Common\AttentionModel;
@@ -17,7 +20,7 @@ use App\Models\Common\AttentionModel;
 	      <div class="col-md-2 col-sm-2" >
 				<div class="col-md-12 col-sm-12" >
 					<ul class="nav nav_tabs">
-						<li><a href="{{ URL::action('Front\TopicController@hot') }}">热门关注</a></li>
+						<li class="active"><a href="{{ URL::action('Front\TopicController@hot') }}">热门关注</a></li>
 						<li><a href="{{ URL::action('Front\PersonController@topiced', ['uid'=>Auth::id()]) }}">已关注</a></li>
 					</ul>
 				</div>

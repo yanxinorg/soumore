@@ -264,8 +264,8 @@ Route::get('/cate/answer', 'Front\CategoryController@answer');
 //话题
 Route::get('/topic', 'Front\TopicController@index');
 
-//话题
-Route::get('/topic/abc', 'Front\TopicController@abc');
+//热门关注话题
+Route::get('/topic/hot', 'Front\TopicController@hot');
 
 //QQ社会化登录
 Route::get('/auth/qq','Common\SocializeController@qqAuth');
@@ -314,6 +314,12 @@ Route::get('/back/tag/create', 'Back\TagController@create');
 
 //保存话题
 Route::post('/back/tag/store', 'Back\TagController@store');
+
+//编辑话题
+Route::get('/back/tag/edit', 'Back\TagController@edit');
+
+//删除话题
+Route::post('/back/tag/delete', 'Back\TagController@delete');
 
 //获取话题图片
 Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\FileController@getTopicImg']);

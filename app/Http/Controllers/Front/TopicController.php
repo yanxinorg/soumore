@@ -17,18 +17,10 @@ class TopicController extends Controller
     	return view('wenda.topic.index',['tags'=>$tags]);
     }
     
-    //筛选
-    public function abc(Request $request)
+    public function hot()
     {
-    	$this->validate($request, [
-    		'val'=>'required|alpha'
-    	]);
-    	$abc = $request->get('val');
-    	$ABC = strtoupper($abc);
-    	$datas = DB::table('tags')
-		    	->where('en_name', 'like', $abc.'%')
-		    	->orWhere('en_name', 'like', $ABC.'%')
-		    	->paginate('15');
-		return view('wenda.topic.index',['tags'=>$datas]);
+    	$tags = TagModel::orderBy('watchs','desc')->paginate('20');
+    	return view('wenda.topic.index',['tags'=>$tags]);
     }
+    
 }

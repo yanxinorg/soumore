@@ -65,7 +65,6 @@
                         <li><a href="boxed_view.html"> Boxed Page</a></li>
                         <li><a href="leftmenu_collapsed_view.html"> Sidebar Collapsed</a></li>
                         <li><a href="horizontal_menu.html"> Horizontal Menu</a></li>
-
                     </ul>
                 </li>
                 <li class="menu-list"><a href=""><i class="fa fa-user"></i> <span>用户管理</span></a>
@@ -86,7 +85,6 @@
                         <li><a href="calendar.html">问答管理</a></li>
                         <li><a href="{{ url('back/notice') }}">公告管理</a></li>
                         <li><a href="nestable.html"> Nestable</a></li>
-
                     </ul>
                 </li>
 
@@ -172,7 +170,7 @@
 
             <!--search start-->
             <form class="searchform" action="index.html" method="post">
-                <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
+                <input type="text" class="form-control" name="keyword" placeholder="进行全文搜索..." />
             </form>
             <!--search end-->
 
@@ -394,11 +392,13 @@
 <!--Morris Chart-->
 <script src="{{ asset('back/js/morris-chart/morris.js') }}"></script>
 <script src="{{ asset('back/js/morris-chart/raphael-min.js') }}"></script>
+
+
 <!--Calendar-->
 <script src="{{ asset('back/js/calendar/clndr.js') }}"></script>
 <script src="{{ asset('back/js/calendar/evnt.calendar.init.js') }}"></script>
 <script src="{{ asset('back/js/calendar/moment-2.2.1.js') }}"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+<script src="{{ asset('back/js/underscore-min.js') }}"></script>
 <!--common scripts for all pages-->
 <script src="{{ asset('back/js/scripts.js') }}"></script>
 <!--Dashboard Charts-->

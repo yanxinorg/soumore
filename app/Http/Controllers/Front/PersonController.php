@@ -395,6 +395,8 @@ class PersonController extends Controller
     			'source_id'=>$request->get('tid'),
     			'source_type'=>'3'
     	]);
+    	//话题关注数量加一
+    	DB::table('tags')->increment('watchs', 1);
     	return redirect('/topic');
     }
     
@@ -410,6 +412,8 @@ class PersonController extends Controller
     			'source_id'=>$request->get('tid'),
     			'source_type'=>'3'
     	])->delete();
+    	//话题关注数量减一
+    	DB::table('tags')->decrement('watchs', 1);
     	return redirect()->back();
     }
     
