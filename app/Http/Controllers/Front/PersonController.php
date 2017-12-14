@@ -294,30 +294,17 @@ class PersonController extends Controller
     //我的关注
     public function myAttention(Request $request)
     {
+    	//关注的话题
     	$tags = DB::table('attentions')
     	->join('tags', 'attentions.source_id', '=', 'tags.id')
     	->where('attentions.source_type','=','3')
     	->where('attentions.user_id','=',Auth::id())
     	->select(
     			'tags.id as id',
-    			'tags.name as name'
-    			)->orderBy('tags.created_at','desc')->get();
-    	$datas = DB::table('collections')
-    	->join('users', 'collections.user_id', '=', 'users.id')
-    	->join('questions', 'collections.source_id', '=', 'questions.id')
-    	->where('collections.user_id','=',Auth::id())
-    	->where('collections.source_type','=','2')
-    	->select(
-    			'users.id as user_id',
-    			'users.name as user_name',
-    			'questions.title as title',
-    			'questions.id as question_id',
-    			'questions.content as content',
-    			'questions.created_at as created_at'
-    			)
-    			->orderBy('questions.created_at','desc')
-    			->paginate('15');
-    	return view('wenda.person.topicAttention',['questions'=>$datas,'tags'=>$tags]);
+    			'tags.name as name',
+    			'tags.desc as desc'
+    	)->orderBy('tags.created_at','desc')->paginate('15');
+    	return view('wenda.person.topicAttention',['tags'=>$tags]);
     }
     
     //我关注的人
@@ -358,25 +345,10 @@ class PersonController extends Controller
     	->where('attentions.user_id','=',Auth::id())
     	->select(
     			'tags.id as id',
-    			'tags.name as name'
-    	)->orderBy('tags.created_at','desc')->get();
-    	
-    	$datas = DB::table('collections')
-    	->join('users', 'collections.user_id', '=', 'users.id')
-    	->join('questions', 'collections.source_id', '=', 'questions.id')
-    	->where('collections.user_id','=',Auth::id())
-    	->where('collections.source_type','=','2')
-    	->select(
-    			'users.id as user_id',
-    			'users.name as user_name',
-    			'questions.title as title',
-    			'questions.id as question_id',
-    			'questions.content as content',
-    			'questions.created_at as created_at'
-    			)
-    			->orderBy('questions.created_at','desc')
-    			->paginate('15');
-    	return view('wenda.person.topicAttention',['questions'=>$datas,'tags'=>$tags]);
+    			'tags.name as name',
+    			'tags.desc as desc'
+    	)->orderBy('tags.created_at','desc')->paginate('15');
+    	return view('wenda.person.topicAttention',['tags'=>$tags]);
     }
     
     //新增我关注的话题

@@ -20,7 +20,7 @@ class TopicController extends Controller
     public function hot()
     {
     	$tags = TagModel::orderBy('watchs','desc')->paginate('20');
-    	return view('wenda.topic.index',['tags'=>$tags]);
+    	return view('wenda.topic.hot',['tags'=>$tags]);
     }
     
 }

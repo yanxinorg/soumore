@@ -54,18 +54,7 @@
 <div class="main-content">
   <div class="wrapper">
       <div class="directory-info-row">
-      <div class="col-md-2 col-sm-2" >
-      		<div class="tag" style="display: block;">
-		        <div class="col-md-12 col-sm-12" >
-		         <h6 style="text-align: center;">话题列表</h6>
-		               <ul class="nav revenue-nav pull-left">
-		                     @foreach($tags as $tag)
-		                     	<li style="margin:4px;"><a href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id]) }}">{{ $tag->name }}</a></li>
-		                     @endforeach()
-		              </ul>
-		        </div>
-			</div>
-      </div>
+      <div class="col-md-2 col-sm-2" ></div>
           <div class="col-md-8 col-sm-8">
                 <section class="mail-box-info">
                     <header class="header">
@@ -78,22 +67,23 @@
                         </div>
                     </header>
 	                <section class="mail-list">
-                         @foreach($questions as $question)
-	                	<div class="container-fluid" style="border-bottom:1px solid #D1D5E1;margin:12px 0px;">
-							<div class="row-fluid" >
-								<div class="span12" >
-									<div class="media" style="margin-bottom: 12px;">
-										<a href="#" class="pull-left"><img style="width:48px;" src="{{ route('getThumbImg', $question->user_id) }}" class="media-object" alt='' /></a>
-										<div class="media-body">
-											<div style="line-height:10px;margin-bottom:8px;"><span style="font-size: 14px;"><a href="">{{ $question->user_name }}</a></span><span style="margin-left:24px;font-size:12px;">{{ \Carbon\Carbon::parse($question->created_at)->diffForHumans()  }}</span></div>
-											<h6 class="media-heading" style="font-size:10px;"><a target="_blank" href="{{ URL::action('Front\QuestionController@detail', ['id'=>$question->question_id]) }}">{{ $question->title }}</a></h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						@endforeach() 
-			        <div class="paginate" style="text-align:center;">{{ $questions->links() }}</div>
+                          @foreach($tags as $tag)
+                          <div class="panel" style="width:282px;float:left;margin:12px;margin-top:0px;background-color:#EEEEEE;">
+                              <div class="panel-body">
+                                   <div class="pull-left">
+                                       <img style="width:96px;" class="thumb" src="{{ route('getTopicImg', $tag->id) }}" alt=""/>
+                                   </div>
+                                   <div class="media-body">
+                                      <div style="font-size:12px;">{{ $tag->name }}</div>
+                                      <div style="font-size:12px;">{{ $tag->desc }}</div>
+                                   </div>
+                              </div>
+                              <div class="panel-footer custom-trq-footer">
+                              	  <a class="btn btn-success " href="{{ URL::action('Front\PersonController@topicCancel', ['tid'=>$tag->id]) }}">取消关注</a>
+                              </div>
+                          </div>
+		                  @endforeach()
+		                  <div class="paginate" style="text-align:center;">{{ $tags->links() }}</div>
                     </section>
                 </section>
           	<div class="paginate" style="text-align:center;"></div>

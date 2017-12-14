@@ -50,15 +50,10 @@
 	margin-top:6px;
 }
 </style>
-<?php 
-use App\Models\Common\AreaModel;
-?>
 <div class="main-content">
   <div class="wrapper">
       <div class="directory-info-row">
-      <div class="col-md-2 col-sm-2" >
-      		
-      </div>
+      <div class="col-md-2 col-sm-2" ></div>
           <div class="col-md-8 col-sm-8">
                 <section class="mail-box-info">
                     <header class="header">
@@ -72,108 +67,27 @@ use App\Models\Common\AreaModel;
                     </header>
 	                <section class="mail-list">
                       <div class="attachment-mail">
-                            <ul>
-                            @foreach($datas as $data)
-                                <li title="<span style='font-size:12px;text-align:center;'>用户信息</span>"  data-container="body" data-toggle="popover" data-trigger="hover" data-html="true" data-placement="bottom" 
-                                data-content="<ul class='p-info' style='width:256px;'>
-		                                        @if(!empty($data->name))
-		                                    	<li>
-		                                            <div class='title' style='font-size:12px;'>用户名</div>
-		                                            <div class='desk' style='font-size:12px;'>{{ $data->name }}</div>
-		                                        </li>
-		                                       	@endif
-		                                       	@if(!empty($data->realname))
-		                                        <li>
-		                                            <div class='title' style='font-size:12px;'>真实姓名</div>
-		                                            <div class='desk' style='font-size:12px;'>{{ $data->realname }}</div>
-		                                        </li>
-		                                        @endif
-		                                        @if(!empty($data->email))
-		                                        <li>
-		                                            <div class='title' style='font-size:12px;'>邮箱</div>
-		                                            <div class='desk' style='font-size:12px;'>{{ $data->email }}</div>
-		                                        </li>
-		                                        @endif
-		                                        @if(!empty($data->created_at))
-		                                        <li>
-		                                            <div class='title' style='font-size:12px;'>注册时间</div>
-		                                            <div class='desk' style='font-size:12px;'>{{ substr($data->created_at,0,10) }}</div>
-		                                        </li>
-		                                        @endif
-		                                        @if(!empty($data->mobile))
-		                                        <li>
-		                                            <div class='title' style='font-size:12px;'>手机号</div>
-		                                            <div class='desk' style='font-size:12px;'>{{ $data->mobile }}</div>
-		                                        </li>
-		                                        @endif
-		                                        @if(!empty($data->birthday))
-		                                        <li>
-		                                            <div class='title' style='font-size:12px;'>生日</div>
-		                                            <div class='desk' style='font-size:12px;'>{{ $data->birthday }}</div>
-		                                        </li>
-		                                        @endif
-		                                        @if(!empty($data->site))
-		                                        <li>
-		                                            <div class='title' style='font-size:12px;'>个人主页</div>
-		                                            <div class='desk' style='font-size:12px;'><a href=''>{{ $data->site }}</a></div>
-		                                        </li>
-		                                        @endif
-		                                        @if(!empty($data->qq))
-		                                        <li>
-		                                            <div class='title' style='font-size:12px;'>QQ</div>
-		                                            <div class='desk' style='font-size:12px;'>{{ $data->qq }}</div>
-		                                        </li>
-		                                        @endif
-		                                        @if(!empty($data->weixin))
-		                                        <li>
-		                                            <div class='title' style='font-size:12px;'>微信</div>
-		                                            <div class='desk' style='font-size:12px;'>{{ $data->weixin }}</div>
-		                                        </li>
-		                                        @endif
-		                                        @if(!empty($data->graduateschool))
-		                                        <li>
-		                                            <div class='title' style='font-size:12px;'>毕业院校</div>
-		                                            <div class='desk' style='font-size:12px;'>{{ $data->graduateschool }}</div>
-		                                        </li>
-		                                        @endif
-		                                        @if(!empty($data->province))
-		                                        <li>
-		                                            <div class='title' style='font-size:12px;'>所在城市</div>
-		                                            <div class='desk' style='font-size:12px;'>
-		                                            @php echo (AreaModel::where('id',$data->province)->pluck('name'))[0]; @endphp,
-		                                            @php echo (AreaModel::where('id',$data->city)->pluck('name'))[0]; @endphp市
-		                                            </div>
-		                                        </li>
-		                                        @endif
-		                                        @if(!empty($data->company))
-		                                        <li>
-		                                            <div class='title' style='font-size:12px;'>公司名称</div>
-		                                            <div class='desk' style='font-size:12px;'>{{ $data->company }}</div>
-		                                        </li>
-		                                        @endif
-		                                        @if(!empty($data->occupation))
-		                                        <li>
-		                                            <div class='title' style='font-size:12px;'>职业</div>
-		                                            <div class='desk' style='font-size:12px;'>{{ $data->occupation }}</div>
-		                                        </li>
-		                                        @endif
-		                                        @if(!empty($data->bio))
-		                                        <li>
-		                                            <div class='title' style='font-size:12px;'>个性签名</div>
-		                                            <div class='desk' style='font-size:12px;'>{{ $data->bio }}</div>
-		                                        </li>
-		                                        @endif
-		                                      </ul>">
-	                                <a class="atch-thumb" target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">
-	                                	<img src="{{ route('getThumbImg', $data->user_id) }}">
-	                                </a>
-                                </li>
-                            @endforeach()
-                            </ul>
+                             @foreach($datas as $data)
+	                          <div class="panel" style="width:282px;float:left;margin:12px;margin-top:0px;background-color:#EEEEEE;">
+	                              <div class="panel-body">
+	                                   <div class="pull-left">
+	                                       <img style="width:96px;" class="thumb" src="{{ route('getThumbImg', $data->user_id) }}" />
+	                                   </div>
+	                                   <div class="media-body">
+	                                      <div style="font-size:12px;">{{ $data->name }}</div>
+	                                      <div style="font-size:12px;">{{ $data->email }}</div>
+	                                      <div style="font-size:12px;">{{ substr($data->created_at,0,10) }}</div>
+	                                   </div>
+	                              </div>
+	                              <div class="panel-footer custom-trq-footer">
+	                              	  <a class="btn btn-success " href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">个人主页</a>
+	                              </div>
+	                          </div>
+			                  @endforeach()
+			                  <div class="paginate" style="text-align:center;">{{ $datas->links() }}</div>
                         </div>
                     </section>
                 </section>
-          	<div class="paginate" style="text-align:center;"></div>
           </div>
           <div class="col-md-2 col-sm-2" >
              @component('wenda.slot.mycenterslot')
