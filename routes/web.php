@@ -316,6 +316,12 @@ Route::get('/back/user', 'Back\UserController@index');
 //新增用户
 Route::get('/back/user/create', 'Back\UserController@create');
 
+//保存用户
+Route::post('/back/user/store', 'Back\UserController@store');
+
+//删除用户
+Route::post('/back/user/delete', 'Back\UserController@delete');
+
 //分类列表
 Route::get('/cate/index', 'Back\CategoryController@index');
 

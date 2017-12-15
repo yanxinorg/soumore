@@ -9,6 +9,6 @@ class UserModel extends Model
 {
 	protected $table = 'users';
 	public $timestamps = TRUE;
-	protected $fillable = ['uid','name', 'email','password','thumb','latest_login_time','latest_login_ip','latest_logout_time'];
+	protected $fillable = ['uid','name', 'email','password','avator','latest_login_time','latest_login_ip','latest_logout_time'];
 	
 }

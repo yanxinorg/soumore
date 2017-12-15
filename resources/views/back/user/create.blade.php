@@ -49,9 +49,9 @@
     	                        <div class="col-sm-6 col-sm-6">
     	                            <input type="email" name="email" class="form-control">
     	                        </div>
-    	                          @if ($errors->has('name'))
+    	                          @if ($errors->has('email'))
     	                          <div class="col-sm-4 col-sm-4">
-                                     <span style="color:red;">{{ $errors->first('name') }}</span>
+                                     <span style="color:red;">{{ $errors->first('email') }}</span>
     	                          </div>
                              	  @endif
     	                    </div>
@@ -60,20 +60,20 @@
     	                        <div class="col-sm-6 col-sm-6">
     	                            <input type="password" name="password" class="form-control">
     	                        </div>
-    	                          @if ($errors->has('name'))
+    	                          @if ($errors->has('password'))
     	                          <div class="col-sm-4 col-sm-4">
-                                     <span style="color:red;">{{ $errors->first('name') }}</span>
+                                     <span style="color:red;">{{ $errors->first('password') }}</span>
     	                          </div>
                              	  @endif
     	                    </div>
     	                    <div class="form-group">
     	                        <label class="col-sm-2 col-sm-2 control-label"><span style="color: red;">*</span>重复密码</label>
     	                        <div class="col-sm-6 col-sm-6">
-    	                            <input type="password" name="repassword" class="form-control">
+    	                            <input type="password" name="password_confirmation" class="form-control">
     	                        </div>
-    	                          @if ($errors->has('name'))
+    	                          @if ($errors->has('password_confirmation'))
     	                          <div class="col-sm-4 col-sm-4">
-                                     <span style="color:red;">{{ $errors->first('name') }}</span>
+                                     <span style="color:red;">{{ $errors->first('password_confirmation') }}</span>
     	                          </div>
                              	  @endif
     	                    </div>

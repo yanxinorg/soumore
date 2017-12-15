@@ -62,29 +62,8 @@
 </section>
 @section('js')
 @parent
-<script type="text/javascript" src="{{ URL::asset('back/js/modernizr.min.js') }}"></script>
-<script type="text/javascript" src="{{ URL::asset('back/js/jquery.nicescroll.js') }}"></script>
-<script type="text/javascript" src="{{ URL::asset('back/js/jquery.isotope.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('back/layer/layer.js') }}"></script>
 <script type="text/javascript">
-    $(function() {
-        var $container = $('#gallery');
-        $container.isotope({
-            itemSelector: '.item',
-            animationOptions: {
-                duration: 750,
-                easing: 'linear',
-                queue: false
-            }
-        });
-        // filter items when filter link is clicked
-        $('#filters a').click(function() {
-            var selector = $(this).attr('data-filter');
-            $container.isotope({filter: selector});
-            return false;
-        });
-    });
-
     function del(id){
         layer.confirm('确认删除该话题？', {
             btn: ['确认','取消'] //按钮
