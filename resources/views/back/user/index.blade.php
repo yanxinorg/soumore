@@ -39,17 +39,17 @@
 						                        <td class="text-center"><img alt="用户头像" style="width:128px;" src="{{ route('getThumbImg', $data->id) }}"></td>
 						                        <td class="text-center">
 						                        	@if( $data->status == 1)
-						                             <button type="button" class="btn btn-success btn-xs">启用</button>
+						                        	<span class="label label-success label-mini">启用</span>
 													@else
-													 <button type="button" class="btn btn-danger btn-xs">禁用</button>
+													<span class="label label-danger label-mini">禁用</span>
 													@endif
 						                        </td>
 						                        <td ><strong>{{ $data->created_at }}</strong></td>
 						                         <td class="text-center">
 						                        	@if( $data->admin == 1)
-						                             <button type="button" class="btn btn-success btn-xs">是</button>
+						                        	<span class="label label-success label-mini">是</span>
 													@else
-													 <button type="button" class="btn btn-danger btn-xs">否</button>
+													<span class="label label-danger label-mini">否</span>
 													@endif
 						                        </td>
 						                        <td class="text-center">

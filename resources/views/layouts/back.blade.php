@@ -380,7 +380,6 @@
 <script src="{{ asset('back/js/flot-chart/jquery.flot.tooltip.js') }}"></script>
 <script src="{{ asset('back/js/flot-chart/jquery.flot.resize.js') }}"></script>
 <!--Morris Chart-->
-<script src="{{ asset('back/js/morris-chart/morris.js') }}"></script>
 <script src="{{ asset('back/js/morris-chart/raphael-min.js') }}"></script>
 
 
@@ -392,7 +391,6 @@
 <!--common scripts for all pages-->
 <script src="{{ asset('back/js/scripts.js') }}"></script>
 <!--Dashboard Charts-->
-<script src="{{ asset('back/js/dashboard-chart-init.js') }}"></script>
 @show
 </body>
 </html>
