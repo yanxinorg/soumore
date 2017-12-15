@@ -61,20 +61,10 @@
                 <li ><a href="{{ url('/') }}" target="_blank;"><i class="fa fa-home"></i> <span>问答首页</span></a></li>
                 <li class="menu-list"><a href=""><i class="fa fa-cogs"></i> <span>系统设置</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="blank_page.html"> Blank Page</a></li>
+                        <li><a href="{{ url('/back/user') }}">用户列表</a></li>
                         <li><a href="boxed_view.html"> Boxed Page</a></li>
                         <li><a href="leftmenu_collapsed_view.html"> Sidebar Collapsed</a></li>
                         <li><a href="horizontal_menu.html"> Horizontal Menu</a></li>
-                    </ul>
-                </li>
-                <li class="menu-list"><a href=""><i class="fa fa-user"></i> <span>用户管理</span></a>
-                    <ul class="sub-menu-list">
-                        <li><a href="{{ url('/back/user') }}">用户列表</a></li>
-                        <li><a href="buttons.html"> Buttons</a></li>
-                        <li><a href="tabs-accordions.html"> Tabs & Accordions</a></li>
-                        <li><a href="typography.html"> Typography</a></li>
-                        <li><a href="slider.html"> Slider</a></li>
-                        <li><a href="panels.html"> Panels</a></li>
                     </ul>
                 </li>
                 <li class="menu-list"><a href=""><i class="fa fa-bar-chart-o"></i> <span>内容管理</span></a>

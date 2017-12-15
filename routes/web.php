@@ -1,19 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
-
 // 首页
 Route::get('/', function () {
     return view('wenda.index');
@@ -326,6 +312,9 @@ Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\Fil
 
 //用户列表
 Route::get('/back/user', 'Back\UserController@index');
+
+//新增用户
+Route::get('/back/user/create', 'Back\UserController@create');
 
 //分类列表
 Route::get('/cate/index', 'Back\CategoryController@index');

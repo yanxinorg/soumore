@@ -2,18 +2,17 @@
 @section('content')
 <link href="{{ asset('back/css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('back/css/style-responsive.css') }}" rel="stylesheet">
-<!--file upload-->
 <link rel="stylesheet" type="text/css" href="{{ asset('back/css/bootstrap-fileupload.min.css') }}" />
 <section class="wrapper ">
     <div class="row">
             <div class="col-lg-12 col-sm-12 ">
                 <section class="panel">
-    	            <header class="panel-heading">添加话题</header>
+    	            <header class="panel-heading">添加用户</header>
     	            <div class="panel-body">
-    	                <form class="form-horizontal adminex-form" method="post" action="{{ url('/back/tag/store') }}" enctype="multipart/form-data">
+    	                <form class="form-horizontal adminex-form" method="post" action="{{ url('/back/user/store') }}" enctype="multipart/form-data">
     	                {{ csrf_field() }}
     	                    <div class="form-group">
-    	                        <label class="col-sm-2 col-sm-2 control-label"><span style="color: red;">*</span>话题名称</label>
+    	                        <label class="col-sm-2 col-sm-2 control-label"><span style="color: red;">*</span>名称</label>
     	                        <div class="col-sm-6 col-sm-6">
     	                            <input type="text" name="name" class="form-control">
     	                        </div>
@@ -23,9 +22,8 @@
     	                          </div>
                              	  @endif
     	                    </div>
-    	                   
     						<div class="form-group last">
-                                    <label class="control-label col-md-2"><span style="color: red;">*</span>缩略图</label>
+                                    <label class="control-label col-md-2"><span style="color: red;">*</span>头像</label>
                                     <div class="col-md-6">
                                         <div class="fileupload fileupload-new" data-provides="fileupload">
                                             <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
@@ -45,11 +43,39 @@
                                      	  @endif
                                     </div>
                             </div>
-    	                    <div class="form-group">
-    	                        <label class="col-sm-2 col-md-2 control-label"><span style="color: red;">*</span>话题描述</label>
-    	                        <div class="col-md-6 col-sm-6">
-    	                            <textarea rows="6" class="form-control" name="desc" ></textarea>
+                            
+                            <div class="form-group">
+    	                        <label class="col-sm-2 col-sm-2 control-label"><span style="color: red;">*</span>邮箱</label>
+    	                        <div class="col-sm-6 col-sm-6">
+    	                            <input type="email" name="email" class="form-control">
     	                        </div>
+    	                          @if ($errors->has('name'))
+    	                          <div class="col-sm-4 col-sm-4">
+                                     <span style="color:red;">{{ $errors->first('name') }}</span>
+    	                          </div>
+                             	  @endif
+    	                    </div>
+    	                    <div class="form-group">
+    	                        <label class="col-sm-2 col-sm-2 control-label"><span style="color: red;">*</span>密码</label>
+    	                        <div class="col-sm-6 col-sm-6">
+    	                            <input type="password" name="password" class="form-control">
+    	                        </div>
+    	                          @if ($errors->has('name'))
+    	                          <div class="col-sm-4 col-sm-4">
+                                     <span style="color:red;">{{ $errors->first('name') }}</span>
+    	                          </div>
+                             	  @endif
+    	                    </div>
+    	                    <div class="form-group">
+    	                        <label class="col-sm-2 col-sm-2 control-label"><span style="color: red;">*</span>重复密码</label>
+    	                        <div class="col-sm-6 col-sm-6">
+    	                            <input type="password" name="repassword" class="form-control">
+    	                        </div>
+    	                          @if ($errors->has('name'))
+    	                          <div class="col-sm-4 col-sm-4">
+                                     <span style="color:red;">{{ $errors->first('name') }}</span>
+    	                          </div>
+                             	  @endif
     	                    </div>
     						<div class="form-group">
                                 <label class="col-sm-2 control-label"><span style="color: red;">*</span>状态</label>
@@ -62,6 +88,15 @@
                                         <input type="radio"  name="status" value="0" >
                                         <label>禁用</label>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span style="color: red;">*</span>超管</label>
+                                <div class="col-sm-2 icheck minimal">
+                                    <select class="form-control" name="admin">
+	                                      <option value="1">是</option>
+	                                      <option value="0">否</option>
+	                                  </select>
                                 </div>
                             </div>
                              @if ($errors->has('msg'))

@@ -2,6 +2,9 @@
 .col-md-12{
 	background-color:white;
 }
+img{
+width:100%;
+}
 </style>
 <div class="notice" >
     <div class="col-md-12 col-sm-12" >

@@ -3,6 +3,11 @@
 @include('UEditor::head');
 <link href="{{ asset('back/css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('back/css/style-responsive.css') }}" rel="stylesheet">
+<style>
+img{
+width:100%;
+}
+</style>
 <section class="wrapper ">
     <div class="row">
             <div class="col-lg-8 col-sm-8">
