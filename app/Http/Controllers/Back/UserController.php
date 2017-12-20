@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Common\UserModel;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Common\FileController;
+use App\Role;
+use Ramsey\Uuid\Uuid;
+use App\RoleUser;
 
 class UserController extends Controller
 {
@@ -20,7 +23,8 @@ class UserController extends Controller
     //新增用户
     public function create()
     {
-    	return view('back.user.create');
+    	$roles = Role::all();
+    	return view('back.user.create',['roles'=>$roles]);
     }
     //保存用户
     public function store(Request $request)
@@ -47,6 +51,7 @@ class UserController extends Controller
     	//用户头像
     	$filepath = FileController::saveThumbImg($request->file('thumb'));
     	$result = UserModel::create([
+    			'uid'=>(Uuid::uuid4()->getHex()),
     			'name'=>$request->get('name'),
     			'email'=>$request->get('email'),
     			'password'=>Hash::make($request->get('password')),
@@ -54,6 +59,11 @@ class UserController extends Controller
     			'status'=>$request->get('status'),
     			'admin'=>$request->get('admin')
     	]);
+    	//分配用户角色
+    	if(!empty($request->get('roles')))
+    	{
+    		$result->attachRole($request->get('roles'));
+    	}
     	if($result)
     	{
     		return redirect('/back/user');
@@ -61,7 +71,6 @@ class UserController extends Controller
     	return redirect()->back()->withErrors([
     			'msg'=>'创建失败'
     	]);
-    
     }
     
     // 删除用户
@@ -70,7 +79,7 @@ class UserController extends Controller
     	$this->validate($request, [
     			'id'=>'required|numeric|exists:users,id'
     	]);
-    	//删除该话题
+    	RoleUser::where('user_id',$request->get('id'))->delete();
     	$results = UserModel::where('id',$request->get('id'))->delete();
     	if($results)
     	{

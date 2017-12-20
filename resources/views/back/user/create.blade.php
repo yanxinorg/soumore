@@ -91,12 +91,20 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label"><span style="color: red;">*</span>超管</label>
+                                <label class="col-sm-2 control-label"><span style="color: red;">*</span>超级管理员</label>
                                 <div class="col-sm-2 icheck minimal">
                                     <select class="form-control" name="admin">
-	                                      <option value="1">是</option>
-	                                      <option value="0">否</option>
+                                    		<option value="0">否</option>
+	                                        <option value="1">是</option>
 	                                  </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">所属角色组</label>
+                                <div class="col-sm-10 icheck minimal">
+                                	@foreach($roles as $role)
+                                    <div class="checkbox block"><label><input type="checkbox" name="roles[]" value="{{ $role->id }}">{{ $role->display_name }}</label></div>
+                                    @endforeach()
                                 </div>
                             </div>
                              @if ($errors->has('msg'))

@@ -18,7 +18,8 @@
         "socialiteproviders/qq": "^3.0",
         "socialiteproviders/weibo": "^3.0",
         "socialiteproviders/weixin": "^4.0",
-        "stevenyangecho/laravel-u-editor": "^1.4"
+        "stevenyangecho/laravel-u-editor": "^1.4",
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

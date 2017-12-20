@@ -188,6 +188,8 @@ return [
     	Stevenyangecho\UEditor\UEditorServiceProvider::class,
     	//全文搜索
     	Laravel\Scout\ScoutServiceProvider::class,
+    	//RBAC
+    	Zizaco\Entrust\EntrustServiceProvider::class,
     ],
 
     /*
@@ -239,7 +241,9 @@ return [
 		//QQ社会化
     	'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         //图片处理
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+    	//RBAC
+    	'Entrust' => Zizaco\Entrust\EntrustFacade::class
     ],
 
 ];

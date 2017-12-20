@@ -322,6 +322,22 @@ Route::post('/back/user/store', 'Back\UserController@store');
 //删除用户
 Route::post('/back/user/delete', 'Back\UserController@delete');
 
+//角色管理
+Route::get('/back/role', 'Back\RoleController@index');
+
+//新增角色
+Route::get('/back/role/create', 'Back\RoleController@create');
+
+//保存角色
+Route::post('/back/role/store', 'Back\RoleController@store');
+
+//角色删除
+Route::post('/back/role/delete', 'Back\RoleController@delete');
+
+//权限管理
+Route::get('/back/permission', 'Back\PermissionController@index');
+
+
 //分类列表
 Route::get('/cate/index', 'Back\CategoryController@index');
 

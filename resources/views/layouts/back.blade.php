@@ -62,8 +62,8 @@
                 <li class="menu-list"><a href=""><i class="fa fa-cogs"></i> <span>系统设置</span></a>
                     <ul class="sub-menu-list">
                         <li><a href="{{ url('/back/user') }}">用户列表</a></li>
-                        <li><a href="boxed_view.html"> Boxed Page</a></li>
-                        <li><a href="leftmenu_collapsed_view.html"> Sidebar Collapsed</a></li>
+                        <li><a href="{{ url('/back/role') }}">角色管理</a></li>
+                        <li><a href="{{ url('/back/permission') }}">权限管理</a></li>
                         <li><a href="horizontal_menu.html"> Horizontal Menu</a></li>
                     </ul>
                 </li>
