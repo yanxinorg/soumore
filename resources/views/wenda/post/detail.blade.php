@@ -3,9 +3,6 @@
 <link href="{{ asset('wenda/layer/theme/default/layer.css') }}" rel="stylesheet">
 <style>
 /* 编辑器图片超出限制 */
-img{
-max-width:100%
-}  
 .main-content .wrapper .panel .panel-body span{
 	display:inline-block;
 	margin:0px 16px;
@@ -16,11 +13,7 @@ max-width:100%
 .bl-status{
 	font-size:12px;
 }
-img{
-	font-size:34px;
-	line-height:32px;
-	text-align:center;
-}
+
 </style>
 <!-- 搜素内容 -->
 <?php 

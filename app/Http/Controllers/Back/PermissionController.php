@@ -8,8 +8,14 @@ use App\Http\Controllers\Controller;
 class PermissionController extends Controller
 {
     //权限管理
-    public function index()
+    public function index(Request $request)
     {
-    	var_dump('111');exit;
+    	return view('back.permission.index');
+    }
+    
+    //新增权限
+    public function create()
+    {
+    	return view('back.permission.create');
     }
 }

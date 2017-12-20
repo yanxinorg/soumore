@@ -337,6 +337,8 @@ Route::post('/back/role/delete', 'Back\RoleController@delete');
 //权限管理
 Route::get('/back/permission', 'Back\PermissionController@index');
 
+//新增权限
+Route::get('/back/permission/create', 'Back\PermissionController@create');
 
 //分类列表
 Route::get('/cate/index', 'Back\CategoryController@index');
