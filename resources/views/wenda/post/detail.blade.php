@@ -149,10 +149,11 @@ function collect(id){
 				}else{
 					if(data.code == 2)
 					{
-						location.href="{{ url('/login') }}";
+						layer.msg(data.msg);
+						location.reload();
 					}else{
 						layer.msg(data.msg);
-						location.reload() ;
+						location.reload();
 						}
 					}
 			});

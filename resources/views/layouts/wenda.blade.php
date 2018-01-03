@@ -30,7 +30,7 @@ z-index:9999;
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-       <a class="navbar-brand active" href="{{ url('/sou') }}">soumore</a>
+<!--        <a class="navbar-brand active" href="{{ url('/sou') }}">soumore</a> -->
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse-01">
       <ul class="nav navbar-nav">

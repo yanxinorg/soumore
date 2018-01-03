@@ -572,7 +572,7 @@ class PostController extends Controller
     public function del(Request $request)
     {
     	$this->validate($request, [
-    			'id'=>'required|numeric'
+    			'id'=>'required|numeric|exists:posts,id'
     	]);
     	$result = DB::table('posts')->where([
     			'id'=>$request->get('id'),
@@ -597,7 +597,7 @@ class PostController extends Controller
     public function collect(Request $request)
     {
     	$this->validate($request, [
-    			'id'=>'required|numeric'
+    			'id'=>'required|numeric|exists:posts,id'
     	]);
     	//处理收藏
     	if(empty(Auth::id()))
@@ -631,7 +631,7 @@ class PostController extends Controller
     public function collectCancel(Request $request)
     {
     	$this->validate($request, [
-    			'id'=>'required|numeric'
+    			'id'=>'required|numeric|exists:posts,id'
     	]);
     	CollectionModel::where(['user_id' => Auth::id(),'source_id'=>$request->get('id'),'source_type'=>'1'])->delete();
     	$data = [

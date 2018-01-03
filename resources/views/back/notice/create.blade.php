@@ -14,13 +14,12 @@ width:100%;
                 <section class="panel">
     	            <header class="panel-heading">新增公告</header>
     	            <div class="panel-body">
-    	                <form class="form-horizontal adminex-form" method="post" action="{{ url('/notice/update') }}" enctype="multipart/form-data">
+    	                <form class="form-horizontal adminex-form" method="post" action="{{ url('/notice/create') }}" enctype="multipart/form-data">
     	                {{ csrf_field() }}
-    	                    <input type="text" name="id" value="{{ $data->id }}" class="form-control hidden">
     	                    <div class="form-group">
     	                        <label class="col-sm-2 col-sm-2 control-label"><span style="color: red;">*</span>公告标题</label>
     	                        <div class="col-sm-6 col-sm-6">
-    	                            <input type="text" name="title" value="{{ $data->title }}" class="form-control">
+    	                            <input type="text" name="title" class="form-control">
     	                        </div>
     	                          @if ($errors->has('title'))
     	                          <div class="col-sm-4 col-sm-4">
@@ -31,7 +30,7 @@ width:100%;
     	                    <div class="form-group">
     	                        <label class="col-sm-2 col-sm-2 control-label">发布人</label>
     	                        <div class="col-sm-6 col-sm-6">
-    	                            <input type="text" name="author" value="{{ $data->author }}" class="form-control">
+    	                            <input type="text" name="author" class="form-control">
     	                        </div>
     	                          @if ($errors->has('author'))
     	                          <div class="col-sm-4 col-sm-4">
@@ -53,13 +52,12 @@ width:100%;
     	                    <div class="form-group">
     	                        <label class="col-sm-2 col-md-2 control-label"><span style="color: red;">*</span>公告内容</label>
     	                        <div class="col-md-6 col-sm-6">
-    	                            <script id="container" name="content" type="text/plain">{!! $data->content !!}</script>
+    	                            <script id="container" name="content" type="text/plain"></script>
     	                        </div>
     	                    </div>
     						<div class="form-group">
                                 <label class="col-sm-2 control-label"><span style="color: red;">*</span>状态</label>
                                 <div class="col-sm-10 icheck minimal">
-                                 @if ($data->status == 1)
                                     <div class="radio-inline ">
                                         <input type="radio"  name="status" value="1" checked>
                                         <label>发布</label>
@@ -68,16 +66,6 @@ width:100%;
                                         <input type="radio"  name="status" value="0" >
                                         <label>不发布</label>
                                     </div>
-                                 @else
-                                   <div class="radio-inline ">
-                                        <input type="radio"  name="status" value="1" >
-                                        <label>发布</label>
-                                    </div>
-                                    <div class="radio-inline ">
-                                        <input type="radio"  name="status" value="0" checked>
-                                        <label>不发布</label>
-                                    </div>
-                                 @endif
                                 </div>
                             </div>
                              @if ($errors->has('msg'))

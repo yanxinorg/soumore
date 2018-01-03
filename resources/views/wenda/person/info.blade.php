@@ -1,6 +1,5 @@
 @extends('layouts.wenda')
 @section('content')
-
 <link rel="stylesheet" type="text/css" href="{{ asset('wenda/bootstrap-datepicker/css/datepicker-custom.css') }}">
         <div class="wrapper">
           <div class="directory-info-row">
@@ -78,18 +77,30 @@
                                 <div class="col-lg-6">
                                         <div class="input-group input-large " >
                                         	<span class="input-group-addon">省</span>
-	                                            <select class="form-control" name="province" id="province">
-                                            	 	<option>请选择省份</option>
-                                            	 	@foreach($province as $p)
-			                                     	<option value="{{ $p->id }}" @if($userinfo->province == $p->id) selected @endif >{{ $p->name }}</option>
-			                                     	@endforeach()
+	                                            <select class="form-control" name="province" id="province" style="width:100%;">
+		                                            @if(!empty($userinfo->province))
+	                                            	 	@foreach($province as $p)
+				                                     	<option value="{{ $p->id }}" @if($userinfo->province == $p->id) selected @endif >{{ $p->name }}</option>
+				                                     	@endforeach()
+				                                    @else
+				                                    	<option>请选择省份</option>
+				                                    	@foreach($province as $p)
+				                                     	<option value="{{ $p->id }}" @if($userinfo->province == $p->id) selected @endif >{{ $p->name }}</option>
+				                                     	@endforeach()
+				                                    @endif()
 				                                </select>
                                             <span class="input-group-addon">市</span>
-	                                            <select class="form-control" name="city" id="city">
-                                             		<option>请选择城市</option>
-	                                            	@foreach($city as $c)
-			                                        <option value="{{ $c->id }}" @if( $c->id ==  $userinfo->city) selected @endif >{{ $c->name }}</option>
-			                                    	@endforeach
+	                                            <select class="form-control" name="city" id="city" style="width:100%;">
+	                                            	@if(!empty($userinfo->city))
+		                                            	@foreach($city as $c)
+				                                        <option value="{{ $c->id }}" @if( $userinfo->city ==  $c->id) selected @endif >{{ $c->name }}</option>
+				                                    	@endforeach
+			                                    	@else
+				                                    	<option>请选择城市</option>
+				                                    	@foreach($city as $c)
+				                                        <option value="{{ $c->id }}" @if( $userinfo->city ==  $c->id) selected @endif >{{ $c->name }}</option>
+				                                    	@endforeach
+			                                    	@endif()
 				                                </select>
                                         </div>
                                 </div>
@@ -127,9 +138,7 @@
                     </section>
                 </section>
             </div>
-           <div class="col-md-2">
            
-           </div>
           </div>
         </div>
 @section('js')
@@ -144,6 +153,7 @@
                 var province_id = $(this).val();
                 $("#city").load("{{ url('/common/loadCity') }}/"+province_id);
             });
+            
         });
 </script>
 @stop

@@ -29,9 +29,9 @@ class PersonController extends Controller
     {
     	if($request->isMethod('get'))
     	{
-    		$province = AreaModel::where('parent_id','0')->get();
-    		$city = AreaModel::where('parent_id','!=','0')->get();
     		$userInfo = UserModel::where('id','=',Auth::id())->get();
+    		$province = AreaModel::where('parent_id','0')->get();
+    		$city = AreaModel::where('parent_id','=',$userInfo[0]->province)->get();
     		return view('wenda.person.info',['userinfo'=>$userInfo[0],'province'=>$province,'city'=>$city]);
     	}else{
     		if($request->get('uid') != Auth::id() )

@@ -21,6 +21,9 @@
       <link href="{{ asset('back/css/style-responsive.css') }}" rel="stylesheet">
     @show
 </head>
+<?php 
+use \Illuminate\Support\Facades\Request;
+?>
 <body class="sticky-header">
 <section>
     <!-- left side start-->
@@ -59,21 +62,25 @@
             <!--sidebar nav start-->
             <ul class="nav nav-pills nav-stacked custom-nav">
                 <li ><a href="{{ url('/') }}" target="_blank;"><i class="fa fa-home"></i> <span>问答首页</span></a></li>
-                <li class="menu-list"><a href=""><i class="fa fa-cogs"></i> <span>系统设置</span></a>
+                <li class="menu-list {{ (Request::getPathinfo() == '/back/user') || (Request::getPathinfo() == '/back/role') || (Request::getPathinfo() == '/back/permission') ? 'nav-active':'' }}">
+	                <a href="">
+		                <i class="fa fa-cogs"></i> 
+		                <span>系统设置</span>
+	                </a>
                     <ul class="sub-menu-list">
-                        <li><a href="{{ url('/back/user') }}">用户列表</a></li>
-                        <li><a href="{{ url('/back/role') }}">角色管理</a></li>
-                        <li><a href="{{ url('/back/permission') }}">权限管理</a></li>
+                        <li class="{{ Request::getPathinfo() == '/back/user' ? 'active':'' }}" ><a href="{{ url('/back/user') }}">用户列表</a></li>
+                        <li class="{{ Request::getPathinfo() == '/back/role' ? 'active':'' }}" ><a href="{{ url('/back/role') }}">角色管理</a></li>
+                        <li class="{{ Request::getPathinfo() == '/back/permission' ? 'active':'' }}" ><a href="{{ url('/back/permission') }}">权限管理</a></li>
                         <li><a href="horizontal_menu.html"> Horizontal Menu</a></li>
                     </ul>
                 </li>
-                <li class="menu-list"><a href=""><i class="fa fa-bar-chart-o"></i> <span>内容管理</span></a>
+                <li class="menu-list {{ (Request::getPathinfo() == '/back/cate') || (Request::getPathinfo() == '/back/tag') || (Request::getPathinfo() == '/back/notice') ? 'nav-active':'' }}"><a href=""><i class="fa fa-bar-chart-o"></i> <span>内容管理</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="{{ url('back/cate') }}">分类管理</a></li>
-                        <li><a href="{{ url('back/tag') }}">标签话题</a></li>
+                        <li class="{{ Request::getPathinfo() == '/back/cate' ? 'active':'' }}" ><a href="{{ url('/back/cate') }}">分类管理</a></li>
+                        <li class="{{ Request::getPathinfo() == '/back/tag' ? 'active':'' }}"><a href="{{ url('/back/tag') }}">标签话题</a></li>
                         <li><a href="gallery.html">文章管理</a></li>
                         <li><a href="calendar.html">问答管理</a></li>
-                        <li><a href="{{ url('back/notice') }}">公告管理</a></li>
+                        <li class="{{ Request::getPathinfo() == '/back/notice' ? 'active':'' }}"><a href="{{ url('/back/notice') }}">公告管理</a></li>
                         <li><a href="nestable.html"> Nestable</a></li>
                     </ul>
                 </li>
@@ -381,7 +388,6 @@
 <script src="{{ asset('back/js/flot-chart/jquery.flot.resize.js') }}"></script>
 <!--Morris Chart-->
 <script src="{{ asset('back/js/morris-chart/raphael-min.js') }}"></script>
-
 
 <!--Calendar-->
 <script src="{{ asset('back/js/calendar/clndr.js') }}"></script>
