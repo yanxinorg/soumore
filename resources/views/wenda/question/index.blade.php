@@ -4,7 +4,6 @@
 .mail-list{
 	height:auto;
 }
-
 .nav_tabs{
 	background-color:white;
 	font-size: 16px;
@@ -92,7 +91,7 @@
                             <h4 class="pull-right"></h4>
                         </div>
                     </header>
-	                <section class="mail-list">
+	                   <section class="mail-list">
                         @foreach($questions as $question)
 	                	<div class="container-fluid" style="border-bottom:1px solid #D1D5E1;margin:12px 0px;">
 							<div class="row-fluid" >
@@ -108,7 +107,7 @@
 							</div>
 						</div>
 						@endforeach() 
-	                    </section>
+	                   </section>
 	                    <div class="paginate" style="text-align:center;">{!! $questions->appends(array('cid'=>$cid,'tid'=>$tid))->render() !!}</div>
                 </section>
           	<div class="paginate" style="text-align:center;"></div>

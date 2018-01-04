@@ -13,7 +13,6 @@
 .bl-status{
 	font-size:12px;
 }
-
 </style>
 <!-- 搜素内容 -->
 <?php 
@@ -65,11 +64,7 @@ use App\Models\Common\UserModel;
 				                <h1 class="text-center cmnt-head">{{ $datas->countcomment }}<span>条评论</span></h1>
 				                	@foreach($comments as $comment)
 					                <div class="media blog-cmnt">
-					                	@if(!empty($comment->avator))
-					                       <img  alt="☴☲☷  ☳☯☱  ☶☵☰" src="{{ route('getThumbImg', $comment->user_id ) }}" class="pull-left media-object">
-					                    @else
-					                       <img  alt="☴☲☷  ☳☯☱  ☶☵☰" src="" class="pull-left media-object">
-					                    @endif
+					                    <img src="{{ route('getThumbImg', $comment->user_id ) }}" class="pull-left media-object">
 					                    <div class="media-body">
 					                        <div style="font-size:14px;">
 					                             <a class="pull-left" href="{{ URL::action('Front\HomeController@index', ['uid'=>$comment->user_id]) }}">{{ $comment->commentator }}</a>

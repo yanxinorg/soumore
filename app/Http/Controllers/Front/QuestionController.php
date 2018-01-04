@@ -118,7 +118,7 @@ class QuestionController extends Controller
     					'tags.id as id'
     					)
     			->orderBy('tags.created_at','desc')
-    			->paginate('10');
+    			->paginate('5');
     			//评论内容
     	$answers = DB::table('answers')
     			->join('users', 'answers.user_id', '=', 'users.id')

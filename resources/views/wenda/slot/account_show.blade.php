@@ -19,7 +19,7 @@ use App\Models\Common\AreaModel;
                                 <div class="panel-body">
                                 	@if(!empty($userinfo->avator))
                                     <div class="profile-pic text-center">
-                                        <img alt="☴☲☷  ☳☯☱  ☶☵☰" src="{{ route('getThumbImg', Auth::id()) }}">
+                                        <img src="{{ route('getThumbImg', Auth::id()) }}">
                                     </div>
                                     @else
                                      <div class="profile-pic text-center">
