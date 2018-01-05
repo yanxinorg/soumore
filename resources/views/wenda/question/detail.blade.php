@@ -71,21 +71,26 @@ use App\Models\Common\UserModel;
 				                <h1 class="text-center cmnt-head">{{ $datas->countcomment }}<span>条评论</span></h1>
 				                 <section class="mail-list">
 				                	@foreach($answers as $answer)
-				                	
-				                	<div class="container-fluid" style="border-bottom:1px solid #D1D5E1;margin:12px 0px;">
-										<div class="row-fluid" >
-											<div class="span12" >
-												<div class="media" style="margin-bottom: 12px;">
-													<a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$answer->user_id]) }}" class="pull-left"><img src="{{ route('getThumbImg', $answer->user_id ) }}" class="pull-left media-object"></a>
-													<div class="media-body">
-														<div style="line-height:10px;margin-bottom:8px;"><span style="font-size: 14px;"><a target="_blank" href=""></a></span><span style="margin-left:24px;font-size:12px;"></span></div>
-														<h6 class="media-heading" style="font-size:10px;">{{ $answer->content }}</h6>
+					                	<div class="container-fluid" style="border-bottom:1px solid #D1D5E1;margin:12px 0px;">
+											<div class="row-fluid" >
+												<div class="span12" >
+													<div class="media" style="margin-bottom: 12px;">
+														<a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$answer->user_id]) }}" class="pull-left">
+															<img src="{{ route('getThumbImg', $answer->user_id ) }}" class="pull-left media-object">
+														</a>
+														<div class="media-body">
+															<div style="line-height:10px;margin-bottom:8px;">
+																<span style="font-size: 14px;">
+																	<a target="_blank" href=""></a>
+																</span>
+																<span style="margin-left:24px;font-size:12px;"></span>
+															</div>
+															<h6 class="media-heading" style="font-size:10px;">{{ $answer->content }}</h6>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-						
 					                @endforeach()
 					            </section>
 				            </div>

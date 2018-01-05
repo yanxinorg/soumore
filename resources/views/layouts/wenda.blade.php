@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>{{ config('app.name', '问答系统') }}</title>
+  <title>{{ config('app.name', '问答系统') }}</title>
   @section('css')
-  <!-- Bootstrap -->
-  <link href="{{ asset('wenda/common/css/stickup.css') }}" rel="stylesheet">
-  <link href="{{ asset('wenda/common/css/style.css') }}" rel="stylesheet">
-  <link href="{{ asset('wenda/common/css/flat-ui.css') }}" rel="stylesheet">
+	  <!-- Bootstrap -->
+	  <link href="{{ asset('wenda/common/css/stickup.css') }}" rel="stylesheet">
+	  <link href="{{ asset('wenda/common/css/style.css') }}" rel="stylesheet">
+	  <link href="{{ asset('wenda/common/css/flat-ui.css') }}" rel="stylesheet">
   @show
 </head>
 <body>

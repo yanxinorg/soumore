@@ -53,15 +53,9 @@
 	                        <div class="col-md-12">
 	                            <div class="panel">
 	                                <div class="panel-body">
-	                                @if(!empty($userinfo->avator))
 	                                    <div class="profile-pic text-center">
-	                                        <img alt="☴☲☷  ☳☯☱  ☶☵☰" src="{{ route('getThumbImg', $uid) }}">
+	                                        <img src="{{ route('getThumbImg', $uid) }}">
 	                                    </div>
-	                                @else
-	                                	<div class="profile-pic text-center">
-	                                        <span>☯</span>   
-	                                    </div>
-	                                @endif
 	                               @if(Auth::id() != $uid)
                                 	@if($islooked)
 	                                	<a class="btn p-follow-btn pull-right" href="{{ URL::action('Front\AttentionController@cancelUser', ['uid'=>$uid]) }}">取消关注</a>
