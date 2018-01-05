@@ -11,14 +11,38 @@
 </head>
 <body>
 <style>
+html, body {
+height: 100%;
+}
 .main-content{
 background-color:#F4F4F4;
+min-height:100%;
 }
 .navbar-wrapper{
 z-index:9999;
 }
 .form-control{
 	border:1px solid #bdc3c7
+}
+.footer {
+	height: 250px;
+	width:100%;
+}
+.footer_top {
+	height: 200px;
+	background-color: #34495E;
+}
+.footer_bottom {
+	height: 50px;
+	color:black;
+	background-color: #293A4A;
+	text-align:center;
+}
+.footer_bottom  p{
+	line-height:50px;
+}
+.footer_bottom a{
+	color:black;
 }
 </style>
 <!-- 导航 -->
@@ -81,6 +105,18 @@ z-index:9999;
 <!-- 搜素内容 -->
 <div class="main-content" >
 	@yield('content')
+</div>
+
+<!-- 底部导航 -->
+<div class="footer">
+	<div class="footer_content">
+	    <div class="footer_top">
+	            
+	    </div>
+	    <div class="footer_bottom">
+	        <p>soumore| <a href="http://www.miitbeian.gov.cn" target="_blank">苏ICP备15023456号-2</a></p>
+	    </div>
+	</div>
 </div>
 @section('js')
 <!-- main content end-->
