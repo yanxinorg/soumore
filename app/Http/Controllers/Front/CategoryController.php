@@ -30,7 +30,7 @@ class CategoryController extends Controller
     	return view('wenda.cate.index',['cateid'=>$cateId,'cates'=>$cates]);
     }
     
-    //文章分类筛选
+    //文章分类刷选列表
     public function article(Request $request)
     {
     	$cates = CategoryModel::all();
