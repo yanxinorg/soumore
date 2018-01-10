@@ -21,10 +21,7 @@ use App\Models\Common\UserModel;
 <div class="main-content" >
   <div class="wrapper">
       <div class="directory-info-row">
-      	  <div class="col-md-2">
-      	   
-      	  </div>
-          <div class="col-md-8 col-sm-8" >
+          <div class="col-md-10 col-sm-9" >
                <div class="blog">
                   <div class="single-blog">
                       <div class="panel">
@@ -88,7 +85,7 @@ use App\Models\Common\UserModel;
 				            </div>
 			            <div class="paginate" style="text-align:center;">{!! $comments->appends(array('id'=>$id))->render() !!}</div>
 			          </div>
-<!-- 	                  评论     -->
+<!-- 提交 评论     -->
                        <div class="panel">
                           <div class="panel-body">
                                  <form class="form-horizontal" method="post" action="{{ url('/comment/create') }}" id="Form">
@@ -119,7 +116,7 @@ use App\Models\Common\UserModel;
                   </div>
               </div>
           </div>
-          <div class="col-md-2 col-sm-2">
+          <div class="col-md-2 col-sm-3">
            	@component('wenda.slot.mycenterslot')@endcomponent
             @component('wenda.slot.noticeslot')@endcomponent 
           </div>

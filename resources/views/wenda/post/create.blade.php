@@ -1,6 +1,6 @@
 @extends('layouts.wenda')
 @section('content')
-@include('UEditor::head');
+@include('UEditor::head')
 <!-- 标签 -->
 <link rel="stylesheet" href="{{ asset('wenda/post/css/chosen.css') }}">
 <!-- 文章 -->
@@ -28,17 +28,14 @@ body{
 </style>
 <div class="main-content" >
      <div class="wrapper">
-            <div class="row">
-                <div class="col-md-2"></div>
                 <form action="{{ url('/post/store') }}" class="form-horizontal" method="post" enctype="multipart/form-data" onkeydown="if(event.keyCode==13)return false;">
-                <div class="col-md-8" style="background-color:white;padding-top:24px;">
-                      {{ csrf_field() }}
+	                <div class="col-md-8 col-md-offset-2  col-sm-12" style="background-color:white;padding-top:24px;">
+                      		{{ csrf_field() }}
                            <div class="form-group">
-                                <label for="inputEmail1" class="col-md-2 control-label"></label>
-                                <div class="col-md-8">
+                                <div class="col-md-8 col-md-offset-2 col-sm-10">
                                     <input type="text" name="title" value="{{ old('title') }}" class="form-control" placeholder="标题(必填)">
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 col-sm-2">
                               		 @if ($errors->has('title'))
 							            <div class="alert-danger backrerror"  >
 							                 {{ $errors->first('title') }}
@@ -51,11 +48,10 @@ body{
                               	</div>
                             </div>
                             <div class="form-group">
-                                <label for="inputEmail1" class="col-md-2 control-label"></label>
-                                <div class="col-md-8">
+                                <div class="col-md-8  col-md-offset-2  col-sm-10">
                                     <input type="file" name="cover" id="demo-fileInput-4" multiple>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 col-sm-2">
                               		 @if ($errors->has('cover'))
 							            <div class="alert-danger backrerror" >
 							                 {{ $errors->first('cover') }}
@@ -69,11 +65,10 @@ body{
                             </div>
                             
                            <div class="form-group">
-    	                        <label class="col-md-2 control-label "></label>
-    	                        <div class="col-md-8 col-sm-8">
+    	                        <div class="col-md-8 col-md-offset-2  col-sm-10">
     	                            <script id="container" name="content" type="text/plain" >{!! old('content') !!}</script>
     	                        </div>
-    	                        <div class="col-md-2">
+    	                        <div class="col-md-2 col-sm-2">
                               		  @if ($errors->has('content'))
 							            <div class="alert-danger backrerror" >
 							                 {{ $errors->first('content') }}
@@ -87,7 +82,7 @@ body{
                               	
     	                    </div>
     	                    <div class="form-group">
-                              <div class="col-md-4 col-md-offset-2">
+                              <div class="col-md-4 col-sm-5 col-md-offset-2 ">
                                   <select class="form-control" name="cid">
                                       @foreach($cates as $cate)
                                       		@if(!empty(old('cid')))
@@ -102,7 +97,7 @@ body{
                                       @endforeach()
                                   </select>
                               </div>
-                              <div class="col-md-4 col-lg-4">
+                              <div class="col-md-4 col-sm-5">
 	                                  <select class="form-control" name="status">
 	                                      <option value="1">发布</option>
 	                                      <option value="0">存草稿</option>
@@ -110,28 +105,26 @@ body{
 	                          </div>
                           </div>
                           <div class="form-group">
-                              <div class="col-md-8 col-md-offset-2">
+                              <div class="col-md-8 col-sm-10 col-md-offset-2 ">
                                    <select data-placeholder=" 标签(选填)" name="tags[]" multiple class="form-control chosen-select" tabindex="8">
                                    		@foreach($tags as $tag)
 								         <option value="{{ $tag->id }}">{{ $tag->name }}</option>
 								        @endforeach()
 								   </select>
                               </div>
-                              <div class="col-md-2">
+                              <div class="col-md-2 col-sm-2">
 						            <div class="alert-danger backsuccess" >
 						            	<span>最多5个标签</span>
 						            </div>
                               </div>
                           </div>
                           <div class="form-group">
-                              <div class="col-md-10 col-md-offset-9">
+                              <div class="col-md-10 col-sm-10 col-md-offset-8 ">
                                 <button type="submit" class="btn btn-success">提交</button>
                               </div>
                           </div>
-                </div>
-                <div class="col-md-2"></div>
+	                </div>
                 </form>
-            </div>
      </div>
 </div>
 @section('js')

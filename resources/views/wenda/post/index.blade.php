@@ -63,32 +63,7 @@
 <div class="main-content">
   <div class="wrapper">
       <div class="directory-info-row">
-	      <div class="col-md-2 col-sm-2" >
-			<div class="category">
-				<div class="col-md-12 col-sm-12" >
-					<ul class="nav nav_tabs " >
-						<li><a href="{{ URL::action('Front\PostController@myCollect', ['cid'=>$cid,'tid'=>$tid]) }}">收藏的文章</a></li>
-					</ul>
-				</div>
-			</div>
-		<!-- 热门标签 -->
-			@if(!empty($tags[0]))
-			<div class="tag" style="display: block;">
-		        <div class="col-md-12 col-sm-12" style="margin-top:12px;">
-		               <ul class="revenue-nav pull-left" >
-		                     @foreach($tags as $tag)
-		                     	@if($tag->id == $tid)
-		                     		<li style="margin:4px;"><a style="background-color:red;" href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
-		                     	@else
-		                     		<li style="margin:4px;"><a href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
-		                     	@endif
-		                     @endforeach()
-		              </ul>
-		        </div>
-			</div>
-			@endif()
-	      </div>
-          <div class="col-md-8 col-sm-8">
+          <div class="col-md-10 col-sm-9">
                 <section class="mail-box-info">
                     <header class="header">
                         <div class="compose-btn pull-left">
@@ -114,10 +89,10 @@
 											<img class="pull-left" src="{{ route('getPostImg', $data->post_id) }}" class="media-object" />
 											<div class="media-body">
 												<div class="content" >
-													<span><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
+													<span><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
 													<span>{{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
 												</div>
-												<div class="excerpt"><a target="_blank" href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ str_limit($data->title,316) }}</a></div>
+												<div class="excerpt"><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ str_limit($data->title,316) }}</a></div>
 											</div>
 										</div>
 									</div>
@@ -131,10 +106,10 @@
 											<img class="pull-left" src="{{ route('getThumbImg', $data->user_id) }}" class="media-object" />
 											<div class="media-body">
 												<div class="content" >
-													<span><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
+													<span><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
 													<span>{{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
 												</div>
-												<div class="excerpt"><a target="_blank" href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ str_limit($data->title,316) }}</a></div>
+												<div class="excerpt"><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ str_limit($data->title,316) }}</a></div>
 											</div>
 										</div>
 									</div>
@@ -147,11 +122,33 @@
                 </section>
           	
           </div>
-          <div class="col-md-2 col-sm-2" >
+          <div class="col-md-2 col-sm-3" >
              @component('wenda.slot.mycenterslot')
              @endcomponent
-             @component('wenda.slot.noticeslot')
-             @endcomponent
+			<div class="category">
+				<div class="col-md-12 col-sm-12" >
+					<ul class="nav nav_tabs " >
+						<li><a href="{{ URL::action('Front\PostController@myCollect', ['cid'=>$cid,'tid'=>$tid]) }}">收藏的文章</a></li>
+					</ul>
+				</div>
+			</div>
+		<!-- 热门标签 -->
+			@if(!empty($tags[0]))
+			<div class="tag" style="display: block;">
+		        <div class="col-md-12 col-sm-12" style="margin-top:12px;">
+		               <ul class="revenue-nav pull-left" >
+		                     @foreach($tags as $tag)
+		                     	@if($tag->id == $tid)
+		                     		<li style="margin:4px;"><a style="background-color:red;" href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
+		                     	@else
+		                     		<li style="margin:4px;"><a href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
+		                     	@endif
+		                     @endforeach()
+		              </ul>
+		        </div>
+			</div>
+			@endif()
+	      
           </div>
       </div>
   </div>

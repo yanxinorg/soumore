@@ -1,4 +1,120 @@
 <?php
+
+//后台管理
+Route::group(['namespace' => 'Back'], function()
+{
+	//后台管理
+	Route::get('/admin', 'AdminController@index')->middleware('authed');
+
+	//分类列表
+	Route::get('/back/cate', 'CategoryController@index');
+
+	//新增分类
+	Route::get('/back/cate/create', 'CategoryController@create');
+
+	// 编辑分类
+	Route::get('/back/cate/edit', 'CategoryController@edit');
+
+	//保存分类
+	Route::post('/back/cate/store', 'CategoryController@store');
+
+	//添加子分类
+	Route::get('/back/cate/addchild', 'CategoryController@addChild');
+
+	//话题列表
+	Route::get('/back/tag', 'TagController@index');
+
+	//新增话题
+	Route::get('/back/tag/create', 'TagController@create');
+
+	//保存话题
+	Route::post('/back/tag/store', 'TagController@store');
+
+	//编辑话题
+	Route::get('/back/tag/edit', 'TagController@edit');
+
+	//删除话题
+	Route::post('/back/tag/delete', 'TagController@delete');
+
+	//用户列表
+	Route::get('/back/user', 'UserController@index');
+
+	//新增用户
+	Route::get('/back/user/create', 'UserController@create');
+
+	//保存用户
+	Route::post('/back/user/store', 'UserController@store');
+
+	//删除用户
+	Route::post('/back/user/delete', 'UserController@delete');
+
+	//角色管理
+	Route::get('/back/role', 'RoleController@index');
+
+	//新增角色
+	Route::get('/back/role/create', 'RoleController@create');
+
+	//保存角色
+	Route::post('/back/role/store', 'RoleController@store');
+
+	//角色删除
+	Route::post('/back/role/delete', 'RoleController@delete');
+
+	//权限管理
+	Route::get('/back/permission', 'PermissionController@index');
+
+	//新增权限
+	Route::get('/back/permission/create', 'PermissionController@create');
+
+	//分类列表
+	Route::get('/cate/index', 'CategoryController@index');
+
+	//分类创建
+	Route::post('/cate/create', 'CategoryController@create');
+
+	// 删除分类
+	Route::post('/cate/delete', 'CategoryController@delete');
+
+	//公告管理
+	Route::get('/back/notice', 'NoticeController@index');
+
+	//公告保存
+	Route::post('/notice/create', 'NoticeController@create');
+
+	//公告编辑
+	Route::get('/notice/create', ['as' => 'notice.create', 'uses' => 'NoticeController@create']);
+
+	//公告编辑
+	Route::get('/notice/edit', ['as' => 'notice.edit', 'uses' => 'NoticeController@edit']);
+
+	//公告删除
+	Route::get('/notice/delete', ['as' => 'notice.delete', 'uses' => 'NoticeController@delete']);
+
+	//公告更新
+	Route::post('/notice/update', 'NoticeController@update');
+
+});
+
+//获取话题图片
+Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\FileController@getTopicImg']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // 首页
 Route::get('/', function () {
     return view('wenda.index');
@@ -278,102 +394,6 @@ Route::get('/auth/weixin', 'Common\SocializeController@weixinAuth');
 //微信社会化监听
 Route::get('/auth/weixin_redirect', 'Common\SocializeController@weixinCallback');
 
-//后台管理
-Route::group(['namespace' => 'Back'], function()
-{
-	//后台管理
-	Route::get('/admin', 'AdminController@index')->middleware('authed');
-	
-	//分类列表
-	Route::get('/back/cate', 'CategoryController@index');
-	
-	//新增分类
-	Route::get('/back/cate/create', 'CategoryController@create');
-	
-	// 编辑分类
-	Route::get('/back/cate/edit', 'CategoryController@edit');
-	
-	//保存分类
-	Route::post('/back/cate/store', 'CategoryController@store');
-	
-	//添加子分类
-	Route::get('/back/cate/addchild', 'CategoryController@addChild');
-	
-	//话题列表
-	Route::get('/back/tag', 'TagController@index');
-	
-	//新增话题
-	Route::get('/back/tag/create', 'TagController@create');
-	
-	//保存话题
-	Route::post('/back/tag/store', 'TagController@store');
-	
-	//编辑话题
-	Route::get('/back/tag/edit', 'TagController@edit');
-	
-	//删除话题
-	Route::post('/back/tag/delete', 'TagController@delete');
-	
-	//用户列表
-	Route::get('/back/user', 'UserController@index');
-	
-	//新增用户
-	Route::get('/back/user/create', 'UserController@create');
-	
-	//保存用户
-	Route::post('/back/user/store', 'UserController@store');
-	
-	//删除用户
-	Route::post('/back/user/delete', 'UserController@delete');
-	
-	//角色管理
-	Route::get('/back/role', 'RoleController@index');
-	
-	//新增角色
-	Route::get('/back/role/create', 'RoleController@create');
-	
-	//保存角色
-	Route::post('/back/role/store', 'RoleController@store');
-	
-	//角色删除
-	Route::post('/back/role/delete', 'RoleController@delete');
-	
-	//权限管理
-	Route::get('/back/permission', 'PermissionController@index');
-	
-	//新增权限
-	Route::get('/back/permission/create', 'PermissionController@create');
-	
-	//分类列表
-	Route::get('/cate/index', 'CategoryController@index');
-	
-	//分类创建
-	Route::post('/cate/create', 'CategoryController@create');
-	
-	// 删除分类
-	Route::post('/cate/delete', 'CategoryController@delete');
-	
-	//公告管理
-	Route::get('/back/notice', 'NoticeController@index');
-	
-	//公告保存
-	Route::post('/notice/create', 'NoticeController@create');
-	
-	//公告编辑
-	Route::get('/notice/create', ['as' => 'notice.create', 'uses' => 'NoticeController@create']);
-	
-	//公告编辑
-	Route::get('/notice/edit', ['as' => 'notice.edit', 'uses' => 'NoticeController@edit']);
-	
-	//公告删除
-	Route::get('/notice/delete', ['as' => 'notice.delete', 'uses' => 'NoticeController@delete']);
-	
-	//公告更新
-	Route::post('/notice/update', 'NoticeController@update');
-	
-});
-//获取话题图片
-Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\FileController@getTopicImg']);
 
 //获取分类图片
 Route::get('cate/thumb/{id}', ['as' => 'getCateImg', 'uses' => 'Common\FileController@getCateImg']);

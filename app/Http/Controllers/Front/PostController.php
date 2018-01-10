@@ -451,8 +451,8 @@ class PostController extends Controller
             'comments.status as status',
         	'users.name as commentator',
         	'users.avator as avator')
-        ->orderBy('comments.created_at','desc')
-        ->paginate('10');
+        ->orderBy('comments.created_at','asc')
+        ->paginate('15');
         
         //是否收藏
         if(!empty(Auth::id()))

@@ -63,17 +63,17 @@ z-index:9999;
         <li class="menuItem"><a href="{{ url('/question') }}">问答</a></li>
         <li class="menuItem "><a href="{{ url('/topic') }}">话题</a></li>
       </ul>
-      <form action="{{ url('/search') }}" method="post" class="navbar-form navbar-left" >
-      	{{ csrf_field() }}
-          <div class="form-group">
-          	@if(!empty($wd))
-          		<input type="text" class="form-control search" name="wd" value="{{ $wd }}" placeholder="请输入关键词" />
-          	@else
-          		<input type="text" class="form-control search" name="wd" placeholder="请输入关键词" />
-          	@endif
-          </div>
-          <button type="submit" class="form-control btn btn-success">搜索</button>
-      </form>
+<!--       <form action="{{ url('/search') }}" method="post" class="navbar-form navbar-left" > -->
+<!--       	{{ csrf_field() }} -->
+<!--           <div class="form-group"> -->
+<!--           	@if(!empty($wd)) -->
+<!--           		<input type="text" class="form-control search" name="wd" value="{{ $wd }}" placeholder="请输入关键词" /> -->
+<!--           	@else -->
+<!--           		<input type="text" class="form-control search" name="wd" placeholder="请输入关键词" /> -->
+<!--           	@endif -->
+<!--           </div> -->
+<!--           <button type="submit" class="form-control btn btn-success">搜索</button> -->
+<!--       </form> -->
       <ul class="nav navbar-nav navbar-right" style="margin-right: 24px;">
        		@auth
             <li class="dropdown">

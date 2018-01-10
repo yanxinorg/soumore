@@ -29,10 +29,7 @@ use App\Models\Common\UserModel;
 <div class="main-content" >
   <div class="wrapper">
       <div class="directory-info-row">
-      	  <div class="col-md-2">
-      	  
-      	  </div>
-          <div class="col-md-8 col-sm-8" >
+          <div class="col-md-10 col-sm-9" >
                <div class="blog">
                   <div class="single-blog">
                       <div class="panel">
@@ -69,30 +66,30 @@ use App\Models\Common\UserModel;
 			           <div class="panel">
 							<div class="panel-body">
 				                <h1 class="text-center cmnt-head">{{ $datas->countcomment }}<span>条评论</span></h1>
-				                 <section class="mail-list">
-				                	@foreach($answers as $answer)
-					                	<div class="container-fluid" style="border-bottom:1px solid #D1D5E1;margin:12px 0px;">
-											<div class="row-fluid" >
-												<div class="span12" >
-													<div class="media" style="margin-bottom: 12px;">
-														<a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$answer->user_id]) }}" class="pull-left">
-															<img src="{{ route('getThumbImg', $answer->user_id ) }}" class="pull-left media-object">
-														</a>
-														<div class="media-body">
-															<div style="line-height:10px;margin-bottom:8px;">
-																<span style="font-size: 14px;">
-																	<a target="_blank" href=""></a>
-																</span>
-																<span style="margin-left:24px;font-size:12px;"></span>
-															</div>
-															<h6 class="media-heading" style="font-size:10px;">{{ $answer->content }}</h6>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
+				     
+				     				@foreach($answers as $answer)
+					                <div class="media blog-cmnt">
+					                    <img src="{{ route('getThumbImg', $answer->user_id ) }}" class="pull-left media-object">
+					                    <div class="media-body">
+					                        <div style="font-size:14px;">
+					                             <a class="pull-left" href="{{ URL::action('Front\HomeController@index', ['uid'=>$answer->user_id]) }}">{{ $answer->commentator }}</a>
+					                             @if(!empty($answer->to_user_id))
+					                        	 	 <span class="pull-left">回复</span>
+						                        	 <a class="pull-left" href="{{ URL::action('Front\HomeController@index', ['uid'=>$answer->to_user_id]) }}">
+						                        	 @php echo (UserModel::where('id',$answer->to_user_id)->pluck('name'))[0]; @endphp
+						                        	 </a>
+					                        	 @endif
+					                        	 <span class="pull-left">{{\Carbon\Carbon::parse($answer->created_at)->diffForHumans()}}</span>
+					                        	 @if($answer->user_id !== Auth::id() )
+					                        	 	<a href="javascript:void(0);" onclick="reply({{ $answer->user_id }},'{{ $answer->commentator }}')" class="pull-right ">回复</a>
+					                        	 @endif
+					                        </div>
+					                        <div class="bl-status">
+					                          {{ $answer->content }}
+					                        </div>
+					                    </div>
+					                </div>
 					                @endforeach()
-					            </section>
 				            </div>
 			            	<div class="paginate" style="text-align:center;">{!! $answers->appends(array('id'=>$id))->render() !!}</div>
 			          </div>
@@ -127,7 +124,7 @@ use App\Models\Common\UserModel;
                   </div>
               </div>
           </div>
-          <div class="col-md-2 col-sm-2">
+          <div class="col-md-2 col-sm-3">
            	 @component('wenda.slot.myquestionslot')
              @endcomponent
             @component('wenda.slot.noticeslot')@endcomponent 

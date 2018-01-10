@@ -48,7 +48,73 @@
       <div class="wrapper">
       	<div class="directory-info-row">
             <div class="row">
-                <div class="col-md-2">
+                
+                <div class="col-md-10 col-sm-9">
+                   	<section class="mail-box-info">
+	                    <header class="header">
+	                        <div class="compose-btn pull-left">
+	                        	@if($uid == Auth::id())
+	                        	   <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的动态</button></a>
+								   <a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}"><button class="btn btn-success btn-sm">我的文章</button></a>
+								   <a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的提问</button></a>
+		                           <a href="{{ URL::action('Front\HomeController@answer', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的回答</button></a>
+		                           <a href="{{ URL::action('Front\HomeController@fans', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的粉丝</button></a>
+	                        	@else
+	                        	   <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的动态</button></a>
+								   <a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}"><button class="btn btn-success btn-sm">他的文章</button></a>
+								   <a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的提问</button></a>
+		                           <a href="{{ URL::action('Front\HomeController@answer', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的回答</button></a>
+		                           <a href="{{ URL::action('Front\HomeController@fans', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的粉丝</button></a>
+	                        	@endif
+	                        </div>
+	                        <div class="btn-toolbar">
+	                            <h4 class="pull-right"></h4>
+	                        </div>
+	                    </header>
+		                <section class="mail-list">
+		                 @foreach($datas as $data)
+		                	@if($data->thumb)
+			                	<div class="container-fluid" >
+									<div class="row-fluid" >
+										<div class="span12" >
+											<div class="media" >
+												<img class="pull-left" src="{{ route('getPostImg', $data->post_id) }}" class="media-object" alt='没图没真相' />
+												<div class="media-body">
+													<div class="content" >
+														<span><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
+														<span>{{ $data->created_at }}</span>
+														<h6 class="media-heading" ><a target="_blank" href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ str_limit($data->title,170) }}</a></h6>
+													</div>
+													<div class="excerpt">{{ str_limit($data->excerpt,316) }}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							@else
+								<div class="container-fluid">
+									<div class="row-fluid" >
+										<div class="span12" >
+											<div class="media">
+												<div class="media-body">
+													<div class="content" >
+														<span><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
+														<span>{{ $data->created_at }}</span>
+														<h6 class="media-heading"><a target="_blank" href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ str_limit($data->title,170) }}</a></h6>
+													</div>
+													<div class="excerpt">{{ str_limit($data->excerpt,316) }}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							@endif
+						@endforeach() 
+				         <div class="paginate" style="text-align:center;">{{ $datas->links() }}</div>
+	                    </section>
+	                </section>
+                </div>
+                <div class="col-md-2 col-sm-3">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="panel">
@@ -152,76 +218,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                   	<section class="mail-box-info">
-	                    <header class="header">
-	                        <div class="compose-btn pull-left">
-	                        	@if($uid == Auth::id())
-	                        	   <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的动态</button></a>
-								   <a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}"><button class="btn btn-success btn-sm">我的文章</button></a>
-								   <a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的提问</button></a>
-		                           <a href="{{ URL::action('Front\HomeController@answer', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的回答</button></a>
-		                           <a href="{{ URL::action('Front\HomeController@fans', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的粉丝</button></a>
-	                        	@else
-	                        	   <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的动态</button></a>
-								   <a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}"><button class="btn btn-success btn-sm">他的文章</button></a>
-								   <a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的提问</button></a>
-		                           <a href="{{ URL::action('Front\HomeController@answer', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的回答</button></a>
-		                           <a href="{{ URL::action('Front\HomeController@fans', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的粉丝</button></a>
-	                        	@endif
-	                        </div>
-	                        <div class="btn-toolbar">
-	                            <h4 class="pull-right"></h4>
-	                        </div>
-	                    </header>
-		                <section class="mail-list">
-		                 @foreach($datas as $data)
-		                	@if($data->thumb)
-			                	<div class="container-fluid" >
-									<div class="row-fluid" >
-										<div class="span12" >
-											<div class="media" >
-												<img class="pull-left" src="{{ route('getPostImg', $data->post_id) }}" class="media-object" alt='没图没真相' />
-												<div class="media-body">
-													<div class="content" >
-														<span><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
-														<span>{{ $data->created_at }}</span>
-														<h6 class="media-heading" ><a target="_blank" href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ str_limit($data->title,170) }}</a></h6>
-													</div>
-													<div class="excerpt">{{ str_limit($data->excerpt,316) }}</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							@else
-								<div class="container-fluid">
-									<div class="row-fluid" >
-										<div class="span12" >
-											<div class="media">
-												<div class="media-body">
-													<div class="content" >
-														<span><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
-														<span>{{ $data->created_at }}</span>
-														<h6 class="media-heading"><a target="_blank" href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ str_limit($data->title,170) }}</a></h6>
-													</div>
-													<div class="excerpt">{{ str_limit($data->excerpt,316) }}</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							@endif
-						@endforeach() 
-				         <div class="paginate" style="text-align:center;">{{ $datas->links() }}</div>
-	                    </section>
-	                </section>
-                </div>
-                <div class="col-md-2">
-                    <div class="row">
-                       
                     </div>
                 </div>
             </div>

@@ -55,10 +55,7 @@
 <div class="main-content">
   <div class="wrapper">
       <div class="directory-info-row">
-      <div class="col-md-2 col-sm-2" >
-      		
-      </div>
-          <div class="col-md-8 col-sm-8">
+          <div class="col-md-10 col-sm-9">
                 <section class="mail-box-info">
                     <header class="header">
                         <div class="compose-btn pull-left">
@@ -116,7 +113,7 @@
                 </section>
           	<div class="paginate" style="text-align:center;"></div>
           </div>
-          <div class="col-md-2 col-sm-2" >
+          <div class="col-md-2 col-sm-3" >
              @component('wenda.slot.mycenterslot')
              @endcomponent
           </div>

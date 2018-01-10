@@ -48,7 +48,50 @@
       <div class="wrapper">
 	      <div class="directory-info-row">
 	            <div class="row">
-	                <div class="col-md-2">
+	                
+	                <div class="col-md-10 col-sm-9">
+	                   	<section class="mail-box-info">
+		                    <header class="header">
+		                        <div class="compose-btn pull-left">
+		                        	@if($uid == Auth::id())
+		                        	   <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的动态</button></a>
+									   <a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的文章</button></a>
+									   <a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}"><button class="btn btn-success btn-sm">我的提问</button></a>
+									   <a href="{{ URL::action('Front\HomeController@answer', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的回答</button></a>
+									   <a href="{{ URL::action('Front\HomeController@fans', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的粉丝</button></a>
+		                        	@else
+		                        	   <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的动态</button></a>
+									   <a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的文章</button></a>
+									   <a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}"><button class="btn btn-success btn-sm">他的提问</button></a>
+									   <a href="{{ URL::action('Front\HomeController@answer', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的回答</button></a>
+									   <a href="{{ URL::action('Front\HomeController@fans', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的粉丝</button></a>
+		                        	@endif
+		                        </div>
+		                        <div class="btn-toolbar">
+		                            <h4 class="pull-right"></h4>
+		                        </div>
+		                    </header>
+			                <section class="mail-list">
+			                  @foreach($questions as $question)
+			                	<div class="container-fluid" style="border-bottom:1px solid #D1D5E1;margin:12px 0px;">
+									<div class="row-fluid" >
+										<div class="span12" >
+											<div class="media" style="margin-bottom: 12px;">
+												<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$question->user_id]) }}" class="pull-left"><img style="width:48px;" src="{{ route('getThumbImg', $question->user_id) }}" class="media-object" alt='' /></a>
+												<div class="media-body">
+													<div><span style="font-size: 14px;"><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$question->user_id]) }}" >{{ $question->user_name }}</a></span><span style="margin-left:24px;font-size:12px;">{{\Carbon\Carbon::parse($question->created_at)->diffForHumans()}}</span></div>
+													<h6 class="media-heading" style="font-size:10px;"><a target="_blank" href="{{ URL::action('Front\QuestionController@detail', ['id'=>$question->question_id]) }}">{{ $question->title }}</a></h6>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								@endforeach() 
+				        	<div class="paginate" style="text-align:center;">{{ $questions->links() }}</div>
+		                    </section>
+		                </section>
+	                </div>
+	                <div class="col-md-2 col-sm-3">
 	                    <div class="row">
 	                        <div class="col-md-12">
 	                            <div class="panel">
@@ -152,53 +195,6 @@
 	                                </div>
 	                            </div>
 	                        </div>
-	                    </div>
-	                </div>
-	                <div class="col-md-8">
-	                   	<section class="mail-box-info">
-		                    <header class="header">
-		                        <div class="compose-btn pull-left">
-		                        	@if($uid == Auth::id())
-		                        	   <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的动态</button></a>
-									   <a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的文章</button></a>
-									   <a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}"><button class="btn btn-success btn-sm">我的提问</button></a>
-									   <a href="{{ URL::action('Front\HomeController@answer', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的回答</button></a>
-									   <a href="{{ URL::action('Front\HomeController@fans', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的粉丝</button></a>
-		                        	@else
-		                        	   <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的动态</button></a>
-									   <a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的文章</button></a>
-									   <a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}"><button class="btn btn-success btn-sm">他的提问</button></a>
-									   <a href="{{ URL::action('Front\HomeController@answer', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的回答</button></a>
-									   <a href="{{ URL::action('Front\HomeController@fans', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">他的粉丝</button></a>
-		                        	@endif
-		                        </div>
-		                        <div class="btn-toolbar">
-		                            <h4 class="pull-right"></h4>
-		                        </div>
-		                    </header>
-			                <section class="mail-list">
-			                  @foreach($questions as $question)
-			                	<div class="container-fluid" style="border-bottom:1px solid #D1D5E1;margin:12px 0px;">
-									<div class="row-fluid" >
-										<div class="span12" >
-											<div class="media" style="margin-bottom: 12px;">
-												<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$question->user_id]) }}" class="pull-left"><img style="width:48px;" src="{{ route('getThumbImg', $question->user_id) }}" class="media-object" alt='' /></a>
-												<div class="media-body">
-													<div><span style="font-size: 14px;"><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$question->user_id]) }}" >{{ $question->user_name }}</a></span><span style="margin-left:24px;font-size:12px;">{{\Carbon\Carbon::parse($question->created_at)->diffForHumans()}}</span></div>
-													<h6 class="media-heading" style="font-size:10px;"><a target="_blank" href="{{ URL::action('Front\QuestionController@detail', ['id'=>$question->question_id]) }}">{{ $question->title }}</a></h6>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								@endforeach() 
-				        	<div class="paginate" style="text-align:center;">{{ $questions->links() }}</div>
-		                    </section>
-		                </section>
-	                </div>
-	                <div class="col-md-2">
-	                    <div class="row">
-	                       
 	                    </div>
 	                </div>
 	            </div>

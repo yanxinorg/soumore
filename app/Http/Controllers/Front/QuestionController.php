@@ -132,7 +132,7 @@ class QuestionController extends Controller
     					'answers.status as status',
     					'users.name as commentator',
     					'users.avator as avator')
-    			->orderBy('answers.created_at','desc')
+    			->orderBy('answers.created_at','asc')
     			->paginate('15');
     	//是否收藏
     	if(!empty(Auth::id()))

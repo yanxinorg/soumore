@@ -51,113 +51,8 @@ use App\Models\Common\AreaModel;
       <div class="wrapper">
       	<div class="directory-info-row">
             <div class="row">
-                <div class="col-md-2">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="panel">
-                                <div class="panel-body">
-                                    <div class="profile-pic text-center">
-                                        <img src="{{ route('getThumbImg',$uid) }}">
-                                    </div>
-                                 @if(Auth::id() != $uid)
-                                	@if($islooked)
-	                                	<a class="btn p-follow-btn pull-right" href="{{ URL::action('Front\AttentionController@cancelUser', ['uid'=>$uid]) }}">取消关注</a>
-	                                @else
-	                                	<a class="btn p-follow-btn pull-right" href="{{ URL::action('Front\AttentionController@user', ['uid'=>$uid]) }}">关注</a>
-	                                @endif
-                                @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="panel">
-                               <div class="panel-body">
-                                    <ul class="p-info">
-                                    	<li>
-                                            <div class="title">用户名</div>
-                                            <div class="desk">{{ $userinfo->name }}</div>
-                                        </li>
-                                        @if(!empty($userinfo->realname))
-                                        <li>
-                                            <div class="title">真实姓名</div>
-                                            <div class="desk">{{ $userinfo->realname }}</div>
-                                        </li>
-                                        @endif
-                                        <li>
-                                            <div class="title">邮箱</div>
-                                            <div class="desk">{{ $userinfo->email }}</div>
-                                        </li>
-                                        <li>
-                                            <div class="title">注册时间</div>
-                                            <div class="desk">{{ $userinfo->created_at }}</div>
-                                        </li>
-                                        @if(!empty($userinfo->mobile))
-                                        <li>
-                                            <div class="title">手机号</div>
-                                            <div class="desk">{{ $userinfo->mobile }}</div>
-                                        </li>
-                                        @endif
-                                        @if(!empty($userinfo->birthday))
-                                        <li>
-                                            <div class="title">生日</div>
-                                            <div class="desk">{{ $userinfo->birthday }}</div>
-                                        </li>
-                                        @endif
-                                        @if(!empty($userinfo->site))
-                                        <li>
-                                            <div class="title">个人主页</div>
-                                            <div class="desk"><a href="{{ $userinfo->site }}" target="_blank">{{ $userinfo->site }}</a></div>
-                                        </li>
-                                        @endif
-                                        @if(!empty($userinfo->qq))
-                                        <li>
-                                            <div class="title">QQ</div>
-                                            <div class="desk">{{ $userinfo->qq }}</div>
-                                        </li>
-                                        @endif
-                                        @if(!empty($userinfo->weixin))
-                                        <li>
-                                            <div class="title">微信</div>
-                                            <div class="desk">{{ $userinfo->weixin }}</div>
-                                        </li>
-                                        @endif
-                                        @if(!empty($userinfo->graduateschool))
-                                        <li>
-                                            <div class="title">毕业院校</div>
-                                            <div class="desk">{{ $userinfo->graduateschool }}</div>
-                                        </li>
-                                        @endif
-                                        @if(!empty($province))
-                                        <li>
-                                            <div class="title">所在城市</div>
-                                            <div class="desk">{{ $province }},{{ $city }}市</div>
-                                        </li>
-                                        @endif
-                                        @if(!empty($userinfo->company))
-                                        <li>
-                                            <div class="title">公司名称</div>
-                                            <div class="desk">{{ $userinfo->company }}</div>
-                                        </li>
-                                        @endif
-                                        @if(!empty($userinfo->occupation))
-                                        <li>
-                                            <div class="title">职业</div>
-                                            <div class="desk">{{ $userinfo->occupation }}</div>
-                                        </li>
-                                        @endif
-                                        @if(!empty($userinfo->bio))
-                                        <li>
-                                            <div class="title">个性签名</div>
-                                            <div class="desk">{{ $userinfo->bio }}</div>
-                                        </li>
-                                        @endif
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-8">
+               
+                <div class="col-md-10 col-sm-9">
                    	<section class="mail-box-info">
 	                    <header class="header">
 	                        <div class="compose-btn pull-left">
@@ -283,9 +178,110 @@ use App\Models\Common\AreaModel;
 	                    </section>
 	                </section>
                 </div>
-                <div class="col-md-2">
+                 <div class="col-md-2 col-sm-3">
                     <div class="row">
-                       
+                        <div class="col-md-12">
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <div class="profile-pic text-center">
+                                        <img src="{{ route('getThumbImg',$uid) }}">
+                                    </div>
+                                 @if(Auth::id() != $uid)
+                                	@if($islooked)
+	                                	<a class="btn p-follow-btn pull-right" href="{{ URL::action('Front\AttentionController@cancelUser', ['uid'=>$uid]) }}">取消关注</a>
+	                                @else
+	                                	<a class="btn p-follow-btn pull-right" href="{{ URL::action('Front\AttentionController@user', ['uid'=>$uid]) }}">关注</a>
+	                                @endif
+                                @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="panel">
+                               <div class="panel-body">
+                                    <ul class="p-info">
+                                    	<li>
+                                            <div class="title">用户名</div>
+                                            <div class="desk">{{ $userinfo->name }}</div>
+                                        </li>
+                                        @if(!empty($userinfo->realname))
+                                        <li>
+                                            <div class="title">真实姓名</div>
+                                            <div class="desk">{{ $userinfo->realname }}</div>
+                                        </li>
+                                        @endif
+                                        <li>
+                                            <div class="title">邮箱</div>
+                                            <div class="desk">{{ $userinfo->email }}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">注册时间</div>
+                                            <div class="desk">{{ $userinfo->created_at }}</div>
+                                        </li>
+                                        @if(!empty($userinfo->mobile))
+                                        <li>
+                                            <div class="title">手机号</div>
+                                            <div class="desk">{{ $userinfo->mobile }}</div>
+                                        </li>
+                                        @endif
+                                        @if(!empty($userinfo->birthday))
+                                        <li>
+                                            <div class="title">生日</div>
+                                            <div class="desk">{{ $userinfo->birthday }}</div>
+                                        </li>
+                                        @endif
+                                        @if(!empty($userinfo->site))
+                                        <li>
+                                            <div class="title">个人主页</div>
+                                            <div class="desk"><a href="{{ $userinfo->site }}" target="_blank">{{ $userinfo->site }}</a></div>
+                                        </li>
+                                        @endif
+                                        @if(!empty($userinfo->qq))
+                                        <li>
+                                            <div class="title">QQ</div>
+                                            <div class="desk">{{ $userinfo->qq }}</div>
+                                        </li>
+                                        @endif
+                                        @if(!empty($userinfo->weixin))
+                                        <li>
+                                            <div class="title">微信</div>
+                                            <div class="desk">{{ $userinfo->weixin }}</div>
+                                        </li>
+                                        @endif
+                                        @if(!empty($userinfo->graduateschool))
+                                        <li>
+                                            <div class="title">毕业院校</div>
+                                            <div class="desk">{{ $userinfo->graduateschool }}</div>
+                                        </li>
+                                        @endif
+                                        @if(!empty($province))
+                                        <li>
+                                            <div class="title">所在城市</div>
+                                            <div class="desk">{{ $province }},{{ $city }}市</div>
+                                        </li>
+                                        @endif
+                                        @if(!empty($userinfo->company))
+                                        <li>
+                                            <div class="title">公司名称</div>
+                                            <div class="desk">{{ $userinfo->company }}</div>
+                                        </li>
+                                        @endif
+                                        @if(!empty($userinfo->occupation))
+                                        <li>
+                                            <div class="title">职业</div>
+                                            <div class="desk">{{ $userinfo->occupation }}</div>
+                                        </li>
+                                        @endif
+                                        @if(!empty($userinfo->bio))
+                                        <li>
+                                            <div class="title">个性签名</div>
+                                            <div class="desk">{{ $userinfo->bio }}</div>
+                                        </li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
