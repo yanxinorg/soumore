@@ -3,8 +3,8 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('wenda/bootstrap-datepicker/css/datepicker-custom.css') }}">
         <div class="wrapper">
           <div class="directory-info-row">
-            @component('wenda.slot.account_show')@endcomponent
-            <div class="col-md-8">
+           @component('wenda.slot.account_show')@endcomponent
+            <div class="col-md-9 col-sm-9">
                 <section class="mail-box-info">
                     <header class="header">
                         <div class="compose-btn pull-left">
@@ -20,61 +20,61 @@
                         <form class="form-horizontal" method="post" action="{{ url('/person/info') }}">
                         {{ csrf_field() }}
                         	<div class="form-group" hidden>
-                                <div class="col-lg-6">
+                                <div class="col-md-6">
                                     <input type="text" class="form-control" name="uid" value="{{ $userinfo->id }}">
                                 </div>
                             </div>
                         	<div class="form-group">
-                                <label  class="col-lg-2 col-sm-2 control-label" >用户名</label>
-                                <div class="col-lg-6">
+                                <label  class="col-md-2 col-sm-2 control-label" >用户名</label>
+                                <div class="col-md-6 col-sm-8">
                                     <input type="text" class="form-control" value="{{ $userinfo->name }}" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label  class="col-lg-2 col-sm-2 control-label">真实姓名</label>
-                                <div class="col-lg-6">
+                                <label  class="col-md-2 col-sm-2 control-label">真实姓名</label>
+                                <div class="col-md-6 col-sm-8">
                                     <input type="text" class="form-control" value="{{ $userinfo->realname }}" name="realname">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 col-sm-2 control-label">邮箱</label>
-                                <div class="col-lg-6">
+                                <label class="col-md-2 col-sm-2 control-label">邮箱</label>
+                                <div class="col-md-6 col-sm-8">
                                     <input type="email" class="form-control" value="{{ $userinfo->email }}" name="email" >
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 col-sm-2 control-label">手机号</label>
-                                <div class="col-lg-6">
+                                <label class="col-md-2 col-sm-2 control-label">手机号</label>
+                                <div class="col-md-6 col-sm-8">
                                     <input type="text" class="form-control" value="{{ $userinfo->mobile }}" name="mobile" >
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 col-sm-2 control-label">生日</label>
-                                <div class="col-lg-6" >
+                                <label class="col-md-2 col-sm-2 control-label">生日</label>
+                                <div class="col-md-6 col-sm-8" >
                                 	<input class="form-control form-control-inline input-medium default-date-picker" name="birth" value="{{ $userinfo->birthday }}"/>
 							     </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 col-sm-2 control-label">个人主页</label>
-                                <div class="col-lg-6">
+                                <label class="col-md-2 col-sm-2 control-label">个人主页</label>
+                                <div class="col-md-6 col-sm-8">
                                     <input type="url" class="form-control"  name="url" value="{{ $userinfo->site }}" placeholder="http://www.soumore.cn">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 col-sm-2 control-label">QQ</label>
-                                <div class="col-lg-6">
+                                <label class="col-md-2 col-sm-2 control-label">QQ</label>
+                                <div class="col-md-6 col-sm-8">
                                     <input type="text" class="form-control" value="{{ $userinfo->qq }}" name="qq" >
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 col-sm-2 control-label">微信号</label>
-                                <div class="col-lg-6">
+                                <label class="col-md-2 col-sm-2 control-label">微信号</label>
+                                <div class="col-md-6 col-sm-8">
                                     <input type="text" class="form-control" value="{{ $userinfo->weixin }}" name="weixin" >
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 col-sm-2 control-label">所在城市</label>
-                                <div class="col-lg-6">
+                                <label class="col-md-2 col-sm-2 control-label">所在城市</label>
+                                <div class="col-md-6 col-sm-8">
                                         <div class="input-group input-large " >
                                         	<span class="input-group-addon">省</span>
 	                                            <select class="form-control" name="province" id="province" style="width:100%;">
@@ -106,31 +106,31 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 col-sm-2 control-label">毕业院校</label>
-                                <div class="col-lg-6">
+                                <label class="col-md-2 col-sm-2 control-label">毕业院校</label>
+                                <div class="col-md-6 col-sm-8">
                                     <input type="text" class="form-control" value="{{ $userinfo->graduateschool }}" name="school" >
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 col-sm-2 control-label">公司名称</label>
-                                <div class="col-lg-6">
+                                <label class="col-md-2 col-sm-2 control-label">公司名称</label>
+                                <div class="col-md-6 col-sm-8">
                                     <input type="text" class="form-control" value="{{ $userinfo->company }}" name="company" >
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 col-sm-2 control-label">职业</label>
-                                <div class="col-lg-6">
+                                <label class="col-md-2 col-sm-2 control-label">职业</label>
+                                <div class="col-md-6 col-sm-8">
                                     <input type="text" class="form-control" value="{{ $userinfo->occupation }}" name="profession" >
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-2 col-sm-2 control-label">个性签名</label>
-                                <div class="col-lg-6">
+                                <label class="col-md-2 col-sm-2 control-label">个性签名</label>
+                                <div class="col-md-6 col-sm-8">
                                 	<textarea rows="4" class="form-control" name="signature" >{{ $userinfo->bio }}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-lg-offset-2 col-lg-6">
+                                <div class="col-md-offset-2 col-sm-offset-2 col-md-6 col-sm-8">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
@@ -138,7 +138,7 @@
                     </section>
                 </section>
             </div>
-           
+            
           </div>
         </div>
 @section('js')

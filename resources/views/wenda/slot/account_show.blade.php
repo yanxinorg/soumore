@@ -12,7 +12,7 @@
 <?php 
 use App\Models\Common\AreaModel;
 ?>
-<div class="col-md-3">
+<div class="col-md-3 col-sm-3">
                  <div class="row">
                         <div class="col-md-12">
                             <div class="panel">

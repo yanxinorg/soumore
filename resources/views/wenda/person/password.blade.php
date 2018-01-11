@@ -4,7 +4,7 @@
          <div class="directory-info-row">
             @component('wenda.slot.account_show')
             @endcomponent
-            <div class="col-md-8">
+            <div class="col-md-9 col-sm-9">
                 <section class="mail-box-info">
                     <header class="header">
                         <div class="compose-btn pull-left">
@@ -33,7 +33,7 @@
 	                                <div class="col-md-6 col-sm-6">
 	                                    <input type="text" name="old_password" value="{{ old('old_password') }}" class="form-control"  placeholder="原密码">
 	                                </div>
-	                                <div class="col-md-2 col-sm-2">
+	                                <div class="col-md-4 col-sm-4">
 		                                 @if ($errors->has('old_password'))
 								            <div class="alert-danger ">
 								                 {{ $errors->first('old_password') }}
@@ -43,10 +43,10 @@
 	                            </div>
 	                            <div class="form-group">
 	                                <label  class="col-md-2 col-sm-2 control-label">新密码</label>
-	                                <div class="col-md-6">
+	                                <div class="col-md-6 col-sm-6">
 	                                    <input type="password" name="new_password" value="{{ old('new_password') }}" class="form-control" placeholder="新密码">
 	                                </div>
-	                                <div class="col-md-2 col-sm-2">
+	                                <div class="col-md-4 col-sm-4">
 		                                 @if ($errors->has('new_password'))
 								            <div class="alert-danger ">
 								                 {{ $errors->first('new_password') }}
@@ -56,10 +56,10 @@
 	                            </div>
 	                            <div class="form-group">
 	                                <label  class="col-md-2 col-sm-2 control-label">确认密码</label>
-	                                <div class="col-md-6">
+	                                <div class="col-md-6 col-sm-6">
 	                                    <input type="password" name="new_password_confirmation" value="{{ old('new_password_confirmation') }}"  class="form-control" placeholder="确认密码">
 	                                </div>
-	                                <div class="col-md-2 col-sm-2">
+	                                <div class="col-md-4 col-sm-4">
 		                                 @if ($errors->has('new_password_confirmation'))
 								            <div class="alert-danger ">
 								                 {{ $errors->first('new_password_confirmation') }}
@@ -68,7 +68,7 @@
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
-	                                <div class="col-lg-offset-2 col-md-6">
+	                                <div class="col-lg-offset-2 col-sm-offset-2 col-md-6 col-sm-6">
 	                                    <button type="submit" class="btn btn-primary">修改</button>
 	                                </div>
 	                            </div>

@@ -7,7 +7,7 @@
      <div class="directory-info-row">
             @component('wenda.slot.account_show')
             @endcomponent
-            <div class="col-md-8">
+            <div class="col-md-9 col-sm-9">
 	            	<section class="mail-box-info">
 	            		<header class="header">
 	                        <div class="compose-btn pull-left">
