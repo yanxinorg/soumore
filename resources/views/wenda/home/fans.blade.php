@@ -51,7 +51,6 @@ use App\Models\Common\AreaModel;
       <div class="wrapper">
       	<div class="directory-info-row">
             <div class="row">
-               
                 <div class="col-md-10 col-sm-9">
                    	<section class="mail-box-info">
 	                    <header class="header">

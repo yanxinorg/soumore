@@ -51,7 +51,7 @@ use App\Models\Common\UserModel;
                               <div class="blog-tags">
                                   <span>标签</span>
                                   @foreach($tagss as $tag )
-                                  <a target="_blank" href="{{ URL::action('Front\QuestionController@tag', ['tid'=>$tag->id]) }}">{{ $tag->name }}</a>
+                                  <a target="_blank" class="label label-danger" href="{{ URL::action('Front\QuestionController@tag', ['tid'=>$tag->id]) }}">{{ $tag->name }}</a>
                                   @endforeach
                                   <div class="pull-right" id="scroll">
                                       <a href="#" class="btn btn-danger">分享</a>

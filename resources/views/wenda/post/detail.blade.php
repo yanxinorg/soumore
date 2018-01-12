@@ -44,7 +44,7 @@ use App\Models\Common\UserModel;
                               	@if(!empty($tagss[0]))
                                   <span>标签</span>
                                   @foreach($tagss as $tag )
-                                  	<a target="_blank" href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id]) }}">{{ $tag->name }}</a>
+                                  	<a target="_blank" class="label label-danger" href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id]) }}">{{ $tag->name }}</a>
                                   @endforeach
                                 @endif()
                                   <div class="pull-right" id="scroll">
