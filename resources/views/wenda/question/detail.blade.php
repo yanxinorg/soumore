@@ -21,6 +21,9 @@ img{
 	line-height:32px;
 	text-align:center;
 }
+.blog-content img {
+	max-width:100%;
+}
 </style>
 <!-- 搜素内容 -->
 <?php 
@@ -44,7 +47,7 @@ use App\Models\Common\UserModel;
                                 	<a class="detail"  href="{{ URL::action('Front\PostController@edit', ['id'=>$datas->question_id]) }}" >编辑</a>
                                 	@endif
                                </p>
-                               {!! $datas->content !!}
+                              <div class="blog-content">{!! $datas->content !!}</div>
                               <div class="blog-tags">
                                   <span>标签</span>
                                   @foreach($tagss as $tag )
@@ -99,22 +102,22 @@ use App\Models\Common\UserModel;
                                  <form class="form-horizontal" method="post" action="{{ url('/question/answer') }}" id="Form">
 			                        	{{ csrf_field() }}
 			                        	<div class="form-group" hidden>
-			                                <div class="col-lg-6">
+			                                <div class="col-md-6">
 			                                    <input type="text" class="form-control" name="user_id" value="{{ Auth::id() }}" >
 			                                </div>
 			                            </div>
 			                            <div class="form-group" hidden>
-			                                <div class="col-lg-6">
+			                                <div class="col-md-6">
 			                                    <input type="text" class="form-control" name="question_id" value="{{ $datas->question_id }}" >
 			                                </div> 
 			                            </div>
 			                            <div class="form-group">
-			                                <div class="col-lg-12">
+			                                <div class="col-md-12">
 			                                	<textarea rows="4" class="form-control" name="answer" id=answer placeholder="我要回答"></textarea>
 			                                </div>
 			                            </div>
 			                            <div class="form-group">
-			                                <div class="col-lg-offset-10 col-lg-6">
+			                                <div class="col-md-offset-10 col-md-6">
 			                                    <button type="submit" class="btn btn-primary">提交评论</button>
 			                                </div>
 			                            </div>

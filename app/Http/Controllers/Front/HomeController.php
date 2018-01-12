@@ -36,14 +36,8 @@ class HomeController extends Controller
     	
     	//用户信息
     	$userInfo = UserModel::where('id','=',$request->get('uid'))->get();
-    	$tmp = $userInfo;
     	//文章信息
     	$datas = PostModel::lists($request->get('uid'));
-    	if(!empty($tmp[0]->province))
-    	{
-    		$province = AreaModel::where('id',$tmp[0]->province)->pluck('name');
-    		$city = AreaModel::where('id',$tmp[0]->city)->pluck('name');
-    	}
     	//是否关注、
     	if(!empty(Auth::id()))
     	{
@@ -69,7 +63,7 @@ class HomeController extends Controller
     			)
     			->orderBy('visitors.visitor_time','desc')
     			->paginate('8');
-    	return view('wenda.home.index',['userinfo'=>$userInfo[0],'datas'=>$datas,'province'=>$province[0]?$province[0]:'','city'=>$city[0]?$city[0]:'','uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
+    	return view('wenda.home.index',['userinfo'=>$userInfo[0],'datas'=>$datas,'province'=>$userInfo[0]['province'],'city'=>$userInfo[0]['city'],'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
     }
     
     public function post(Request $request)
@@ -78,13 +72,7 @@ class HomeController extends Controller
     			'uid'=>'required|numeric|exists:users,id'
     	]);
     	$userInfo = UserModel::where('id','=',$request->get('uid'))->get();
-    	$tmp = $userInfo;
     	$datas = PostModel::lists($request->get('uid'));
-    	if(!empty($tmp[0]->province))
-    	{
-    		$province = AreaModel::where('id',$tmp[0]->province)->pluck('name');
-    		$city = AreaModel::where('id',$tmp[0]->city)->pluck('name');
-    	}
     	//是否关注、
     	if(!empty(Auth::id()))
     	{
@@ -99,7 +87,7 @@ class HomeController extends Controller
     	}else{
     		$islooked = false;
     	}
-    	return view('wenda.home.post',['userinfo'=>$userInfo[0],'datas'=>$datas,'province'=>$province[0]?$province[0]:'','city'=>$city[0]?$city[0]:'','uid'=>$request->get('uid'),'islooked'=>$islooked]);
+    	return view('wenda.home.post',['userinfo'=>$userInfo[0],'datas'=>$datas,'province'=>$userInfo[0]['province'],'city'=>$userInfo[0]['city'],'uid'=>$request->get('uid'),'islooked'=>$islooked]);
     }
     
     //提问
@@ -109,7 +97,6 @@ class HomeController extends Controller
     			'uid'=>'required|numeric|exists:users,id'
     	]);
     	$userInfo = UserModel::where('id','=',$request->get('uid'))->get();
-    	$tmp = $userInfo;
     	$datas = DB::table('questions')
     	->join('users', 'questions.user_id', '=', 'users.id')
     	->where('questions.user_id','=',$request->get('uid'))
@@ -123,11 +110,6 @@ class HomeController extends Controller
     			)
     			->orderBy('questions.created_at','desc')
     			->paginate('15');
-    	if(!empty($tmp[0]->province))
-    		{
-    			$province = AreaModel::where('id',$tmp[0]->province)->pluck('name');
-    			$city = AreaModel::where('id',$tmp[0]->city)->pluck('name');
-    		}
     	//是否关注、
     	if(!empty(Auth::id()))
     	{
@@ -142,7 +124,7 @@ class HomeController extends Controller
     		}else{
     		$islooked = false;
     	}
-        return view('wenda.home.question',['userinfo'=>$userInfo[0],'questions'=>$datas,'province'=>$province[0]?$province[0]:'','city'=>$city[0]?$city[0]:'','uid'=>$request->get('uid'),'islooked'=>$islooked]);
+        return view('wenda.home.question',['userinfo'=>$userInfo[0],'questions'=>$datas,'province'=>$userInfo[0]['province'],'city'=>$userInfo[0]['city'],'uid'=>$request->get('uid'),'islooked'=>$islooked]);
     }
     
     //他的回答
@@ -152,7 +134,6 @@ class HomeController extends Controller
     			'uid'=>'required|numeric|exists:users,id'
     	]);
     	$userInfo = UserModel::where('id','=',$request->get('uid'))->get();
-    	$tmp = $userInfo;
     	$datas = DB::table('questions')
     	->join('answers', 'questions.id', '=', 'answers.question_id')
     	->join('users', 'questions.user_id', '=', 'users.id')
@@ -167,11 +148,6 @@ class HomeController extends Controller
     			)
     	->orderBy('questions.created_at','desc')
     	->paginate('15');
-    	if(!empty($tmp[0]->province))
-    	{
-    		$province = AreaModel::where('id',$tmp[0]->province)->pluck('name');
-    		$city = AreaModel::where('id',$tmp[0]->city)->pluck('name');
-    	}
     	//是否关注、
     	if(!empty(Auth::id()))
     	{
@@ -186,7 +162,7 @@ class HomeController extends Controller
     	}else{
     		$islooked = false;
     	}
-    	return view('wenda.home.answer',['userinfo'=>$userInfo[0],'questions'=>$datas,'province'=>$province[0]?$province[0]:'','city'=>$city[0]?$city[0]:'','uid'=>$request->get('uid'),'islooked'=>$islooked]);
+    	return view('wenda.home.answer',['userinfo'=>$userInfo[0],'questions'=>$datas,'province'=>$userInfo[0]['province'],'city'=>$userInfo[0]['city'],'uid'=>$request->get('uid'),'islooked'=>$islooked]);
     }
     //他的粉丝
     public function fans(Request $request)

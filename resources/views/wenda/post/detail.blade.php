@@ -13,6 +13,9 @@
 .bl-status{
 	font-size:12px;
 }
+.blog-content img {
+	max-width:100%;
+}
 </style>
 <!-- 搜素内容 -->
 <?php 
@@ -24,6 +27,7 @@ use App\Models\Common\UserModel;
           <div class="col-md-10 col-sm-9" >
                <div class="blog">
                   <div class="single-blog">
+                  
                       <div class="panel">
                           <div class="panel-body">
                               <div class="text-center">{{ $datas->title }}</div>
@@ -35,7 +39,7 @@ use App\Models\Common\UserModel;
                                 	<span>时间:</span>{{\Carbon\Carbon::parse($datas->created_at)->diffForHumans()}}
                                 	<span>{{ $datas->countcomment }} 评论</span>
                                </p>
-                               {!! $datas->content !!}
+                              <div class="blog-content">{!! $datas->content !!}</div>
                               <div class="blog-tags">
                               	@if(!empty($tagss[0]))
                                   <span>标签</span>
@@ -91,28 +95,29 @@ use App\Models\Common\UserModel;
                                  <form class="form-horizontal" method="post" action="{{ url('/comment/create') }}" id="Form">
 			                        	{{ csrf_field() }}
 			                        	<div class="form-group" hidden>
-			                                <div class="col-lg-6">
+			                                <div class="col-md-6">
 			                                    <input type="text" class="form-control" name="user_id" value="{{ Auth::id() }}" >
 			                                </div>
 			                            </div>
 			                            <div class="form-group" hidden>
-			                                <div class="col-lg-6">
+			                                <div class="col-md-6">
 			                                    <input type="text" class="form-control" name="post_id" value="{{ $datas->post_id }}" >
 			                                </div> 
 			                            </div>
 			                            <div class="form-group">
-			                                <div class="col-lg-12">
+			                                <div class="col-md-12">
 			                                	<textarea rows="4" class="form-control" name="comment" id="comment" placeholder="说出你的故事"></textarea>
 			                                </div>
 			                            </div>
 			                            <div class="form-group">
-			                                <div class="col-lg-offset-10 col-lg-6">
+			                                <div class="col-md-offset-10 col-md-6">
 			                                    <button type="submit" class="btn btn-primary">提交评论</button>
 			                                </div>
 			                            </div>
 			                    </form>
                           </div>
                       </div>
+                      
                   </div>
               </div>
           </div>
