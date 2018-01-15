@@ -27,7 +27,6 @@ use App\Models\Common\UserModel;
           <div class="col-md-10 col-sm-9" >
                <div class="blog">
                   <div class="single-blog">
-                  
                       <div class="panel">
                           <div class="panel-body">
                               <div class="text-center">{{ $datas->title }}</div>

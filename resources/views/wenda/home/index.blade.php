@@ -77,14 +77,13 @@
 									<div class="row-fluid" >
 										<div class="span12" >
 											<div class="media" >
-												<img class="pull-left" src="{{ route('getPostImg', $data->post_id) }}" class="media-object" alt='没图没真相' />
+												<img class="pull-left" src="{{ route('getPostImg', $data->post_id) }}" class="media-object" />
 												<div class="media-body">
 													<div class="content" >
-														<span><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
+														<span><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
 														<span>{{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
-														<h6 class="media-heading" ><a target="_blank" href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ str_limit($data->title,170) }}</a></h6>
 													</div>
-													<div class="excerpt">{{ str_limit($data->excerpt,316) }}</div>
+													<div class="excerpt"><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ str_limit($data->title,316) }}</a></div>
 												</div>
 											</div>
 										</div>
@@ -95,14 +94,13 @@
 									<div class="row-fluid" >
 										<div class="span12" >
 											<div class="media">
-											<img class="pull-left" src="{{ route('getPostImg', $data->post_id) }}" class="media-object" alt='没图没真相'/>
+												<img class="pull-left" src="{{ route('getThumbImg', $data->user_id) }}" class="media-object" />
 												<div class="media-body">
 													<div class="content" >
-														<span><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
-														<span>{{ $data->created_at }}</span>
-														<h6 class="media-heading"><a target="_blank" href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ str_limit($data->title,170) }}</a></h6>
+														<span><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
+														<span>{{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
 													</div>
-													<div class="excerpt">{{ str_limit($data->excerpt,316) }}</div>
+													<div class="excerpt"><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ str_limit($data->title,316) }}</a></div>
 												</div>
 											</div>
 										</div>
