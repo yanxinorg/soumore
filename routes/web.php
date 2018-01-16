@@ -1,8 +1,10 @@
 <?php
 //新后台管理
 
+//后台首页
 Route::get('/admin', 'Admin\IndexController@index');
-
+//用户列表
+Route::get('/user', 'Admin\UserController@index');
 
 
 
