@@ -86,7 +86,7 @@ z-index:9999;
                     <a href="{{ url('/person/info') }}">账户设置</a>
                   </li>
                   <li>
-                    <a href="{{ url('/admin') }}">后台管理</a>
+                    <a href="{{ URL::action('Admin\IndexController@index') }}">后台管理</a>
                   </li>
                   <li>
                     <a href="{{ url('/logout') }}">退出登录</a>
