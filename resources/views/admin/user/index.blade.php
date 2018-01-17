@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 @section('content')
+    <!-- Sweet Alert -->
+    <link href="{{ asset('back/admin/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
         <div class="wrapper wrapper-content  animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
@@ -8,510 +10,112 @@
                             <h5>用户列表</h5>
                         </div>
                         <div class="ibox-content">
-
-                            <div class="m-b-lg">
-
-                                <div class="input-group">
-                                    <input type="text" placeholder="姓名,性别," class=" form-control">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-white">搜索</button>
-                                    </span>
+                        	<div class="row">
+                                <div class="col-md-2 m-b-md"><select class="input-md form-control input-s-md inline">
+                                    <option value="0">正常</option>
+                                    <option value="1">禁用</option>
+                                </select>
                                 </div>
-                                <div class="m-t-md">
-                                    <div class="pull-right">
-                                        <a type="button" class="btn btn-sm btn-white"><i class="fa fa-comments"></i></a>
-                                        <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-user"></i> </button>
-                                        <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-list"></i> </button>
-                                        <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-pencil"></i> </button>
-                                        <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-print"></i> </button>
-                                        <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-cogs"></i> </button>
+                                <div class="col-md-4 m-b-md">
+                                    <div data-toggle="buttons" class="btn-group">
+                                        <label class="btn btn-md btn-white"> <input type="radio" id="option1" name="options">all</label>
+                                        <label class="btn btn-md btn-white"> <input type="radio" id="option2" name="options">male</label>
+                                        <label class="btn btn-md btn-white active"> <input type="radio" id="option3" name="options">female</label>
                                     </div>
-                                    <strong>Found 61 issues.</strong>
-
                                 </div>
-
+                                <div class="col-md-3 m-b-md">
+                                    <div class="input-group">
+                                    	<input type="text" placeholder="用户名称，邮箱，角色" class="input-md form-control"> 
+                                    	<span class="input-group-btn">
+                                        	<button type="button" class="btn btn-md btn-primary">Go!</button> 
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 m-b-md">
+                                    <div class="pull-right">
+                                        <a type="button" class="btn btn-md btn-white" href="{{ url('/user/add') }}"><i class="fa fa-plus">新增</i></a>
+                                        <div class="dt-buttons btn-group">
+	                                        <a class="btn btn-default buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
+	                                        	<span>CSV</span>
+	                                        </a>
+	                                        <a class="btn btn-default buttons-excel buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
+	                                        	<span>Excel</span>
+	                                        </a>
+	                                        <a class="btn btn-default buttons-pdf buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
+	                                        	<span>PDF</span>
+	                                        </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
+                            <div class="hr-line-dashed"></div>
                             <div class="table-responsive">
                             <table class="table table-hover issue-tracker">
                              	<thead>
                                     <tr>
-                                        <th data-hide="phone">Model</th>
-                                        <th data-hide="all">Description</th>
-                                        <th data-hide="phone">Price</th>
-                                        <th data-hide="phone,tablet" >Quantity</th>
-                                        <th data-hide="phone">Status</th>
-                                        <th class="text-right" data-sort-ignore="true">Action</th>
+                                        <th>ID</th>
+                                        <th>头像</th>
+                                        <th>用户</th>
+                                        <th>邮箱</th>
+                                        <th>角色</th>
+                                        <th>注册时间</th>
+                                        <th>状态</th>
+                                        <th class="text-right" >操作</th>
                                     </tr>
                                 </thead>
                                 
                                 <tbody>
+                                @foreach($users as $user)
                                 <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td class="client-avatar"><img alt="image" src="{{ asset('back/admin/img/a2.jpg') }}"> </td>
+                                    <td>{{ $user->name }}</td>
+                                    <td ><i class="fa fa-envelope">  {{ $user->email }}</i></td>
+                                    <td><span class="label label-primary">administrator</span></td>
+                                    <td>{{ $user->created_at }}</td>
                                     <td>
-                                        <span class="label label-primary">Added</span>
+	                                    <select class="form-control">
+	                                       <option selected=""><span class="label label-primary">正常</span></option>
+	                                       <option><span class="label label-danger">禁用</span></option>
+	                                    </select>
                                     </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-23
-                                        </a>
-
-                                        <small>
-                                            This is issue with the coresponding note
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Adrian Novak
-                                    </td>
-                                    <td>
-                                        12.02.2015 10:00 am
-                                    </td>
-                                    <td>
-                                        <span class="pie">0.52,1.041</span>
-                                        2d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Tag</button>
-                                        <button class="btn btn-white btn-xs"> Mag</button>
-                                        <button class="btn btn-white btn-xs"> Rag</button>
+                                    <td class="text-right footable-visible footable-last-column">
+                                        <div class="btn-group">
+                                            <button class="btn btn-white"><i class="fa fa-edit"></i></button>
+                                            <button class="btn btn-white"><i class="fa fa-eye"></i></button>
+                                            <button class="btn btn-white demo3"><i class="fa fa-trash"></i></button>
+                                        </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-primary">Added</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-17
-                                        </a>
-
-                                        <small>
-                                            Desktop publishing packages and web page editors now use Lorem Ipsum as their default model text
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Anna Smith
-                                    </td>
-                                    <td>
-                                        10.02.2015 05:32 am
-                                    </td>
-                                    <td>
-                                        <span class="pie">3,2</span>
-                                        2d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Tag</button>
-                                        <button class="btn btn-white btn-xs"> Rag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-primary">Added</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-12
-                                        </a>
-
-                                        <small>
-                                            It is a long established fact that a reader will be
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Anthony Jackson
-                                    </td>
-                                    <td>
-                                        02.03.2015 06:02 am
-                                    </td>
-                                    <td>
-                                        <span class="pie">1,2</span>
-                                        1d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Tag</button>
-                                        <button class="btn btn-white btn-xs"> Mag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-primary">Added</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-11
-                                        </a>
-
-                                        <small>
-                                            There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Monica Proven
-                                    </td>
-                                    <td>
-                                        01.10.2015 11:02 pm
-                                    </td>
-                                    <td>
-                                        <span class="pie">4,2</span>
-                                        3d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Tag</button>
-                                        <button class="btn btn-white btn-xs"> Rag</button>
-                                        <button class="btn btn-white btn-xs"> Dag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-warning">Fixed</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-07
-                                        </a>
-
-                                        <small>
-                                            Always free from repetition, injected humour, or non-characteristic words etc.
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Alex Ferguson
-                                    </td>
-                                    <td>
-                                        28.11.2015 05:10 pm
-                                    </td>
-                                    <td>
-                                        <span class="pie">1,2</span>
-                                        2d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Tag</button>
-                                        <button class="btn btn-white btn-xs"> Dag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-warning">Fixed</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-07
-                                        </a>
-
-                                        <small>
-                                            Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit am
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Mark Conor
-                                    </td>
-                                    <td>
-                                        18.09.2015 06:20 pm
-                                    </td>
-                                    <td>
-                                        <span class="pie">3,2</span>
-                                        3d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Tag</button>
-                                        <button class="btn btn-white btn-xs"> Mag</button>
-                                        <button class="btn btn-white btn-xs"> Dag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-warning">Fixed</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-06
-                                        </a>
-
-                                        <small>
-                                            Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit am
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Carol Jackson
-                                    </td>
-                                    <td>
-                                        11.03.2015 07:30 pm
-                                    </td>
-                                    <td>
-                                        <span class="pie">3,2</span>
-                                        2d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Mag</button>
-                                        <button class="btn btn-white btn-xs"> Dag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-warning">Fixed</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-05
-                                        </a>
-
-                                        <small>
-                                            Content here, content here', making it look like readable English. Many desktop
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Carol Jackson
-                                    </td>
-                                    <td>
-                                        05.04.2015 08:40 pm
-                                    </td>
-                                    <td>
-                                        <span class="pie">3,2</span>
-                                        2d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Mag</button>
-                                        <button class="btn btn-white btn-xs"> Dag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-warning">Fixed</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-04
-                                        </a>
-
-                                        <small>
-                                            Virginia, looked up one of the more obscure Latin words, consectetur
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Monica Smith
-                                    </td>
-                                    <td>
-                                        10.06.2014 08:10 pm
-                                    </td>
-                                    <td>
-                                        <span class="pie">5,7</span>
-                                        4d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Mag</button>
-                                        <button class="btn btn-white btn-xs"> Cag</button>
-                                        <button class="btn btn-white btn-xs"> Dag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-warning">Fixed</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-03
-                                        </a>
-
-                                        <small>
-                                            Injected humour, or randomised words which don't l
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Anna Johnson
-                                    </td>
-                                    <td>
-                                        13.05.2014 09:20 pm
-                                    </td>
-                                    <td>
-                                        <span class="pie">2,7</span>
-                                        3d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Cag</button>
-                                        <button class="btn btn-white btn-xs"> Dag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-danger">Bug</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-44
-                                        </a>
-
-                                        <small>
-                                            This is issue with the coresponding note
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Adrian Novak
-                                    </td>
-                                    <td>
-                                        12.02.2015 10:00 am
-                                    </td>
-                                    <td>
-                                        <span class="pie">0.52,1.041</span>
-                                        2d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Tag</button>
-                                        <button class="btn btn-white btn-xs"> Mag</button>
-                                        <button class="btn btn-white btn-xs"> Rag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-danger">Bug</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-41
-                                        </a>
-
-                                        <small>
-                                            Desktop publishing packages and web page editors now use Lorem Ipsum as their default model text
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Anna Smith
-                                    </td>
-                                    <td>
-                                        10.02.2015 05:32 am
-                                    </td>
-                                    <td>
-                                        <span class="pie">3,2</span>
-                                        2d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Tag</button>
-                                        <button class="btn btn-white btn-xs"> Rag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-danger">Bug</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-34
-                                        </a>
-
-                                        <small>
-                                            It is a long established fact that a reader will be
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Anthony Jackson
-                                    </td>
-                                    <td>
-                                        02.03.2015 06:02 am
-                                    </td>
-                                    <td>
-                                        <span class="pie">1,2</span>
-                                        1d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Tag</button>
-                                        <button class="btn btn-white btn-xs"> Mag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-danger">Bug</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-46
-                                        </a>
-
-                                        <small>
-                                            There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Monica Proven
-                                    </td>
-                                    <td>
-                                        01.10.2015 11:02 pm
-                                    </td>
-                                    <td>
-                                        <span class="pie">4,2</span>
-                                        3d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Tag</button>
-                                        <button class="btn btn-white btn-xs"> Rag</button>
-                                        <button class="btn btn-white btn-xs"> Dag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-danger">Bug</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-51
-                                        </a>
-
-                                        <small>
-                                            Always free from repetition, injected humour, or non-characteristic words etc.
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Alex Ferguson
-                                    </td>
-                                    <td>
-                                        28.11.2015 05:10 pm
-                                    </td>
-                                    <td>
-                                        <span class="pie">1,2</span>
-                                        2d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Tag</button>
-                                        <button class="btn btn-white btn-xs"> Dag</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="label label-danger">Bug</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="issue_tracker.html#">
-                                            ISSUE-52
-                                        </a>
-
-                                        <small>
-                                            Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit am
-                                        </small>
-                                    </td>
-                                    <td>
-                                        Mark Conor
-                                    </td>
-                                    <td>
-                                        18.09.2015 06:20 pm
-                                    </td>
-                                    <td>
-                                        <span class="pie">3,2</span>
-                                        3d
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"> Tag</button>
-                                        <button class="btn btn-white btn-xs"> Mag</button>
-                                        <button class="btn btn-white btn-xs"> Dag</button>
-                                    </td>
-                                </tr>
+                                @endforeach()
                                 </tbody>
                             </table>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-
-
         </div>
-
+@section('js')
+@parent
+<!-- Sweet alert -->
+<script src="{{ asset('back/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $('.demo3').click(function () {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this imaginary file!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            }, function () {
+                swal("Deleted!", "Your imaginary file has been deleted.", "success");
+            });
+        });
+    });
+</script>
+@stop
 @endsection
-
