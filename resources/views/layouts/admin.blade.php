@@ -14,6 +14,8 @@
     <link href="{{ asset('back/admin/js/plugins/gritter/jquery.gritter.css') }}" rel="stylesheet">
 	<link href="{{ asset('back/admin/css/animate.css') }}" rel="stylesheet">
 	<link href="{{ asset('back/admin/css/style.css') }}" rel="stylesheet">
+	<!-- Sweet Alert -->
+	<link href="{{ asset('back/admin/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
     @show	
 </head>
 <body>
@@ -68,7 +70,7 @@
                         <ul class="nav nav-second-level collapse">
                             <li><a href="graph_flot.html">分类管理</a></li>
                             <li><a href="graph_morris.html">文章管理</a></li>
-                            <li><a href="graph_rickshaw.html">话题管理</a></li>
+                            <li><a href="{{ url('/topic/list') }}">话题管理</a></li>
                             <li><a href="graph_chartjs.html">Chart.js</a></li>
                             <li><a href="graph_chartist.html">Chartist</a></li>
                             <li><a href="c3.html">c3 charts</a></li>
@@ -792,6 +794,9 @@
 
     <!-- Toastr -->
     <script src="{{ asset('back/admin/js/plugins/toastr/toastr.min.js') }}"></script>
+    
+    <!-- Sweet alert -->
+<script src="{{ asset('back/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 @show
 </body>
 </html>
