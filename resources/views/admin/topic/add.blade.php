@@ -11,7 +11,7 @@
                         <div class="ibox-title">
                             <div class="ibox-tools">
                                <div class="pull-right">
-                                    <a type="button" class="btn btn-sm btn-white" href="{{ url('/user/list') }}"> <i class="fa fa-list">列表</i></a>
+                                    <a type="button" class="btn btn-sm btn-white" href="{{ url('/topic/list') }}"> <i class="fa fa-list">列表</i></a>
                                </div>
                             </div>
                         </div>
@@ -23,23 +23,10 @@
                                     	<input type="text" class="form-control">
                                     </div>
                                 </div>
+                               
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                	<label class="col-sm-2 control-label">邮箱</label>
-                                    <div class="col-sm-6">
-                                    	<input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                	<label class="col-sm-2 control-label">密码</label>
-                                    <div class="col-sm-6">
-                                    	<input type="password" class="form-control" name="password">
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                	<label class="col-sm-2 control-label">头像</label>
+                                	<label class="col-sm-2 control-label">缩略图</label>
                                     <div class="col-sm-6">
                                     	<input id="input-id" type="file" class="file" data-preview-file-type="text" >
                                     </div>
@@ -47,16 +34,15 @@
                                 
 			                   <div class="hr-line-dashed"></div>
 			                   <div class="form-group">
-			                		<label class="col-lg-2 control-label">角色</label>
+			                		<label class="col-lg-2 control-label">分类</label>
 				                	<div class=" col-lg-6">
-					                	<select data-placeholder="Choose a Role..." class="chosen-select form-control" multiple  tabindex="4">
-							                @foreach($roles as $role )
-							                <option value="{{ $role->name }}">{{ $role->display_name }}</option>
+					                	<select data-placeholder="Choose a Country..." class="chosen-select form-control"  tabindex="4">
+							                @foreach($cates as $cate )
+							                <option value="{{ $cate->id }}">{{ $cate->name }}</option>
 							                @endforeach()
 						                </select>
 					                </div>
 				                </div>
-				                
 				                <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                 	<label class="col-lg-2 control-label">状态</label>
@@ -70,6 +56,13 @@
                                             <label for="inlineRadio2">禁用</label>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                	<label class="col-sm-2 control-label">备注</label>
+                                     <div class="col-sm-6">
+                                    	<textarea class="form-control" rows="3"></textarea>
+                                     </div>
                                 </div>
                                 
                                <div class="hr-line-dashed"></div>

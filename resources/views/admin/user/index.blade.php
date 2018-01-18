@@ -1,7 +1,5 @@
 @extends('layouts.admin')
 @section('content')
-    <!-- Sweet Alert -->
-    <link href="{{ asset('back/admin/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
         <div class="wrapper wrapper-content  animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
@@ -98,8 +96,6 @@
         </div>
 @section('js')
 @parent
-<!-- Sweet alert -->
-<script src="{{ asset('back/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 <script>
     $(document).ready(function () {
         $('.demo3').click(function () {

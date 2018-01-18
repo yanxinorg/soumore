@@ -15,8 +15,10 @@ Route::get('/role/add', 'Admin\RoleController@add');
 Route::get('/permit/list', 'Admin\PermissionController@index');
 //新增权限
 Route::get('/permit/add', 'Admin\PermissionController@add');
-
-
+//话题列表
+Route::get('/topic/list', 'Admin\TopicController@index');
+//新增话题
+Route::get('/topic/add', 'Admin\TopicController@add');
 
 
 
