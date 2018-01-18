@@ -58,7 +58,7 @@
                                         <th>用户</th>
                                         <th>邮箱</th>
                                         <th>角色</th>
-                                        <th>注册时间</th>
+                                        <th><a href="">注册时间<span class="fa fa-fw fa-sort"></span></a></th>
                                         <th>状态</th>
                                         <th class="text-right" >操作</th>
                                     </tr>
