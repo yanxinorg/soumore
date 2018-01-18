@@ -11,15 +11,27 @@
                         <div class="ibox-title">
                             <div class="ibox-tools">
                                <div class="pull-right">
-                                    <a type="button" class="btn btn-sm btn-white" href="{{ url('/topic/list') }}"> <i class="fa fa-list">列表</i></a>
+                                    <a type="button" class="btn btn-sm btn-white" href="{{ url('/cate/list') }}"> <i class="fa fa-list">列表</i></a>
                                </div>
                             </div>
                         </div>
                         <div class="ibox-content">
                             <form method="post" action="{{ url('/topic/store') }}" class="form-horizontal" enctype="multipart/form-data">
                                 {{ csrf_field() }}
+                               <div class="hr-line-dashed"></div>
+			                   <div class="form-group">
+			                		<label class="col-sm-2 control-label">父级分类</label>
+				                	<div class="col-sm-6">
+					                	<select data-placeholder="Choose a Country..." class="chosen-select form-control"  tabindex="4" name="cateid">
+							                @foreach($cates as $cate )
+							                <option value="{{ $cate->id }}">{{ $cate->name }}</option>
+							                @endforeach()
+						                </select>
+					                </div>
+				                </div>
+				                
                                 <div class="form-group">
-                                	<label class="col-sm-2 control-label">话题名称</label>
+                                	<label class="col-sm-2 control-label">分类名称</label>
                                     <div class="col-sm-6">
                                     	<input type="text" class="form-control" name="name">
                                     </div>
@@ -32,18 +44,7 @@
                                     	<input id="input-id" type="file" name="thumb" class="file" data-preview-file-type="text" >
                                     </div>
                                 </div>
-                                
-			                   <div class="hr-line-dashed"></div>
-			                   <div class="form-group">
-			                		<label class="col-sm-2 control-label">所属分类</label>
-				                	<div class="col-sm-6">
-					                	<select data-placeholder="Choose a Country..." class="chosen-select form-control"  tabindex="4" name="cateid">
-							                @foreach($cates as $cate )
-							                <option value="{{ $cate->id }}">{{ $cate->name }}</option>
-							                @endforeach()
-						                </select>
-					                </div>
-				                </div>
+				                
 				                <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">状态</label>

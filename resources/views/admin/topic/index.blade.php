@@ -6,10 +6,11 @@
             <div class="tabs-container">
                     <div class="ibox-content">
                 	<div class="row">
-                        <div class="col-md-3 m-b-md"><select class="input-md form-control input-s-md inline">
-                            <option value="0">启用</option>
-                            <option value="1">禁用</option>
-                        </select>
+                        <div class="col-md-3 m-b-md">
+                            <select class="input-md form-control input-s-md inline">
+                                <option value="0">启用</option>
+                                <option value="1">禁用</option>
+                            </select>
                         </div>
                         <div class="col-md-3 m-b-md">
                             <div class="input-group">
