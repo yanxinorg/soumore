@@ -15,12 +15,20 @@ Route::get('/role/add', 'Admin\RoleController@add');
 Route::get('/permit/list', 'Admin\PermissionController@index');
 //新增权限
 Route::get('/permit/add', 'Admin\PermissionController@add');
+
 //话题列表
 Route::get('/topic/list', 'Admin\TopicController@index');
 //新增话题
 Route::get('/topic/add', 'Admin\TopicController@add');
 //保存话题
 Route::post('/topic/store', 'Admin\TopicController@store');
+
+//分类列表
+Route::get('/cate/list', 'Admin\CateController@index');
+//新增分类
+Route::get('/cate/add', 'Admin\CateController@add');
+//保存分类
+Route::post('/cate/store', 'Admin\CateController@store');
 
 
 // //老后台管理
