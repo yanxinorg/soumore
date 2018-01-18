@@ -17,9 +17,16 @@ class TopicController extends Controller
     }
     
     //新增话题
-    public function add() 
+    public function add(Request $request) 
     {
-        $cates = CategoryModel::all();
-        return view('admin.topic.add',['cates'=>$cates]);
+    	$cates = CategoryModel::all();
+    	return view('admin.topic.add',['cates'=>$cates]);
     }
+    
+    //保存话题
+    public function store(Request $request)
+    {
+    	var_dump($request->file('thumb'));exit;
+    }
+    
 }

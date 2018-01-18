@@ -16,11 +16,12 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <form method="get" class="form-horizontal">
+                            <form method="post" action="{{ url('/topic/store') }}" class="form-horizontal" enctype="multipart/form-data">
+                                {{ csrf_field() }}
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">名称</label>
                                     <div class="col-sm-6">
-                                    	<input type="text" class="form-control">
+                                    	<input type="text" class="form-control" name="name">
                                     </div>
                                 </div>
                                
@@ -28,15 +29,15 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">缩略图</label>
                                     <div class="col-sm-6">
-                                    	<input id="input-id" type="file" class="file" data-preview-file-type="text" >
+                                    	<input id="input-id" type="file" name="thumb" class="file" data-preview-file-type="text" >
                                     </div>
                                 </div>
                                 
 			                   <div class="hr-line-dashed"></div>
 			                   <div class="form-group">
-			                		<label class="col-lg-2 control-label">分类</label>
-				                	<div class=" col-lg-6">
-					                	<select data-placeholder="Choose a Country..." class="chosen-select form-control"  tabindex="4">
+			                		<label class="col-sm-2 control-label">分类</label>
+				                	<div class="col-sm-6">
+					                	<select data-placeholder="Choose a Country..." class="chosen-select form-control"  tabindex="4" name="cateid">
 							                @foreach($cates as $cate )
 							                <option value="{{ $cate->id }}">{{ $cate->name }}</option>
 							                @endforeach()
@@ -45,14 +46,14 @@
 				                </div>
 				                <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                	<label class="col-lg-2 control-label">状态</label>
-                                    <div class="col-lg-6">
+                                	<label class="col-sm-2 control-label">状态</label>
+                                    <div class="col-sm-6">
                                     	<div class="radio radio-info radio-inline">
-                                            <input type="radio" id="inlineRadio1" value="option1" name="radioInline" checked="">
+                                            <input type="radio" id="inlineRadio1" value="1" name="status" checked="checked">
                                             <label for="inlineRadio1">启用</label>
                                         </div>
                                         <div class="radio radio-inline">
-                                            <input type="radio" id="inlineRadio2" value="option2" name="radioInline">
+                                            <input type="radio" id="inlineRadio2" value="2" name="status">
                                             <label for="inlineRadio2">禁用</label>
                                         </div>
                                     </div>
@@ -61,7 +62,7 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">备注</label>
                                      <div class="col-sm-6">
-                                    	<textarea class="form-control" rows="3"></textarea>
+                                    	<textarea class="form-control" rows="3" name="remark"></textarea>
                                      </div>
                                 </div>
                                 

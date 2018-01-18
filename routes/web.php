@@ -19,7 +19,8 @@ Route::get('/permit/add', 'Admin\PermissionController@add');
 Route::get('/topic/list', 'Admin\TopicController@index');
 //新增话题
 Route::get('/topic/add', 'Admin\TopicController@add');
-
+//保存话题
+Route::post('/topic/store', 'Admin\TopicController@store');
 
 
 // //老后台管理

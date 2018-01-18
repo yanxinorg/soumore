@@ -44,7 +44,12 @@
                                             <img src="{{ asset('back/admin/img/gallery/2s.jpg') }}">
                                         </td>
                                         <td>{{ $tag->name }}</td>
-                                        <td>{{ $tag->status }}</td>
+                                        <td>
+                                        	<select class="form-control">
+		                                       <option selected=""><span class="label label-primary">正常</span></option>
+		                                       <option><span class="label label-danger">禁用</span></option>
+	                                    	</select>
+                                        </td>
                                         <td>{{ $tag->created_at }}</td>
                                         <td>
                                             <div class="btn-group">
