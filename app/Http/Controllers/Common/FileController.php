@@ -16,6 +16,8 @@ use App\Models\Common\TagModel;
 
 class FileController extends Controller
 {
+	
+	
     //存储分类缩略图
     public static function saveCateImg($file,$route = 'category')
     {
@@ -122,6 +124,8 @@ class FileController extends Controller
     	$file = Storage::disk('local')->get($thumb[0]['avator']);
     	return (new Response($file, 200))->header('Content-Type', $thumb[0]->mime);
     }
+    
+    
     
  	
 }

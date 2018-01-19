@@ -29,7 +29,14 @@ Route::get('/cate/list', 'Admin\CateController@index');
 Route::get('/cate/add', 'Admin\CateController@add');
 //保存分类
 Route::post('/cate/store', 'Admin\CateController@store');
-
+//编辑分类
+Route::get('/cate/edit', 'Admin\CateController@edit');
+//新增子分类
+Route::get('/cate/addchild', 'Admin\CateController@addChild');
+//删除分类
+Route::post('/cate/delete', 'Admin\CateController@delete');
+//更改分类状态
+Route::post('/cate/status', 'Admin\CateController@status');
 
 // //老后台管理
 // Route::group(['namespace' => 'Back'], function()

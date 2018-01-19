@@ -18,25 +18,43 @@
                         <div class="ibox-content">
                             <form method="post" action="{{ url('/cate/store') }}" class="form-horizontal" enctype="multipart/form-data">
                                 {{ csrf_field() }}
+                                 <div class="form-group" hidden>
+			                          <input type="text" name="id" class="form-control" value="{{ $cate->id }}">
+			                     </div>
                                <div class="hr-line-dashed"></div>
 			                   <div class="form-group">
 			                		<label class="col-sm-2 control-label">父级分类</label>
 				                	<div class="col-sm-6">
 					                	<select data-placeholder="Choose a Country..." class="chosen-select form-control"  tabindex="4" name="cateid">
 							                <option value="0">顶级分类</option>
-							                @foreach($cates as $cate)
-					                            <option  value="{{ $cate->id }}">
-					                            @if( $cate->count != 0)
-					                                @for ($i=0;$i<$cate->count;$i++)
-					                                	@if( $i == 0)
-					    								<span>|---</span>
-					    								@else
-					    								<span>---</span>
-					    								@endif
-					                                @endfor
-					                            {{ $cate->name }}
-					                            @endif
-					                            </option>
+							                 @foreach($pids as $pid)
+				                            	@if($pid->id == $cate->pid )
+				                                    <option  value="{{ $pid->id }}" selected>
+				                                        @if( $pid->count != 0)
+				                                            @for ($i=0;$i<$pid->count;$i++)
+				                                            	@if( $i == 0)
+				                								<span>|---</span>
+				                								@else
+				                								<span>---</span>
+				                								@endif
+				                                            @endfor
+				                                        {{ $pid->name }}
+				                                        @endif
+				                                    </option>
+				                                @else
+				                                	 <option  value="{{ $pid->id }}" >
+				                                        @if( $pid->count != 0)
+				                                            @for ($i=0;$i<$pid->count;$i++)
+				                                            	@if( $i == 0)
+				                								<span>|---</span>
+				                								@else
+				                								<span>---</span>
+				                								@endif
+				                                            @endfor
+				                                        {{ $pid->name }}
+				                                        @endif
+				                                    </option>
+				                                 @endif
 				                            @endforeach
 						                </select>
 					                </div>
@@ -50,7 +68,7 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">分类名称</label>
                                     <div class="col-sm-6">
-                                    	<input type="text" class="form-control" name="name">
+                                    	<input type="text" class="form-control" name="name" value="{{ $cate->name }}">
                                     </div>
                                     <div class="col-sm-2">
 	                              		 @if ($errors->has('name'))
@@ -63,6 +81,14 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">缩略图</label>
                                     <div class="col-sm-6">
+                                    	<div class="file-preview-frame krajee-default  kv-preview-thumb" id="preview-1516346124078_80-0" data-fileindex="0" data-template="image">
+	                                    	<div class="kv-file-content">
+												<img src="{{ $cate->thumb }}" class="file-preview-image kv-preview-data rotate-1" title="cover.jpg" alt="cover.jpg" style="width:auto;height:auto;max-width:100%;max-height:100%;">
+											</div>
+											<div class="file-thumbnail-footer">
+												<div class="clearfix"></div>
+											</div>
+										</div>
                                     	<input id="input-id" type="file" name="thumb" class="file" data-preview-file-type="text" >
                                     </div>
                                     <div class="col-sm-2 ">
@@ -77,14 +103,25 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">状态</label>
                                     <div class="col-sm-6">
-                                    	<div class="radio radio-info radio-inline">
-                                            <input type="radio" id="inlineRadio1" value="1" name="status" checked="checked">
-                                            <label for="inlineRadio1">启用</label>
-                                        </div>
-                                        <div class="radio radio-inline">
-                                            <input type="radio" id="inlineRadio2" value="0" name="status">
-                                            <label for="inlineRadio2">禁用</label>
-                                        </div>
+	                                    @if($cate->status == 1)
+	                						<div class="radio radio-info radio-inline">
+	                                            <input type="radio" id="inlineRadio1" value="1" name="status" checked="checked">
+	                                            <label for="inlineRadio1">启用</label>
+	                                        </div>
+	                                        <div class="radio radio-inline">
+	                                            <input type="radio" id="inlineRadio2" value="0" name="status">
+	                                            <label for="inlineRadio2">禁用</label>
+	                                        </div>
+		                				@else
+		                					<div class="radio radio-info radio-inline">
+	                                            <input type="radio" id="inlineRadio1" value="1" name="status" >
+	                                            <label for="inlineRadio1">启用</label>
+	                                        </div>
+	                                        <div class="radio radio-inline">
+	                                            <input type="radio" id="inlineRadio2" value="0" name="status" checked="checked">
+	                                            <label for="inlineRadio2">禁用</label>
+	                                        </div>
+		                				@endif
                                     </div>
                                     <div class="col-sm-2">
 	                              		 @if ($errors->has('status'))
@@ -96,7 +133,7 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">备注</label>
                                      <div class="col-sm-6">
-                                    	<textarea class="form-control" rows="3" name="desc"></textarea>
+                                    	<textarea class="form-control" rows="3" name="desc">{{ $cate->desc }}</textarea>
                                      </div>
                                 </div>
                                 

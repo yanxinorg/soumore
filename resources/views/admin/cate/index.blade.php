@@ -6,13 +6,7 @@
             <div class="tabs-container">
                     <div class="ibox-content">
                 	<div class="row">
-                        <div class="col-md-3 m-b-md">
-                            <select class="input-md form-control input-s-md inline">
-                                <option value="0">启用</option>
-                                <option value="1">禁用</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 m-b-md">
+                        <div class="col-md-6 m-b-md">
                             <div class="input-group">
                             	<input type="text" placeholder="分类名称" class="input-md form-control"> 
                             	<span class="input-group-btn">
@@ -32,6 +26,7 @@
                                 <thead>
                                 <tr>
                                     <th>分类ID</th>
+                                    <th>缩略图</th>
     					            <th>分类名称</th>
     					            <th>分类状态</th>
     					            <th>创建时间</th>
@@ -43,25 +38,33 @@
         					        <tr class="gradeX">
         					            <td>{{ $cate->id }}</td>
         					            <td>
+                                            <img style="width:36px;" src="{{ $cate->thumb }}">
+                                        </td>
+        					            <td>
         					             @if( $cate->count != 0)
         	                                @for ($i=0;$i<$cate->count;$i++)
         	                                	@if( $i == 0)
         	    								<span></span>
         	    								@else
-        	    								<span style="color:red;">&nbsp;|&nbsp;---------</span>
+        	    								<span style="color:#1C84C6;">&nbsp;|&nbsp;---------</span>
         	    								@endif
         	                                @endfor
-        	                             <span class="label label-danger">{{ $cate->name }}</span>
+        	                                
+	        	                             @if( $cate->status == "1")
+	        	                             	<span class="label label-success">{{ $cate->name }}</span>
+	        	                             @else
+	        	                             	<span class="label label-danger">{{ $cate->name }}</span>
+	        	                             @endif
         	                             @endif
         					            </td>
         					            <td>
-        					              	<select class="form-control">
+        					              	<select class="form-control" id="cate_status">
             					              	@if($cate->status == 1)
-            		                              <option selected=""><span class="label label-primary">启用</span></option>
-            		                              <option ><span class="label label-danger">禁用</span></option>
+            		                              <option selected value="{{ $cate->id }}"><span class="label label-primary">启用</span></option>
+            		                              <option value="{{ $cate->id }}"><span class="label label-danger">禁用</span></option>
             									@else
-            									  <option ><span class="label label-primary">启用</span></option>
-            									  <option selected=""><span class="label label-danger">禁用</span></option>
+            									  <option value="{{ $cate->id }}"><span class="label label-primary">启用</span></option>
+            									  <option selected value="{{ $cate->id }}"><span class="label label-danger">禁用</span></option>
             									@endif
 	                                    	</select>
         					            </td>
@@ -69,12 +72,12 @@
         					            <td>
         					             	<div class="btn-group">
             					             	@if($cate->status == 1)
-                					             	<a class="btn btn-white"><i class="fa fa-plus"></i></a>
-                                                    <a class="btn btn-white"><i class="fa fa-edit"></i></button>
-                                                    <a class="btn btn-white demo3"><i class="fa fa-trash"></i></a>
+                					             	<a class="btn btn-white" href="{{ URL::action('Admin\CateController@addChild',['id'=>$cate->id]) }}"><i class="fa fa-plus"></i></a>
+                                                    <a class="btn btn-white" href="{{ URL::action('Admin\CateController@edit', ['id'=>$cate->id])}}"><i class="fa fa-edit"></i></button>
+                                                    <a class="btn btn-white " href="javascript:void(0);" onclick="del({{ $cate->id }});"><i class="fa fa-trash"></i></a>
             									@else
-                									 <a class="btn btn-white"><i class="fa fa-edit"></i></a>
-                                                     <a class="btn btn-white demo3"><i class="fa fa-trash"></i></a>
+                									 <a class="btn btn-white" href="{{ URL::action('Admin\CateController@edit', ['id'=>$cate->id])}}"><i class="fa fa-edit"></i></a>
+                                                     <a class="btn btn-white " href="javascript:void(0);" onclick="del({{ $cate->id }});"><i class="fa fa-trash"></i></a>
             									@endif
                                         	</div>
         					            </td>
@@ -91,21 +94,44 @@
 @section('js')
 @parent
 <script>
-    $(document).ready(function () {
-        $('.demo3').click(function () {
-            swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover this imaginary file!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, delete it!",
-                closeOnConfirm: false
-            }, function () {
-                swal("Deleted!", "Your imaginary file has been deleted.", "success");
-            });
-        });
-    });
+//改变分类状态
+$("select#cate_status").change(function(){
+	 $.post("{{ url('/cate/status') }}",
+             {
+             "_token":'{{ csrf_token() }}',
+             "id": $(this).val(),
+             },function(data){
+            	 location.reload();
+             });
+});
+	
+//删除分类
+function del(id){
+	 swal({
+         title: "确认删除该分类?",
+         type: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#DD6B55",
+         confirmButtonText: "Yes, delete it!",
+         closeOnConfirm: false
+     }, function () {
+     	 $.post("{{ url('/cate/delete') }}",
+                  {
+                  "_token":'{{ csrf_token() }}',
+                  "id": id,
+                  },function(data){
+                	  swal({
+                	         title: data.msg,
+                	         confirmButtonColor: "#DD6B55",
+                	         animation: false,
+                	         showConfirmButton: true
+                	     }, function () {
+                	    	 location.reload();
+                    	     });
+                  });
+     });
+	
+}
 </script>
 @stop
 @endsection

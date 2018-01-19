@@ -23,21 +23,7 @@
 			                		<label class="col-sm-2 control-label">父级分类</label>
 				                	<div class="col-sm-6">
 					                	<select data-placeholder="Choose a Country..." class="chosen-select form-control"  tabindex="4" name="cateid">
-							                <option value="0">顶级分类</option>
-							                @foreach($cates as $cate)
-					                            <option  value="{{ $cate->id }}">
-					                            @if( $cate->count != 0)
-					                                @for ($i=0;$i<$cate->count;$i++)
-					                                	@if( $i == 0)
-					    								<span>|---</span>
-					    								@else
-					    								<span>---</span>
-					    								@endif
-					                                @endfor
-					                            {{ $cate->name }}
-					                            @endif
-					                            </option>
-				                            @endforeach
+					                            <option  value="{{ $cate->id }}" selected="selected">{{ $cate->name }}</option>
 						                </select>
 					                </div>
 					                <div class="col-sm-2">

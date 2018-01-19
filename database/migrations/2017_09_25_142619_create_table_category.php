@@ -19,11 +19,7 @@ class CreateTableCategory extends Migration
             $table->unsignedInteger("pid")->default(0)->comment('父级分类');
             $table->string("name")->comment('分类名称');
             $table->integer("grade")->nullable()->default(1)->comment('分类深度');
-            $table->string("thumb")->nullable()->comment('原型缩略图');
-            $table->string('thumb_small')->nullable()->comment('小型缩略图');
-            $table->string('thumb_medium')->nullable()->comment('中型缩略图');
-            $table->string('thumb_big')->nullable()->comment('大型缩略图');
-            $table->string('mime')->nullable()->comment('缩略图类型');
+            $table->string("thumb")->nullable()->comment('缩略图');
             $table->mediumText("desc")->nullable()->comment('分类描述');
             $table->integer("order")->default(0)->comment('优先级，越大，同级显示的时候越靠前');
             $table->unsignedSmallInteger('status')->default(1)->comment('分类状态: 1,启用 0,禁用');

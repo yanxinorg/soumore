@@ -24,6 +24,7 @@ class CommonController extends Controller
 
     }
     
+    //分类树
     public static function treeCreate($data,$pid=0,$count = 1)
     {
     	foreach ($data as $key=>$value)
@@ -37,6 +38,23 @@ class CommonController extends Controller
     		}
     	}
     	return self::$treeList;
+    }
+    
+    //存储图片
+    public static function ImgStore($file,$route = 'image')
+    {
+    	if($file->isValid())
+    	{
+    		$orignName = $file->getClientOriginalName();
+    		$extension = $file->getClientOriginalExtension();
+    		$name = strstr($orignName, '.'.$extension, TRUE);
+    		$size = $file->getClientSize();
+    		$destinationPath = 'storage/uploads/'.$route.'/'.$extension.'/'.date('Ymd').'/'; //public 文件夹下面建 storage/uploads 文件夹
+    		$fileName = str_random(10).'.'.$extension;
+    		$file->move($destinationPath, $fileName);
+    		$filePath = asset($destinationPath.$fileName);
+    		return $filePath;
+    	}
     }
     
     
