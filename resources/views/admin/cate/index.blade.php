@@ -93,16 +93,28 @@
 </div>
 @section('js')
 @parent
+<script type="text/javascript" src="{{ URL::asset('/back/admin/js/jquery.pjax.js') }}"></script>
 <script>
 //改变分类状态
 $("select#cate_status").change(function(){
 	 $.post("{{ url('/cate/status') }}",
-             {
-             "_token":'{{ csrf_token() }}',
-             "id": $(this).val(),
-             },function(data){
-            	 location.reload();
-             });
+       {
+         "_token":'{{ csrf_token() }}',
+         "id": $(this).val(),
+        },function(data){
+        	$.pjax.reload({container:"#cate_status", async:true});
+        	//通知
+        	setTimeout(function() {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+                toastr.success('更新成功', '状态');
+            }, 300);
+        	
+        });
 });
 	
 //删除分类
@@ -126,7 +138,7 @@ function del(id){
                 	         animation: false,
                 	         showConfirmButton: true
                 	     }, function () {
-                	    	 location.reload();
+                	    	 $.pjax.reload('table');
                     	     });
                   });
      });
