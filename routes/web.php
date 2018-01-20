@@ -16,12 +16,21 @@ Route::get('/permit/list', 'Admin\PermissionController@index');
 //新增权限
 Route::get('/permit/add', 'Admin\PermissionController@add');
 
+
 //话题列表
 Route::get('/topic/list', 'Admin\TopicController@index');
 //新增话题
 Route::get('/topic/add', 'Admin\TopicController@add');
 //保存话题
 Route::post('/topic/store', 'Admin\TopicController@store');
+//编辑话题
+Route::get('/topic/edit', 'Admin\TopicController@edit');
+//删除话题
+Route::post('/topic/delete', 'Admin\TopicController@delete');
+//更改话题状态
+Route::post('/topic/status', 'Admin\TopicController@status');
+//搜索话题
+Route::post('/topic/search', 'Admin\TopicController@search');
 
 //分类列表
 Route::get('/cate/list', 'Admin\CateController@index');

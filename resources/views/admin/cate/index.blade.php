@@ -93,7 +93,6 @@
 </div>
 @section('js')
 @parent
-<script type="text/javascript" src="{{ URL::asset('/back/admin/js/jquery.pjax.js') }}"></script>
 <script>
 //改变分类状态
 $("select#cate_status").change(function(){

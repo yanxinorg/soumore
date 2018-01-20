@@ -797,6 +797,9 @@
     
     <!-- Sweet alert -->
 <script src="{{ asset('back/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
+
+ <!-- Pjax -->
+<script type="text/javascript" src="{{ URL::asset('/back/admin/js/jquery.pjax.js') }}"></script>
 @show
 </body>
 </html>
