@@ -44,7 +44,13 @@
                                         <td>
                                             <img style="width:48px;" src="{{ $tag->thumb }}">
                                         </td>
-                                        <td>{{ $tag->name }}</td>
+                                        <td>
+                                         	@if( $tag->status == "1")
+	        	                             	<span class="label label-success"> {{ $tag->name }}</span>
+	        	                             @else
+	        	                             	<span class="label label-danger"> {{ $tag->name }}</span>
+	        	                             @endif
+                                        </td>
                                         <td>
                                         	<select class="form-control" id="topic_status">
 		                                        @if($tag->status == 1)
