@@ -18,10 +18,13 @@
                         <div class="ibox-content">
                             <form method="post" action="{{ url('/user/store') }}" class="form-horizontal" enctype="multipart/form-data">
                                 {{ csrf_field() }}
+                                <div class="form-group" hidden>
+			                          <input type="text" name="id" class="form-control" value="{{ $user->id }}">
+			                     </div>
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">名称</label>
                                     <div class="col-sm-6">
-                                    	<input type="text" class="form-control" name="username">
+                                    	<input type="text" class="form-control" name="username" value="{{ $user->name }}">
                                     </div>
                                     <div class="col-sm-2">
 	                              		 @if ($errors->has('username'))
@@ -33,7 +36,7 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">邮箱</label>
                                     <div class="col-sm-6">
-                                    	<input type="text" class="form-control"  name="email">
+                                    	<input type="text" class="form-control"  name="email" value="{{ $user->email }}">
                                     </div>
                                     <div class="col-sm-2">
 	                              		 @if ($errors->has('email'))
@@ -45,7 +48,7 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-6">
-                                    	<input type="password" class="form-control" name="password">
+                                    	<input type="password" class="form-control" name="password" value="{{ $user->password }}">
                                     </div>
                                     <div class="col-sm-2">
 	                              		 @if ($errors->has('password'))
@@ -57,6 +60,14 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">头像</label>
                                     <div class="col-sm-6">
+                                   		<div class="file-preview-frame krajee-default  kv-preview-thumb" id="preview-1516346124078_80-0" data-fileindex="0" data-template="image">
+	                                    	<div class="kv-file-content">
+												<img src="{{ $user->avator }}" class="file-preview-image kv-preview-data rotate-1" title="cover.jpg" alt="cover.jpg" style="width:auto;height:auto;max-width:100%;max-height:100%;">
+											</div>
+											<div class="file-thumbnail-footer">
+												<div class="clearfix"></div>
+											</div>
+										</div>
                                     	<input id="input-id" type="file" class="file" data-preview-file-type="text" name="avatar" >
                                     </div>
                                     <div class="col-sm-2 ">
@@ -84,14 +95,25 @@
                                 <div class="form-group">
                                 	<label class="col-lg-2 control-label">状态</label>
                                     <div class="col-lg-6">
-                                    	<div class="radio radio-info radio-inline">
-                                            <input type="radio" id="inlineRadio1" value="1" name="status" checked="">
-                                            <label for="inlineRadio1">启用</label>
-                                        </div>
-                                        <div class="radio radio-inline">
-                                            <input type="radio" id="inlineRadio2" value="0" name="status">
-                                            <label for="inlineRadio2">禁用</label>
-                                        </div>
+                                    	 @if($user->status == 1)
+	                						<div class="radio radio-info radio-inline">
+	                                            <input type="radio" id="inlineRadio1" value="1" name="status" checked="checked">
+	                                            <label for="inlineRadio1">启用</label>
+	                                        </div>
+	                                        <div class="radio radio-inline">
+	                                            <input type="radio" id="inlineRadio2" value="0" name="status">
+	                                            <label for="inlineRadio2">禁用</label>
+	                                        </div>
+		                				@else
+		                					<div class="radio radio-info radio-inline">
+	                                            <input type="radio" id="inlineRadio1" value="1" name="status" >
+	                                            <label for="inlineRadio1">启用</label>
+	                                        </div>
+	                                        <div class="radio radio-inline">
+	                                            <input type="radio" id="inlineRadio2" value="0" name="status" checked="checked">
+	                                            <label for="inlineRadio2">禁用</label>
+	                                        </div>
+		                				@endif
                                     </div>
                                     <div class="col-sm-2">
 	                              		 @if ($errors->has('status'))

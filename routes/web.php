@@ -3,10 +3,7 @@
 
 //后台首页
 Route::get('/admin', 'Admin\IndexController@index');
-//用户列表
-Route::get('/user/list', 'Admin\UserController@index');
-//新增用户
-Route::get('/user/add', 'Admin\UserController@add');
+
 //角色列表
 Route::get('/role/list', 'Admin\RoleController@index');
 //新增角色
@@ -16,6 +13,16 @@ Route::get('/permit/list', 'Admin\PermissionController@index');
 //新增权限
 Route::get('/permit/add', 'Admin\PermissionController@add');
 
+
+
+//用户列表
+Route::get('/user/list', 'Admin\UserController@index');
+//新增用户
+Route::get('/user/add', 'Admin\UserController@add');
+//保存用户
+Route::post('/user/store', 'Admin\UserController@store');
+//编辑用户
+Route::get('/user/edit', 'Admin\UserController@edit');
 
 //话题列表
 Route::get('/topic/list', 'Admin\TopicController@index');

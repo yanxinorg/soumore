@@ -66,22 +66,27 @@
                                 @foreach($users as $user)
                                 <tr>
                                     <td>{{ $user->id }}</td>
-                                    <td class="client-avatar"><img alt="image" src="{{ asset('back/admin/img/a2.jpg') }}"> </td>
+                                    <td class="client-avatar"><img alt="image" src="{{ $user->avator }}"> </td>
                                     <td>{{ $user->name }}</td>
                                     <td ><i class="fa fa-envelope">  {{ $user->email }}</i></td>
                                     <td><span class="label label-primary">administrator</span></td>
                                     <td>{{ $user->created_at }}</td>
                                     <td>
-	                                    <select class="form-control">
-	                                       <option selected=""><span class="label label-primary">正常</span></option>
-	                                       <option><span class="label label-danger">禁用</span></option>
+	                                    <select class="form-control" id="cate_status">
+            					            @if($user->status == 1)
+            		                            <option selected value="{{ $user->id }}"><span class="label label-primary">启用</span></option>
+            		                            <option value="{{ $user->id }}"><span class="label label-danger">禁用</span></option>
+            								@else
+            									<option value="{{ $user->id }}"><span class="label label-primary">启用</span></option>
+            									<option selected value="{{ $user->id }}"><span class="label label-danger">禁用</span></option>
+            								@endif
 	                                    </select>
                                     </td>
                                     <td class="text-right footable-visible footable-last-column">
                                         <div class="btn-group">
-                                            <button class="btn btn-white"><i class="fa fa-edit"></i></button>
-                                            <button class="btn btn-white"><i class="fa fa-eye"></i></button>
-                                            <button class="btn btn-white demo3"><i class="fa fa-trash"></i></button>
+                                            <a class="btn btn-white" href="{{ URL::action('Admin\UserController@edit', ['id'=>$user->id]) }}"><i class="fa fa-edit"></i></a>
+                                            <a class="btn btn-white"><i class="fa fa-eye"></i></a>
+                                            <a class="btn btn-white demo3"><i class="fa fa-trash"></i></a>
                                         </div>
                                     </td>
                                 </tr>

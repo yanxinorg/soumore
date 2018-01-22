@@ -37,7 +37,6 @@ class CateController extends Controller
     	],[
     			'required'=>':attribute为必填项',
     			'numeric'=>'数字',
-    			'unique'=>':attribute已存在',
     			'image'=>'图片格式错误'
     	],[
     			'cateid'=>'父级分类',
