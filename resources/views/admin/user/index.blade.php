@@ -14,13 +14,6 @@
                                     <option value="1">禁用</option>
                                 </select>
                                 </div>
-                                <div class="col-md-4 m-b-md">
-                                    <div data-toggle="buttons" class="btn-group">
-                                        <label class="btn btn-md btn-white"> <input type="radio" id="option1" name="options">all</label>
-                                        <label class="btn btn-md btn-white"> <input type="radio" id="option2" name="options">male</label>
-                                        <label class="btn btn-md btn-white active"> <input type="radio" id="option3" name="options">female</label>
-                                    </div>
-                                </div>
                                 <div class="col-md-3 m-b-md">
                                     <div class="input-group">
                                     	<input type="text" placeholder="用户名称，邮箱，角色" class="input-md form-control"> 

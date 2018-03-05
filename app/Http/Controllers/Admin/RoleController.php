@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Common\UserModel;
 use App\Role;
+use App\Permission;
 
 class RoleController extends Controller
 {
@@ -19,6 +20,10 @@ class RoleController extends Controller
     //新增角色
     public function add()
     {
-    	return view('admin.role.add');
+    	//获取权限列表
+    	$permits = Permission::all();
+    	return view('admin.role.add',['permits'=>$permits]);
     }
+    
+    
 }

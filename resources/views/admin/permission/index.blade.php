@@ -24,21 +24,21 @@
                              	<thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>英文名</th>
                                         <th>中文名</th>
+                                        <th>Url</th>
                                         <th>备注</th>
                                         <th>创建时间</th>
                                         <th class="text-right" >操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($roles as $role)
+                                @foreach($permits as $permit)
                                 <tr>
-                                    <td>{{ $role->id }}</td>
-                                    <td><span class="label label-primary">{{ $role->name }}</span></td>
-                                    <td>{{ $role->display_name }}</td>
-                                    <td>{{ $role->description }}</td>
-                                    <td>{{ $role->created_at }}</td>
+                                    <td>{{ $permit->id }}</td>
+                                    <td><span class="label label-primary">{{ $permit->display_name }}</span></td>
+                                    <td>{{ $permit->name }}</td>
+                                    <td>{{ $permit->description }}</td>
+                                    <td>{{ $permit->created_at }}</td>
                                     <td class="text-right footable-visible footable-last-column">
                                         <div class="btn-group">
                                             <button class="btn btn-white"><i class="fa fa-edit"></i></button>

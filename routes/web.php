@@ -12,7 +12,8 @@ Route::get('/role/add', 'Admin\RoleController@add');
 Route::get('/permit/list', 'Admin\PermissionController@index');
 //新增权限
 Route::get('/permit/add', 'Admin\PermissionController@add');
-
+//存储权限
+Route::post('/permit/store', 'Admin\PermissionController@store');
 
 
 //用户列表
@@ -53,6 +54,22 @@ Route::get('/cate/addchild', 'Admin\CateController@addChild');
 Route::post('/cate/delete', 'Admin\CateController@delete');
 //更改分类状态
 Route::post('/cate/status', 'Admin\CateController@status');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // //老后台管理
 // Route::group(['namespace' => 'Back'], function()

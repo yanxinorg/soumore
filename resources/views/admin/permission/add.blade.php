@@ -13,25 +13,26 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <form method="get" class="form-horizontal">
+                            <form method="post" class="form-horizontal" action="{{ url('/permit/store') }}">
+                            {{ csrf_field() }}
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">路由名称</label>
                                     <div class="col-sm-6">
-                                    	<input type="text" class="form-control" placeholder="eg：post.edit">
+                                    	<input type="text" class="form-control" name="urlname" placeholder="eg：post.edit">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">路由别名</label>
                                     <div class="col-sm-6">
-                                    	<input type="text" class="form-control" placeholder="eg：编辑文章">
+                                    	<input type="text" class="form-control" name="urlalias" placeholder="eg：编辑文章">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">路由备注</label>
                                     <div class="col-sm-6">
-                                    	<textarea class="form-control" rows="3"></textarea>
+                                    	<textarea class="form-control" name="urlremark"rows="3"></textarea>
                                     </div>
                                 </div>
                                <div class="hr-line-dashed"></div>

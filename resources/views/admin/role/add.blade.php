@@ -41,12 +41,10 @@
                                     <div class="col-sm-6">
                                     		<div class="row">
 	                                    		 <div class="col-xs-5">
-											        <select name="from[]" id="search" class="form-control" size="8" multiple="multiple">
-											            <option value="1">Item 1</option>
-											            <option value="2">Item 5</option>
-											            <option value="2">Item 2</option>
-											            <option value="2">Item 4</option>
-											            <option value="3">Item 3</option>
+											        <select name="permits[]" id="search" class="form-control" size="8" multiple="multiple">
+											        	@foreach($permits as $permit)
+											            <option value="{{ $permit->id }}">{{ $permit->name }}</option>
+											            @endforeach()
 											        </select>
 											    </div>
 											    <div class="col-xs-2">
