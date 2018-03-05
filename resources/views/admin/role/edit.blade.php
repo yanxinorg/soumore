@@ -14,26 +14,29 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <form method="post" action="{{ url('/role/store') }}" class="form-horizontal">
+                            <form method="post" action="{{ url('/role/update') }}" class="form-horizontal">
                             {{ csrf_field() }}
+                            	<div class="form-group">
+                                    <input type="text" class="form-control hidden" name="id" value="{{ $data->id }}">
+                                </div>
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">角色名称</label>
                                     <div class="col-sm-6">
-                                    	<input type="text" class="form-control" name="rolename" placeholder="eg：administrator">
+                                    	<input type="text" class="form-control" name="rolename" value="{{ $data->name }}"  placeholder="eg：administrator">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">角色别名</label>
                                     <div class="col-sm-6">
-                                    	<input type="text" class="form-control" name="rolealias" placeholder="eg：管理员">
+                                    	<input type="text" class="form-control" name="rolealias" value="{{ $data->display_name }}" placeholder="eg：管理员">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">角色备注</label>
                                     <div class="col-sm-6">
-                                    	<textarea class="form-control" name="roleremark" rows="3"></textarea>
+                                    	<textarea class="form-control" name="roleremark" rows="3">{{ $data->description }}</textarea>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -43,8 +46,8 @@
                                     		<div class="row">
 	                                    		 <div class="col-xs-5">
 											        <select name="from[]" id="search" class="form-control" size="8" multiple="multiple">
-											        	@foreach($permits as $permit)
-											            <option value="{{ $permit->id }}">{{ $permit->name }}</option>
+											        	@foreach($froms as $from)
+											            <option value="{{ $from->id }}">{{ $from->name }}</option>
 											            @endforeach()
 											        </select>
 											    </div>
@@ -55,7 +58,11 @@
 											        <button type="button" id="search_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
 											    </div>
 											    <div class="col-xs-5">
-											        <select name="permits[]" id="search_to" class="form-control" size="8" multiple="multiple"></select>
+											        <select name="permits[]" id="search_to" class="form-control" size="8" multiple="multiple">
+											        @foreach($tos as $to)
+											            <option value="{{ $to->id }}">{{ $to->name }}</option>
+											        @endforeach()
+											        </select>
 											    </div>
                                     		</div>
                                     </div>

@@ -8,12 +8,28 @@ Route::get('/admin', 'Admin\IndexController@index');
 Route::get('/role/list', 'Admin\RoleController@index');
 //新增角色
 Route::get('/role/add', 'Admin\RoleController@add');
+//存储角色
+Route::post('/role/store', 'Admin\RoleController@store');
+//编辑角色
+Route::get('/role/edit', 'Admin\RoleController@edit');
+Route::post('/role/update', 'Admin\RoleController@update');
+
+
+
+
+
 //权限列表
 Route::get('/permit/list', 'Admin\PermissionController@index');
 //新增权限
 Route::get('/permit/add', 'Admin\PermissionController@add');
 //存储权限
 Route::post('/permit/store', 'Admin\PermissionController@store');
+//删除权限
+Route::post('/permit/delete', 'Admin\PermissionController@delete');
+//更新权限
+Route::get('/permit/edit', 'Admin\PermissionController@edit');
+Route::post('/permit/update', 'Admin\PermissionController@update');
+
 
 
 //用户列表

@@ -15,7 +15,7 @@
                                     <div class="pull-right">
 		                                 <a type="button" class="btn btn-md btn-white" href="{{ url('/permit/add') }}"><i class="fa fa-plus">新增</i></a>
 		                             </div>
-                                    <strong>Found 61 issues.</strong>
+                                    <strong>共 61 条路由.</strong>
                                 </div>
                             </div>
                             
@@ -41,8 +41,8 @@
                                     <td>{{ $permit->created_at }}</td>
                                     <td class="text-right footable-visible footable-last-column">
                                         <div class="btn-group">
-                                            <button class="btn btn-white"><i class="fa fa-edit"></i></button>
-                                            <button class="btn btn-white demo3"><i class="fa fa-trash"></i></button>
+                                            <a class="btn btn-white" href="{{ URL::action('Admin\PermissionController@edit', ['id'=>$permit->id])}}"><i class="fa fa-edit"></i></a>
+                                            <a class="btn btn-white " href="javascript:void(0);" onclick="del({{ $permit->id }});"><i class="fa fa-trash"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -60,21 +60,33 @@
 <!-- Sweet alert -->
 <script src="{{ asset('back/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 <script>
-    $(document).ready(function () {
-        $('.demo3').click(function () {
-            swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover this imaginary file!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, delete it!",
-                closeOnConfirm: false
-            }, function () {
-                swal("Deleted!", "Your imaginary file has been deleted.", "success");
-            });
-        });
-    });
+//删除话题
+function del(id){
+	 swal({
+         title: "确认删除该路由?",
+         type: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#DD6B55",
+         confirmButtonText: "Yes, delete it!",
+         closeOnConfirm: false
+     }, function () {
+     	 $.post("{{ url('/permit/delete') }}",
+                  {
+                  "_token":'{{ csrf_token() }}',
+                  "id": id,
+                  },function(data){
+                	  swal({
+                	         title: data.msg,
+                	         confirmButtonColor: "#DD6B55",
+                	         animation: false,
+                	         showConfirmButton: true
+                	     }, function () {
+                	    	 $.pjax.reload('table');
+                    	     });
+                  });
+     });
+	
+}
 </script>
 @stop
 @endsection

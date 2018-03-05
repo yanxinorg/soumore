@@ -15,7 +15,7 @@
                                     <div class="pull-right">
 		                                 <a type="button" class="btn btn-md btn-white" href="{{ url('/role/add') }}"><i class="fa fa-plus">新增</i></a>
 		                             </div>
-                                    <strong>Found 61 issues.</strong>
+		                             <strong>共 {{ $total }} 个角色.</strong>
                                 </div>
                             </div>
                             
@@ -24,8 +24,8 @@
                              	<thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>英文名</th>
                                         <th>中文名</th>
+                                        <th>英文名</th>
                                         <th>备注</th>
                                         <th>创建时间</th>
                                         <th class="text-right" >操作</th>
@@ -36,13 +36,13 @@
                                 @foreach($roles as $role)
                                 <tr>
                                     <td>{{ $role->id }}</td>
-                                    <td><span class="label label-primary">{{ $role->name }}</span></td>
-                                    <td>{{ $role->display_name }}</td>
+                                    <td><span class="label label-danger">{{ $role->display_name }}</span></td>
+                                    <td>{{ $role->name }}</td>
                                     <td>{{ $role->description }}</td>
                                     <td>{{ $role->created_at }}</td>
                                     <td class="text-right footable-visible footable-last-column">
                                         <div class="btn-group">
-                                            <button class="btn btn-white"><i class="fa fa-edit"></i></button>
+                                            <a class="btn btn-white" href="{{ URL::action('Admin\RoleController@edit', ['id'=>$role->id])}}"><i class="fa fa-edit"></i></a>
                                             <button class="btn btn-white demo3"><i class="fa fa-trash"></i></button>
                                         </div>
                                     </td>
