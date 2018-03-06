@@ -121,7 +121,7 @@ class UserController extends Controller
     	],[
     			'required'=>':attribute 不能为空',
     	],[
-    			'nameoremail'=>'用户名',
+    			'nameoremail'=>'用户名/邮箱',
     			'captcha'=>'验证码',
     			'password'=>'密码'
     	]);

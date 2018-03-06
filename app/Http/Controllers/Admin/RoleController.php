@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Common\UserModel;
 use App\Role;
 use App\Permission;
 use Illuminate\Support\Facades\DB;
@@ -87,4 +86,32 @@ class RoleController extends Controller
     	}
     	return redirect()->back();
     }
+    
+    
+    //删除角色
+    public function delete(Request $request)
+    {
+    	$this->validate($request, [
+    		'id'=>'required|numeric|exists:roles,id'
+    	]);
+    	//删除角色  待完成！！！
+    	Role::findOrFail($request->get('id'));
+    	if($result)
+    	{
+    		$data = [
+    				'code'=>'1',
+    				'msg'=>'删除成功'
+    		];
+    	}else{
+    		$data = [
+    				'code'=>'0',
+    				'msg'=>'删除失败'
+    		];
+    	}
+    	return $data;
+    	
+    }
+    
+    
+    
 }

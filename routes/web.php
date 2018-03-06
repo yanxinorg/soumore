@@ -12,10 +12,10 @@ Route::get('/role/add', 'Admin\RoleController@add');
 Route::post('/role/store', 'Admin\RoleController@store');
 //编辑角色
 Route::get('/role/edit', 'Admin\RoleController@edit');
+//保存更新角色
 Route::post('/role/update', 'Admin\RoleController@update');
-
-
-
+//删除角色
+Route::post('/role/delete', 'Admin\RoleController@delete');
 
 
 //权限列表

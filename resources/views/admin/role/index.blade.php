@@ -43,7 +43,7 @@
                                     <td class="text-right footable-visible footable-last-column">
                                         <div class="btn-group">
                                             <a class="btn btn-white" href="{{ URL::action('Admin\RoleController@edit', ['id'=>$role->id])}}"><i class="fa fa-edit"></i></a>
-                                            <button class="btn btn-white demo3"><i class="fa fa-trash"></i></button>
+                                            <a class="btn btn-white " href="javascript:void(0);" onclick="del({{ $role->id }});"><i class="fa fa-trash"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -61,21 +61,33 @@
 <!-- Sweet alert -->
 <script src="{{ asset('back/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 <script>
-    $(document).ready(function () {
-        $('.demo3').click(function () {
-            swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover this imaginary file!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, delete it!",
-                closeOnConfirm: false
-            }, function () {
-                swal("Deleted!", "Your imaginary file has been deleted.", "success");
-            });
-        });
-    });
+//删除话题
+function del(id){
+	 swal({
+         title: "确认删除该角色?",
+         type: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#DD6B55",
+         confirmButtonText: "Yes, delete it!",
+         closeOnConfirm: false
+     }, function () {
+     	 $.post("{{ url('/role/delete') }}",
+                  {
+                  "_token":'{{ csrf_token() }}',
+                  "id": id,
+                  },function(data){
+                	  swal({
+                	         title: data.msg,
+                	         confirmButtonColor: "#DD6B55",
+                	         animation: false,
+                	         showConfirmButton: true
+                	     }, function () {
+                	    	 $.pjax.reload('table');
+                    	     });
+                  });
+     });
+	
+}
 </script>
 @stop
 @endsection
