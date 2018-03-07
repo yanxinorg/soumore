@@ -13,7 +13,7 @@ class RoleController extends Controller
     //角色首页
     public function index()
     {
-    	$roles = Role::all();
+    	$roles = Role::with('perms')->get(); //角色关联权限列表
     	$total = DB::table('roles')->sum('id');
     	return view('admin.role.index',['roles'=>$roles,'total'=>$total]);
     }
