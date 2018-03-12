@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-<!-- Sweet Alert -->
+
 <link href="{{ asset('back/admin/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
         <div class="wrapper wrapper-content  animated fadeInRight">
             <div class="row">
@@ -31,7 +31,6 @@
                                         <th class="text-right" >操作</th>
                                     </tr>
                                 </thead>
-                                
                                 <tbody>
                                 @foreach($roles as $role)
                                 <tr>
@@ -61,7 +60,7 @@
 <!-- Sweet alert -->
 <script src="{{ asset('back/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 <script>
-//删除话题
+//删除角色
 function del(id){
 	 swal({
          title: "确认删除该角色?",

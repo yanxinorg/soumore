@@ -78,8 +78,7 @@
                                     <td class="text-right footable-visible footable-last-column">
                                         <div class="btn-group">
                                             <a class="btn btn-white" href="{{ URL::action('Admin\UserController@edit', ['id'=>$user->id]) }}"><i class="fa fa-edit"></i></a>
-                                            <a class="btn btn-white"><i class="fa fa-eye"></i></a>
-                                            <a class="btn btn-white demo3"><i class="fa fa-trash"></i></a>
+                                            <a class="btn btn-white " href="javascript:void(0);" onclick="del({{ $user->id }});"><i class="fa fa-trash"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -95,21 +94,33 @@
 @section('js')
 @parent
 <script>
-    $(document).ready(function () {
-        $('.demo3').click(function () {
-            swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover this imaginary file!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, delete it!",
-                closeOnConfirm: false
-            }, function () {
-                swal("Deleted!", "Your imaginary file has been deleted.", "success");
-            });
-        });
-    });
+//删除用户
+function del(id){
+	 swal({
+         title: "确认删除该用户?",
+         type: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#DD6B55",
+         confirmButtonText: "Yes, delete it!",
+         closeOnConfirm: false
+     }, function () {
+     	 $.post("{{ url('/user/delete') }}",
+                  {
+                  "_token":'{{ csrf_token() }}',
+                  "id": id,
+                  },function(data){
+                	  swal({
+                	         title: data.msg,
+                	         confirmButtonColor: "#DD6B55",
+                	         animation: false,
+                	         showConfirmButton: true
+                	     }, function () {
+                	    	 $.pjax.reload('table');
+                    	     });
+                  });
+     });
+	
+}
 </script>
 @stop
 @endsection

@@ -40,6 +40,9 @@ Route::get('/user/add', 'Admin\UserController@add');
 Route::post('/user/store', 'Admin\UserController@store');
 //编辑用户
 Route::get('/user/edit', 'Admin\UserController@edit');
+//删除用户
+Route::post('/user/delete', 'Admin\UserController@delete');
+
 
 //话题列表
 Route::get('/topic/list', 'Admin\TopicController@index');

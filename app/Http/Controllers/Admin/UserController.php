@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Common\CommonController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\User;
 
 class UserController extends Controller
 {
@@ -122,7 +123,7 @@ class UserController extends Controller
     	return redirect()->back()->withErrors($validator)->withInput();
     }
     
-    //编辑鱼护
+    //编辑用户
     public function edit(Request $request)
     {
     	$this->validate($request, [
@@ -135,4 +136,29 @@ class UserController extends Controller
     			'roles'=>$roles
     	]);
     }
+    
+    //删除用户
+    public function delete(Request $request)
+    {
+    	$this->validate($request, [
+    			'id'=>'required|numeric|exists:users,id'
+    	]);
+    	
+    	$result = User::where('id','=',$request->get('id'))->delete();
+        if($result)
+        {
+            $data = [
+                'code'=>'1',
+                'msg'=>'删除成功'
+            ];
+        }else{
+            $data = [
+                'code'=>'0',
+                'msg'=>'删除失败'
+            ];
+        }
+        return $data;
+    	 
+    }
+    
 }

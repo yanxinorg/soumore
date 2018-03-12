@@ -24,9 +24,8 @@
                              	<thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>中文名</th>
-                                        <th>Url</th>
-                                        <th>备注</th>
+                                        <th>中文</th>
+                                        <th>英文</th>
                                         <th>创建时间</th>
                                         <th class="text-right" >操作</th>
                                     </tr>
@@ -37,7 +36,6 @@
                                     <td>{{ $permit->id }}</td>
                                     <td><span class="label label-primary">{{ $permit->display_name }}</span></td>
                                     <td>{{ $permit->name }}</td>
-                                    <td>{{ $permit->description }}</td>
                                     <td>{{ $permit->created_at }}</td>
                                     <td class="text-right footable-visible footable-last-column">
                                         <div class="btn-group">

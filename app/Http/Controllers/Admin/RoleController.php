@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
+	public $data = [];
     //角色首页
     public function index()
     {
@@ -94,22 +95,31 @@ class RoleController extends Controller
     	$this->validate($request, [
     		'id'=>'required|numeric|exists:roles,id'
     	]);
-    	//删除角色  待完成！！！
-    	Role::findOrFail($request->get('id'));
-    	if($result)
-    	{
-    		$data = [
-    				'code'=>'1',
-    				'msg'=>'删除成功'
-    		];
-    	}else{
-    		$data = [
-    				'code'=>'0',
-    				'msg'=>'删除失败'
-    		];
-    	}
-    	return $data;
+    	//删除角色
+    	$id = $request->get('id');
+    	DB::transaction(function() use($id){
+    		try{
+    			DB::table('roles')->where('id',$id)->delete();
+    			DB::table('role_user')->where('role_id',$id)->delete();
+    			DB::table('permission_role')->where('role_id',$id)->delete();
+    			DB::commit();
+    			$this->data = [
+    					'code'=>'1',
+    					'msg'=>'删除成功'
+    			];
+    			
+    		} catch (\Exception $e){
+    			//事务回滚
+    			DB::rollback();
+    			$this->data = [
+    					'code'=>'0',
+    					'msg'=>'删除失败'
+    			];
+    		}
+    		
+    	});
     	
+    	return $this->data;
     }
     
     
