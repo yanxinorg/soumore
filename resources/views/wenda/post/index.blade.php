@@ -35,8 +35,8 @@
 	margin-bottom: 12px;
 }
 .container-fluid .row-fluid .media img{
-	width:48px;
-	height:48px;
+	width:64px;
+	height:64px;
 }
 .container-fluid .row-fluid .media-body .content{
 	display:block;
@@ -51,7 +51,7 @@
 	 margin-left:24px;
 }
 .container-fluid .row-fluid .media-body .excerpt{
-	font-size:12px;
+	font-size:16px;
 	margin-left:24px;
 	margin-top:6px;
 }
