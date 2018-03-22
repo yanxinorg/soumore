@@ -58,6 +58,10 @@
 .main-content .wrapper .tag .revenue-nav li > a{
 	text-transform:none;
 }
+
+ul >li {
+	float:left;
+}
 </style>
 
 <div class="main-content">
@@ -67,13 +71,24 @@
                 <section class="mail-box-info">
                     <header class="header">
                         <div class="compose-btn pull-left">
-	                        @foreach($cates as $cate)
-	                        	@if($cate->id == $cid)
-	                        	<a href="{{ URL::action('Front\PostController@cate', ['cid'=>$cate->id]) }}"><button class="btn btn-danger btn-sm">{{ $cate->name }}</button></a>
-								@else
-								<a href="{{ URL::action('Front\PostController@cate', ['cid'=>$cate->id]) }}"><button class="btn btn-default btn-sm">{{ $cate->name }}</button></a>
-								@endif
-							@endforeach()
+                            <ul class="nav">
+                                @foreach($cates as $cate)
+    	                        	@if($cate->id == $cid)
+    	                        	<li >
+        								<a href="{{ URL::action('Front\PostController@cate', ['cid'=>$cate->id]) }}"><button class="btn btn-danger btn-sm">{{ $cate->name }}</button></a>
+        							</li>
+    								@else
+    								<li class="dropdown">
+        									<a data-toggle="dropdown" class="dropdown-toggle" href="#">下拉菜单<strong class="caret"></strong></a>
+        									<ul class="dropdown-menu">
+        										<li>
+        											<a href="{{ URL::action('Front\PostController@cate', ['cid'=>$cate->id]) }}"><button class="btn btn-default btn-sm">{{ $cate->name }}</button></a>
+        										</li>
+        									</ul>
+        								</li>
+    								@endif
+    							@endforeach()
+    						</ul>
                         </div>
                         <div class="btn-toolbar">
                             <h4 class="pull-right"></h4>
