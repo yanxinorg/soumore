@@ -30,7 +30,7 @@ class PostModel extends Model
 	protected static function select()
 	{
 		$datas = DB::table('posts')
-		->join('users', 'posts.user_id', '=', 'users.id')
+		->leftjoin('users', 'posts.user_id', '=', 'users.id')
 		->select('posts.id as post_id',
 				'posts.title as title',
 				'users.name as author',

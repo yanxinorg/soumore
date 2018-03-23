@@ -58,16 +58,32 @@
 .main-content .wrapper .tag .revenue-nav li > a{
 	text-transform:none;
 }
-
-ul >li {
-	float:left;
-}
 </style>
 
 <div class="main-content">
   <div class="wrapper">
       <div class="directory-info-row">
-          <div class="col-md-10 col-sm-9">
+      		<div class="col-md-2 col-sm-3" >
+				<!-- 热门标签 -->
+				@if(!empty($tags[0]))
+				<div class="tag" style="display: block;">
+			        <div class="col-md-12 col-sm-12">
+			        <h6 style="text-align:center;">标签云</h6>
+			               <ul class="revenue-nav pull-left" >
+			                     @foreach($tags as $tag)
+			                     	@if($tag->id == $tid)
+			                     		<li style="margin:4px;"><a style="background-color:red;" href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
+			                     	@else
+			                     		<li style="margin:4px;"><a href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
+			                     	@endif
+			                     @endforeach()
+			              </ul>
+			        </div>
+				</div>
+				@endif()
+           </div>
+          
+          <div class="col-md-8 col-sm-6">
                 <section class="mail-box-info">
                     <header class="header">
                         <div class="compose-btn pull-left">
@@ -124,11 +140,10 @@ ul >li {
 			         <div class="paginate" style="text-align:center;">{!! $datas->appends(array('cid'=>$cid,'tid'=>$tid))->render() !!}</div>
                     </section>
                 </section>
-          	
           </div>
           <div class="col-md-2 col-sm-3" >
-             @component('wenda.slot.mycenterslot')
-             @endcomponent
+			<!-- 个人中心 -->
+             @component('wenda.slot.mycenterslot')@endcomponent
 			<div class="category">
 				<div class="col-md-12 col-sm-12" >
 					<ul class="nav nav_tabs " >
@@ -136,24 +151,9 @@ ul >li {
 					</ul>
 				</div>
 			</div>
-		<!-- 热门标签 -->
-			@if(!empty($tags[0]))
-			<div class="tag" style="display: block;">
-		        <div class="col-md-12 col-sm-12" style="margin-top:12px;">
-		               <ul class="revenue-nav pull-left" >
-		                     @foreach($tags as $tag)
-		                     	@if($tag->id == $tid)
-		                     		<li style="margin:4px;"><a style="background-color:red;" href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
-		                     	@else
-		                     		<li style="margin:4px;"><a href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
-		                     	@endif
-		                     @endforeach()
-		              </ul>
-		        </div>
-			</div>
-			@endif()
-	      
           </div>
+          
+          
       </div>
   </div>
   <!--body wrapper end-->

@@ -11,12 +11,12 @@
                         <div class="ibox-title">
                             <div class="ibox-tools">
                                <div class="pull-right">
-                                    <a type="button" class="btn btn-sm btn-white" href="{{ url('/cate/list') }}"> <i class="fa fa-list">列表</i></a>
+                                    <a type="button" class="btn btn-sm btn-white" href="{{ url('/back/cate/list') }}"> <i class="fa fa-list">列表</i></a>
                                </div>
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <form method="post" action="{{ url('/cate/store') }}" class="form-horizontal" enctype="multipart/form-data">
+                            <form method="post" action="{{ url('/back/cate/store') }}" class="form-horizontal" enctype="multipart/form-data">
                                 {{ csrf_field() }}
                                <div class="hr-line-dashed"></div>
 			                   <div class="form-group">

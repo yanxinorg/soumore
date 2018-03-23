@@ -41,7 +41,47 @@
 <div class="main-content">
   <div class="wrapper">
       <div class="directory-info-row">
-          <div class="col-md-10 col-sm-9">
+      
+      		<div class="col-md-2 col-sm-3" >
+      			<!--分类 -->
+		      	<div class="category">
+					<div class="col-md-12 col-sm-12" >
+						<ul class="nav nav_tabs " >
+							<li style="font-size: 16px; text-align:center;">
+							 	<a href="{{ URL::action('Front\QuestionController@latest', ['tid'=>$tid,'cid'=>$cid]) }}">最新问答</a>
+							</li>
+							<li style="font-size: 16px; text-align:center;">
+							 	<a href="{{ URL::action('Front\QuestionController@hottest', ['tid'=>$tid,'cid'=>$cid]) }}">热门问答</a>
+							</li>
+							<li style="font-size: 16px; text-align:center;">
+							 	<a href="{{ URL::action('Front\QuestionController@unanswered', ['tid'=>$tid,'cid'=>$cid]) }}">待回答的</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				<!-- 热门标签 -->
+				@if(!empty($tags[0]))
+				<div class="tag" style="display: block;">
+			        <div class="col-md-12 col-sm-12">
+			        <h6 style="text-align:center;">标签云</h6>
+			               <ul class="revenue-nav pull-left" >
+			                     @foreach($tags as $tag)
+			                     	@if($tag->id == $tid)
+			                     		<li style="margin:4px;"><a style="background-color:red;" href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
+			                     	@else
+			                     		<li style="margin:4px;"><a href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
+			                     	@endif
+			                     @endforeach()
+			              </ul>
+			        </div>
+				</div>
+				@endif()
+				
+           </div>
+          
+          
+          <div class="col-md-8 col-sm-6">
                 <section class="mail-box-info">
                     <header class="header">
                         <div class="compose-btn pull-left">
@@ -79,41 +119,7 @@
           	<div class="paginate" style="text-align:center;"></div>
           </div>
           <div class="col-md-2 col-sm-3" >
-             @component('wenda.slot.myquestionslot')
-             @endcomponent
-            	<!--       分类 -->
-	      	<div class="category">
-				<div class="col-md-12 col-sm-12" >
-					<ul class="nav nav_tabs " >
-						<li style="font-size: 16px; text-align:center;">
-						 	<a href="{{ URL::action('Front\QuestionController@latest', ['tid'=>$tid,'cid'=>$cid]) }}">最新问答</a>
-						</li>
-						<li style="font-size: 16px; text-align:center;">
-						 	<a href="{{ URL::action('Front\QuestionController@hottest', ['tid'=>$tid,'cid'=>$cid]) }}">热门问答</a>
-						</li>
-						<li style="font-size: 16px; text-align:center;">
-						 	<a href="{{ URL::action('Front\QuestionController@unanswered', ['tid'=>$tid,'cid'=>$cid]) }}">待回答的</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-<!-- 		热门标签	 -->
-			@if(!empty($tags[0]))
-				<div class="tag" >
-			        <div class="col-md-12 col-sm-12" style="margin-top:12px;">
-			               <ul class="revenue-nav pull-left" >
-			                     @foreach($tags as $tag)
-			                     	@if($tag->id == $tid)
-			                     		<li style="margin:4px;"><a style="background-color:red;" href="{{ URL::action('Front\QuestionController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
-			                     	@else
-			                     		<li style="margin:4px;"><a href="{{ URL::action('Front\QuestionController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
-			                     	@endif
-			                     @endforeach()
-			              </ul>
-			        </div>
-				</div>
-			@endif()
-			
+             @component('wenda.slot.myquestionslot')@endcomponent
           </div>
       </div>
   </div>

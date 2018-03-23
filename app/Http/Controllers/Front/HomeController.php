@@ -54,7 +54,7 @@ class HomeController extends Controller
     	}
     	//最近访客 获取最近8位访客
     	$recents = DB::table('visitors')
-    	->join('users', 'visitors.visitor_id', '=', 'users.id')
+    	->leftjoin('users', 'visitors.visitor_id', '=', 'users.id')
     	->where('visitors.user_id','=',$request->get('uid'))
     	->select(
     			'users.id as user_id',
@@ -98,7 +98,7 @@ class HomeController extends Controller
     	]);
     	$userInfo = UserModel::where('id','=',$request->get('uid'))->get();
     	$datas = DB::table('questions')
-    	->join('users', 'questions.user_id', '=', 'users.id')
+    	->leftjoin('users', 'questions.user_id', '=', 'users.id')
     	->where('questions.user_id','=',$request->get('uid'))
     	->select(
     			'users.id as user_id',
@@ -135,8 +135,8 @@ class HomeController extends Controller
     	]);
     	$userInfo = UserModel::where('id','=',$request->get('uid'))->get();
     	$datas = DB::table('questions')
-    	->join('answers', 'questions.id', '=', 'answers.question_id')
-    	->join('users', 'questions.user_id', '=', 'users.id')
+    	->leftjoin('answers', 'questions.id', '=', 'answers.question_id')
+    	->leftjoin('users', 'questions.user_id', '=', 'users.id')
     	->where('answers.user_id','=',$request->get('uid'))
     	->select(
     			'users.id as user_id',
@@ -173,7 +173,7 @@ class HomeController extends Controller
     	$userInfo = UserModel::where('id','=',$request->get('uid'))->get();
     	//关注的粉丝
     	$datas = DB::table('attentions')
-    	->join('users', 'attentions.user_id', '=', 'users.id')
+    	->leftjoin('users', 'attentions.user_id', '=', 'users.id')
     	->where('attentions.source_type','=','1')
     	->where('attentions.source_id','=',$request->get('uid'))
     	->select(

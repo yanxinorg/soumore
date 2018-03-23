@@ -58,9 +58,9 @@
                      <li>
                         <a href="index.html#"><i class="fa fa-bars"></i> <span class="nav-label">权限管理</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="{{ url('/user/list') }}"><span class="nav-label">用户</span></a></li>
-                            <li><a href="{{ url('/role/list') }}"><span class="nav-label">角色</span></a></li>
-                            <li><a href="{{ url('/permit/list') }}"><span class="nav-label">权限</span></a></li>
+                            <li><a href="{{ url('/back/user/list') }}"><span class="nav-label">用户</span></a></li>
+                            <li><a href="{{ url('/back/role/list') }}"><span class="nav-label">角色</span></a></li>
+                            <li><a href="{{ url('/back/permit/list') }}"><span class="nav-label">权限</span></a></li>
                         </ul>
                     </li>
                     
@@ -68,9 +68,9 @@
                     <li>
                         <a href="index.html#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">内容管理</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li><a href="{{ url('/cate/list') }}">分类管理</a></li>
-                            <li><a href="graph_morris.html">文章管理</a></li>
-                            <li><a href="{{ url('/topic/list') }}">话题管理</a></li>
+                            <li><a href="{{ url('/back/cate/list') }}">分类管理</a></li>
+                            <li><a href="{{ url('/back/post/list') }}">文章管理</a></li>
+                            <li><a href="{{ url('/back/topic/list') }}">话题管理</a></li>
                             <li><a href="graph_chartjs.html">Chart.js</a></li>
                             <li><a href="graph_chartist.html">Chartist</a></li>
                             <li><a href="c3.html">c3 charts</a></li>

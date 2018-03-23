@@ -13,7 +13,7 @@
                         	<div class="m-b-lg">
                                 <div class="m-t-md">
                                     <div class="pull-right">
-		                                 <a type="button" class="btn btn-md btn-white" href="{{ url('/role/add') }}"><i class="fa fa-plus">新增</i></a>
+		                                 <a type="button" class="btn btn-md btn-white" href="{{ url('/back/role/add') }}"><i class="fa fa-plus">新增</i></a>
 		                             </div>
 		                             <strong>共 {{ $total }} 个角色.</strong>
                                 </div>
@@ -70,7 +70,7 @@ function del(id){
          confirmButtonText: "Yes, delete it!",
          closeOnConfirm: false
      }, function () {
-     	 $.post("{{ url('/role/delete') }}",
+     	 $.post("{{ url('/back/role/delete') }}",
                   {
                   "_token":'{{ csrf_token() }}',
                   "id": id,

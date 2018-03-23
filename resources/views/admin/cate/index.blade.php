@@ -16,7 +16,7 @@
                         </div>
                         <div class="col-md-6 m-b-md">
                             <div class="pull-right">
-                                <a type="button" class="btn btn-md btn-white" href="{{ url('/cate/add') }}"><i class="fa fa-plus">新增</i></a>
+                                <a type="button" class="btn btn-md btn-white" href="{{ url('/back/cate/add') }}"><i class="fa fa-plus">新增</i></a>
                             </div>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
 <script>
 //改变分类状态
 $("select#cate_status").change(function(){
-	 $.post("{{ url('/cate/status') }}",
+	 $.post("{{ url('/back/cate/status') }}",
        {
          "_token":'{{ csrf_token() }}',
          "id": $(this).val(),
@@ -126,7 +126,7 @@ function del(id){
          confirmButtonText: "Yes, delete it!",
          closeOnConfirm: false
      }, function () {
-     	 $.post("{{ url('/cate/delete') }}",
+     	 $.post("{{ url('/back/cate/delete') }}",
                   {
                   "_token":'{{ csrf_token() }}',
                   "id": id,

@@ -171,7 +171,7 @@ class PersonController extends Controller
     		{
     			//查询该分类下的发布文章
     			$datas = DB::table('posts')
-				->join('users', 'posts.user_id', '=', 'users.id')
+				->leftjoin('users', 'posts.user_id', '=', 'users.id')
 				->select('posts.id as post_id',
 						'posts.title as title',
 						'users.name as author',
@@ -206,7 +206,7 @@ class PersonController extends Controller
     	if(!empty($request->get('cid')))
     	{
     		$questions = DB::table('questions')
-    		->join('users', 'users.id', '=', 'questions.user_id')
+    		->leftjoin('users', 'users.id', '=', 'questions.user_id')
     		->where('questions.user_id','=',Auth::id())
     		->where('questions.cate_id','=',$request->get('cid'))
     		->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
@@ -214,7 +214,7 @@ class PersonController extends Controller
     		->paginate('15');
     	}else{
     		$questions = DB::table('questions')
-    		->join('users', 'users.id', '=', 'questions.user_id')
+    		->leftjoin('users', 'users.id', '=', 'questions.user_id')
     		->where('questions.user_id','=',Auth::id())
     		->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
     		->orderBy('questions.created_at','desc')
@@ -230,8 +230,8 @@ class PersonController extends Controller
     public function collect(Request $request)
     {
     	$datas = DB::table('collections')
-    	->join('users', 'collections.user_id', '=', 'users.id')
-    	->join('posts', 'collections.source_id', '=', 'posts.id')
+    	->leftjoin('users', 'collections.user_id', '=', 'users.id')
+    	->leftjoin('posts', 'collections.source_id', '=', 'posts.id')
     	->where('collections.user_id','=',Auth::id())
     	->where('collections.source_type','=','1')
     	->select('posts.id as post_id',
@@ -252,8 +252,8 @@ class PersonController extends Controller
     public function postCollect(Request $request)
     {
     	$datas = DB::table('collections')
-    	->join('users', 'collections.user_id', '=', 'users.id')
-    	->join('posts', 'collections.source_id', '=', 'posts.id')
+    	->leftjoin('users', 'collections.user_id', '=', 'users.id')
+    	->leftjoin('posts', 'collections.source_id', '=', 'posts.id')
     	->where('collections.user_id','=',Auth::id())
     	->where('collections.source_type','=','1')
     	->select('posts.id as post_id',
@@ -274,8 +274,8 @@ class PersonController extends Controller
     public function answerCollect(Request $request)
     {
     	$datas = DB::table('collections')
-    	->join('users', 'collections.user_id', '=', 'users.id')
-    	->join('questions', 'collections.source_id', '=', 'questions.id')
+    	->leftjoin('users', 'collections.user_id', '=', 'users.id')
+    	->leftjoin('questions', 'collections.source_id', '=', 'questions.id')
     	->where('collections.user_id','=',Auth::id())
     	->where('collections.source_type','=','2')
     	->select(
@@ -296,7 +296,7 @@ class PersonController extends Controller
     {
     	//关注的话题
     	$tags = DB::table('attentions')
-    	->join('tags', 'attentions.source_id', '=', 'tags.id')
+    	->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
     	->where('attentions.source_type','=','3')
     	->where('attentions.user_id','=',Auth::id())
     	->select(
@@ -311,7 +311,7 @@ class PersonController extends Controller
     public function userAttention(Request $request)
     {
     	$datas = DB::table('attentions')
-    	->join('users', 'attentions.source_id', '=', 'users.id')
+    	->leftjoin('users', 'attentions.source_id', '=', 'users.id')
     	->where('attentions.user_id','=',Auth::id())
     	->where('attentions.source_type','=','1')
     	->select('users.id as user_id',
@@ -340,7 +340,7 @@ class PersonController extends Controller
     {
     	//关注的话题
     	$tags = DB::table('attentions')
-    	->join('tags', 'attentions.source_id', '=', 'tags.id')
+    	->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
     	->where('attentions.source_type','=','3')
     	->where('attentions.user_id','=',Auth::id())
     	->select(
@@ -393,8 +393,8 @@ class PersonController extends Controller
     public function topiced(Request $request)
     {
     	$datas = DB::table('attentions')
-    	->join('users', 'attentions.user_id', '=', 'users.id')
-    	->join('tags', 'attentions.source_id', '=', 'tags.id')
+    	->leftjoin('users', 'attentions.user_id', '=', 'users.id')
+    	->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
     	->where('attentions.source_type','=','3')
     	->where('attentions.user_id','=',Auth::id())
     	->select(
@@ -408,7 +408,7 @@ class PersonController extends Controller
     public function letter()
     {
     	$fromUserIds = DB::table('messages')
-    	->join('users', 'messages.from_user_id', '=', 'users.id')
+    	->leftjoin('users', 'messages.from_user_id', '=', 'users.id')
     	->where('messages.to_user_id','=',Auth::id())
     	->orderBy('messages.created_at','desc')
     	->pluck('messages.from_user_id')->toArray();
@@ -416,7 +416,7 @@ class PersonController extends Controller
     	$fromUserIds = array_unique($fromUserIds);
     	//查找唯一私信
     	$datas = DB::table('messages')
-    	->join('users', 'messages.from_user_id', '=', 'users.id')
+    	->leftjoin('users', 'messages.from_user_id', '=', 'users.id')
     	->whereIn('messages.from_user_id', $fromUserIds)
     	->select(
     			'users.id as id',
@@ -440,7 +440,7 @@ class PersonController extends Controller
     	if($request->get('from_user_id') == Auth::id() || $request->get('to_user_id') == Auth::id())
     	{
     		$datas = DB::table('messages')
-	    	->join('users', 'messages.from_user_id', '=', 'users.id')
+	    	->leftjoin('users', 'messages.from_user_id', '=', 'users.id')
 	    	->where(['messages.from_user_id'=>$request->get('from_user_id'),'messages.to_user_id'=>$request->get('to_user_id')])
 	    	->orWhere(['messages.from_user_id'=>$request->get('to_user_id'),'messages.to_user_id'=>$request->get('from_user_id')])
 	    	->select(

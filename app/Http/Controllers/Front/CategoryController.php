@@ -43,7 +43,7 @@ class CategoryController extends Controller
     {
     	$cates = CategoryModel::all();
     	$questions = DB::table('questions')
-    	->join('users', 'users.id', '=', 'questions.user_id')
+    	->leftjoin('users', 'users.id', '=', 'questions.user_id')
     	->where('questions.cate_id','=',$request->get('cateid'))
     	->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
     	->paginate('5');

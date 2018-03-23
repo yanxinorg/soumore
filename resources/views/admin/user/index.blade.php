@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="col-md-3 m-b-md">
                                     <div class="pull-right">
-                                        <a type="button" class="btn btn-md btn-white" href="{{ url('/user/add') }}"><i class="fa fa-plus">新增</i></a>
+                                        <a type="button" class="btn btn-md btn-white" href="{{ url('/back/user/add') }}"><i class="fa fa-plus">新增</i></a>
                                         <div class="dt-buttons btn-group">
 	                                        <a class="btn btn-default buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
 	                                        	<span>CSV</span>
@@ -104,7 +104,7 @@ function del(id){
          confirmButtonText: "Yes, delete it!",
          closeOnConfirm: false
      }, function () {
-     	 $.post("{{ url('/user/delete') }}",
+     	 $.post("{{ url('/back/user/delete') }}",
                   {
                   "_token":'{{ csrf_token() }}',
                   "id": id,

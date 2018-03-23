@@ -41,7 +41,7 @@ body{
 							                 {{ $errors->first('title') }}
 							            </div>
 							         @else
-							          <div class="alert-danger backsuccess" >
+							          <div class="alert-success backsuccess" >
 						            	<span>至少2字符</span>
 						              </div>
 							         @endif
@@ -57,7 +57,7 @@ body{
 							                 {{ $errors->first('cover') }}
 							            </div>
 							         @else
-							          <div class="alert-danger backsuccess" >
+							          <div class="alert-success backsuccess" >
 						            	<span>图片2M以内</span>
 						              </div>
 							         @endif
@@ -74,7 +74,7 @@ body{
 							                 {{ $errors->first('content') }}
 							            </div>
 							          @else
-							           <div class="alert-danger backsuccess" >
+							           <div class="alert-success backsuccess" >
 						            	<span>至少10字符</span>
 						               </div>
 							          @endif
@@ -113,8 +113,8 @@ body{
 								   </select>
                               </div>
                               <div class="col-md-2 col-sm-2">
-						            <div class="alert-danger backsuccess" >
-						            	<span>最多5个标签</span>
+						            <div class="alert-success backsuccess" >
+						            	<span>至多5个标签</span>
 						            </div>
                               </div>
                           </div>

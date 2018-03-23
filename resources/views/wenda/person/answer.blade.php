@@ -64,7 +64,12 @@
 <div class="main-content">
   <div class="wrapper">
       <div class="directory-info-row">
-          <div class="col-md-10 col-sm-9">
+			<!--通知栏 -->
+      	   <div class="col-md-2 col-sm-3" >
+				@component('wenda.slot.noticeslot')@endcomponent
+           </div>
+           
+          <div class="col-md-8 col-sm-6">
                 <section class="mail-box-info">
                     <header class="header">
                         <div class="compose-btn pull-left">
@@ -102,10 +107,7 @@
           	<div class="paginate" style="text-align:center;"></div>
           </div>
           <div class="col-md-2 col-sm-3" >
-             @component('wenda.slot.myquestionslot')
-             @endcomponent
-             @component('wenda.slot.noticeslot')
-             @endcomponent
+             @component('wenda.slot.myquestionslot')@endcomponent
           </div>
       </div>
   </div>

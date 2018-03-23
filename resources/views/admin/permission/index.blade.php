@@ -13,7 +13,7 @@
                         	<div class="m-b-lg">
                                 <div class="m-t-md">
                                     <div class="pull-right">
-		                                 <a type="button" class="btn btn-md btn-white" href="{{ url('/permit/add') }}"><i class="fa fa-plus">新增</i></a>
+		                                 <a type="button" class="btn btn-md btn-white" href="{{ url('/back/permit/add') }}"><i class="fa fa-plus">新增</i></a>
 		                             </div>
                                     <strong>共 61 条路由.</strong>
                                 </div>
@@ -68,7 +68,7 @@ function del(id){
          confirmButtonText: "Yes, delete it!",
          closeOnConfirm: false
      }, function () {
-     	 $.post("{{ url('/permit/delete') }}",
+     	 $.post("{{ url('/back/permit/delete') }}",
                   {
                   "_token":'{{ csrf_token() }}',
                   "id": id,

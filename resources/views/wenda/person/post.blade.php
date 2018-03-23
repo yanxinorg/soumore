@@ -63,7 +63,20 @@
 <div class="main-content">
   <div class="wrapper">
       <div class="directory-info-row">
-          <div class="col-md-10 col-sm-9">
+      
+      		<div class="col-md-2 col-sm-3" >
+				<div class="category">
+					<div class="col-md-12 col-sm-12" >
+						<ul class="nav nav_tabs " >
+							<li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1','cid'=>$cid]) }}">已发布</a></li>
+							<li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'0','cid'=>$cid]) }}">未发布</a></li>
+						</ul>
+					</div>
+				</div>
+           </div>
+           
+      
+          <div class="col-md-8 col-sm-6">
                 <section class="mail-box-info">
                     <header class="header">
                         <div class="compose-btn pull-left">
@@ -147,14 +160,7 @@
           <div class="col-md-2 col-sm-3" >
              @component('wenda.slot.mycenterslot')
              @endcomponent
-             <div class="category">
-				<div class="col-md-12 col-sm-12" >
-					<ul class="nav nav_tabs " >
-						<li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1','cid'=>$cid]) }}">已发布</a></li>
-						<li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'0','cid'=>$cid]) }}">未发布</a></li>
-					</ul>
-				</div>
-			</div>
+             
 			
           </div>
       </div>

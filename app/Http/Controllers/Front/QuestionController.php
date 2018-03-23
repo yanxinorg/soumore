@@ -22,7 +22,7 @@ class QuestionController extends Controller
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
     	$tags = TagModel::all();
     	$questions = DB::table('questions')
-				    	->join('users', 'users.id', '=', 'questions.user_id')
+				    	->leftjoin('users', 'users.id', '=', 'questions.user_id')
 				    	->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
 						->orderBy('questions.created_at','desc')		    	
     					->paginate('15');
@@ -96,8 +96,8 @@ class QuestionController extends Controller
     	]);
     	//查询文章
     	$datas = DB::table('questions')
-    	->join('users', 'questions.user_id', '=', 'users.id')
-    	->join('category', 'questions.cate_id', '=', 'category.id')
+    	->leftjoin('users', 'questions.user_id', '=', 'users.id')
+    	->leftjoin('category', 'questions.cate_id', '=', 'category.id')
     	->where('questions.id','=',$request->get('id'))
     	->select('questions.id as question_id',
     			'questions.title as title',
@@ -111,7 +111,7 @@ class QuestionController extends Controller
     			)->orderBy('questions.created_at','desc')->get();
     	//标签
     	$tagss = DB::table('question_tag')
-    			->join('tags', 'question_tag.tags_id', '=', 'tags.id')
+    			->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
     			->where('question_tag.questions_id','=',$request->get('id'))
     			->select(
     					'tags.name as name',
@@ -121,7 +121,7 @@ class QuestionController extends Controller
     			->paginate('5');
     			//评论内容
     	$answers = DB::table('answers')
-    			->join('users', 'answers.user_id', '=', 'users.id')
+    			->leftjoin('users', 'answers.user_id', '=', 'users.id')
     			->where('answers.question_id','=',$request->get('id'))
     			->select('answers.id as answer_id',
     					'answers.user_id as user_id',
@@ -209,8 +209,8 @@ class QuestionController extends Controller
     	{
     		//查询
     		$questions = DB::table('questions')
-    		->join('users', 'questions.user_id', '=', 'users.id')
-    		->join('question_tag', 'questions.id', '=', 'question_tag.questions_id')
+    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
+    		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
     		->where('question_tag.tags_id','=',$request->get('tid'))
     		->where('questions.cate_id','=',$request->get('cid'))
     		->select(
@@ -226,8 +226,8 @@ class QuestionController extends Controller
     		$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
     		//查询该分类下面的标签文章
     		$tags = DB::table('question_tag')
-    				->join('questions', 'question_tag.questions_id', '=', 'questions.id')
-    				->join('tags', 'question_tag.tags_id', '=', 'tags.id')
+    				->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
+    				->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
@@ -237,7 +237,7 @@ class QuestionController extends Controller
     	if(!empty($request->get('cid')))
     	{
     		$questions = DB::table('questions')
-    		->join('users', 'questions.user_id', '=', 'users.id')
+    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
     		->where('questions.cate_id','=',$request->get('cid'))
     		->select(
     				'users.id as user_id',
@@ -252,8 +252,8 @@ class QuestionController extends Controller
     		$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
     		//查询该分类下面的标签文章
     		$tags = DB::table('question_tag')
-    				->join('questions', 'question_tag.questions_id', '=', 'questions.id')
-    				->join('tags', 'question_tag.tags_id', '=', 'tags.id')
+    				->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
+    				->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
@@ -263,8 +263,8 @@ class QuestionController extends Controller
     	if(!empty($request->get('tid')))
     	{
     		$questions = DB::table('questions')
-    		->join('users', 'questions.user_id', '=', 'users.id')
-    		->join('question_tag', 'questions.id', '=', 'question_tag.questions_id')
+    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
+    		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
     		->where('question_tag.tags_id','=',$request->get('tid'))
     		->select(
     				'users.id as user_id',
@@ -279,8 +279,8 @@ class QuestionController extends Controller
     		$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
     		//查询该分类下面的标签问答
     		$tags = DB::table('question_tag')
-    				->join('questions', 'question_tag.questions_id', '=', 'questions.id')
-    				->join('tags', 'question_tag.tags_id', '=', 'tags.id')
+    				->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
+    				->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
@@ -289,7 +289,7 @@ class QuestionController extends Controller
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
     	$tags = TagModel::all();
     	$questions = DB::table('questions')
-				    ->join('users', 'users.id', '=', 'questions.user_id')
+				    ->leftjoin('users', 'users.id', '=', 'questions.user_id')
 				    ->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
 				    ->paginate('15');
     	return view('wenda.question.index',[
@@ -313,8 +313,8 @@ class QuestionController extends Controller
     	{
     		//查询
     		$questions = DB::table('questions')
-    		->join('users', 'questions.user_id', '=', 'users.id')
-    		->join('question_tag', 'questions.id', '=', 'question_tag.questions_id')
+    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
+    		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
     		->where('question_tag.tags_id','=',$request->get('tid'))
     		->where('questions.cate_id','=',$request->get('cid'))
     		->select(
@@ -331,8 +331,8 @@ class QuestionController extends Controller
     		$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
     				//查询该分类下面的标签文章
     		$tags = DB::table('question_tag')
-    				->join('questions', 'question_tag.questions_id', '=', 'questions.id')
-    				->join('tags', 'question_tag.tags_id', '=', 'tags.id')
+    				->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
+    				->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
@@ -342,7 +342,7 @@ class QuestionController extends Controller
     	if(!empty($request->get('cid')))
     	{
     		$questions = DB::table('questions')
-    		->join('users', 'questions.user_id', '=', 'users.id')
+    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
     		->where('questions.cate_id','=',$request->get('cid'))
     		->select(
     				'users.id as user_id',
@@ -358,8 +358,8 @@ class QuestionController extends Controller
     		$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
     				//查询该分类下面的标签文章
     		$tags = DB::table('question_tag')
-    				->join('questions', 'question_tag.questions_id', '=', 'questions.id')
-    				->join('tags', 'question_tag.tags_id', '=', 'tags.id')
+    				->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
+    				->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
@@ -369,8 +369,8 @@ class QuestionController extends Controller
     	if(!empty($request->get('tid')))
     	{
     		$questions = DB::table('questions')
-    		->join('users', 'questions.user_id', '=', 'users.id')
-    		->join('question_tag', 'questions.id', '=', 'question_tag.questions_id')
+    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
+    		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
     		->where('question_tag.tags_id','=',$request->get('tid'))
     		->select(
     				'users.id as user_id',
@@ -386,8 +386,8 @@ class QuestionController extends Controller
     		$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
     				//查询该分类下面的标签问答
     		$tags = DB::table('question_tag')
-    				->join('questions', 'question_tag.questions_id', '=', 'questions.id')
-    				->join('tags', 'question_tag.tags_id', '=', 'tags.id')
+    				->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
+    				->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
@@ -396,7 +396,7 @@ class QuestionController extends Controller
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
     	$tags = TagModel::all();
     	$questions = DB::table('questions')
-    	->join('users', 'users.id', '=', 'questions.user_id')
+    	->leftjoin('users', 'users.id', '=', 'questions.user_id')
     	->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
     	->orderBy('questions.views','desc')
     	->paginate('15');
@@ -421,8 +421,8 @@ class QuestionController extends Controller
     	{
     		//查询
     		$questions = DB::table('questions')
-    		->join('users', 'questions.user_id', '=', 'users.id')
-    		->join('question_tag', 'questions.id', '=', 'question_tag.questions_id')
+    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
+    		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
     		->where('question_tag.tags_id','=',$request->get('tid'))
     		->where('questions.cate_id','=',$request->get('cid'))
     		->where('questions.comments','=','')
@@ -439,8 +439,8 @@ class QuestionController extends Controller
     		$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
     				//查询该分类下面的标签文章
     		$tags = DB::table('question_tag')
-    				->join('questions', 'question_tag.questions_id', '=', 'questions.id')
-    				->join('tags', 'question_tag.tags_id', '=', 'tags.id')
+    				->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
+    				->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
@@ -450,7 +450,7 @@ class QuestionController extends Controller
     	if(!empty($request->get('cid')))
     	{
     		$questions = DB::table('questions')
-    		->join('users', 'questions.user_id', '=', 'users.id')
+    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
     		->where('questions.cate_id','=',$request->get('cid'))
     		->where('questions.comments','=','')
     		->select(
@@ -466,8 +466,8 @@ class QuestionController extends Controller
     		$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
     				//查询该分类下面的标签文章
     		$tags = DB::table('question_tag')
-    				->join('questions', 'question_tag.questions_id', '=', 'questions.id')
-    				->join('tags', 'question_tag.tags_id', '=', 'tags.id')
+    				->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
+    				->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
@@ -477,8 +477,8 @@ class QuestionController extends Controller
     	if(!empty($request->get('tid')))
     	{
     		$questions = DB::table('questions')
-    		->join('users', 'questions.user_id', '=', 'users.id')
-    		->join('question_tag', 'questions.id', '=', 'question_tag.questions_id')
+    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
+    		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
     		->where('question_tag.tags_id','=',$request->get('tid'))
     		->where('questions.comments','=','')
     		->select(
@@ -494,8 +494,8 @@ class QuestionController extends Controller
     		$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
     		//查询该分类下面的标签问答
     		$tags = DB::table('question_tag')
-    				->join('questions', 'question_tag.questions_id', '=', 'questions.id')
-    				->join('tags', 'question_tag.tags_id', '=', 'tags.id')
+    				->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
+    				->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
@@ -504,7 +504,7 @@ class QuestionController extends Controller
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
     	$tags = TagModel::all();
     	$questions = DB::table('questions')
-    	->join('users', 'users.id', '=', 'questions.user_id')
+    	->leftjoin('users', 'users.id', '=', 'questions.user_id')
     	->where('questions.comments','=','')
     	->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
     	->orderBy('questions.created_at','desc')
@@ -522,7 +522,7 @@ class QuestionController extends Controller
     {
     	$this->validate($request, ['cid'=>'required|numeric|exists:category,id']);
     	$questions = DB::table('questions')
-				    ->join('users', 'users.id', '=', 'questions.user_id')
+				    ->leftjoin('users', 'users.id', '=', 'questions.user_id')
 				    ->where('questions.cate_id','=',$request->get('cid'))
 				    ->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
 				    ->orderBy('questions.created_at','desc')
@@ -532,7 +532,7 @@ class QuestionController extends Controller
     	$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
     	//查询该分类下面的问答
     	$tagIds = DB::table('question_tag')
-    	->join('questions', 'question_tag.questions_id', '=', 'questions.id')
+    	->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
     	->whereIn('question_tag.questions_id', $questionIds)
     	->select('question_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
     	//去重
@@ -558,8 +558,8 @@ class QuestionController extends Controller
     	{
     		//该标签的文章
     		$questions = DB::table('questions')
-    		->join('users', 'questions.user_id', '=', 'users.id')
-    		->join('question_tag', 'questions.id', '=', 'question_tag.questions_id')
+    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
+    		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
     		->where('question_tag.tags_id','=',$request->get('tid'))
     		->select(
     				'users.id as user_id',
@@ -576,7 +576,7 @@ class QuestionController extends Controller
     		$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
     		//查询该分类下面的标签问答
     		$tagIds = DB::table('question_tag')
-    		->join('questions', 'question_tag.questions_id', '=', 'questions.id')
+    		->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
     		->whereIn('question_tag.questions_id', $questionIds)
     		->select('question_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
     		//去重
@@ -586,8 +586,8 @@ class QuestionController extends Controller
     		->get();
     		//查询该分类下面的标签问答
     		$questions = DB::table('questions')
-    		->join('users', 'questions.user_id', '=', 'users.id')
-    		->join('question_tag', 'questions.id', '=', 'question_tag.questions_id')
+    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
+    		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
     		->where('question_tag.tags_id','=',$request->get('tid'))
     		->where('questions.cate_id','=',$request->get('cid'))
     		->select(

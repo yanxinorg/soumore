@@ -24,7 +24,11 @@ use App\Models\Common\UserModel;
 <div class="main-content" >
   <div class="wrapper">
       <div class="directory-info-row">
-          <div class="col-md-10 col-sm-9" >
+      		<div class="col-md-2 col-sm-3" >
+				 @component('wenda.slot.noticeslot')@endcomponent 
+           </div>
+           
+          <div class="col-md-8 col-sm-6" >
                <div class="blog">
                   <div class="single-blog">
                       <div class="panel">
@@ -122,7 +126,7 @@ use App\Models\Common\UserModel;
           </div>
           <div class="col-md-2 col-sm-3">
            	@component('wenda.slot.mycenterslot')@endcomponent
-            @component('wenda.slot.noticeslot')@endcomponent 
+           
           </div>
       </div>
   </div>

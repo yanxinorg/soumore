@@ -40,9 +40,9 @@ class PostController extends Controller
     	{
     		//查询
     		$datas = DB::table('posts')
-    		->join('users', 'posts.user_id', '=', 'users.id')
-    		->join('post_tag', 'posts.id', '=', 'post_tag.posts_id')
-    		->join('collections', 'posts.id', '=', 'collections.source_id')
+    		->leftjoin('users', 'posts.user_id', '=', 'users.id')
+    		->leftjoin('post_tag', 'posts.id', '=', 'post_tag.posts_id')
+    		->leftjoin('collections', 'posts.id', '=', 'collections.source_id')
     		->where('collections.user_id','=',Auth::id())
     		->where('collections.source_type','=','1')
     		->where('post_tag.tags_id','=',$request->get('tid'))
@@ -63,7 +63,7 @@ class PostController extends Controller
     		$postIds  = DB::table('posts')->where('cate_id','=',$request->get('cid'))->pluck('id');
     		//查询该分类下面的标签文章
     		$tagIds = DB::table('post_tag')
-    		->join('posts', 'post_tag.posts_id', '=', 'posts.id')
+    		->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
     		->whereIn('post_tag.posts_id', $postIds)
     		->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
     		//去重
@@ -78,8 +78,8 @@ class PostController extends Controller
     	if(!empty($request->get('cid')))
     	{
     		$datas = DB::table('collections')
-    		->join('users', 'collections.user_id', '=', 'users.id')
-    		->join('posts', 'collections.source_id', '=', 'posts.id')
+    		->leftjoin('users', 'collections.user_id', '=', 'users.id')
+    		->leftjoin('posts', 'collections.source_id', '=', 'posts.id')
     		->where('collections.user_id','=',Auth::id())
     		->where('collections.source_type','=',$request->get('source_type','1'))
     		->where('posts.cate_id','=',$request->get('cid'))
@@ -97,7 +97,7 @@ class PostController extends Controller
     		$postIds  = DB::table('posts')->where('cate_id','=',$request->get('cid'))->pluck('id');
     		//查询该分类下面的标签文章
     		$tagIds = DB::table('post_tag')
-    		->join('posts', 'post_tag.posts_id', '=', 'posts.id')
+    		->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
     		->whereIn('post_tag.posts_id', $postIds)
     		->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
     		//去重
@@ -112,8 +112,8 @@ class PostController extends Controller
     	if(!empty($request->get('tid')))
     	{
     		$datas = DB::table('collections')
-    		->join('users', 'collections.user_id', '=', 'users.id')
-    		->join('posts', 'collections.source_id', '=', 'posts.id')
+    		->leftjoin('users', 'collections.user_id', '=', 'users.id')
+    		->leftjoin('posts', 'collections.source_id', '=', 'posts.id')
     		->where('collections.user_id','=',Auth::id())
     		->where('collections.source_type','=',$request->get('source_type','1'))
     		->where('posts.cate_id','=',$request->get('cid'))
@@ -131,7 +131,7 @@ class PostController extends Controller
     				$postIds  = DB::table('posts')->where('cate_id','=',$request->get('cid'))->pluck('id');
     				//查询该分类下面的标签文章
     				$tagIds = DB::table('post_tag')
-    				->join('posts', 'post_tag.posts_id', '=', 'posts.id')
+    				->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
     				->whereIn('post_tag.posts_id', $postIds)
     				->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
     				//去重
@@ -144,8 +144,8 @@ class PostController extends Controller
     	}
     	//分类标签都为空
     	$datas = DB::table('collections')
-    		->join('users', 'collections.user_id', '=', 'users.id')
-    		->join('posts', 'collections.source_id', '=', 'posts.id')
+    		->leftjoin('users', 'collections.user_id', '=', 'users.id')
+    		->leftjoin('posts', 'collections.source_id', '=', 'posts.id')
     		->where('collections.user_id','=',Auth::id())
     		->where('collections.source_type','=',$request->get('source_type','1'))
     		->select('posts.id as post_id',
@@ -273,7 +273,7 @@ class PostController extends Controller
     	$tags = TagModel::all();
     	//该文章选中的标签
     	$selectedTags = DB::table('post_tag')
-    	->join('tags', 'post_tag.tags_id', '=', 'tags.id')
+    	->leftjoin('tags', 'post_tag.tags_id', '=', 'tags.id')
     	->where('post_tag.posts_id','=',$request->get('id'))
     	->select('tags.name as name','tags.id as id')->orderBy('tags.created_at','desc')->get();
     	$tmp = [];
@@ -412,8 +412,8 @@ class PostController extends Controller
         
         //查询文章
         $datas = DB::table('posts')
-        ->join('users', 'posts.user_id', '=', 'users.id')
-        ->join('category', 'posts.cate_id', '=', 'category.id')
+        ->leftjoin('users', 'posts.user_id', '=', 'users.id')
+        ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
         ->where('posts.id','=',$request->get('id'))
         ->select('posts.id as post_id',
             'posts.title as title', 
@@ -429,7 +429,7 @@ class PostController extends Controller
             )->orderBy('posts.created_at','desc')->get();
         //标签
         $tagss = DB::table('post_tag')
-        ->join('tags', 'post_tag.tags_id', '=', 'tags.id')
+        ->leftjoin('tags', 'post_tag.tags_id', '=', 'tags.id')
         ->where('post_tag.posts_id','=',$request->get('id'))
         ->select(
         		'tags.name as name',
@@ -439,7 +439,7 @@ class PostController extends Controller
         ->paginate('10');
         //评论内容
         $comments = DB::table('comments')
-        ->join('users', 'comments.user_id', '=', 'users.id')
+        ->leftjoin('users', 'comments.user_id', '=', 'users.id')
         ->where('comments.post_id','=',$request->get('id'))
         ->where('comments.status','=','1')
         ->select('comments.id as comment_id',
@@ -474,7 +474,7 @@ class PostController extends Controller
     {
     	$this->validate($request, ['cid'=>'required|numeric|exists:category,id']);
     	$datas = DB::table('posts')
-    	->join('users', 'posts.user_id', '=', 'users.id')
+    	->leftjoin('users', 'posts.user_id', '=', 'users.id')
     	->where('posts.status','=','1')
     	->where('posts.cate_id','=',$request->get('cid'))
     	->select('posts.id as post_id',
@@ -493,7 +493,7 @@ class PostController extends Controller
     	$postIds  = DB::table('posts')->where('cate_id','=',$request->get('cid'))->pluck('id');
     	//查询该分类下面的标签文章
     	$tagIds = DB::table('post_tag')
-    	->join('posts', 'post_tag.posts_id', '=', 'posts.id')
+    	->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
     	->whereIn('post_tag.posts_id', $postIds)
     	->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
     	//去重
@@ -518,8 +518,8 @@ class PostController extends Controller
     	{
     		//该标签的文章
     		$datas = DB::table('posts')
-    		->join('users', 'posts.user_id', '=', 'users.id')
-    		->join('post_tag', 'posts.id', '=', 'post_tag.posts_id')
+    		->leftjoin('users', 'posts.user_id', '=', 'users.id')
+    		->leftjoin('post_tag', 'posts.id', '=', 'post_tag.posts_id')
     		->where('post_tag.tags_id','=',$request->get('tid'))
     		->where('posts.status','=','1')
     		->select('posts.id as post_id',
@@ -538,7 +538,7 @@ class PostController extends Controller
     		$postIds  = DB::table('posts')->where('cate_id','=',$request->get('cid'))->pluck('id');
     		//查询该分类下面的标签文章
     		$tagIds = DB::table('post_tag')
-    		->join('posts', 'post_tag.posts_id', '=', 'posts.id')
+    		->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
     		->whereIn('post_tag.posts_id', $postIds)
     		->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
     		//去重
@@ -548,8 +548,8 @@ class PostController extends Controller
     		->get();
     		//查询该分类下面的标签文章
     		$datas = DB::table('posts')
-    		->join('users', 'posts.user_id', '=', 'users.id')
-    		->join('post_tag', 'posts.id', '=', 'post_tag.posts_id')
+    		->leftjoin('users', 'posts.user_id', '=', 'users.id')
+    		->leftjoin('post_tag', 'posts.id', '=', 'post_tag.posts_id')
     		->where('posts.status','=','1')
     		->where('post_tag.tags_id','=',$request->get('tid'))
     		->where('posts.cate_id','=',$request->get('cid'))
