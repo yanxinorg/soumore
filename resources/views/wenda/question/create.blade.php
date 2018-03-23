@@ -1,8 +1,7 @@
 @extends('layouts.wenda')
 @section('content')
 @include('UEditor::head')
-<!-- 标签 -->
-<link rel="stylesheet" href="{{ asset('wenda/post/css/chosen.css') }}">
+<link href="{{ asset('back/admin/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
 <style>
 .main-content .backrerror{
 	height:42px;
@@ -21,6 +20,13 @@
 body{
 	line-height:1.25;
 }
+.chosen-container-single .chosen-single{
+	height:42px;
+	line-height:42px;
+}
+.chosen-container-single .chosen-single div {
+    top: 8px;
+}
 </style>
 <div class="main-content" >
      <div class="wrapper">
@@ -29,16 +35,16 @@ body{
                       {{ csrf_field() }}
                        	 <div class="form-group">
                               <div class="col-md-8 col-md-offset-2 col-sm-10">
-                                  <select class="form-control" name="cid">
+                                  <select data-placeholder="选择分类..." class="chosen-select form-control"   tabindex="4" name="cid">
                                       @foreach($cates as $cate)
                                       		@if(!empty(old('cid')))
                                       			@if($cate->id == old('cid'))
-		                                      		<option value="{{ $cate->id }}">{{ $cate->name }}</option>
+		                                      		<option style="height:33px;line-height:24px;" value="{{ $cate->id }}">{{ $cate->name }}</option>
 		                                      	@else
-		                                      		<option value="{{ $cate->id }}" >{{ $cate->name }}</option>
+		                                      		<option style="height:33px;line-height:24px;" value="{{ $cate->id }}" >{{ $cate->name }}</option>
                                       			@endif
                                       		@else
-                                      			<option value="{{ $cate->id }}" >{{ $cate->name }}</option>
+                                      			<option style="height:33px;line-height:24px;" value="{{ $cate->id }}" >{{ $cate->name }}</option>
                                       		@endif
                                       @endforeach()
                                   </select>
@@ -105,8 +111,8 @@ body{
 </div>
 @section('js')
 @parent
-<!-- 标签插件 -->
-<script src="{{ asset('wenda/post/js/chosen.jquery.js') }}" type="text/javascript"></script>
+<!-- Chosen -->
+<script src="{{ asset('back/admin/js/plugins/chosen/chosen.jquery.js') }}"></script>
 <script src="{{ asset('wenda/post/js/docsupport/prism.js') }}" type="text/javascript" ></script>
 <!-- 头图 -->
 <script type="text/javascript">

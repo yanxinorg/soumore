@@ -116,6 +116,7 @@
 												</div>
 												<div class="pull-right">
 													<a class="detail"  href="javascript:void(0);" onClick="del({{ $data->post_id }});">删除</a>
+													<a class="detail"  href="{{ URL::action('Front\PostController@edit', ['id'=>$data->post_id]) }}">编辑</a>
 												</div>
 											</div>
 										</div>
@@ -144,6 +145,7 @@
 												</div>
 												<div class="pull-right">
 													<a class="detail"  href="javascript:void(0);" onClick="del({{ $data->post_id }});">删除</a>
+													<a class="detail"  href="{{ URL::action('Front\PostController@edit', ['id'=>$data->post_id]) }}">编辑</a>
 												</div>
 											</div>
 										</div>

@@ -42,7 +42,7 @@
                             IN+
                         </div>
                     </li>
-                    <li class="active">
+                    <li >
                         <a href="index.html"><i class="fa fa-windows"></i> <span class="nav-label">控制台</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li class="active"><a href="index.html">Dashboard v.1</a></li>
@@ -53,9 +53,8 @@
                         </ul>
                     </li>
                     
-                    
 <!--                     RBAC权限管理	 -->
-                     <li>
+                     <li >
                         <a href="index.html#"><i class="fa fa-bars"></i> <span class="nav-label">权限管理</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="{{ url('/back/user/list') }}"><span class="nav-label">用户</span></a></li>

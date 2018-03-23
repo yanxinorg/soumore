@@ -1,12 +1,11 @@
 @extends('layouts.wenda')
 @section('content')
 @include('UEditor::head')
-<!-- 标签 -->
-<link rel="stylesheet" href="{{ asset('wenda/post/css/chosen.css') }}">
 <!-- 文章 -->
 <link rel="stylesheet" type="text/css" href="{{ asset('wenda/post/css/jquery.filer.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('wenda/post/css/jquery.filer-dragdropbox-theme.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('wenda/post/css/custom.css') }}">
+<link href="{{ asset('back/admin/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
 <style>
 .main-content .backrerror{
 	height:42px;
@@ -25,6 +24,14 @@
 body{
 	line-height:1.25;
 }
+.chosen-container-single .chosen-single{
+	height:42px;
+	line-height:42px;
+}
+.chosen-container-single .chosen-single div {
+    top: 8px;
+}
+
 </style>
 <div class="main-content" >
      <div class="wrapper">
@@ -82,20 +89,20 @@ body{
                               	
     	                    </div>
     	                    <div class="form-group">
-                              <div class="col-md-4 col-sm-5 col-md-offset-2 ">
-                                  <select class="form-control" name="cid">
-                                      @foreach($cates as $cate)
+                              <div class="col-md-4 col-sm-5 col-md-offset-2 " id="cate">
+                              	<select data-placeholder="选择分类..." class="chosen-select form-control"   tabindex="4" name="cid">
+						                @foreach($cates as $cate)
                                       		@if(!empty(old('cid')))
                                       			@if($cate->id == old('cid'))
-		                                      		<option value="{{ $cate->id }}">{{ $cate->name }}</option>
+		                                      		<option style="height:33px;line-height:24px;" value="{{ $cate->id }}">{{ $cate->name }}</option>
 		                                      	@else
-		                                      		<option value="{{ $cate->id }}" >{{ $cate->name }}</option>
+		                                      		<option style="height:33px;line-height:24px;" value="{{ $cate->id }}" >{{ $cate->name }}</option>
                                       			@endif
                                       		@else
-                                      			<option value="{{ $cate->id }}" >{{ $cate->name }}</option>
+                                      			<option style="height:33px;line-height:24px;" value="{{ $cate->id }}" >{{ $cate->name }}</option>
                                       		@endif
-                                      @endforeach()
-                                  </select>
+                                      	@endforeach()
+						        </select>
                               </div>
                               <div class="col-md-4 col-sm-5">
 	                                  <select class="form-control" name="status">
@@ -106,9 +113,9 @@ body{
                           </div>
                           <div class="form-group">
                               <div class="col-md-8 col-sm-10 col-md-offset-2 ">
-                                   <select data-placeholder=" 标签(选填)" name="tags[]" multiple class="form-control chosen-select" tabindex="8">
+                                   <select data-placeholder="标签(选填)" name="tags[]" multiple class="chosen-select form-control" tabindex="8">
                                    		@foreach($tags as $tag)
-								         <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+								         <option  value="{{ $tag->id }}">{{ $tag->name }}</option>
 								        @endforeach()
 								   </select>
                               </div>
@@ -129,7 +136,6 @@ body{
 </div>
 @section('js')
 @parent
-<!-- 标签插件 -->
 <script src="{{ asset('wenda/post/js/chosen.jquery.js') }}" type="text/javascript"></script>
 <script src="{{ asset('wenda/post/js/docsupport/prism.js') }}" type="text/javascript" ></script>
 <!-- 头图 -->
@@ -137,6 +143,8 @@ body{
 <script src="{{ asset('wenda/post/js/prettify.js') }}" type="text/javascript"></script>
 <script src="{{ asset('wenda/post/js/scripts.js') }}" type="text/javascript"></script>
 <script src="{{ asset('wenda/post/js/custom.js') }}" type="text/javascript"></script>
+<!-- Chosen -->
+<script src="{{ asset('back/admin/js/plugins/chosen/chosen.jquery.js') }}"></script>
 <script type="text/javascript">
 jQuery(function(){
 	var editor = UE.getEditor('container',{  

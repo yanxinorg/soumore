@@ -54,7 +54,7 @@
 	                    <header class="header">
 	                        <div class="compose-btn pull-left">
 	                        	@if($uid == Auth::id())
-	                        	   <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的动态</button></a>
+	                        	   <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">{{ }}我的动态</button></a>
 								   <a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}"><button class="btn btn-success btn-sm">我的文章</button></a>
 								   <a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的提问</button></a>
 		                           <a href="{{ URL::action('Front\HomeController@answer', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的回答</button></a>
@@ -73,29 +73,15 @@
 	                    </header>
 		                <section class="mail-list">
 		                 @foreach($datas as $data)
-		                	@if($data->thumb)
 			                	<div class="container-fluid" >
 									<div class="row-fluid" >
 										<div class="span12" >
 											<div class="media" >
+												@if($data->thumb)
 												<img class="pull-left" src="{{ route('getPostImg', $data->post_id) }}" class="media-object" />
-												<div class="media-body">
-													<div class="content" >
-														<span><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
-														<span>{{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
-													</div>
-													<div class="excerpt"><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ str_limit($data->title,316) }}</a></div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							@else
-								<div class="container-fluid">
-									<div class="row-fluid" >
-										<div class="span12" >
-											<div class="media">
+												@else
 												<img class="pull-left" src="{{ route('getThumbImg', $data->user_id) }}" class="media-object" />
+												@endif
 												<div class="media-body">
 													<div class="content" >
 														<span><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}">{{ $data->author }}</a></span>
@@ -107,7 +93,6 @@
 										</div>
 									</div>
 								</div>
-							@endif
 						@endforeach() 
 				         <div class="paginate" style="text-align:center;">{{ $datas->links() }}</div>
 	                    </section>
