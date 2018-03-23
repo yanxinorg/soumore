@@ -103,7 +103,9 @@
 							<div class="row-fluid" >
 								<div class="span12" >
 									<div class="media" style="margin-bottom: 12px;">
-										<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$question->user_id]) }}" class="pull-left"><img style="width:48px;" src="{{ route('getThumbImg', $question->user_id) }}" class="media-object" /></a>
+		                				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$question->user_id]) }}" class="pull-left">
+											<img style="width:48px;" src="{{ route('getThumbImg', $question->user_id) }}" class="media-object" />
+										</a>
 										<div class="media-body">
 											<div style="line-height:10px;margin-bottom:8px;"><span style="font-size: 14px;"><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$question->user_id]) }}">{{ $question->user_name }}</a></span><span style="margin-left:24px;font-size:12px;">{{\Carbon\Carbon::parse($question->created_at)->diffForHumans()}}</span></div>
 											<h6 class="media-heading" style="font-size:10px;"><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$question->question_id]) }}">{{ $question->title }}</a></h6>

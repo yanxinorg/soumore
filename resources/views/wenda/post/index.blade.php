@@ -1,5 +1,6 @@
 @extends('layouts.wenda')
 @section('content')
+<link href="{{ asset('wenda/img/magnify/dist/zoomify.min.css') }}" rel="stylesheet">
 <style>
 .mail-list{
 	height:auto;

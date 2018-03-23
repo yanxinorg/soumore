@@ -1,6 +1,7 @@
 @extends('layouts.wenda')
 @section('content')
 <link href="{{ asset('wenda/layer/theme/default/layer.css') }}" rel="stylesheet">
+<link href="{{ asset('wenda/img/magnify/dist/zoomify.min.css') }}" rel="stylesheet">
 <style>
 /* 编辑器图片超出限制 */
 .main-content .wrapper .panel .panel-body span{
@@ -134,6 +135,7 @@ use App\Models\Common\UserModel;
 @section('js')
 @parent
 <script type="text/javascript" src="{{ asset('wenda/layer/layer.js') }}" ></script>
+<script src="{{ asset('wenda/img/magnify/dist/zoomify.min.js') }}"></script>
 <script>
 // 文章收藏
 function collect(id){
@@ -184,6 +186,9 @@ function reply($userId,$userName)
      tmpInput.attr("value", $userId);
      myform.append(tmpInput);
 }
+
+//图片放大
+$('img').zoomify();
 </script>
 @stop
 @endsection
