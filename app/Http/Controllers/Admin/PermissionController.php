@@ -36,7 +36,7 @@ class PermissionController extends Controller
     	$permt->description = $request->get('urlremark');
     	if($permt->save())
     	{
-    		return redirect('/permit/list');
+    		return redirect('/back/permit/list');
     	}
     	return redirect()->back();
     	
@@ -82,7 +82,7 @@ class PermissionController extends Controller
     	$result = Permission::updateOrCreate(array('id' => $request->get('id')), array('name' => $request->get('urlname'),'display_name'=>$request->get('urlalias'),'description'=>$request->get('urlremark')));
     	if($result)
     	{
-    		return redirect('/permit/list');
+    		return redirect('/back/permit/list');
     	}
     	return redirect()->back();
     }

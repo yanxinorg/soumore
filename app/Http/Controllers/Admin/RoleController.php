@@ -41,7 +41,7 @@ class RoleController extends Controller
     	{
     		//角色赋予权限
     		$role->attachPermissions($request->get('permits'));
-    		return redirect('/role/list');
+    		return redirect('/back/role/list');
     	}
     	return redirect()->back();
     }
@@ -83,7 +83,7 @@ class RoleController extends Controller
     				DB::table('permission_role')->insert(['permission_id' => $permit, 'role_id' => $request->get('id')]);
     			}
     		}
-    		return redirect('/role/list');
+    		return redirect('/back/role/list');
     	}
     	return redirect()->back();
     }

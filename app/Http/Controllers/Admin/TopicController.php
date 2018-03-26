@@ -71,7 +71,7 @@ class TopicController extends Controller
                         'desc'=>$request->get('desc')
                     ]);
                 }
-                return redirect('/topic/list');
+                return redirect('/back/topic/list');
             }else{
                 //创建保存
                 $tag = new TagModel();
@@ -88,7 +88,7 @@ class TopicController extends Controller
                 $tag->thumb = $imgPath;
                 if($tag->save())
                 {
-                    return redirect('/topic/list');
+                    return redirect('/back/topic/list');
                 }
             }
         
