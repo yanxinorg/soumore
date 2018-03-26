@@ -189,7 +189,9 @@ Route::get('/search/user','Front\SearchController@user');
 //验证登录信息
 Route::post('/login','UserController@login');
 // 注册
-Route::get('/register', function () {return view('wenda.user.register');});
+// Route::get('/register', function () {return view('wenda.user.register');});
+
+
 //保存注册用户
 Route::post('/register','UserController@register');
 // 检测该用户是否已经存在
