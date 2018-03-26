@@ -270,7 +270,7 @@ class PostController extends Controller
     		'id'=>$request->get('id'),
     		'user_id'=>Auth::id()
     	])->get();
-    	$tags = TagModel::all();
+    	
     	//该文章选中的标签
     	$selectedTags = DB::table('post_tag')
     	->leftjoin('tags', 'post_tag.tags_id', '=', 'tags.id')
@@ -279,14 +279,17 @@ class PostController extends Controller
     	$tmp = [];
     	foreach ($selectedTags as $k=>$v)
     	{
-    		$tmp[$k] = $v->name;
+    		$tmp[$k] = $v->id;
     	}
-    	$c=implode(",",$tmp);
+    	$c[] = implode(",",$tmp);
+    	//除去选中的tags
+    	$tags = DB::table('tags')
+    	->whereNotIn('id', $c)->get();
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
     	return view('wenda.post.edit',[
     			'cates'=>$cates,
     			'tags'=>$tags,
-    			'selectedTags'=>$c,
+    			'selectedTags'=>$selectedTags,
     			'datas'=>$datas[0]
     	]);
     }
@@ -297,7 +300,6 @@ class PostController extends Controller
     			'id'=>'required|numeric|exists:posts,id',
     			'cid'=>'required|numeric|exists:category,id',
     			'title'=>'required|min:2',
-    			'cover'=>'sometimes|mimes:jpg,png,jpeg|max:2048',
     			'content'=>'required|min:10',
     			'tags.*'=>'sometimes|max:18',
     			'status'=>'required|numeric|min:0|max:1'
@@ -330,6 +332,8 @@ class PostController extends Controller
     	{
     		$file = $request->file('cover');
     			
+    		$file = $file[0];
+    		
     		$extention = $file->getClientOriginalExtension();
     			
     		$data['mime'] = $file->getClientMimeType();
@@ -366,39 +370,24 @@ class PostController extends Controller
     	}
     	//更新
     	$postId = PostModel::updateOrCreate(array('id' => $request->get('id')), $data);
-    	//tags不为空
+    	//清除原有标签
+    	PostTagModel::where(['posts_id'=>$request->get('id')])->delete();
+    	//新增标签
     	if(!empty($request->get('tags')[0]))
     	{
-    		//清除原有标签
-    		PostTagModel::where(['posts_id'=>$postId->id])->delete();
-    		//添加新的标签
-    		$tags = explode(',', $request->get('tags')[0]);
-    		foreach ($tags as $value)
-    		{
-    			//标签存在
-    			if(TagModel::where('name', '=', $value)->count())
+    			//只取前5个标签存入
+    			$tmpArr = array_only($request->get('tags'), ['0','1','2','3','4']);
+    		
+    			foreach($tmpArr as $tag)
     			{
-    				//标签id
-    				$result = TagModel::where('name', '=', $value)->get();
-    				if(PostTagModel::where(['posts_id'=>$postId->id,'tags_id'=>$result[0]['id']])->count())
-    				{
-    					continue;
-    				}else{
-    					PostTagModel::create([
-    							'posts_id'=>$postId->id,
-    							'tags_id'=>$result[0]['id']
-    					]);
-    				}
-    				continue;
+    				PostTagModel::updateOrCreate([
+    						'posts_id'=>$postId->id,
+    						'tags_id'=>$tag
+    				],[
+    						'posts_id'=>$postId->id,
+    						'tags_id'=>$tag
+    				]);
     			}
-    			//标签不存在
-    			$tagId = TagModel::create(['name'=>trim($value)]);
-    			//存入关联表里
-    			PostTagModel::create([
-    				'posts_id'=>$postId->id,
-    				'tags_id'=>$tagId->id
-    			]);
-    		}
     	}
     	return redirect('/person/post');
     }
@@ -504,7 +493,7 @@ class PostController extends Controller
     	return view('wenda.post.index',['datas'=>$datas,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
     }
     
-    //文章分类筛选列表
+    //文章标签筛选列表
     public function tag(Request $request)
     {
     	$this->validate($request, [

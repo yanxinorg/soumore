@@ -68,9 +68,9 @@
 			               <ul class="revenue-nav pull-left" >
 			                     @foreach($tags as $tag)
 			                     	@if($tag->id == $tid)
-			                     		<li style="margin:4px;"><a style="background-color:red;" href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
+			                     		<li style="margin:4px;"><a style="background-color:red;" href="{{ URL::action('Front\QuestionController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
 			                     	@else
-			                     		<li style="margin:4px;"><a href="{{ URL::action('Front\PostController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
+			                     		<li style="margin:4px;"><a href="{{ URL::action('Front\QuestionController@tag', ['tid'=>$tag->id,'cid'=>$cid]) }}">{{ $tag->name }}</a></li>
 			                     	@endif
 			                     @endforeach()
 			              </ul>

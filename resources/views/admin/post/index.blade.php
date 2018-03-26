@@ -61,7 +61,7 @@
                                         <td>{{ $post->created_at }}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <a class="btn btn-white" href="{{ URL::action('Admin\TopicController@edit', ['id'=>$post->post_id])}}"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-white" href="{{ URL::action('Front\PostController@edit', ['id'=>$post->post_id]) }}"><i class="fa fa-edit"></i></a>
                                                 <a class="btn btn-white " href="javascript:void(0);" onclick="del({{ $post->post_id }});"><i class="fa fa-trash"></i></a>
                                         	</div>
                                         </td>

@@ -95,7 +95,7 @@ z-index:9999;
             </li>
             @else
                 <li class="menuItem"><a href="{{ url('/login') }}">登录</a></li>
-        		<li class="menuItem"><a href="{{ url('/register') }}">注册</a></li>
+<!--         		<li class="menuItem"><a href="{{ url('/register') }}">注册</a></li> -->
             @endauth
        
       </ul>

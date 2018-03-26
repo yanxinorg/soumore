@@ -60,7 +60,6 @@
 	text-transform:none;
 }
 </style>
-
 <div class="main-content">
   <div class="wrapper">
       <div class="directory-info-row">
