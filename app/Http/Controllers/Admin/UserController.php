@@ -88,7 +88,7 @@ class UserController extends Controller
 	    				$user->roles()->attach($role);
 	    			}
 	    		}
-	    		return redirect('/user/list');
+	    		return redirect('/back/user/list');
     		}else{
     			//创建保存
 	    		$user = new UserModel();
@@ -116,7 +116,7 @@ class UserController extends Controller
 	    			}
 	    			
 	    		}
-	    		return redirect('/user/list');
+	    		return redirect('/back/user/list');
     		}
     		
     	}

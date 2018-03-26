@@ -71,7 +71,7 @@ class CateController extends Controller
 	    					'desc'=>$request->get('desc')
 	    			]);
 	    		}
-	    		return redirect('/cate/list');
+	    		return redirect('/back/cate/list');
     		}else{
     			//创建保存
 	    		$cate = new CategoryModel();
@@ -88,7 +88,7 @@ class CateController extends Controller
 	    		$cate->thumb = $imgPath;
 	    		if($cate->save())
 	    		{
-	    			return redirect('/cate/list');
+	    			return redirect('/back/cate/list');
 	    		}
     		}
     		
