@@ -27,6 +27,7 @@ class QuestionController extends Controller
 						->orderBy('questions.created_at','desc')		    	
     					->paginate('15');
     	return view('wenda.question.index',['cates'=>$cates,'questions'=>$questions,'tags'=>$tags,'tid'=>'','cid'=>'']);
+    	
     }
     
     //新增问答
@@ -629,6 +630,118 @@ class QuestionController extends Controller
     	}else{
     		return redirect()->back();
     	}
+    }
+    
+    //问答删除
+    public function del(Request $request)
+    {
+    	$this->validate($request, [
+    			'id'=>'required|numeric|exists:questions,id'
+    	]);
+    	$result = DB::table('questions')->where([
+    			'id'=>$request->get('id'),
+    			'user_id'=>Auth::id()
+    	])->delete();
+    	if($result)
+    	{
+    		$data = [
+    				'code'=>'1',
+    				'msg'=>'删除成功'
+    		];
+    	}else{
+    		$data = [
+    				'code'=>'0',
+    				'msg'=>'删除失败'
+    		];
+    	}
+    	return $data;
+    }
+    
+    //问答编辑
+    public function edit(Request $request)
+    {
+    	$this->validate($request, [
+    			'id'=>'required|numeric|exists:questions,id'
+    	]);
+    	$datas = QuestionModel::where([
+    			'id'=>$request->get('id'),
+    			'user_id'=>Auth::id()
+    	])->get();
+    	 
+    	//该文章选中的标签
+    	$selectedTags = DB::table('question_tag')
+    	->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
+    	->where('question_tag.questions_id','=',$request->get('id'))
+    	->select('tags.name as name','tags.id as id')->orderBy('tags.created_at','desc')->get();
+    	$tmp = [];
+    	foreach ($selectedTags as $k=>$v)
+    	{
+    		$tmp[$k] = $v->id;
+    	}
+    	$c[] = implode(",",$tmp);
+    	//除去选中的tags
+    	$tags = DB::table('tags')
+    	->whereNotIn('id', $c)->get();
+    	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
+    	return view('wenda.question.edit',[
+    			'cates'=>$cates,
+    			'tags'=>$tags,
+    			'selectedTags'=>$selectedTags,
+    			'datas'=>$datas[0]
+    	]);
+    }
+    //更新保存
+    public function update(Request $request)
+    {
+    	$validator = Validator::make($request->all(),[
+    			'id'=>'required|numeric|exists:questions,id',
+    			'cid'=>'required|numeric|exists:category,id',
+    			'title'=>'required|min:2',
+    			'content'=>'required|min:10',
+    			'tags.*'=>'sometimes|max:18',
+    	],[
+    			'required'=>':attribute为必填项',
+    			'min'=>':attribute至少 :min个字节长',
+    			'max'=>':attribute超出限制',
+    	],[
+    			'cid'=>'分类',
+    			'title'=>'标题',
+    			'content'=>'内容',
+    			'tags.*'=>'标签',
+    	]);
+    	if($validator->fails())
+    	{
+    		return redirect()->back()->withErrors($validator)->withInput();
+    	}
+    	$data = [
+    			'user_id'  => Auth::user()->id,
+    			'cate_id'  => $request->get('cid'),
+    			'title'    => trim($request->get('title')),
+    			'content'  => $request->get('content'),
+    	];
+    	
+    	//更新
+    	$questionId = QuestionModel::updateOrCreate(array('id' => $request->get('id')), $data);
+    	//清除原有标签
+    	QuestionTagModel::where(['questions_id'=>$request->get('id')])->delete();
+    	//新增标签
+    	if(!empty($request->get('tags')[0]))
+    	{
+    		//只取前5个标签存入
+    		$tmpArr = array_only($request->get('tags'), ['0','1','2','3','4']);
+    
+    		foreach($tmpArr as $tag)
+    		{
+    			QuestionTagModel::updateOrCreate([
+    					'questions_id'=>$request->get('id'),
+    					'tags_id'=>$tag
+    			],[
+    					'questions_id'=>$request->get('id'),
+    					'tags_id'=>$tag
+    			]);
+    		}
+    	}
+    	return redirect('/person/answer');
     }
     
 }

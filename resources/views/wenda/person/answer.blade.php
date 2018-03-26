@@ -31,11 +31,10 @@
 	border-bottom:1px solid #D1D5E1;
 	margin:12px 0px;
 }
-.container-fluid .row-fluid .media{
-	margin-bottom: 12px;
-}
+
 .container-fluid .row-fluid .media img{
-	width:96px;
+	width:48px;
+	height:48px;
 }
 .container-fluid .row-fluid .media-body .content{
 	display:block;
@@ -87,14 +86,28 @@
                     </header>
 	                <section class="mail-list">
 	                 @foreach($questions as $question)
-	                	<div class="container-fluid" style="border-bottom:1px solid #D1D5E1;margin:12px 0px;">
+	                	<div class="container-fluid" >
 							<div class="row-fluid" >
 								<div class="span12" >
 									<div class="media" style="margin-bottom: 12px;">
-										<a href="#" class="pull-left"><img style="width:48px;" src="{{ route('getThumbImg', $question->user_id) }}" class="media-object" alt='' /></a>
 										<div class="media-body">
-											<div style="line-height:10px;margin-bottom:8px;"><span style="font-size: 14px;"><a target="_blank;" href="{{ URL::action('Front\HomeController@index', ['uid'=>$question->user_id]) }}">{{ $question->user_name }}</a></span><span style="margin-left:24px;font-size:12px;">{{\Carbon\Carbon::parse($question->created_at)->diffForHumans()}}</span></div>
-											<h6 class="media-heading" style="font-size:10px;"><a target="_blank" href="{{ URL::action('Front\QuestionController@detail', ['id'=>$question->question_id]) }}">{{ $question->title }}</a></h6>
+											<img style="width:48px;" class="pull-left" src="{{ route('getThumbImg', $question->user_id) }}" class="media-object" />
+											
+											<div class="media-body">
+												<div class="content" >
+													<span><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$question->user_id]) }}">{{ $question->user_name }}</a></span>
+													<span>{{\Carbon\Carbon::parse($question->created_at)->diffForHumans()}}</span>
+													<span>{{ $question->countcomment }} 个回答</span>
+												</div>
+												<div class="excerpt">
+													<a target="_blank" href="{{ URL::action('Front\QuestionController@detail', ['id'=>$question->question_id]) }}">{{ str_limit($question->title,316) }}</a>
+												</div>
+												<div class="pull-right">
+													<a class="detail"  href="javascript:void(0);" onClick="del({{ $question->question_id }});">删除</a>
+													<a class="detail"  href="{{ URL::action('Front\QuestionController@edit', ['id'=>$question->question_id]) }}">编辑</a>
+												</div>
+											</div>
+											
 										</div>
 									</div>
 								</div>
@@ -118,10 +131,10 @@
 <script type="text/javascript" src="{{ asset('wenda/layer/layer.js') }}" ></script>
 <script type="text/javascript">
 function del(id){
-	layer.confirm('确认删除该文章？', {
+	layer.confirm('确认删除该提问？', {
         btn: ['确认','取消'] //按钮
     },function(){
-    	$.post("{{ url('/post/del') }}",
+    	$.post("{{ url('/question/del') }}",
     			{
     			"_token":'{{ csrf_token() }}',
     			"id": id,

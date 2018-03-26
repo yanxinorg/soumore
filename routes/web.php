@@ -16,6 +16,12 @@ Route::group(['middleware' => 'authed'], function () {
 		Route::get('/question/create', 'QuestionController@create');
 		//新建问答保存
 		Route::post('/question/store', 'QuestionController@store');
+		//问答删除
+		Route::post('/question/del', 'QuestionController@del');
+		//编辑问答
+		Route::get('/question/edit', 'QuestionController@edit');
+		//更新问答
+		Route::post('/question/update', 'QuestionController@update');
 		//问答收藏
 		Route::post('/question/collect', 'QuestionController@collect');
 		//问答回答提交
@@ -212,9 +218,9 @@ Route::get('/question/latest', 'Front\QuestionController@latest');
 Route::get('/question/hottest', 'Front\QuestionController@hottest');
 //待问答列表
 Route::get('/question/unanswered', 'Front\QuestionController@unanswered');
-//问答分类
+//问答分类筛选
 Route::get('/question/cate', 'Front\QuestionController@cate');
-//问答标签
+//问答标签筛选
 Route::get('/question/tag', 'Front\QuestionController@tag');
 //个人主页
 Route::get('/home', 'Front\HomeController@index');

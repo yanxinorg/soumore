@@ -49,9 +49,6 @@ use App\Models\Common\UserModel;
                                 	作者:<span><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}">{{ $datas->author }}</a></span>
                                 	<span>时间:</span>{{\Carbon\Carbon::parse($datas->created_at)->diffForHumans()}}
                                 	<span>{{ $datas->countcomment }} 评论</span>
-                                	@if($datas->user_id == Auth::id())
-                                	<a class="detail"  href="{{ URL::action('Front\PostController@edit', ['id'=>$datas->question_id]) }}" >编辑</a>
-                                	@endif
                                </p>
                               <div class="blog-content">{!! $datas->content !!}</div>
                               <div class="blog-tags">

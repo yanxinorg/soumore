@@ -54,7 +54,7 @@
 	                    <header class="header">
 	                        <div class="compose-btn pull-left">
 	                        	@if($uid == Auth::id())
-	                        	   <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">{{ }}我的动态</button></a>
+	                        	   <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的动态</button></a>
 								   <a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}"><button class="btn btn-success btn-sm">我的文章</button></a>
 								   <a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的提问</button></a>
 		                           <a href="{{ URL::action('Front\HomeController@answer', ['uid'=>$uid]) }}"><button class="btn btn-default btn-sm">我的回答</button></a>
