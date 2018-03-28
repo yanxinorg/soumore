@@ -60,7 +60,7 @@
                                 <tr>
                                     <td>{{ $user->id }}</td>
                                     <td class="client-avatar"><img alt="image" src="{{ $user->avator }}"> </td>
-                                    <td>{{ $user->name }}</td>
+                                    <td><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}">{{ $user->name }}</a></td>
                                     <td ><i class="fa fa-envelope">  {{ $user->email }}</i></td>
                                     <td><span class="label label-primary">administrator</span></td>
                                     <td>{{ $user->created_at }}</td>

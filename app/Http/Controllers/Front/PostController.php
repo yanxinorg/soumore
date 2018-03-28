@@ -186,7 +186,6 @@ class PostController extends Controller
     		'required'=>':attribute为必填项',
     		'min'=>':attribute至少 :min个字节长',
     		'max'=>':attribute超出限制',
-    		'mimes'=>'图片格式错误'
     	],[
     		'cid'=>'分类',
     		'title'=>'标题',
