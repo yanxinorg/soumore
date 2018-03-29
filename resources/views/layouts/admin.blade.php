@@ -70,6 +70,7 @@
                             <li><a href="{{ url('/back/cate/list') }}">分类管理</a></li>
                             <li><a href="{{ url('/back/post/list') }}">文章管理</a></li>
                             <li><a href="{{ url('/back/topic/list') }}">话题管理</a></li>
+                            <li><a href="{{ url('/back/link/list') }}">链接管理</a></li>
                             <li><a href="graph_chartjs.html">Chart.js</a></li>
                             <li><a href="graph_chartist.html">Chartist</a></li>
                             <li><a href="c3.html">c3 charts</a></li>

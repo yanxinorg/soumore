@@ -160,6 +160,23 @@ Route::group(['middleware' => 'authed'], function () {
 	    Route::post('/cate/delete', 'Admin\CateController@delete');
 	    //更改分类状态
 	    Route::post('/cate/status', 'Admin\CateController@status');
+	    
+	    
+	    
+	    //链接列表
+	    Route::get('/link/list', 'Admin\LinkController@index');
+	    //新增链接
+	    Route::get('/link/add', 'Admin\LinkController@add');
+ 	    //保存链接
+	    Route::post('/link/store', 'Admin\LinkController@store');
+ 	    //编辑链接
+	    Route::get('/link/edit', 'Admin\LinkController@edit');
+ 	    //删除链接
+	    Route::post('/link/delete', 'Admin\LinkController@delete');
+ 	    //更改链接状态
+	    Route::post('/link/status', 'Admin\LinkController@status');
+	    
+	    
 	    //文章列表
 	    Route::get('/post/list', 'Admin\PostController@index');
 	    //删除文章
