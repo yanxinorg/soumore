@@ -78,7 +78,7 @@ class TopicController extends Controller
                 $tag->cate_id = $request->get('cateid');
                 $tag->name = $request->get('name');
                 $tag->status = $request->get('status');
-                $tag->desc = $request->get('remark');
+                $tag->desc = $request->get('desc');
                 $imgPath = '';
                 if($request->file('thumb'))
                 {

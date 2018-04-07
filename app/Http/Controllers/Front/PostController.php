@@ -17,15 +17,14 @@ use App\Models\Front\CollectionModel;
 
 class PostController extends Controller
 {
-	
     //文章列表
     public function index()
     {
 		//文章
       	$datas = PostModel::lists();
       	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-      	$tags = TagModel::all();
-        return view('wenda.post.index',['datas'=>$datas,'cates'=>$cates,'tags'=>$tags,'cid'=>'','tid'=>'']);
+      	$tags = TagModel::orderBy('watchs','desc')->limit('10')->get();
+        return view('ask.post.index',['datas'=>$datas,'cates'=>$cates,'tags'=>$tags,'cid'=>'','tid'=>'']);
     }
     
     //我收藏的文章列表
@@ -56,7 +55,9 @@ class PostController extends Controller
     				'posts.content as content',
     				'posts.thumb as thumb',
     				'posts.created_at as created_at',
-    				'posts.comments as comments')
+    				'posts.comments as comments',
+    		        'posts.hits as hits'
+    		    )
     				->orderBy('posts.created_at','desc')
     				->paginate('15');
     
@@ -455,7 +456,7 @@ class PostController extends Controller
         }else{
         	$isCollected = false;
         }
-        return view('wenda.post.detail',['datas'=>$datas[0],'tagss'=>$tagss,'comments'=>$comments,'id'=>$request->get('id'),'isCollected'=>$isCollected]);
+        return view('ask.post.detail',['datas'=>$datas[0],'tagss'=>$tagss,'comments'=>$comments,'id'=>$request->get('id'),'isCollected'=>$isCollected]);
     }
 		    
     //文章分类筛选列表
@@ -474,7 +475,9 @@ class PostController extends Controller
     			'posts.content as content',
     			'posts.thumb as thumb',
     			'posts.created_at as created_at',
-    			'posts.comments as comments')
+    			'posts.comments as countcomment',
+    	        'posts.hits as hits'
+    	    )
     	->orderBy('posts.created_at','desc')
     	->paginate('15');
 		//查询分类
@@ -490,7 +493,7 @@ class PostController extends Controller
     	$tags = DB::table('tags')
     	->whereIn('tags.id', $tagIds)
     	->get();
-    	return view('wenda.post.index',['datas'=>$datas,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
+    	return view('ask.post.index',['datas'=>$datas,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
     }
     
     //文章标签筛选列表

@@ -40,6 +40,7 @@ class PostModel extends Model
 				'posts.thumb as thumb',
 				'posts.created_at as created_at',
 				'posts.comments as countcomment',
+		        'posts.hits as hits',
 				'posts.status as status'
 				);
 		return $datas;

@@ -5,7 +5,7 @@ Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\Fil
 
 // 首页
 Route::get('/', function () {
-    return view('wenda.index');
+    return view('ask.index.index');
 });
 
 //授权后页面
@@ -181,7 +181,7 @@ Route::any('/result','Sou\IndexController@result');
 //关于
 Route::get('/about', function () {return view('wenda.crumbs.about');});
 //登录
-Route::get('/login', function () {return view('wenda.user.login');});
+Route::get('/login', function () {return view('ask.user.login');});
 //全文搜索
 Route::post('/search','Front\SearchController@index');
 //全文搜索
@@ -195,7 +195,7 @@ Route::get('/search/user','Front\SearchController@user');
 //验证登录信息
 Route::post('/login','UserController@login');
 // 注册
-// Route::get('/register', function () {return view('wenda.user.register');});
+Route::get('/register', function () {return view('wenda.user.register');});
 
 
 //保存注册用户
@@ -259,6 +259,9 @@ Route::get('/cate/article', 'Front\CategoryController@article');
 Route::get('/cate/answer', 'Front\CategoryController@answer');
 //话题
 Route::get('/topic', 'Front\TopicController@index');
+//话题详情
+Route::get('/topic/detail', 'Front\TopicController@detail');
+
 //热门关注话题
 Route::get('/topic/hot', 'Front\TopicController@hot');
 //QQ社会化登录
