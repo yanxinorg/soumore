@@ -28,7 +28,7 @@
 		<div class="mod-body clearfix">
 			<div class="content pull-left">
 				<h1 class="logo"><a href="http://ask.com/?/"></a></h1>
-				<h2>用户注册</h2>
+				<h2>用户登陆</h2>
 				<form id="login_form" method="post" action="{{ url('/login') }}">
 					{{ csrf_field() }}
 					<ul>

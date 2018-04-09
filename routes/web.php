@@ -161,8 +161,6 @@ Route::group(['middleware' => 'authed'], function () {
 	    //更改分类状态
 	    Route::post('/cate/status', 'Admin\CateController@status');
 	    
-	    
-	    
 	    //链接列表
 	    Route::get('/link/list', 'Admin\LinkController@index');
 	    //新增链接
@@ -186,6 +184,10 @@ Route::group(['middleware' => 'authed'], function () {
 	});
 	
 });
+
+//获取分类图片
+Route::get('cate/thumb/{id}', ['as' => 'getCateImg', 'uses' => 'Common\FileController@getCateImg']);
+    
 //文章收藏
 Route::post('/post/collect', 'Front\PostController@collect');
 //取消收藏
@@ -197,8 +199,6 @@ Route::get('/sou','Sou\IndexController@index');
 Route::any('/result','Sou\IndexController@result');
 //关于
 Route::get('/about', function () {return view('wenda.crumbs.about');});
-//登录
-Route::get('/login', function () {return view('ask.user.login');});
 //全文搜索
 Route::post('/search','Front\SearchController@index');
 //全文搜索
@@ -209,12 +209,13 @@ Route::get('/search/post','Front\SearchController@post');
 Route::get('/search/topic','Front\SearchController@topic');
 //用户全文搜索
 Route::get('/search/user','Front\SearchController@user');
+
+//登录
+Route::get('/login', function () {return view('ask.user.login');});
 //验证登录信息
 Route::post('/login','UserController@login');
 // 注册
-Route::get('/register', function () {return view('wenda.user.register');});
-
-
+Route::get('/register', function () {return view('ask.user.register');});
 //保存注册用户
 Route::post('/register','UserController@register');
 // 检测该用户是否已经存在
@@ -293,5 +294,4 @@ Route::get('/auth/weibo_redirect', 'Common\SocializeController@weiboCallback');
 Route::get('/auth/weixin', 'Common\SocializeController@weixinAuth');
 //微信社会化监听
 Route::get('/auth/weixin_redirect', 'Common\SocializeController@weixinCallback');
-//获取分类图片
-Route::get('cate/thumb/{id}', ['as' => 'getCateImg', 'uses' => 'Common\FileController@getCateImg']);
+
