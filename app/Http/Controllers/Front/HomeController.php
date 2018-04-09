@@ -60,11 +60,43 @@ class HomeController extends Controller
     	->select(
     			'users.id as user_id',
     			'users.name as user_name',
+    	        'users.avator as user_avator',
     			'visitors.visitor_time as visitor_time'
     			)
     			->orderBy('visitors.visitor_time','desc')
     			->paginate('8');
-    	return view('ask.home.index',['userinfo'=>$userInfo[0],'datas'=>$datas,'countPost'=>$countPost,'province'=>$userInfo[0]['province'],'city'=>$userInfo[0]['city'],'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
+    	//关注的话题
+    	$topics = DB::table('attentions')
+    	->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
+    	->where('attentions.user_id','=',$request->get('uid'))
+    	->where('attentions.source_type','=','3')
+    	->select(
+    			'tags.id as tag_id',
+    			'tags.name as tag_name'
+    			)
+    	->orderBy('attentions.created_at','desc')
+    	->paginate('8');
+    	//粉丝用户
+    	$fans = DB::table('attentions')
+    	->leftjoin('users', 'attentions.user_id', '=', 'users.id')
+    	->where('attentions.source_type','=','1')
+    	->where('attentions.source_id','=',$request->get('uid'))
+    	->select(
+    	    'users.id as user_id',
+    	    'users.name as name'
+    	    )->orderBy('attentions.created_at','desc')->paginate('20');
+    	
+	    //关注的用户
+	    $topicUsers = DB::table('attentions')
+	    ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
+	    ->where('attentions.source_type','=','1')
+	    ->where('attentions.user_id','=',$request->get('uid'))
+	    ->select(
+	        'users.id as user_id',
+	        'users.name as name'
+	        )->orderBy('attentions.created_at','desc')->paginate('20');
+    	    
+    	return view('ask.home.index',['userinfo'=>$userInfo[0],'datas'=>$datas,'topicUsers'=>$topicUsers,'fans'=>$fans,'topics'=>$topics,'countPost'=>$countPost,'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
     }
     
     public function post(Request $request)

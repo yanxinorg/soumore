@@ -10,11 +10,11 @@
                         <!-- 用户数据内容 -->
                         <div class="aw-mod aw-user-detail-box">
                             <div class="mod-head">
-                                <img  src="{{ route('getThumbImg', Auth::user()->id) }}" alt="{{ Auth::user()->name }}">
+                                <img  src="{{ route('getThumbImg', $userinfo['id'] ) }}" alt="{{ $userinfo['name'] }}">
                                 <span class="pull-right operate">
-                                    <a href="http://ask.com/?/account/setting/profile/" class="btn btn-mini btn-success">编辑</a>
+                                    <a href="" class="btn btn-mini btn-success">编辑</a>
                                 </span>
-                                <h1>admin </h1>
+                                <h1>{{ $userinfo->name }}</h1>
                                 <p class="text-color-999"></p>
                                 <p class="aw-user-flag">
                                 </p>
@@ -262,26 +262,42 @@
                             <div class="mod-body">
                                 <a onclick="$(&#39;#page_focus&#39;).click();$(&#39;#focus .aw-tabs ul li&#39;).eq(0).click();$.scrollTo($(&#39;#focus&#39;).offset()[&#39;top&#39;], 600, {queue:true})" class="pull-right font-size-12">更多 »</a>
                                 <span>关注 <em class="aw-text-color-blue">0</em>人</span>
+                                <p>
+                                @foreach($topicUsers as $topicUser)
+                                    <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$topicUser->user_id]) }}"><img src="{{ route('getThumbImg', $topicUser->user_id) }}" alt="{{ $topicUser->name }}"></a>
+                                @endforeach()  
+                                </p>
                             </div>
                         </div>
                         <div class="aw-mod people-following">
                             <div class="mod-body">
                                 <a onclick="$(&#39;#page_focus&#39;).click();$(&#39;#focus .aw-tabs ul li&#39;).eq(1).click();$.scrollTo($(&#39;#focus&#39;).offset()[&#39;top&#39;], 600, {queue:true})" class="pull-right font-size-12">更多 »</a>
-                                <span>
-                                被 <em class="aw-text-color-blue">1</em> 人关注</span>
+                                <span> 被 <em class="aw-text-color-blue">1</em> 人关注</span>
                                 <p>
-                                    <a class="aw-user-name" data-id="3" href="http://ask.com/?/people/test"><img src="./admin 的个人主页 - WeCenter_files/avatar-mid-img.png" alt="test"></a>
+                                	@foreach($fans as $fan)
+                                    <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$fan->user_id]) }}"><img src="{{ route('getThumbImg', $fan->user_id) }}" alt="{{ $fan->name }}"></a>
+                                	@endforeach()
                                 </p>
                             </div>
-
                         </div>
                         <div class="aw-mod people-following">
-                            <div class="mod-body">
-                                关注 <em class="aw-text-color-blue">0</em> 话题 </div>
+                            <div class="mod-body">关注 <em class="aw-text-color-blue">0</em> 话题 </div>
+                            <div class="aw-topic-bar">
+                                <div class="tag-bar clearfix">
+                                	@foreach($topics as $topic)
+                                      <span class="topic-tag"><a href="{{ URL::action('Front\TopicController@detail', ['id'=>$topic->tag_id]) }}" class="text" data-id="3">{{ $topic->tag_name }}</a></span>
+                                 	@endforeach()
+                                 </div>
+                            </div>
                         </div>
                         <div class="aw-mod">
                             <div class="mod-body">
-                            <span class="aw-text-color-666">主页访问量 : 3 次访问</span>
+                            <span class="aw-text-color-666">最近访客</span>
+                            	<p>
+                            	@foreach($recents as $recent)
+                                    <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$recent->user_id]) }}"><img src="{{ route('getThumbImg', $recent->user_id) }}" alt="{{ $recent->user_name }}"></a>
+                                @endforeach()
+                                </p>
                             </div>
                         </div>
                     </div>
