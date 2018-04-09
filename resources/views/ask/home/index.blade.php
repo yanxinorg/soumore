@@ -1,7 +1,6 @@
 @extends('layouts.ask')
 @section('content')
 <link  rel="stylesheet" type="text/css" href="{{ asset('ask/user_files/user.css') }}">
-
     <div class="aw-container-wrap">
         <div class="container">
             <div class="row">
@@ -10,7 +9,7 @@
                         <!-- 用户数据内容 -->
                         <div class="aw-mod aw-user-detail-box">
                             <div class="mod-head">
-                                <img  src="{{ route('getThumbImg', $userinfo['id'] ) }}" alt="{{ $userinfo['name'] }}">
+                                <img style="width:100px;" src="{{ route('getThumbImg', $userinfo['id'] ) }}" alt="{{ $userinfo['name'] }}">
                                 <span class="pull-right operate">
                                     <a href="" class="btn btn-mini btn-success">编辑</a>
                                 </span>
