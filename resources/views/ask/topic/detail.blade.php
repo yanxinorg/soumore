@@ -1,5 +1,8 @@
 @extends('layouts.ask')
 @section('content')
+<?php
+use App\Models\Common\AttentionModel;
+?>
 <div class="aw-container-wrap">
 	<div class="container">
 		<div class="row">
@@ -18,7 +21,11 @@
 							<img style="width:50px;" src="{{ $datas->thumb }}" alt="地方">
 							<h2 class="pull-left">{{ $datas->name }} </h2>
 							<div class="aw-topic-operate text-color-999">
-								<a href="javascript:;" onclick="AWS.User.follow($(this), &#39;topic&#39;, 2);" class="follow btn btn-normal btn-success active"><span>取消关注</span> <em>|</em> <b>1</b></a>
+								@if( AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$datas->id,'source_type'=>'3'])->exists())
+									<a href="{{ URL::action('Front\PersonController@topicCancel', ['tid'=>$datas->id]) }}" class="follow btn btn-normal btn-success active" ><span>取消关注</span></a>
+								@else
+									<a href="{{ URL::action('Front\PersonController@topicCreate', ['tid'=>$datas->id]) }}" class="follow btn btn-normal btn-success" ><span>关注</span></a>
+								@endif
 							</div>
 						</div>
 					</div>

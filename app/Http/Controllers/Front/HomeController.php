@@ -38,6 +38,7 @@ class HomeController extends Controller
     	$userInfo = UserModel::where('id','=',$request->get('uid'))->get();
     	//文章信息
     	$datas = PostModel::lists($request->get('uid'));
+        $countPost = PostModel::where('user_id',$request->get('uid'))->count();
     	//是否关注、
     	if(!empty(Auth::id()))
     	{
@@ -63,7 +64,7 @@ class HomeController extends Controller
     			)
     			->orderBy('visitors.visitor_time','desc')
     			->paginate('8');
-    	return view('wenda.home.index',['userinfo'=>$userInfo[0],'datas'=>$datas,'province'=>$userInfo[0]['province'],'city'=>$userInfo[0]['city'],'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
+    	return view('ask.home.index',['userinfo'=>$userInfo[0],'datas'=>$datas,'countPost'=>$countPost,'province'=>$userInfo[0]['province'],'city'=>$userInfo[0]['city'],'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
     }
     
     public function post(Request $request)

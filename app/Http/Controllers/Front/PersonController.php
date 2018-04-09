@@ -369,7 +369,7 @@ class PersonController extends Controller
     	]);
     	//话题关注数量加一
     	DB::table('tags')->increment('watchs', 1);
-    	return redirect('/topic');
+    	return redirect()->back();
     }
     
     //取消我关注的话题

@@ -40,85 +40,117 @@
 				</form>
 			</div>
 			<!-- end 搜索框 -->
-			<!-- 导航 -->
-			<div class="aw-top-nav navbar">
-				<div class="navbar-header">
-				  <button class="navbar-toggle pull-left">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				  </button>
-				</div>
-				<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
-				  <ul class="nav navbar-nav">
-					<li><a href=""><i class="icon icon-home"></i> 动态</a></li>
-					<li><a href="{{ url('/post') }}" class="active"><i class="icon icon-list"></i> 发现</a></li>
-<!-- 					<li><a href="http://ask.com/?/question/" class="">问题</a></li> -->
-<!-- 					<li><a href="http://ask.com/?/article/" class="">文章</a></li> -->
-					<li><a href="{{ url('/topic') }}"><i class="icon icon-topic"></i> 话题</a></li>
-					<li>
-						<a href="" class=""><i class="icon icon-bell"></i> 通知</a>
-						<span class="badge badge-important" style="display:none" id="notifications_unread">0</span>
-						<div class="aw-dropdown pull-right hidden-xs">
-							<div class="mod-body">
-								<ul id="header_notification_list"><p class="aw-padding10" align="center">没有未读通知</p></ul>
-							</div>
-							<div class="mod-footer">
-								<a href="">查看全部</a>
-							</div>
+			@auth
+				<!-- 导航 -->
+					<div class="aw-top-nav navbar">
+						<div class="navbar-header">
+							<button class="navbar-toggle pull-left">
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
 						</div>
-					</li>
-					<li>
-						<a style="font-weight:bold;">· · ·</a>
-						<div class="dropdown-list pull-right">
-							<ul id="extensions-nav-list">
-						</div>
-					</li>
-				  </ul>
-				</nav>
-			</div>
-			<!-- end 导航 -->
-			<!-- 用户栏 -->
-			<div class="aw-user-nav">
-				<!-- 登陆&注册栏 -->
-					<a href="http://ask.com/?/people/admin" class="aw-user-nav-dropdown">
-						<img alt="admin" src="{{ asset('ask/index_files/avatar-mid-img.png') }}">
-					</a>
-					<div class="aw-dropdown dropdown-list pull-right">
-						<ul class="aw-dropdown-list">
-							<li><a href=""><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread" style="display: none;">0</span></a></li>
-							<li class="hidden-xs"><a href=""><i class="icon icon-setting"></i> 设置</a></li>
-							<li class="hidden-xs"><a href=""><i class="icon icon-job"></i> 管理</a></li>
-							<li><a href=""><i class="icon icon-logout"></i> 退出</a></li>
-						</ul>
+						<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+							<ul class="nav navbar-nav">
+								<li><a href=""><i class="icon icon-home"></i> 动态</a></li>
+								<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-list"></i> 发现</a></li>
+								<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i> 话题</a></li>
+								<li>
+									<a href="" class=""><i class="icon icon-bell"></i> 通知</a>
+									<span class="badge badge-important" style="display:none" id="notifications_unread">0</span>
+									<div class="aw-dropdown pull-right hidden-xs">
+										<div class="mod-body">
+											<ul id="header_notification_list"><p class="aw-padding10" align="center">没有未读通知</p></ul>
+										</div>
+										<div class="mod-footer">
+											<a href="">查看全部</a>
+										</div>
+									</div>
+								</li>
+								<li>
+									<a style="font-weight:bold;">· · ·</a>
+									<div class="dropdown-list pull-right">
+										<ul id="extensions-nav-list">
+									</div>
+								</li>
+							</ul>
+						</nav>
 					</div>
-				<!-- end 登陆&注册栏 -->
-			</div>
-			<!-- end 用户栏 -->
-			<!-- 发起 -->
-			<div class="aw-publish-btn">
-				<a id="header_publish" class="btn-primary" href="" onclick="AWS.dialog(&#39;publish&#39;, {&#39;category_enable&#39;:&#39;1&#39;, &#39;category_id&#39;:&#39;0&#39;, &#39;topic_title&#39;:&#39;&#39;}); return false;"><i class="icon icon-ask"></i>发起</a>
-				<div class="dropdown-list pull-right">
-					<ul>
-						<li>
-							<form method="post" action="http://ask.com/?/publish/">
-								<a onclick="$(this).parents(&#39;form&#39;).submit();">问题</a>
-							</form>
-						</li>
-						<li>
-							<form method="post" action="http://ask.com/?/publish/article/">
-								<a onclick="$(this).parents(&#39;form&#39;).submit();">文章</a>
-							</form>
-						</li>
-					</ul>
+					<!-- end 导航 -->
+					<!-- 用户栏 -->
+					<div class="aw-user-nav">
+						<!-- 登陆&注册栏 -->
+						<a href="{{ URL::action('Front\HomeController@index', ['uid'=>Auth::id()]) }}" class="aw-user-nav-dropdown">
+							<img alt="{{ Auth::user()->name }}" src="{{ route('getThumbImg', Auth::user()->id) }}">
+						</a>
+						<div class="aw-dropdown dropdown-list pull-right">
+							<ul class="aw-dropdown-list">
+								<li><a href=""><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread" style="display: none;">0</span></a></li>
+								<li class="hidden-xs"><a href=""><i class="icon icon-setting"></i> 设置</a></li>
+								<li class="hidden-xs"><a href=""><i class="icon icon-job"></i> 管理</a></li>
+								<li><a href="{{  url('/logout') }}"><i class="icon icon-logout"></i> 退出</a></li>
+							</ul>
+						</div>
+						<!-- end 登陆&注册栏 -->
+					</div>
+					<!-- end 用户栏 -->
+					<!-- 发起 -->
+					<div class="aw-publish-btn">
+						<a id="header_publish" class="btn-primary" href="" onclick="AWS.dialog(&#39;publish&#39;, {&#39;category_enable&#39;:&#39;1&#39;, &#39;category_id&#39;:&#39;0&#39;, &#39;topic_title&#39;:&#39;&#39;}); return false;"><i class="icon icon-ask"></i>发起</a>
+						<div class="dropdown-list pull-right">
+							<ul>
+								<li>
+									<form method="post" action="http://ask.com/?/publish/">
+										<a onclick="$(this).parents(&#39;form&#39;).submit();">问题</a>
+									</form>
+								</li>
+								<li>
+									<form method="post" action="http://ask.com/?/publish/article/">
+										<a onclick="$(this).parents(&#39;form&#39;).submit();">文章</a>
+									</form>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- end 发起 -->
+			@else
+				<div class="aw-top-nav navbar">
+					<div class="navbar-header">
+						<button class="navbar-toggle pull-left">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+					</div>
+					<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+						<ul class="nav navbar-nav">
+							<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-list"></i> 发现</a></li>
+							<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i> 话题</a></li>
+							<li>
+								<a style="font-weight:bold;">· · ·</a>
+								<div class="dropdown-list pull-right">
+									<ul id="extensions-nav-list">
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</nav>
 				</div>
-			</div>
-			<!-- end 发起 -->
+				<!-- end 导航 -->
+				<!-- 用户栏 -->
+				<div class="aw-user-nav">
+					<!-- 登陆&注册栏 -->
+					<a class="login btn btn-normal btn-primary" href="{{ url('/login') }}">登录</a>
+					<a class="register btn btn-normal btn-success" href="{{ url('/register') }}">注册</a>								<!-- end 登陆&注册栏 -->
+				</div>
+			@endauth
+
+
+
 		</div>
 	</div>
 	
 	@yield('content')
-	
 	
     <div class="aw-footer-wrap">
     	<div class="aw-footer">Copyright © 2018, All Rights Reserved
