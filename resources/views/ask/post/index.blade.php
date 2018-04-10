@@ -128,7 +128,7 @@
                             				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}"><img alt="" src="{{ route('getThumbImg', $user->id) }}"></a>
                             			</dt>
                             			<dd class="pull-left">
-                            				<a href="" data-id="2" class="aw-user-name">{{ $user->name  }}</a>
+                            				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}" data-id="2" class="aw-user-name">{{ $user->name  }}</a>
                             				<p class="signature"></p>
                             				<p><b>0</b> 个问题, <b>0</b> 次赞同</p>
                             			</dd>

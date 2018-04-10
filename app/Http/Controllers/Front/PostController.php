@@ -26,7 +26,7 @@ class PostController extends Controller
         //分类
       	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
         //话题
-      	$tags = TagModel::orderBy('watchs','desc')->limit('10')->get();
+      	$tags = TagModel::orderBy('watchs','desc')->limit('6')->get();
         //热门用户
         $hotUsers = UserModel::limit(10)->get();
         return view('ask.post.index',['datas'=>$datas,'cates'=>$cates,'tags'=>$tags,'cid'=>'','tid'=>'','hotUsers'=>$hotUsers]);
