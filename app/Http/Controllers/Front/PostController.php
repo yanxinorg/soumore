@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Models\Common\UserModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Common\CategoryModel;
@@ -22,9 +23,13 @@ class PostController extends Controller
     {
 		//文章
       	$datas = PostModel::lists();
+        //分类
       	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
+        //话题
       	$tags = TagModel::orderBy('watchs','desc')->limit('10')->get();
-        return view('ask.post.index',['datas'=>$datas,'cates'=>$cates,'tags'=>$tags,'cid'=>'','tid'=>'']);
+        //热门用户
+        $hotUsers = UserModel::limit(10)->get();
+        return view('ask.post.index',['datas'=>$datas,'cates'=>$cates,'tags'=>$tags,'cid'=>'','tid'=>'','hotUsers'=>$hotUsers]);
     }
     
     //我收藏的文章列表
@@ -492,7 +497,9 @@ class PostController extends Controller
     	$tags = DB::table('tags')
     	->whereIn('tags.id', $tagIds)
     	->get();
-    	return view('ask.post.index',['datas'=>$datas,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
+        //热门用户
+        $hotUsers = UserModel::limit(10)->get();
+    	return view('ask.post.index',['datas'=>$datas,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags,'hotUsers'=>$hotUsers]);
     }
     
     //文章标签筛选列表

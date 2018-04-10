@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Common\AttentionModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Common\UserModel;
@@ -157,5 +158,12 @@ class UserController extends Controller
     	]);
     	Auth::logout();
     	return redirect('/login');
+    }
+
+    //热门用户
+    public function index()
+    {
+        $users = UserModel::orderBy('count_fans','desc')->paginate('15');
+        return view('ask.user.hotlist',['users'=>$users]);
     }
 }

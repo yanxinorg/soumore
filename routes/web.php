@@ -279,6 +279,8 @@ Route::get('/cate/answer', 'Front\CategoryController@answer');
 Route::get('/topic', 'Front\TopicController@index');
 //话题详情
 Route::get('/topic/detail', 'Front\TopicController@detail');
+//热门用户列表
+Route::get('/user/hot', 'UserController@index');
 
 //热门关注话题
 Route::get('/topic/hot', 'Front\TopicController@hot');

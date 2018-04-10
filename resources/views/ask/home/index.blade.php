@@ -146,7 +146,7 @@
                                                             </div>
                                                         </div>
                                                     @endforeach()
-                                                    {!! $datas->appends(array('uid'=>$userinfo->id ))->render() !!}
+                                                     <div class="paginate" style="text-align:center;">{!! $datas->appends(array('uid'=>$userinfo->id ))->render() !!}</div>
                                                 </div>
                                         </div>
                                     </div>

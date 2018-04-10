@@ -118,42 +118,22 @@
         				 </div>
     					<div class="aw-mod aw-text-align-justify">
                             	<div class="mod-head">
-                            		<a href="" class="pull-right">更多 &gt;</a>
+                            		<a href="{{ url('/user/hot')  }}" class="pull-right">更多 &gt;</a>
                             		<h3>热门用户</h3>
                             	</div>
                             	<div class="mod-body">
-                            		<dl>
+									@foreach($hotUsers as $user)
+                            		 <dl>
                             			<dt class="pull-left aw-border-radius-5">
-                            				<a href=""><img alt="" src="{{ asset('ask/index_files/avatar-mid-img.png') }}"></a>
+                            				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}"><img alt="" src="{{ route('getThumbImg', $user->id) }}"></a>
                             			</dt>
                             			<dd class="pull-left">
-                            				<a href="" data-id="4" class="aw-user-name">admin</a>
+                            				<a href="" data-id="2" class="aw-user-name">{{ $user->name  }}</a>
                             				<p class="signature"></p>
                             				<p><b>0</b> 个问题, <b>0</b> 次赞同</p>
                             			</dd>
-                            		</dl>
-                            			
-                            		<dl>
-                            			<dt class="pull-left aw-border-radius-5">
-                            				<a href=""><img alt="" src="{{ asset('ask/index_files/avatar-mid-img.png') }}"></a>
-                            			</dt>
-                            			<dd class="pull-left">
-                            				<a href="" data-id="2" class="aw-user-name">admin</a>
-                            				<p class="signature"></p>
-                            				<p><b>0</b> 个问题, <b>0</b> 次赞同</p>
-                            			</dd>
-                            		</dl>
-                            			
-                            		<dl>
-                            			<dt class="pull-left aw-border-radius-5">
-                            				<a href=""><img alt="" src="{{ asset('ask/index_files/avatar-mid-img.png') }}"></a>
-                            			</dt>
-                            			<dd class="pull-left">
-                            				<a href="" data-id="3" class="aw-user-name">admin</a>
-                            				<p class="signature"></p>
-                            				<p><b>0</b> 个问题, <b>0</b> 次赞同</p>
-                            			</dd>
-                            		</dl>
+                            		 </dl>
+                            		@endforeach()
                             	</div>
     					</div>				
 				</div>

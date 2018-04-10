@@ -13,10 +13,6 @@
                         <h2 class="hidden-xs"><i class="icon icon-topic"></i>热门话题</h2>
                     </ul>
                     <!-- end tab切换 -->
-
-                    <!-- 话题分类 -->
-                    <!-- end 话题分类 -->
-
                     <!-- 我关注的话题 -->
                     <div class="aw-mod aw-topic-list">
                         <div class="mod-body clearfix">
@@ -40,10 +36,12 @@
                                 </p>
                                 <p class="text-color-999">7 天新增 1 个讨论, 30 天新增 1 个讨论 </p>
                             </div>
-                         @endforeach()   
-                           
+                         @endforeach()
+
                         </div>
-                        <div class="mod-footer clearfix"></div>
+                        <div class="mod-footer clearfix">
+                            <div class="paginate" style="text-align:center;">{{ $tags->links() }}</div>
+                        </div>
                     </div>
                     <!-- end 我关注的话题 -->
                 </div>
@@ -58,15 +56,15 @@
                                 <dl>
                                     <dt class="pull-left">
                                         <!-- 话题图片 -->
-                                        <a data-id="" class="img aw-border-radius-5" href="http://ask.com/?/topic/">
-                                            <img src="./话题广场 - WeCenter_files/topic-mid-img.png" alt="">
+                                        <a data-id="" class="img aw-border-radius-5" href="{{ URL::action('Front\TopicController@detail', ['id'=>$todayTag['id']]) }}">
+                                            <img src="{{ $todayTag['thumb']  }}" alt="{{ $todayTag['name']  }}">
                                         </a>
                                         <!-- end 话题图片 -->
                                     </dt>
                                     <dd class="pull-left"></dd>
                                 </dl>
                                 <!-- 话题描述 -->
-                                <p><span></span>...<a href="{{ url('/topic') }}">进入话题 »</a></p>
+                                <p><span></span>...<a href="{{ URL::action('Front\TopicController@detail', ['id'=>$todayTag['id']]) }}">进入话题 »</a></p>
                                 <!-- end 话题描述 -->
                             </div>
                         </div>

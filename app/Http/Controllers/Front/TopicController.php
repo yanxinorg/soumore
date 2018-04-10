@@ -13,8 +13,10 @@ class TopicController extends Controller
     //首页
     public function index(Request $request)
     {
-    	$tags = TagModel::paginate('20');
-    	return view('ask.topic.index',['tags'=>$tags]);
+    	$tags = TagModel::paginate('14');
+        //今日话题
+        $todayTag = TagModel::orderBy('created_at','desc')->limit(1)->get()->toArray();
+    	return view('ask.topic.index',['tags'=>$tags,'todayTag'=>$todayTag[0]]);
     }
     
     public function hot()
