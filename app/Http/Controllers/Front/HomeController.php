@@ -76,27 +76,34 @@ class HomeController extends Controller
     			)
     	->orderBy('attentions.created_at','desc')
     	->paginate('8');
+        //关注话题总数
+        $countTopics = DB::table('attentions')
+            ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
+            ->where('attentions.user_id','=',$request->get('uid'))
+            ->where('attentions.source_type','=','3')->count();
     	//粉丝用户
     	$fans = DB::table('attentions')
     	->leftjoin('users', 'attentions.user_id', '=', 'users.id')
     	->where('attentions.source_type','=','1')
     	->where('attentions.source_id','=',$request->get('uid'))
-    	->select(
-    	    'users.id as user_id',
-    	    'users.name as name'
-    	    )->orderBy('attentions.created_at','desc')->paginate('20');
-    	
+    	->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
+        //粉丝总数
+        $countFans = DB::table('attentions')
+            ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
+            ->where('attentions.source_type','=','1')
+            ->where('attentions.source_id','=',$request->get('uid'))->count();
 	    //关注的用户
 	    $topicUsers = DB::table('attentions')
 	    ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
 	    ->where('attentions.source_type','=','1')
 	    ->where('attentions.user_id','=',$request->get('uid'))
-	    ->select(
-	        'users.id as user_id',
-	        'users.name as name'
-	        )->orderBy('attentions.created_at','desc')->paginate('20');
-    	    
-    	return view('ask.home.index',['userinfo'=>$userInfo[0],'datas'=>$datas,'topicUsers'=>$topicUsers,'fans'=>$fans,'topics'=>$topics,'countPost'=>$countPost,'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
+	    ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
+        //关注总人数
+        $countUsers = DB::table('attentions')
+            ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
+            ->where('attentions.source_type','=','1')
+            ->where('attentions.user_id','=',$request->get('uid'))->count();
+    	return view('ask.home.index',['userinfo'=>$userInfo[0],'datas'=>$datas,'topicUsers'=>$topicUsers,'countUsers'=>$countUsers,'fans'=>$fans,'countFans'=>$countFans,'topics'=>$topics,'countTopics'=>$countTopics,'countPost'=>$countPost,'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
     }
     
     public function post(Request $request)

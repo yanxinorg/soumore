@@ -263,12 +263,4 @@ use App\Models\Common\AttentionModel;
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-	var TOPIC_ID = '2';
-	var CONTENTS_TOPIC_ID = '2';
-	var CONTENTS_RELATED_TOPIC_IDS = '2';
-	var CONTENTS_TOPIC_TITLE = '地方';
-</script>
-<script type="text/javascript" src="./地方 - WeCenter_files/topic.js"></script>
 @endsection

@@ -10,9 +10,19 @@
                         <div class="aw-mod aw-user-detail-box">
                             <div class="mod-head">
                                 <img style="width:100px;" src="{{ route('getThumbImg', $userinfo['id'] ) }}" alt="{{ $userinfo['name'] }}">
+                                @if(Auth::id() == $uid)
                                 <span class="pull-right operate">
                                     <a href="" class="btn btn-mini btn-success">编辑</a>
                                 </span>
+                                @elseif( $islooked )
+                                    <span class="pull-right operate">
+                                        <a class="text-color-999" onclick=""><i class="icon icon-inbox"></i> 私信</a><a onclick="" class="text-color-999 hidden-xs"><i class="icon icon-at"></i> 问Ta</a><a href="{{ URL::action('Front\AttentionController@cancelUser', ['uid'=>$uid]) }}" class="follow btn btn-normal btn-success active" ><span>取消关注</span></a>
+                                    </span>
+                                 @else
+                                     <span class="pull-right operate">
+                                         <a href="{{ URL::action('Front\AttentionController@user', ['uid'=>$uid]) }}" class="follow btn btn-normal btn-success" ><span>关注</span> </a>
+                                     </span>
+                                @endif
                                 <h1>{{ $userinfo->name }}</h1>
                                 <p class="text-color-999"></p>
                                 <p class="aw-user-flag">
@@ -260,18 +270,18 @@
                         <div class="aw-mod people-following">
                             <div class="mod-body">
                                 <a onclick="$(&#39;#page_focus&#39;).click();$(&#39;#focus .aw-tabs ul li&#39;).eq(0).click();$.scrollTo($(&#39;#focus&#39;).offset()[&#39;top&#39;], 600, {queue:true})" class="pull-right font-size-12">更多 »</a>
-                                <span>关注 <em class="aw-text-color-blue">0</em>人</span>
+                                <span>关注 <em class="aw-text-color-blue">{{  $countUsers }}</em>人</span>
                                 <p>
                                 @foreach($topicUsers as $topicUser)
                                     <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$topicUser->user_id]) }}"><img src="{{ route('getThumbImg', $topicUser->user_id) }}" alt="{{ $topicUser->name }}"></a>
-                                @endforeach()  
+                                @endforeach()
                                 </p>
                             </div>
                         </div>
                         <div class="aw-mod people-following">
                             <div class="mod-body">
                                 <a onclick="$(&#39;#page_focus&#39;).click();$(&#39;#focus .aw-tabs ul li&#39;).eq(1).click();$.scrollTo($(&#39;#focus&#39;).offset()[&#39;top&#39;], 600, {queue:true})" class="pull-right font-size-12">更多 »</a>
-                                <span> 被 <em class="aw-text-color-blue">1</em> 人关注</span>
+                                <span> 被 <em class="aw-text-color-blue">{{ $countFans  }}</em> 人关注</span>
                                 <p>
                                 	@foreach($fans as $fan)
                                     <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$fan->user_id]) }}"><img src="{{ route('getThumbImg', $fan->user_id) }}" alt="{{ $fan->name }}"></a>
@@ -280,7 +290,7 @@
                             </div>
                         </div>
                         <div class="aw-mod people-following">
-                            <div class="mod-body">关注 <em class="aw-text-color-blue">0</em> 话题 </div>
+                            <div class="mod-body">关注 <em class="aw-text-color-blue">{{ $countTopics }}</em> 话题 </div>
                             <div class="aw-topic-bar">
                                 <div class="tag-bar clearfix">
                                 	@foreach($topics as $topic)
