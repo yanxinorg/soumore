@@ -284,6 +284,8 @@ Route::get('/user/hot', 'UserController@index');
 
 //热门关注话题
 Route::get('/topic/hot', 'Front\TopicController@hot');
+//关注分类
+Route::get('/topic/cate', 'Front\TopicController@cate');
 //QQ社会化登录
 Route::get('/auth/qq','Common\SocializeController@qqAuth');
 //QQ社会化登录

@@ -1,34 +1,6 @@
 @extends('layouts.ask')
 @section('content')
 <div class="aw-container-wrap">
-<!-- 分类 -->
-	<div class="container category">
-    	<div class="row">
-        	<div class="col-sm-12">
-        		@foreach($cates as $cate)
-					@if($cate->id == $cid)
-						<dl class="active">
-                			<dt><img src="{{ $cate->thumb }}" alt="默认分类"></dt>
-                			<dd>
-                				<p class="title"><a href="{{ URL::action('Front\PostController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></p>
-                				<span>{{ $cate->desc }}</span>
-                			</dd>
-            			</dl>
-					@else
-						<dl >
-                			<dt><img src="{{ $cate->thumb }}" alt="默认分类"></dt>
-                			<dd>
-                				<p class="title"><a href="{{ URL::action('Front\PostController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></p>
-                				<span>{{ $cate->desc }}</span>
-                			</dd>
-            			</dl>
-					@endif
-        		@endforeach()
-        	</div>
-    	</div>
-    	
-	</div>
-	
 	<div class="container">
 		<div class="row">
 			<div class="aw-content-wrap clearfix">
@@ -58,9 +30,23 @@
 						<h2 class="hidden-xs"><i class="icon icon-list"></i>发现</h2>
 					</ul>
 					<!-- end tab切换 -->
-					
 					<div class="aw-mod aw-explore-list">
-						<div class="mod-body">
+    						<div class="aw-mod aw-topic-category">
+                                <div class="mod-body clearfix">
+                                <ul>
+                                    <li><a class="active" href="">全部分类</a></li>
+                                    @foreach($cates as $cate)
+                    					@if($cate->id == $cid)
+                    					 <li ><a class="active" style="text-decoration:none;" href="{{ URL::action('Front\PostController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
+                    					@else
+                    					 <li><a style="text-decoration:none;" href="{{ URL::action('Front\PostController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
+                    					@endif
+                            		@endforeach()
+                              	</ul>
+                                </div>
+                        	</div>
+                    	
+                    		<div class="mod-body">
 							<div class="aw-common-list">
 								@foreach($datas as $data)
 								<div class="aw-item article" data-topic-id="3,">

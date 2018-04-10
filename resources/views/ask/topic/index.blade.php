@@ -15,6 +15,22 @@
                     <!-- end tab切换 -->
                     <!-- 我关注的话题 -->
                     <div class="aw-mod aw-topic-list">
+                    
+        				<div class="aw-mod aw-topic-category">
+                            <div class="mod-body clearfix">
+                            <ul>
+                                <li><a class="active" href="">话题分类</a></li>
+                                @foreach($cates as $cate)
+                					@if($cate->id == $cid)
+                					 <li ><a class="active" style="text-decoration:none;" href="{{ URL::action('Front\TopicController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
+                					@else
+                					 <li><a style="text-decoration:none;" href="{{ URL::action('Front\TopicController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
+                					@endif
+                        		@endforeach()
+                          	</ul>
+                            </div>
+                    	</div>
+                                	
                         <div class="mod-body clearfix">
                         @foreach($tags as $tag )
                             <div class="aw-item">
@@ -40,7 +56,7 @@
 
                         </div>
                         <div class="mod-footer clearfix">
-                            <div class="paginate" style="text-align:center;">{{ $tags->links() }}</div>
+                            <div class="paginate" style="text-align:center;">{!! $tags->appends(array('cid'=>$cid))->render() !!}</div>
                         </div>
                     </div>
                     <!-- end 我关注的话题 -->
@@ -76,6 +92,9 @@
                             </div>
                             <div class="mod-body clearfix">
                                 <div class="aw-topic-bar">
+                                
+                                	
+                        	
                                     <div class="topic-bar clearfix">
                                     	@foreach($tags as $tag)
                                         <span class="topic-tag">

@@ -96,17 +96,17 @@
 					<!-- end 用户栏 -->
 					<!-- 发起 -->
 					<div class="aw-publish-btn">
-						<a id="header_publish" class="btn-primary" href="" onclick="AWS.dialog(&#39;publish&#39;, {&#39;category_enable&#39;:&#39;1&#39;, &#39;category_id&#39;:&#39;0&#39;, &#39;topic_title&#39;:&#39;&#39;}); return false;"><i class="icon icon-ask"></i>发起</a>
+						<a id="header_publish" class="btn-primary" href="javascript:void(0);"><i class="icon icon-ask"></i>发起</a>
 						<div class="dropdown-list pull-right">
 							<ul>
 								<li>
-									<form method="post" action="http://ask.com/?/publish/">
-										<a onclick="$(this).parents(&#39;form&#39;).submit();">问题</a>
+									<form method="post" action="">
+										<a >问题</a>
 									</form>
 								</li>
 								<li>
-									<form method="post" action="http://ask.com/?/publish/article/">
-										<a onclick="$(this).parents(&#39;form&#39;).submit();">文章</a>
+									<form method="post" action="">
+										<a >文章</a>
 									</form>
 								</li>
 							</ul>

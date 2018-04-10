@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Common\TagModel;
 use App\Models\Common\AttentionModel;
 use Illuminate\Support\Facades\DB;
+use App\Models\Common\CategoryModel;
 
 class TopicController extends Controller
 {
@@ -16,8 +17,25 @@ class TopicController extends Controller
     	$tags = TagModel::paginate('14');
         //今日话题
         $todayTag = TagModel::orderBy('created_at','desc')->limit(1)->get()->toArray();
-    	return view('ask.topic.index',['tags'=>$tags,'todayTag'=>$todayTag[0]]);
+        //话题分类
+        $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
+    	return view('ask.topic.index',['tags'=>$tags,'todayTag'=>$todayTag[0],'cates'=>$cates,'cid'=>'']);
     }
+    
+    //话题分类筛选列表
+    public function cate(Request $request)
+    {
+        $this->validate($request, ['cid'=>'required|numeric|exists:category,id']);
+        
+        $tags = TagModel::where('cate_id',$request->get('cid'))->paginate('14');
+        //话题分类
+        $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
+        //今日话题
+        $todayTag = TagModel::orderBy('created_at','desc')->limit(1)->get()->toArray();
+        
+        return view('ask.topic.index',['tags'=>$tags,'todayTag'=>$todayTag[0],'cates'=>$cates,'cid'=>$request->get('cid')]);
+    }
+    
     
     public function hot()
     {
