@@ -28,6 +28,7 @@ class PostController extends Controller
         //话题
       	$tags = TagModel::orderBy('watchs','desc')->limit('6')->get();
         //热门用户
+        //热门用户
         $hotUsers = UserModel::limit(10)->get();
         return view('ask.post.index',['datas'=>$datas,'cates'=>$cates,'tags'=>$tags,'cid'=>'','tid'=>'','hotUsers'=>$hotUsers]);
     }
@@ -280,18 +281,17 @@ class PostController extends Controller
     	$selectedTags = DB::table('post_tag')
     	->leftjoin('tags', 'post_tag.tags_id', '=', 'tags.id')
     	->where('post_tag.posts_id','=',$request->get('id'))
-    	->select('tags.name as name','tags.id as id')->orderBy('tags.created_at','desc')->get();
+    	->select('tags.name as name','tags.id as id')->orderBy('tags.created_at','desc')->get()->toArray();
     	$tmp = [];
     	foreach ($selectedTags as $k=>$v)
     	{
     		$tmp[$k] = $v->id;
     	}
-    	$c[] = implode(",",$tmp);
     	//除去选中的tags
     	$tags = DB::table('tags')
-    	->whereNotIn('id', $c)->get();
+    	->whereNotIn('id',$tmp)->get();
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    	return view('wenda.post.edit',[
+    	return view('ask.post.edit',[
     			'cates'=>$cates,
     			'tags'=>$tags,
     			'selectedTags'=>$selectedTags,
@@ -394,7 +394,7 @@ class PostController extends Controller
     				]);
     			}
     	}
-    	return redirect('/person/post');
+    	return redirect('/post');
     }
     
 	//文章详情
@@ -418,6 +418,7 @@ class PostController extends Controller
             'posts.excerpt as excerpt', 
             'posts.content as content',
             'posts.thumb as thumb',
+            'posts.likes as likes',
             'posts.created_at as created_at',
             'posts.comments as countcomment'
             )->orderBy('posts.created_at','desc')->get();
@@ -469,11 +470,15 @@ class PostController extends Controller
     	$this->validate($request, ['cid'=>'required|numeric|exists:category,id']);
     	$datas = DB::table('posts')
     	->leftjoin('users', 'posts.user_id', '=', 'users.id')
+        ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
     	->where('posts.status','=','1')
     	->where('posts.cate_id','=',$request->get('cid'))
-    	->select('posts.id as post_id',
-    			'posts.title as title',
+    	->select(
     			'users.name as author',
+                'category.name as cate_name',
+                'category.id as cate_id',
+                'posts.id as post_id',
+                'posts.title as title',
     			'posts.user_id as user_id',
     			'posts.excerpt as excerpt',
     			'posts.content as content',

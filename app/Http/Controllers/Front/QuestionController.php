@@ -27,7 +27,8 @@ class QuestionController extends Controller
         //问答
     	$questions = DB::table('questions')
 				    	->leftjoin('users', 'users.id', '=', 'questions.user_id')
-				    	->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
+                        ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
+				    	->select('users.id as user_id','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
 						->orderBy('questions.created_at','desc')		    	
     					->paginate('15');
         //热门用户
@@ -529,8 +530,9 @@ class QuestionController extends Controller
     	$this->validate($request, ['cid'=>'required|numeric|exists:category,id']);
     	$questions = DB::table('questions')
 				    ->leftjoin('users', 'users.id', '=', 'questions.user_id')
+                    ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
 				    ->where('questions.cate_id','=',$request->get('cid'))
-				    ->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
+				    ->select('users.id as user_id','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
 				    ->orderBy('questions.created_at','desc')
     				->paginate('15');
     	//查询分类
@@ -673,7 +675,6 @@ class QuestionController extends Controller
     			'id'=>$request->get('id'),
     			'user_id'=>Auth::id()
     	])->get();
-    	 
     	//该文章选中的标签
     	$selectedTags = DB::table('question_tag')
     	->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
@@ -684,12 +685,11 @@ class QuestionController extends Controller
     	{
     		$tmp[$k] = $v->id;
     	}
-    	$c[] = implode(",",$tmp);
     	//除去选中的tags
     	$tags = DB::table('tags')
-    	->whereNotIn('id', $c)->get();
+    	->whereNotIn('id', $tmp)->get();
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    	return view('wenda.question.edit',[
+    	return view('ask.question.edit',[
     			'cates'=>$cates,
     			'tags'=>$tags,
     			'selectedTags'=>$selectedTags,
@@ -747,7 +747,7 @@ class QuestionController extends Controller
     			]);
     		}
     	}
-    	return redirect('/person/answer');
+    	return redirect('/question');
     }
     
 }

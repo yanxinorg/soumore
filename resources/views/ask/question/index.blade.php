@@ -34,7 +34,7 @@
     						<div class="aw-mod aw-topic-category">
                                 <div class="mod-body clearfix">
                                 <ul>
-                                    <li><a class="active" href="">全部分类</a></li>
+                                    <li><a class="active" href="{{ url('/question') }}">全部分类</a></li>
                                     @foreach($cates as $cate)
                     					@if($cate->id == $cid)
                     					 <li ><a class="active" style="text-decoration:none;" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
@@ -54,8 +54,8 @@
 										<div class="aw-question-content">
     										<h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$data->question_id]) }}">{{ $data->title }}</a></h4>
                                     		<p>
-                                    			<a class="aw-question-tags" href="">默认分类</a>
-                                    			<a href="" class="aw-user-name">admin</a> <span class="text-color-999">发表了文章 • 111个评论 • 111 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
+                                    			<a class="aw-question-tags" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$data->cate_id]) }}">{{ $data->cate_name  }}</a>
+                                    			<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->author }}</a> <span class="text-color-999">发表了文章 • 111个评论 • 111 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
                                     			<span class="text-color-999 related-topic collapse"> • 来自相关话题</span>
                                     		</p>
                             				<!-- 文章内容调用 -->

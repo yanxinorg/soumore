@@ -19,7 +19,7 @@
 
                         <div class="aw-mod aw-question-detail">
                         	<div class="mod-head">
-                            	<h1>wwwwwwwwww</h1>
+                            	<h1>{{ $datas->title  }}</h1>
                                <div class="operate clearfix">
                                     <!-- 下拉菜单 -->
                                         <div class="btn-group pull-left">
@@ -53,7 +53,11 @@
                                             <a href="javascript:;" class="agree" onclick=""><i class="icon icon-agree"></i> <b>0</b></a>
                                         </div>
                                         <span class="pull-right  more-operate">
-                                            <a class="text-color-999" href="http://ask.com/?/publish/article/2"><i class="icon icon-edit"></i>编辑</a>
+                                             @if(!empty(Auth::id()))
+                                                @if(Auth::id() == $datas->user_id)
+                                                    <a class="text-color-999" href="{{ URL::action('Front\PostController@edit', ['id'=>$datas->post_id]) }}"><i class="icon icon-edit"></i>编辑</a>
+                                                @endif()
+                                            @endif()
                                             <a href="javascript:;" onclick="AWS.dialog(&#39;favorite&#39;, {item_id:2, item_type:&#39;article&#39;});" class="text-color-999"><i class="icon icon-favor"></i> 收藏</a>
                                             <a class="text-color-999 dropdown-toggle" data-toggle="dropdown"><i class="icon icon-share"></i>分享 </a>
                                             <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
@@ -125,18 +129,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    var ANSWER_EDIT_TIME = 30;
-
-    $(document).ready(function () {
-        if ($('.aw-article-vote.disabled').length)
-        {
-            $('.aw-article-vote.disabled a').attr('onclick', '');
-        }
-
-        AWS.at_user_lists('#wmd-input');
-
-        AWS.Init.init_article_comment_box($('.aw-article-comment'));
-    });
-</script>
 @endsection

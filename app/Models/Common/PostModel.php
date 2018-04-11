@@ -31,10 +31,14 @@ class PostModel extends Model
 	{
 		$datas = DB::table('posts')
 		->leftjoin('users', 'posts.user_id', '=', 'users.id')
-		->select('posts.id as post_id',
+        ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
+		->select(
+                'users.name as author',
+                'users.id as user_id',
+                'category.id as cate_id',
+                'category.name as cate_name',
+                'posts.id as post_id',
 				'posts.title as title',
-				'users.name as author',
-				'users.id as user_id',
 				'posts.excerpt as excerpt',
 				'posts.content as content',
 				'posts.thumb as thumb',
