@@ -175,7 +175,7 @@ class PostController extends Controller
     {
     	$tags = TagModel::all();
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-        return view('wenda.post.create',[
+        return view('ask.post.create',[
         	'cates'=>$cates,
         	'tags'=>$tags
         ]);

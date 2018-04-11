@@ -111,7 +111,7 @@
                                         <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}"><img alt="{{ $datas->author }}" src="{{ route('getThumbImg', $datas->user_id) }}"></a>
                                     </dt>
                                     <dd class="pull-left">
-                                        <a class="aw-user-name" href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}" data-id="1">{{ $datas->author }}</a>
+                                        <a class="aw-user-name" href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}" >{{ $datas->author }}</a>
                                         <p></p>
                                     </dd>
                                 </dl>

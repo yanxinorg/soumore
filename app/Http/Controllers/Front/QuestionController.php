@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Models\Common\UserModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Common\TagModel;
@@ -19,15 +20,19 @@ class QuestionController extends Controller
     //问答列表
     public function index()
     {
+        //分类
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    	$tags = TagModel::all();
+        //话题
+        $tags = TagModel::orderBy('watchs','desc')->limit('6')->get();
+        //问答
     	$questions = DB::table('questions')
 				    	->leftjoin('users', 'users.id', '=', 'questions.user_id')
 				    	->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
 						->orderBy('questions.created_at','desc')		    	
     					->paginate('15');
-    	return view('wenda.question.index',['cates'=>$cates,'questions'=>$questions,'tags'=>$tags,'tid'=>'','cid'=>'']);
-    	
+        //热门用户
+        $hotUsers = UserModel::limit(10)->get();
+    	return view('ask.question.index',['cates'=>$cates,'questions'=>$questions,'tags'=>$tags,'tid'=>'','cid'=>'','hotUsers'=>$hotUsers]);
     }
     
     //新增问答
@@ -35,7 +40,7 @@ class QuestionController extends Controller
     {
     	$tags = TagModel::all();
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    	return view('wenda.question.create',[
+    	return view('ask.question.create',[
     			'cates'=>$cates,
     			'tags'=>$tags
     	]);
@@ -147,7 +152,7 @@ class QuestionController extends Controller
     		}else{
     			$isCollected = false;
     		}
-    	return view('wenda.question.detail',['datas'=>$datas[0],'tagss'=>$tagss,'answers'=>$answers,'id'=>$request->get('id'),'isCollected'=>$isCollected]);
+    	return view('ask.question.detail',['datas'=>$datas[0],'tagss'=>$tagss,'answers'=>$answers,'id'=>$request->get('id'),'isCollected'=>$isCollected]);
     }
     
     //文章收藏
@@ -538,11 +543,12 @@ class QuestionController extends Controller
     	->select('question_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
     	//去重
     	$tagIds = array_unique($tagIds);
-    	
     	$tags = DB::table('tags')
     	->whereIn('tags.id', $tagIds)
     	->get();
-    	return view('wenda.question.index',['questions'=>$questions,'cates'=>$cates,'tags'=>$tags,'tid'=>'','cid'=>$request->get('cid')]);
+        //热门用户
+        $hotUsers = UserModel::limit(10)->get();
+    	return view('ask.question.index',['questions'=>$questions,'cates'=>$cates,'tags'=>$tags,'tid'=>'','cid'=>$request->get('cid'),'hotUsers'=>$hotUsers]);
     }
     
     //问答分类筛选列表

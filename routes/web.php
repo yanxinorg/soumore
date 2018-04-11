@@ -86,19 +86,20 @@ Route::group(['middleware' => 'authed'], function () {
 		Route::get('/post/myCollect', 'PostController@myCollect');
 		//添加评论
 		Route::post('/comment/create', 'CommentController@create');
+
+
 	});
 	//文章单张图片上传
 	Route::post('/post/image/upload', 'Common\FileController@uploadImg');
 	//登出
 	Route::get('/logout','UserController@logout');
-	
-	
-	
-	//后台首页
-	Route::get('/admin', 'Admin\IndexController@index');
+
+    //后台首页
+    Route::get('/admin', 'Admin\IndexController@index');
 	//新后台管理
 	Route::group(['prefix' => 'back'], function()
 	{
+
 	    //角色列表
 	    Route::get('/role/list', 'Admin\RoleController@index');
 	    //新增角色

@@ -12,7 +12,7 @@
 <script src="{{ asset('ask/index_files/jquery.2.js') }}" type="text/javascript"></script>
 <script src="{{ asset('ask/index_files/jquery.form.js') }}" type="text/javascript"></script>
 <script src="{{ asset('ask/index_files/plug-in_module.js') }}" type="text/javascript"></script>
-<script src="{{ asset('ask/index_files/aws.js') }}" type="text/javascript"></script>
+{{--<script src="{{ asset('ask/index_files/aws.js') }}" type="text/javascript"></script>--}}
 <script type="text/javascript" src="{{ asset('ask/index_files/compatibility.js') }}"></script>
 <body screen_capture_injected="true">
 	<div class="aw-top-menu-wrap">
@@ -53,8 +53,9 @@
 						<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
 							<ul class="nav navbar-nav">
 								<li><a href=""><i class="icon icon-home"></i> 动态</a></li>
-								<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-list"></i> 发现</a></li>
-								<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i> 话题</a></li>
+								<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-list"></i>发现</a></li>
+								<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-list"></i>问答</a></li>
+								<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i>话题</a></li>
 								<li>
 									<a href="" class=""><i class="icon icon-bell"></i> 通知</a>
 									<span class="badge badge-important" style="display:none" id="notifications_unread">0</span>
@@ -87,7 +88,7 @@
 							<ul class="aw-dropdown-list">
 								<li><a href=""><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread" style="display: none;">0</span></a></li>
 								<li class="hidden-xs"><a href=""><i class="icon icon-setting"></i> 设置</a></li>
-								<li class="hidden-xs"><a href=""><i class="icon icon-job"></i> 管理</a></li>
+								<li class="hidden-xs"><a href="{{ url('/admin') }}"><i class="icon icon-job"></i> 管理</a></li>
 								<li><a href="{{  url('/logout') }}"><i class="icon icon-logout"></i> 退出</a></li>
 							</ul>
 						</div>
@@ -96,19 +97,11 @@
 					<!-- end 用户栏 -->
 					<!-- 发起 -->
 					<div class="aw-publish-btn">
-						<a id="header_publish" class="btn-primary" href="javascript:void(0);"><i class="icon icon-ask"></i>发起</a>
+						<a id="header_publish" class="btn-primary" href="javascript:void(0);" style="text-decoration: none;"><i class="icon icon-ask"></i>发起</a>
 						<div class="dropdown-list pull-right">
 							<ul>
-								<li>
-									<form method="post" action="">
-										<a >问题</a>
-									</form>
-								</li>
-								<li>
-									<form method="post" action="">
-										<a >文章</a>
-									</form>
-								</li>
+								<li><a href="{{ url('/post/create') }}">文章</a></li>
+								<li><a href="{{ url('/question/create') }}">问题</a></li>
 							</ul>
 						</div>
 					</div>
@@ -125,6 +118,7 @@
 					<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
 						<ul class="nav navbar-nav">
 							<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-list"></i> 发现</a></li>
+							<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-list"></i>问答</a></li>
 							<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i> 话题</a></li>
 							<li>
 								<a style="font-weight:bold;">· · ·</a>
