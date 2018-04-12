@@ -141,9 +141,9 @@
                                     <div class="aw-mod">
                                         <div class="aw-tabs text-center">
                                             <ul>
-                                                <li class="active"><a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}">关注的人</a></li>
-                                                <li><a href="{{ URL::action('Front\HomeController@topicedUser', ['uid'=>$uid]) }}">关注者</a></li>
-                                                <li><a>关注的话题</a></li>
+                                                <li ><a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}">关注的人</a></li>
+                                                <li ><a href="{{ URL::action('Front\HomeController@topicedUser', ['uid'=>$uid]) }}">关注者</a></li>
+                                                <li ><a href="{{ URL::action('Front\HomeController@topics', ['uid'=>$uid]) }}">关注的话题</a></li>
                                             </ul>
                                         </div>
                                         <div class="mod-body">

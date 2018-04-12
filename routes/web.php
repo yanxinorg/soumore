@@ -247,12 +247,15 @@ Route::get('/home', 'Front\HomeController@index');
 Route::get('/home/post', 'Front\HomeController@post');
 //个人主页问答
 Route::get('/home/question', 'Front\HomeController@question');
+
 //个人主页关注
 Route::get('/home/topic', 'Front\HomeController@topic');
 //个人主页关注
 Route::get('/home/topicUser', 'Front\HomeController@topicUser');
 //个人主页粉丝
 Route::get('/home/topicedUser', 'Front\HomeController@topicedUser');
+//个人主页关注的话题
+Route::get('/home/topics', 'Front\HomeController@topics');
 //个人主页回答
 Route::get('/home/answer', 'Front\HomeController@answer');
 

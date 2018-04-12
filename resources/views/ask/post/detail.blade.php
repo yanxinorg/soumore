@@ -1,5 +1,6 @@
 @extends('layouts.ask')
 @section('content')
+
 <div class="aw-container-wrap">
     <div class="container">
         <div class="row">
@@ -27,16 +28,16 @@
                                                 <div class="dropdown-menu aw-dropdown pull-right" role="menu" aria-labelledby="dropdownMenu">
                                                     <ul class="aw-dropdown-list">
                                                         <li>
-                                                            <a href="javascript:;" onclick="AWS.ajax_request(G_BASE_URL + &#39;/article/ajax/lock/&#39;, &#39;article_id=2&#39;);">锁定文章</a>
+                                                            <a href="javascript:;" onclick="">锁定文章</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:;" onclick="AWS.dialog(&#39;confirm&#39;, {&#39;message&#39; : &#39;确认删除?&#39;}, function(){AWS.ajax_request(G_BASE_URL + &#39;/article/ajax/remove_article/&#39;, &#39;article_id=2&#39;);});">删除文章</a>
+                                                            <a href="javascript:;"  onclick="remove({{ $datas->post_id }});">删除文章</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:;" onclick="AWS.ajax_request(G_BASE_URL + &#39;/article/ajax/set_recommend/&#39;, &#39;action=set&amp;article_id=2&#39;);">推荐文章</a>
+                                                            <a href="javascript:;" onclick="">推荐文章</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:;" onclick="AWS.dialog(&#39;recommend&#39;, {&#39;type&#39;: &#39;article&#39;, &#39;item_id&#39;: 2, &#39;focus_id&#39;: &#39;&#39;});">添加到帮助中心</a>
+                                                            <a href="javascript:;" onclick="">添加到帮助中心</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -129,4 +130,29 @@
         </div>
     </div>
 </div>
+@section('js')
+@parent
+<script type="text/javascript" src="{{ asset('ask/layer/layer.js') }}" ></script>
+<script type="text/javascript">
+    function remove(id){
+        layer.confirm('确认删除该文章？', {
+            btn: ['确认','取消'] //按钮
+        },function(){
+            $.post("{{ url('/post/del') }}",
+                    {
+                        "_token":'{{ csrf_token() }}',
+                        "id": id,
+                    },function(data){
+                        if(data.code)
+                        {
+                            layer.msg(data.msg);
+                            location.reload();
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    });
+        },function(){});
+    }
+</script>
+@stop
 @endsection
