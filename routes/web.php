@@ -245,12 +245,17 @@ Route::get('/question/tag', 'Front\QuestionController@tag');
 Route::get('/home', 'Front\HomeController@index');
 //个人主页文章
 Route::get('/home/post', 'Front\HomeController@post');
-//个人主页回答
+//个人主页问答
 Route::get('/home/question', 'Front\HomeController@question');
+//个人主页关注
+Route::get('/home/topic', 'Front\HomeController@topic');
+//个人主页关注
+Route::get('/home/topicUser', 'Front\HomeController@topicUser');
+//个人主页粉丝
+Route::get('/home/topicedUser', 'Front\HomeController@topicedUser');
 //个人主页回答
 Route::get('/home/answer', 'Front\HomeController@answer');
-//个人主页粉丝
-Route::get('/home/fan', 'Front\HomeController@fans');
+
 
 //加载省份城市信息
 Route::get('/common/loadCity/{province_id}', 'Common\CommonController@loadCity')->where(['province_id'=>'[0-9]+']);

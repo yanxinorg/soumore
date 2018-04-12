@@ -37,13 +37,13 @@
                             </div>
                             <div class="mod-footer">
                                 <ul class="nav nav-tabs aw-nav-tabs">
-                                    <li class=""><a href="http://ask.com/?/#overview" id="page_overview" data-toggle="tab">概述</a></li>
-                                    <li class=""><a href="http://ask.com/?/#questions" id="page_questions" data-toggle="tab">发问<span class="badge">0</span></a></li>
-                                    <li class=""><a href="http://ask.com/?/#answers" id="page_answers" data-toggle="tab">回复<span class="badge">0</span></a></li>
-                                    <li class="active"><a href="http://ask.com/?/#articles" id="page_articles" data-toggle="tab">文章<span class="badge">{{ $countPost }}</span></a></li>
-                                    <li class=""><a href="http://ask.com/?/#focus" id="page_focus" data-toggle="tab">关注</a></li>
-                                    <li class=""><a href="http://ask.com/?/#actions" id="page_actions" data-toggle="tab">动态</a></li>
-                                    <li class=""><a href="http://ask.com/?/#detail" id="page_detail" data-toggle="tab">详细资料</a></li>
+                                    <li><a href="" id="page_overview" data-toggle="tab">概述</a></li>
+                                    <li><a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}">问答<span class="badge">{{ $countQuestion }}</span></a></li>
+                                    <li><a href="" id="page_answers" data-toggle="tab">回复<span class="badge">0</span></a></li>
+                                    <li><a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}">文章<span class="badge">{{ $countPost }}</span></a></li>
+                                    <li class="active"><a href="{{ URL::action('Front\HomeController@topic', ['uid'=>$uid]) }}">关注</a></li>
+                                    <li><a href="" id="page_actions" data-toggle="tab">动态</a></li>
+                                    <li><a href="" id="page_detail" data-toggle="tab">详细资料</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -65,19 +65,6 @@
                                     </div>
                                     <!-- end 回复 -->
 
-                                    <!-- 发问 -->
-                                    <div class="aw-mod">
-                                        <div class="mod-head">
-                                            <h3><a class="pull-right aw-more-content" href="javascript:;" onclick="$(&#39;#page_questions&#39;).click();">更多 »</a>发问</h3>
-                                        </div>
-                                        <div class="mod-body">
-                                            <div class="aw-profile-publish-list">
-                                                <p class="padding10 text-center">没有内容</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end 发问 -->
-
                                     <!-- 最新动态 -->
                                     <div class="aw-mod">
                                         <div class="mod-head">
@@ -90,23 +77,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="questions">
-                                    <div class="aw-mod">
-                                        <div class="mod-head">
-                                            <h3>发问</h3>
-                                        </div>
-                                        <div class="mod-body">
-                                            <div class="aw-profile-publish-list" id="contents_user_actions_questions"><p style="padding: 15px 0" align="center">没有内容</p></div>
-                                        </div>
-                                        <div class="mod-footer">
-                                            <!-- 加载更多内容 -->
-                                            <a class="aw-load-more-content disabled" id="bp_user_actions_questions_more" data-page="0">
-                                                <span>没有更多了</span>
-                                            </a>
-                                            <!-- end 加载更多内容 -->
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <div class="tab-pane" id="answers">
                                     <div class="aw-mod">
                                         <div class="mod-head">
@@ -124,40 +95,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane active" id="articles">
-                                    <div class="aw-mod">
-                                        <div class="mod-head">
-                                            <h3>文章</h3>
-                                        </div>
-                                        <div class="mod-body">
-                                                <div class="aw-profile-publish-list" id="contents_user_actions_articles">
-                                                    @foreach($datas as $data)
-                                                        <div class="aw-item">
-                                                            <div class="aw-mod">
-                                                                <div class="mod-head">
-                                                                    <h4 class="aw-hide-txt">
-                                                                        <a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ $data->title  }}</a>
-                                                                    </h4>
-                                                                </div>
-                                                                <div class="mod-body">
-                                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>0</span>
-                                                                    <p class="text-color-999">1 次浏览 • 1 个关注 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach()
-                                                     <div class="paginate" style="text-align:center;">{!! $datas->appends(array('uid'=>$userinfo->id ))->render() !!}</div>
-                                                </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="focus">
+
+                                <div class="tab-pane active" id="focus">
                                     <!-- 自定义切换 -->
                                     <div class="aw-mod">
                                         <div class="aw-tabs text-center">
                                             <ul>
-                                                <li class="active"><a>关注的人</a></li>
-                                                <li><a>关注者</a></li>
+                                                <li ><a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}">关注的人</a></li>
+                                                <li class="active" ><a href="{{ URL::action('Front\HomeController@topicedUser', ['uid'=>$uid]) }}">关注者</a></li>
                                                 <li><a>关注的话题</a></li>
                                             </ul>
                                         </div>
@@ -165,44 +110,37 @@
                                             <div class="aw-tab-content">
                                                 <div class="aw-mod aw-user-center-follow-mod">
                                                     <div class="mod-body">
-                                                        <ul id="contents_user_follows" class="clearfix"><p style="padding: 15px 0" align="center">没有内容</p></ul>
-                                                    </div>
-                                                    <div class="mod-footer">
-                                                        <!-- 加载更多内容 -->
-                                                        <a class="aw-load-more-content disabled" id="bp_user_follows_more" data-page="0">
-                                                            <span>没有更多了</span>
-                                                        </a>
-                                                        <!-- end 加载更多内容 -->
-                                                    </div>
-                                                </div>
-                                                <div class="aw-mod aw-user-center-follow-mod collapse">
-                                                    <div class="mod-body">
-                                                        <ul class="clearfix" id="contents_user_fans"><li>
-                                                                <div class="mod-head">
-                                                                    <a class="aw-user-img pull-left aw-border-radius-5" data-id="3" href="http://ask.com/?/people/test">
-                                                                        <img src="./admin 的个人主页 - WeCenter_files/avatar-mid-img.png" alt="test">
-                                                                    </a>
-                                                                    <p><a href="http://ask.com/?/people/test">test</a></p>
-                                                                </div>
-                                                                <div class="mod-body">
-                                                                    <p class="text-color-999 aw-hide-txt"></p>
-                                                                </div>
-                                                                <div class="mod-footer meta">
-                                                                    <span><i class="icon icon-prestige"></i>威望 <em class="aw-text-color-green">0</em></span>
-                                                                    <span><i class="icon icon-agree"></i>赞同 <em class="aw-text-color-orange">0</em></span>
-                                                                    <!-- <span><i class="icon icon-thank"></i>感谢 <em class="aw-text-color-orange">0</em></span> -->
-                                                                </div>
-                                                            </li>
+                                                        <ul class="clearfix">
+
                                                         </ul>
                                                     </div>
-                                                    <div class="mod-footer">
-                                                        <!-- 加载更多内容 -->
-                                                        <a class="aw-load-more-content" id="bp_user_fans_more" data-page="1">
-                                                            <span>更多</span>
-                                                        </a>
-                                                        <!-- end 加载更多内容 -->
+                                                </div>
+
+                                                <div class="aw-mod aw-user-center-follow-mod collapse">
+                                                    <div class="mod-body">
+                                                        <ul class="clearfix" id="contents_user_fans">
+                                                            @foreach($fans as $fan)
+                                                                <li>
+                                                                    <div class="mod-head">
+                                                                        <a class="aw-user-img pull-left aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$fan->user_id]) }}">
+                                                                            <img src="{{ route('getThumbImg', $fan->user_id) }}" >
+                                                                        </a>
+                                                                        <p><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$fan->user_id]) }}">{{ $fan->name }}</a></p>
+                                                                    </div>
+                                                                    <div class="mod-body">
+                                                                        <p class="text-color-999 aw-hide-txt"></p>
+                                                                    </div>
+                                                                    <div class="mod-footer meta">
+                                                                        <span><i class="icon icon-prestige"></i>威望 <em class="aw-text-color-green">0</em></span>
+                                                                        <span><i class="icon icon-agree"></i>赞同 <em class="aw-text-color-orange">0</em></span>
+                                                                        <!-- <span><i class="icon icon-thank"></i>感谢 <em class="aw-text-color-orange">0</em></span> -->
+                                                                    </div>
+                                                                </li>
+                                                            @endforeach()
+                                                        </ul>
                                                     </div>
                                                 </div>
+                                                <div class="paginate" style="text-align:center;">{!! $fans->appends(array('uid'=>$uid ))->render() !!}</div>
                                                 <div class="aw-mod aw-user-center-follow-mod collapse">
                                                     <div class="mod-body">
                                                         <ul id="contents_user_topics" class="clearfix"><p style="padding: 15px 0" align="center">没有内容</p></ul>
