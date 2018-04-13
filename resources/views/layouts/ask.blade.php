@@ -9,11 +9,13 @@
 <link href="{{ asset('ask/index_files/common.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('ask/index_files/link.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('ask/index_files/style.css') }}" rel="stylesheet" type="text/css">
-<script src="{{ asset('ask/index_files/jquery.2.js') }}" type="text/javascript"></script>
-<script src="{{ asset('ask/index_files/jquery.form.js') }}" type="text/javascript"></script>
-<script src="{{ asset('ask/index_files/plug-in_module.js') }}" type="text/javascript"></script>
-{{--<script src="{{ asset('ask/index_files/aws.js') }}" type="text/javascript"></script>--}}
-<script type="text/javascript" src="{{ asset('ask/index_files/compatibility.js') }}"></script>
+@section('js')
+	<script src="{{ asset('ask/index_files/jquery.2.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('ask/index_files/jquery.form.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('ask/index_files/plug-in_module.js') }}" type="text/javascript"></script>
+	{{--<script src="{{ asset('ask/index_files/aws.js') }}" type="text/javascript"></script>--}}
+	<script type="text/javascript" src="{{ asset('ask/index_files/compatibility.js') }}"></script>
+@show
 <body screen_capture_injected="true">
 	<div class="aw-top-menu-wrap">
 		<div class="container">
@@ -155,5 +157,7 @@
     <!-- DO NOT REMOVE -->
     <div id="aw-ajax-box" class="aw-ajax-box"></div>
     <div style="display:none;" id="__crond"><img src="{{ asset('ask/index_files/saved_resource') }}" width="1" height="1"></div>
+
+
 </body>
 </html>

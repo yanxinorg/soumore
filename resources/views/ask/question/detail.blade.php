@@ -21,27 +21,37 @@
                         	<div class="mod-head">
                             	<h1>{{ $datas->title }}</h1>
                                <div class="operate clearfix">
-                                    <!-- 下拉菜单 -->
-                                        <div class="btn-group pull-left">
-                                            	<a class="btn btn-gray dropdown-toggle" data-toggle="dropdown" href="javascript:;">...</a>
-                                                <div class="dropdown-menu aw-dropdown pull-right" role="menu" aria-labelledby="dropdownMenu">
-                                                    <ul class="aw-dropdown-list">
-                                                        <li>
-                                                            <a href="javascript:;" onclick="AWS.ajax_request(G_BASE_URL + &#39;/article/ajax/lock/&#39;, &#39;article_id=2&#39;);">锁定文章</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:;" onclick="AWS.dialog(&#39;confirm&#39;, {&#39;message&#39; : &#39;确认删除?&#39;}, function(){AWS.ajax_request(G_BASE_URL + &#39;/article/ajax/remove_article/&#39;, &#39;article_id=2&#39;);});">删除文章</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:;" onclick="AWS.ajax_request(G_BASE_URL + &#39;/article/ajax/set_recommend/&#39;, &#39;action=set&amp;article_id=2&#39;);">推荐文章</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:;" onclick="AWS.dialog(&#39;recommend&#39;, {&#39;type&#39;: &#39;article&#39;, &#39;item_id&#39;: 2, &#39;focus_id&#39;: &#39;&#39;});">添加到帮助中心</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                         </div>
-                                     <!-- end 下拉菜单 -->
+                               @if($datas->user_id == Auth::id())
+                                   <!-- 下拉菜单 -->
+                                       <div class="btn-group pull-left ">
+                                           <a class="btn btn-gray dropdown-toggle" data-toggle="dropdown" href="javascript:;">...</a>
+                                           <div class="aw-dropdown pull-right" role="menu" aria-labelledby="dropdownMenu">
+                                               <ul class="aw-dropdown-list">
+                                                   <li>
+                                                       <a href="">修改记录</a>
+                                                   </li>
+                                                   <li>
+                                                       <a href="javascript:;" onclick="">锁定问题</a>
+                                                   </li>
+                                                   <li>
+                                                       <a href="javascript:;" onClick="del({{ $datas->question_id }});">删除问题</a>
+                                                   </li>
+                                                   <li class="hidden-xs">
+                                                       <a href="javascript:;" onclick="">问题重定向</a>
+                                                   </li>
+                                                   <li>
+                                                       <a href="javascript:;" title="">IP 地址</a>
+                                                   </li>
+                                                   <li><a href="javascript:;" onclick="">推荐问题</a>
+                                                   </li>
+                                                   <li>
+                                                       <a href="javascript:;" onclick="">添加到帮助中心</a>
+                                                   </li>
+                                               </ul>
+                                           </div>
+                                       </div>
+                                       <!-- end 下拉菜单 -->
+                               @endif
                             	</div>
                             </div>
                             <div class="mod-body">
@@ -58,13 +68,13 @@
                                                     <a class="text-color-999" href="{{ URL::action('Front\QuestionController@edit', ['id'=>$datas->question_id]) }}"><i class="icon icon-edit"></i>编辑</a>
                                                 @endif()
                                             @endif()
-                                            <a href="javascript:;" onclick="AWS.dialog(&#39;favorite&#39;, {item_id:2, item_type:&#39;article&#39;});" class="text-color-999"><i class="icon icon-favor"></i> 收藏</a>
+                                            <a href="javascript:;" onclick="" class="text-color-999"><i class="icon icon-favor"></i> 收藏</a>
                                             <a class="text-color-999 dropdown-toggle" data-toggle="dropdown"><i class="icon icon-share"></i>分享 </a>
                                             <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
                                                 <ul class="aw-dropdown-list">
-                                                    <li><a onclick="AWS.User.share_out({webid: &#39;tsina&#39;, content: $(this).parents(&#39;.aw-question-detail&#39;).find(&#39;.markitup-box&#39;)});"><i class="icon icon-weibo"></i> 微博</a></li>
-        											<li><a onclick="AWS.User.share_out({webid: &#39;qzone&#39;, content: $(this).parents(&#39;.aw-question-detail&#39;)});"><i class="icon icon-qzone"></i> QZONE</a></li>
-        											<li><a onclick="AWS.User.share_out({webid: &#39;weixin&#39;, content: $(this).parents(&#39;.aw-question-detail&#39;)});"><i class="icon icon-wechat"></i> 微信</a></li>
+                                                    <li><a onclick=""><i class="icon icon-weibo"></i> 微博</a></li>
+        											<li><a onclick=""><i class="icon icon-qzone"></i> QZONE</a></li>
+        											<li><a onclick=""><i class="icon icon-wechat"></i> 微信</a></li>
                                                 </ul>
                                             </div>
                                             <em class="text-color-999">6 分钟前</em>
@@ -96,7 +106,7 @@
                                     <textarea rows="3" name="message" id="comment_editor" class="form-control autosize" placeholder="写下你的评论..." style="overflow: hidden; word-wrap: break-word; resize: none; height: 74px;"></textarea>
                                 </div>
                                 <div class="mod-footer clearfix">
-                                    <a href="javascript:;" onclick="AWS.ajax_post($(&#39;#answer_form&#39;), AWS.ajax_processer, &#39;reply&#39;);" class="btn btn-normal btn-success pull-right btn-submit btn-reply">回复</a>
+                                    <a href="javascript:;" onclick="" class="btn btn-normal btn-success pull-right btn-submit btn-reply">回复</a>
                                 </div>
                             </form>
                         </div>
@@ -129,18 +139,32 @@
         </div>
     </div>
 </div>
+@section('js')
+@parent
+<script type="text/javascript" src="{{ asset('ask/layer/layer.js') }}" ></script>
 <script type="text/javascript">
-    var ANSWER_EDIT_TIME = 30;
+function del(id){
+    layer.confirm('确认删除该提问？', {
+        btn: ['确认','取消'] //按钮
+    },function(){
+        $.post("{{ url('/question/del') }}",
+                {
+                    "_token":'{{ csrf_token() }}',
+                    "id": id,
+                },function(data){
+                    if(data.code)
+                    {
+                        layer.msg(data.msg);
+                        window.location.href=("{{ url('/question')  }}");
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                });
+    },function(){
 
-    $(document).ready(function () {
-        if ($('.aw-article-vote.disabled').length)
-        {
-            $('.aw-article-vote.disabled a').attr('onclick', '');
-        }
-
-        AWS.at_user_lists('#wmd-input');
-
-        AWS.Init.init_article_comment_box($('.aw-article-comment'));
     });
+
+}
 </script>
+@stop
 @endsection

@@ -22,16 +22,17 @@
                         	<div class="mod-head">
                             	<h1>{{ $datas->title  }}</h1>
                                <div class="operate clearfix">
+                                   @if($datas->user_id == Auth::id())
                                     <!-- 下拉菜单 -->
                                         <div class="btn-group pull-left">
                                             	<a class="btn btn-gray dropdown-toggle" data-toggle="dropdown" href="javascript:;">...</a>
-                                                <div class="dropdown-menu aw-dropdown pull-right" role="menu" aria-labelledby="dropdownMenu">
+                                                <div class="dropdown-menu aw-dropdown pull-right" aria-labelledby="dropdownMenu">
                                                     <ul class="aw-dropdown-list">
                                                         <li>
                                                             <a href="javascript:;" onclick="">锁定文章</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:;"  onclick="remove({{ $datas->post_id }});">删除文章</a>
+                                                            <a  href="javascript:;" onclick="del({{ $datas->post_id }})">删除文章</a>
                                                         </li>
                                                         <li>
                                                             <a href="javascript:;" onclick="">推荐文章</a>
@@ -43,6 +44,7 @@
                                                 </div>
                                          </div>
                                      <!-- end 下拉菜单 -->
+                                    @endif
                             	</div>
                             </div>
                             <div class="mod-body">
@@ -59,13 +61,13 @@
                                                     <a class="text-color-999" href="{{ URL::action('Front\PostController@edit', ['id'=>$datas->post_id]) }}"><i class="icon icon-edit"></i>编辑</a>
                                                 @endif()
                                             @endif()
-                                            <a href="javascript:;" onclick="AWS.dialog(&#39;favorite&#39;, {item_id:2, item_type:&#39;article&#39;});" class="text-color-999"><i class="icon icon-favor"></i> 收藏</a>
+                                            <a href="javascript:;" onclick="" class="text-color-999"><i class="icon icon-favor"></i> 收藏</a>
                                             <a class="text-color-999 dropdown-toggle" data-toggle="dropdown"><i class="icon icon-share"></i>分享 </a>
                                             <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
                                                 <ul class="aw-dropdown-list">
-                                                    <li><a onclick="AWS.User.share_out({webid: &#39;tsina&#39;, content: $(this).parents(&#39;.aw-question-detail&#39;).find(&#39;.markitup-box&#39;)});"><i class="icon icon-weibo"></i> 微博</a></li>
-        											<li><a onclick="AWS.User.share_out({webid: &#39;qzone&#39;, content: $(this).parents(&#39;.aw-question-detail&#39;)});"><i class="icon icon-qzone"></i> QZONE</a></li>
-        											<li><a onclick="AWS.User.share_out({webid: &#39;weixin&#39;, content: $(this).parents(&#39;.aw-question-detail&#39;)});"><i class="icon icon-wechat"></i> 微信</a></li>
+                                                    <li><a onclick="""><i class="icon icon-weibo"></i> 微博</a></li>
+        											<li><a onclick=""><i class="icon icon-qzone"></i> QZONE</a></li>
+        											<li><a onclick=""><i class="icon icon-wechat"></i> 微信</a></li>
                                                 </ul>
                                             </div>
                                             <em class="text-color-999">6 分钟前</em>
@@ -134,7 +136,7 @@
 @parent
 <script type="text/javascript" src="{{ asset('ask/layer/layer.js') }}" ></script>
 <script type="text/javascript">
-    function remove(id){
+    function del(id){
         layer.confirm('确认删除该文章？', {
             btn: ['确认','取消'] //按钮
         },function(){
@@ -146,7 +148,7 @@
                         if(data.code)
                         {
                             layer.msg(data.msg);
-                            location.reload();
+                            window.location.href=("{{ url('/post')  }}");
                         }else{
                             layer.msg(data.msg);
                         }
