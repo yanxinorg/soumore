@@ -63,12 +63,16 @@
                                             <a href="javascript:;" class="agree" onclick=""><i class="icon icon-agree"></i> <b>0</b></a>
                                         </div>
                                         <span class="pull-right  more-operate">
-                                             @if(!empty(Auth::id()))
-                                                @if(Auth::id() == $datas->user_id)
-                                                    <a class="text-color-999" href="{{ URL::action('Front\QuestionController@edit', ['id'=>$datas->question_id]) }}"><i class="icon icon-edit"></i>编辑</a>
-                                                @endif()
+                                            @if(Auth::id() == $datas->user_id)
+                                                <a class="text-color-999" href="{{ URL::action('Front\QuestionController@edit', ['id'=>$datas->question_id]) }}"><i class="icon icon-edit"></i>编辑</a>
                                             @endif()
-                                            <a href="javascript:;" onclick="" class="text-color-999"><i class="icon icon-favor"></i> 收藏</a>
+                                            @if(!empty(Auth::id()))
+                                                 @if($isCollected)
+                                                     <a href="javascript:;" onClick="collectCancel({{ $datas->question_id }});" class="text-color-999"><i class="icon icon-favor"></i>取消收藏</a>
+                                                 @else
+                                                     <a href="javascript:;" onClick="collect({{ $datas->question_id }});" class="text-color-999"><i class="icon icon-favor"></i> 收藏</a>
+                                                 @endif
+                                            @endif()
                                             <a class="text-color-999 dropdown-toggle" data-toggle="dropdown"><i class="icon icon-share"></i>分享 </a>
                                             <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
                                                 <ul class="aw-dropdown-list">
@@ -77,7 +81,7 @@
         											<li><a onclick=""><i class="icon icon-wechat"></i> 微信</a></li>
                                                 </ul>
                                             </div>
-                                            <em class="text-color-999">6 分钟前</em>
+                                            <em class="text-color-999">{{\Carbon\Carbon::parse($datas->created_at)->diffForHumans()}}</em>
                                         </span>
                                     </div>
                             </div>
@@ -164,6 +168,44 @@ function del(id){
 
     });
 
+}
+//问题收藏
+function collect(id){
+    $.post("{{ url('/question/collect') }}",
+            {
+                "_token":'{{ csrf_token() }}',
+                "id": id,
+            },function(data){
+                if(data.code == 1)
+                {
+                    layer.msg(data.msg);
+                    location.reload() ;
+                }else{
+                    if(data.code == 2)
+                    {
+                        location.href="{{ url('/login') }}";
+                    }else{
+                        layer.msg(data.msg);
+                        location.reload() ;
+                    }
+                }
+            });
+}
+//取消收藏
+function collectCancel(id){
+    $.post("{{ url('/question/collectCancel') }}",
+            {
+                "_token":'{{ csrf_token() }}',
+                "id": id,
+            },function(data){
+                if(data.code)
+                {
+                    layer.msg(data.msg);
+                    location.reload() ;
+                }else{
+                    layer.msg(data.msg);
+                }
+            });
 }
 </script>
 @stop

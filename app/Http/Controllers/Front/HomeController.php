@@ -599,6 +599,7 @@ class HomeController extends Controller
         //问答总数
         $countQuestion = QuestionModel::where('user_id',$request->get('uid'))->count();
         //是否关注、
+        //是否关注、
         if(!empty(Auth::id()))
         {
             //查看该用户是否已经关注该主页用户

@@ -122,6 +122,7 @@ Route::group(['middleware' => 'authed'], function () {
 	    Route::post('/permit/delete', 'Admin\PermissionController@delete');
 	    //更新权限
 	    Route::get('/permit/edit', 'Admin\PermissionController@edit');
+
 	    Route::post('/permit/update', 'Admin\PermissionController@update');
 	    //用户列表
 	    Route::get('/user/list', 'Admin\UserController@index');

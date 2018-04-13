@@ -164,7 +164,7 @@ class PersonController extends Controller
     		//查询该用户发布文章的分类
     		$cateIds = DB::table('posts')->where('user_id','=',Auth::id())->pluck('cate_id');
     		$cates = DB::table('category')->whereIn('id', $cateIds)->get();
-    		return view('wenda.person.post',['datas'=>$datas,'cates'=>$cates,'cid'=>$request->get('cid')?$request->get('cid'):'']);
+    		return view('ask.person.post',['datas'=>$datas,'cates'=>$cates,'cid'=>$request->get('cid')?$request->get('cid'):'','status'=>$request->get('status')]);
     	}else{
     		//只查询分类
     		if(!empty($request->get('cid')))
@@ -193,10 +193,9 @@ class PersonController extends Controller
     	//查询该用户发布文章的分类
     	$cateIds = DB::table('posts')->where('user_id','=',Auth::id())->pluck('cate_id');
     	$cates = DB::table('category')->whereIn('id', $cateIds)->get();
-    	return view('wenda.person.post',['datas'=>$datas,'cates'=>$cates,'cid'=>$request->get('cid')?$request->get('cid'):'']);
+    	return view('ask.person.post',['datas'=>$datas,'cates'=>$cates,'cid'=>$request->get('cid')?$request->get('cid'):'','status'=>$request->get('status')?$request->get('status'):'-1']);
     }
-  
-    
+
     //我发布的问答
     public function answer(Request $request)
     {
@@ -223,7 +222,7 @@ class PersonController extends Controller
     	//查询该用户发布文章的分类
     	$cateIds = DB::table('questions')->where('user_id','=',Auth::id())->pluck('cate_id');
     	$cates = DB::table('category')->whereIn('id', $cateIds)->get();
-    	return view('wenda.person.answer',['questions'=>$questions,'cates'=>$cates,'cid'=>$request->get('cid')]);
+    	return view('ask.person.question',['questions'=>$questions,'cates'=>$cates,'cid'=>$request->get('cid')]);
     }
     
     //我的收藏
