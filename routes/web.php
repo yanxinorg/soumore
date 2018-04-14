@@ -46,8 +46,6 @@ Route::group(['middleware' => 'authed'], function () {
 		Route::get('/person/thumb', 'PersonController@thumb');
 		//个人头像保存
 		Route::post('/person/thumb', 'PersonController@thumbStore');
-		//我的收藏
-		Route::get('/person/collect', 'PersonController@collect');
 		//我的私信
 		Route::get('/person/letter', 'PersonController@letter');
 		//写私信

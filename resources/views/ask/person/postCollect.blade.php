@@ -25,43 +25,33 @@
 
                         <a name="c_contents"></a>
                         <div class="aw-mod clearfix">
-                            <div class="mod-head common-head">
-                                <h2 id="main_title">最新文章</h2>
-                            </div>
-
                             <div class="mod-body aw-feed-list clearfix" id="main_contents">
 
                                 <div class="aw-mod aw-topic-category">
                                     <div class="mod-body clearfix">
                                         <ul>
-                                            <li><a class="active" href="{{ url('/person/answer') }}">全部分类</a></li>
-                                            @foreach($cates as $cate)
-                                                @if($cate->id == $cid)
-                                                    <li ><a class="active" style="text-decoration:none;" href="{{ URL::action('Front\PersonController@answer', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
-                                                @else
-                                                    <li><a style="text-decoration:none;" href="{{ URL::action('Front\PersonController@answer', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
-                                                @endif
-                                            @endforeach()
+                                            <li><a class="active" href="{{ url('/person/postCollect') }}">文章</a></li>
+                                            <li><a  href="{{ url('/person/answerCollect') }}">问答</a></li>
                                         </ul>
                                     </div>
                                 </div>
 
-                                @foreach($questions as $data)
+                                @foreach($datas as $data)
                                 <div class="aw-item" data-history-id="8">
                                     <div class="mod-head">
                                         <a data-id="1" class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}"><img src="{{ route('getThumbImg', $data->user_id) }}" ></a>
                                         <p class="text-color-999">
-                                            <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->user_name }}</a> 发表了问答 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}} •
-                                            <a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->question_id]) }}" class="text-color-999">{{ $data->countcomment }} 个评论</a>
+                                            <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name" data-id="1">{{ $data->author }}</a> 发表了文章 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}} •
+                                            <a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}" class="text-color-999">{{ $data->countcomment }} 个评论</a>
                                         </p>
-                                        <h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$data->question_id]) }}">{{ $data->title  }}</a></h4>
+                                        <h4><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ $data->title  }}</a></h4>
                                     </div>
                                 </div>
                                 @endforeach
                             </div>
 
                             <div class="mod-footer">
-                                <div class="paginate" style="text-align:center;">{!! $questions->appends(array('cid'=>$cid))->render() !!}</div>
+                                <div class="paginate" style="text-align:center;">{{ $datas->links() }}</div>
                             </div>
                         </div>
                     </div>
@@ -72,11 +62,11 @@
                             <div class="mod-body">
                                 <ul>
                                     <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" ><i class="icon icon-home"></i>最新文章</a></li>
-                                    <li><a href="{{ url('/person/answer') }}" class="active"><i class="icon icon-home"></i>最新问答</a></li>
+                                    <li><a href="{{ url('/person/answer') }}" ><i class="icon icon-home"></i>最新问答</a></li>
                                     <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'0']) }}"><i class="icon icon-draft"></i>我的草稿</a></li>
-                                    <li><a href="{{ url('/person/postCollect') }}"><i class="icon icon-favor"></i>我的收藏</a></li>
+                                    <li><a href="{{ url('/person/postCollect') }}" class="active"><i class="icon icon-favor"></i>我的收藏</a></li>
                                     <li><a href="{{ url('/person/topicAttention') }}" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
-                                    <li><a href="" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
+                                    <li><a href=""><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
                                 </ul>
                             </div>
                         </div>

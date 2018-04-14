@@ -225,28 +225,6 @@ class PersonController extends Controller
     	return view('ask.person.question',['questions'=>$questions,'cates'=>$cates,'cid'=>$request->get('cid')]);
     }
     
-    //我的收藏
-    public function collect(Request $request)
-    {
-    	$datas = DB::table('collections')
-    	->leftjoin('users', 'collections.user_id', '=', 'users.id')
-    	->leftjoin('posts', 'collections.source_id', '=', 'posts.id')
-    	->where('collections.user_id','=',Auth::id())
-    	->where('collections.source_type','=','1')
-    	->select('posts.id as post_id',
-    			'posts.title as title',
-    			'users.name as author',
-    			'posts.user_id as user_id',
-    			'posts.cate_id as cateid',
-    			'posts.excerpt as excerpt',
-    			'posts.content as content',
-    			'posts.thumb as thumb',
-    			'posts.created_at as created_at',
-    			'posts.comments as countcomment'
-    			)->orderBy('posts.created_at','desc')->paginate('15');
-    	return view('wenda.person.postCollect',['datas'=>$datas]);
-    }
-    
     //我收藏的文章
     public function postCollect(Request $request)
     {
@@ -266,7 +244,7 @@ class PersonController extends Controller
     			'posts.created_at as created_at',
     			'posts.comments as countcomment'
     			)->orderBy('posts.created_at','desc')->paginate('15');
-    	return view('wenda.person.postCollect',['datas'=>$datas]);
+    	return view('ask.person.postCollect',['datas'=>$datas]);
     }
     
     //我收藏的问答
@@ -283,11 +261,12 @@ class PersonController extends Controller
     			'questions.title as title',
     			'questions.id as question_id',
     			'questions.content as content',
+                'questions.comments as comments',
     			'questions.created_at as created_at'
     			)
     	->orderBy('questions.created_at','desc')
     	->paginate('15');
-    	return view('wenda.person.answerCollect',['questions'=>$datas]);
+    	return view('ask.person.answerCollect',['questions'=>$datas]);
     }
     
     //我的关注
@@ -338,16 +317,17 @@ class PersonController extends Controller
     public function topicAttention(Request $request)
     {
     	//关注的话题
-    	$tags = DB::table('attentions')
+    	$topics = DB::table('attentions')
     	->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
     	->where('attentions.source_type','=','3')
     	->where('attentions.user_id','=',Auth::id())
     	->select(
-    			'tags.id as id',
-    			'tags.name as name',
-    			'tags.desc as desc'
+    			'tags.id as tag_id',
+                'tags.thumb as tag_thumb',
+    			'tags.name as tag_name',
+    			'tags.desc as tag_desc'
     	)->orderBy('tags.created_at','desc')->paginate('15');
-    	return view('wenda.person.topicAttention',['tags'=>$tags]);
+    	return view('ask.person.topic',['topics'=>$topics]);
     }
     
     //新增我关注的话题

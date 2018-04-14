@@ -26,42 +26,32 @@
                         <a name="c_contents"></a>
                         <div class="aw-mod clearfix">
                             <div class="mod-head common-head">
-                                <h2 id="main_title">最新文章</h2>
+                                <h2 id="main_title">关注的话题</h2>
                             </div>
 
-                            <div class="mod-body aw-feed-list clearfix" id="main_contents">
+                            <div class="mod-body aw-feed-list clearfix aw-topic-list" id="main_contents">
 
-                                <div class="aw-mod aw-topic-category">
-                                    <div class="mod-body clearfix">
-                                        <ul>
-                                            <li><a class="active" href="{{ url('/person/answer') }}">全部分类</a></li>
-                                            @foreach($cates as $cate)
-                                                @if($cate->id == $cid)
-                                                    <li ><a class="active" style="text-decoration:none;" href="{{ URL::action('Front\PersonController@answer', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
-                                                @else
-                                                    <li><a style="text-decoration:none;" href="{{ URL::action('Front\PersonController@answer', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
-                                                @endif
-                                            @endforeach()
-                                        </ul>
-                                    </div>
+                                @foreach($topics as $topic)
+                                <div class="aw-item">
+                                    <!-- 话题图片 -->
+                                    <a class="img aw-border-radius-5" href="{{ URL::action('Front\TopicController@detail', ['id'=>$topic->tag_id]) }}" ><img style="width: 50px;" src="{{ $topic->tag_thumb }}" ></a>
+                                    <!-- end 话题图片 -->
+                                    <p class="clearfix">
+                                        <!-- 话题内容 -->
+                                        <span class="topic-tag"><a class="text" href="{{ URL::action('Front\TopicController@detail', ['id'=>$topic->tag_id]) }}" >{{ $topic->tag_name }}</a></span>
+                                        <!-- end 话题内容 -->
+                                    </p>
+                                    <p class="text-color-999">
+                                        <span>1 个讨论</span>
+                                        <span>1 个关注</span>
+                                    </p>
+                                    <p class="text-color-999">
+                                        7 天新增 1 个讨论, 30 天新增 1 个讨论    </p>
                                 </div>
-
-                                @foreach($questions as $data)
-                                <div class="aw-item" data-history-id="8">
-                                    <div class="mod-head">
-                                        <a data-id="1" class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}"><img src="{{ route('getThumbImg', $data->user_id) }}" ></a>
-                                        <p class="text-color-999">
-                                            <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->user_name }}</a> 发表了问答 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}} •
-                                            <a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->question_id]) }}" class="text-color-999">{{ $data->countcomment }} 个评论</a>
-                                        </p>
-                                        <h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$data->question_id]) }}">{{ $data->title  }}</a></h4>
-                                    </div>
-                                </div>
-                                @endforeach
+                                @endforeach()
                             </div>
-
+                            <div class="paginate" style="text-align:center;">{{ $topics->links() }}</div>
                             <div class="mod-footer">
-                                <div class="paginate" style="text-align:center;">{!! $questions->appends(array('cid'=>$cid))->render() !!}</div>
                             </div>
                         </div>
                     </div>
@@ -71,11 +61,11 @@
                         <div class="aw-mod side-nav">
                             <div class="mod-body">
                                 <ul>
-                                    <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" ><i class="icon icon-home"></i>最新文章</a></li>
-                                    <li><a href="{{ url('/person/answer') }}" class="active"><i class="icon icon-home"></i>最新问答</a></li>
+                                    <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}"  ><i class="icon icon-home"></i>最新文章</a></li>
+                                    <li><a href="{{ url('/person/answer') }}" ><i class="icon icon-home"></i>最新问答</a></li>
                                     <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'0']) }}"><i class="icon icon-draft"></i>我的草稿</a></li>
                                     <li><a href="{{ url('/person/postCollect') }}"><i class="icon icon-favor"></i>我的收藏</a></li>
-                                    <li><a href="{{ url('/person/topicAttention') }}" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
+                                    <li><a href="{{ url('/person/topicAttention') }}" class="active"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
                                     <li><a href="" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
                                 </ul>
                             </div>
@@ -85,8 +75,8 @@
                             <div class="mod-body">
                                 <ul>
                                     <li><a href="{{ url('/topic') }}"><i class="icon icon-topic"></i>所有话题</a></li>
-                                    <li><a href="http://ask.com/?/people/"><i class="icon icon-user"></i>所有用户</a></li>
-                                    <li><a href="http://ask.com/?/invitation/"><i class="icon icon-inviteask"></i>邀请好友加入 <em class="badge">10</em></a></li>
+                                    <li><a href=""><i class="icon icon-user"></i>所有用户</a></li>
+                                    <li><a href=""><i class="icon icon-inviteask"></i>邀请好友加入 <em class="badge">10</em></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -100,7 +90,7 @@
                                     </dt>
                                     <dd class="pull-left">
                                         <a href="http://ask.com/?/people/admin" data-id="4" class="aw-user-name"><span>admin</span></a>
-                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), &#39;user&#39;, 4);AWS.ajax_request(G_BASE_URL + &#39;/account/ajax/clean_user_recommend_cache/&#39;);"></a>
+                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick=""></a>
                                         <p class="signature"></p>
                                         <p></p>
                                     </dd>
@@ -111,7 +101,7 @@
                                     </dt>
                                     <dd class="pull-left">
                                         <a href="http://ask.com/?/people/admin" data-id="2" class="aw-user-name"><span>admin</span></a>
-                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), &#39;user&#39;, 2);AWS.ajax_request(G_BASE_URL + &#39;/account/ajax/clean_user_recommend_cache/&#39;);"></a>
+                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick=""></a>
                                         <p class="signature"></p>
                                         <p></p>
                                     </dd>
@@ -122,20 +112,20 @@
                                     </dt>
                                     <dd class="pull-left">
                                         <a href="http://ask.com/?/people/admin" data-id="3" class="aw-user-name"><span>admin</span></a>
-                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), &#39;user&#39;, 3);AWS.ajax_request(G_BASE_URL + &#39;/account/ajax/clean_user_recommend_cache/&#39;);"></a>
+                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick=""></a>
                                         <p class="signature"></p>
                                         <p></p>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt class="pull-left aw-border-radius-5">
-                                        <a href="http://ask.com/?/topic/%E9%BB%98%E8%AE%A4%E8%AF%9D%E9%A2%98"><img alt="默认话题" src="./动态 - WeCenter_files/topic-mid-img.png"></a>
+                                        <a href=""><img alt="默认话题" src="./动态 - WeCenter_files/topic-mid-img.png"></a>
                                     </dt>
                                     <dd class="pull-left">
                                         <span class="topic-tag">
-                                            <a href="http://ask.com/?/topic/%E9%BB%98%E8%AE%A4%E8%AF%9D%E9%A2%98" class="text">默认话题</a>
+                                            <a href="" class="text">默认话题</a>
                                         </span>&nbsp;
-                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), &#39;topic&#39;, 1);AWS.ajax_request(G_BASE_URL + &#39;/account/ajax/clean_user_recommend_cache/&#39;);"></a>
+                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick=""></a>
                                         <p></p>
                                     </dd>
                                 </dl>

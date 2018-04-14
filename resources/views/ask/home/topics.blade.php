@@ -185,7 +185,7 @@
                     <div class="col-sm-12 col-md-3 aw-side-bar">
                         <div class="aw-mod people-following">
                             <div class="mod-body">
-                                <a onclick="$(&#39;#page_focus&#39;).click();$(&#39;#focus .aw-tabs ul li&#39;).eq(0).click();$.scrollTo($(&#39;#focus&#39;).offset()[&#39;top&#39;], 600, {queue:true})" class="pull-right font-size-12">更多 »</a>
+                                <a onclick="" class="pull-right font-size-12">更多 »</a>
                                 <span>关注 <em class="aw-text-color-blue">{{  $countUsers }}</em>人</span>
                                 <p>
                                 @foreach($topicUsers as $topicUser)
@@ -196,7 +196,7 @@
                         </div>
                         <div class="aw-mod people-following">
                             <div class="mod-body">
-                                <a onclick="$(&#39;#page_focus&#39;).click();$(&#39;#focus .aw-tabs ul li&#39;).eq(1).click();$.scrollTo($(&#39;#focus&#39;).offset()[&#39;top&#39;], 600, {queue:true})" class="pull-right font-size-12">更多 »</a>
+                                <a onclick="" class="pull-right font-size-12">更多 »</a>
                                 <span> 被 <em class="aw-text-color-blue">{{ $countFans  }}</em> 人关注</span>
                                 <p>
                                 	@foreach($fans as $fan)
