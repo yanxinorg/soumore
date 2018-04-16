@@ -12,7 +12,7 @@
                                 <img style="width:100px;" src="{{ route('getThumbImg', $userinfo['id'] ) }}" alt="{{ $userinfo['name'] }}">
                                 @if(Auth::id() == $uid)
                                 <span class="pull-right operate">
-                                    <a href="" class="btn btn-mini btn-success">编辑</a>
+                                    <a href="{{ url('/person/info') }}" class="btn btn-mini btn-success">编辑</a>
                                 </span>
                                 @elseif( $islooked )
                                     <span class="pull-right operate">

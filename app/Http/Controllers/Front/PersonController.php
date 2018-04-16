@@ -21,7 +21,7 @@ class PersonController extends Controller
     //个人中心设置
     public function index()
     {
-    	return view('wenda.person.index');
+    	return view('ask.person.index');
     }
     
     //个人中心信息修改
@@ -32,14 +32,9 @@ class PersonController extends Controller
     		$userInfo = UserModel::where('id','=',Auth::id())->get();
     		$province = AreaModel::where('parent_id','0')->get();
     		$city = AreaModel::where('parent_id','=',$userInfo[0]->province)->get();
-    		return view('wenda.person.info',['userinfo'=>$userInfo[0],'province'=>$province,'city'=>$city]);
+    		return view('ask.person.info',['userinfo'=>$userInfo[0],'province'=>$province,'city'=>$city]);
     	}else{
-    		if($request->get('uid') != Auth::id() )
-    		{
-    			return redirect()->back();
-    		}
 	    	$this->validate($request, [
-	    		'uid'=>'required|numeric|exists:users,id',
 	    		'realname'=>$request->get('realname') != null ?'sometimes|required|min:1|max:6':'',
 	    		'email'=>$request->get('email') != null ?'sometimes|email':'',
 	    		'province'=>$request->get('province') != null ?'sometimes|numeric|exists:areas,id':'',
@@ -61,7 +56,7 @@ class PersonController extends Controller
 	    		'url'=>'个人主页',
 	    		'qq'=>'qq号']);
 	    	//更新数据
-	      	DB::table('users')->where('id', $request->get('uid'))
+	      	DB::table('users')->where('id', Auth::id())
 	      					  ->update([
 					          	'realname'=>$request->get('realname'),
 					          	'email'=>$request->get('email'),
@@ -78,7 +73,7 @@ class PersonController extends Controller
 					          	'occupation'=>$request->get('profession'),
 					          	'bio'=>$request->get('signature')
 				          		]);
-          return redirect('/person/info');
+            return redirect()->back()->withErrors(['success'=>'更新成功']);
     	}
     	
     }
@@ -86,7 +81,7 @@ class PersonController extends Controller
     //个人密码修改
     public function password()
     {
-    	return view('wenda.person.password');
+    	return view('ask.person.password');
     }
     
     //保存个人密码
@@ -125,7 +120,7 @@ class PersonController extends Controller
     //个人头像修改
     public function thumb()
     {
-    	return view('wenda.person.thumb');
+    	return view('ask.person.thumb');
     }
     //保持个人头像
     public function thumbStore(Request $request)
@@ -143,7 +138,7 @@ class PersonController extends Controller
         DB::table('users')
         ->where('id',Auth::id())
         ->update(['avator' => $imgPath]);
-        return redirect('/person/thumb');
+        return redirect()->back()->withErrors(['success'=>'头像更新成功']);
     }
     
     //我发布的文章
