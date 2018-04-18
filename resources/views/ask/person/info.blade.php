@@ -90,7 +90,7 @@
                                                                 <option value="{{ $p->id }}" @if($userinfo->province == $p->id) selected @endif >{{ $p->name }}</option>
                                                             @endforeach()
                                                         @else
-                                                            <option value="null">请选择省份</option>
+                                                            <option value="">请选择省份</option>
                                                             @foreach($province as $p)
                                                                 <option value="{{ $p->id }}" @if($userinfo->province == $p->id) selected @endif >{{ $p->name }}</option>
                                                             @endforeach()
@@ -103,7 +103,7 @@
                                                                 <option value="{{ $c->id }}" @if( $userinfo->city ==  $c->id) selected @endif >{{ $c->name }}</option>
                                                             @endforeach
                                                         @else
-                                                            <option value="null">请选择城市</option>
+                                                            <option value="">请选择城市</option>
                                                             @foreach($city as $c)
                                                                 <option value="{{ $c->id }}" @if( $userinfo->city ==  $c->id) selected @endif >{{ $c->name }}</option>
                                                             @endforeach

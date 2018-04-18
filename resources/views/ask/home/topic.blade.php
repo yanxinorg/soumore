@@ -24,8 +24,10 @@
                                      </span>
                                 @endif
                                 <h1>{{ $userinfo->name }}</h1>
-                                <p class="text-color-999"></p>
+                                <p class="text-color-999">{{ $userinfo->bio }}</p>
                                 <p class="aw-user-flag">
+                                    @if(!empty($province))<span><i class="icon icon-location"></i> {{ $province }} {{ $city }}市</span>@endif
+                                    @if(!empty($userinfo->occupation))  <span><i class="icon icon-job"></i> {{ $userinfo->occupation }}</span>@endif
                                 </p>
                             </div>
                             <div class="mod-body">
