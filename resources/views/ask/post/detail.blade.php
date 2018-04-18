@@ -1,6 +1,9 @@
 @extends('layouts.ask')
 @section('content')
-
+@section('css')
+@parent
+<link href="{{ asset('ask/zoom/dist/zoomify.min.css') }}" rel="stylesheet">
+@stop
 <div class="aw-container-wrap">
     <div class="container">
         <div class="row">
@@ -139,7 +142,12 @@
 @section('js')
 @parent
 <script type="text/javascript" src="{{ asset('ask/layer/layer.js') }}" ></script>
+<script src="{{ asset('ask/zoom/dist/zoomify.min.js') }}"></script>
 <script type="text/javascript">
+    //图片放大
+    $(document).ready(function(){
+        $('.content img').zoomify();
+    });
     function del(id){
         layer.confirm('确认删除该文章？', {
             btn: ['确认','取消'] //按钮

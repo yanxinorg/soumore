@@ -4,17 +4,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
 <meta name="renderer" content="webkit">
 <title>发现</title>
+@section('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('ask/index_files/bootstrap.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('ask/index_files/icon.css') }}">
 <link href="{{ asset('ask/index_files/common.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('ask/index_files/link.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('ask/index_files/style.css') }}" rel="stylesheet" type="text/css">
+@show
 @section('js')
-	<script src="{{ asset('ask/index_files/jquery.2.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('ask/index_files/jquery.form.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('ask/index_files/plug-in_module.js') }}" type="text/javascript"></script>
-	{{--<script src="{{ asset('ask/index_files/aws.js') }}" type="text/javascript"></script>--}}
-	<script type="text/javascript" src="{{ asset('ask/index_files/compatibility.js') }}"></script>
+<script src="{{ asset('ask/index_files/jquery.2.js') }}" type="text/javascript"></script>
+<script src="{{ asset('ask/index_files/jquery.form.js') }}" type="text/javascript"></script>
+<script src="{{ asset('ask/index_files/plug-in_module.js') }}" type="text/javascript"></script>
+{{--<script src="{{ asset('ask/index_files/aws.js') }}" type="text/javascript"></script>--}}
+<script type="text/javascript" src="{{ asset('ask/index_files/compatibility.js') }}"></script>
 @show
 <body screen_capture_injected="true">
 	<div class="aw-top-menu-wrap">
