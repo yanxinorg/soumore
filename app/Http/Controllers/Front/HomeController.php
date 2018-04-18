@@ -16,123 +16,63 @@ use Carbon\Carbon;
 
 class HomeController extends Controller
 {
-    //个人主页
-    public function index(Request $request)
-    {
-    	$this->validate($request, [
-    		'uid'=>'required|numeric|exists:users,id'
-    	]);
-    	//记录最近访问信息
-    	if(!empty(Auth::id()) && Auth::id() != $request->get('uid'))
-    	{
-    		VisitorModel::updateOrCreate([
-    			'user_id'=>$request->get('uid'),
-    			'visitor_id'=>Auth::id()
-    		], [
-    			'user_id'=>$request->get('uid'),
-    			'visitor_id'=>Auth::id(),
-    			'visitor_time'=>Carbon::now()
-    		]);
-    	}
-    	
-    	//用户信息
-    	$userInfo = UserModel::where('id','=',$request->get('uid'))->get();
-        //用户所在省份
-       if(!empty($userInfo[0]->province))
-       {
-           $province = AreaModel::where('id',$userInfo[0]->province)->pluck('name')->toArray();
-           $province = $province[0];
-       }else{
-           $province = '';
-       }
-        //用户所在城市
-        if(!empty($userInfo[0]->city))
-        {
-            $city = AreaModel::where('id',$userInfo[0]->city)->pluck('name')->toArray();
-            $city = $city[0];
-        }else{
-            $city = '';
-        }
-    	//文章信息
-    	$datas = PostModel::lists($request->get('uid'));
-        //文章总数
-        $countPost = PostModel::where('user_id',$request->get('uid'))->count();
-        //问答
-        $questions = QuestionModel::where('user_id',$request->get('uid'))->paginate('15');
-        //问答总数
-        $countQuestion = QuestionModel::where('user_id',$request->get('uid'))->count();
-    	//是否关注、
-    	if(!empty(Auth::id()))
-    	{
-    		//查看该用户是否已经关注该主页用户
-    		if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('uid'),'source_type'=>'1'])->exists())
-    		{
-    			//关注了该用户
-    			$islooked = true;
-    		}else{
-    			$islooked = false;
-    		}
-    	}else{
-    		$islooked = false;
-    	}
-    	//最近访客 获取最近8位访客
-    	$recents = DB::table('visitors')
-    	->leftjoin('users', 'visitors.visitor_id', '=', 'users.id')
-    	->where('visitors.user_id','=',$request->get('uid'))
-    	->select(
-    			'users.id as user_id',
-    			'users.name as user_name',
-    	        'users.avator as user_avator',
-    			'visitors.visitor_time as visitor_time'
-    			)
-    			->orderBy('visitors.visitor_time','desc')
-    			->paginate('8');
-    	//关注的话题
-    	$topics = DB::table('attentions')
-    	->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
-    	->where('attentions.user_id','=',$request->get('uid'))
-    	->where('attentions.source_type','=','3')
-    	->select(
-    			'tags.id as tag_id',
-    			'tags.name as tag_name'
-    			)
-    	->orderBy('attentions.created_at','desc')
-    	->paginate('8');
-        //关注话题总数
-        $countTopics = DB::table('attentions')
-            ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->where('attentions.source_type','=','3')->count();
-    	//粉丝用户
-    	$fans = DB::table('attentions')
-    	->leftjoin('users', 'attentions.user_id', '=', 'users.id')
-    	->where('attentions.source_type','=','1')
-    	->where('attentions.source_id','=',$request->get('uid'))
-    	->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
-        //粉丝总数
-        $countFans = DB::table('attentions')
-            ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.source_id','=',$request->get('uid'))->count();
-	    //关注的用户
-	    $topicUsers = DB::table('attentions')
-	    ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
-	    ->where('attentions.source_type','=','1')
-	    ->where('attentions.user_id','=',$request->get('uid'))
-	    ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
-        //关注总人数
-        $countUsers = DB::table('attentions')
-            ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.user_id','=',$request->get('uid'))->count();
-    	return view('ask.home.post',['userinfo'=>$userInfo[0],'datas'=>$datas,'province'=>$province,'city'=>$city,'countPost'=>$countPost,'questions'=>$questions,'countQuestion'=>$countQuestion,'topicUsers'=>$topicUsers,'countUsers'=>$countUsers,'fans'=>$fans,'countFans'=>$countFans,'topics'=>$topics,'countTopics'=>$countTopics,'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
-    }
-    
-    public function post(Request $request)
+    //用户信息
+    private $userinfo ;
+    //文章信息
+    private $posts;
+    //文章总数
+    private $countPost;
+    //问答
+    private $questions;
+    //问答总数
+    private $countQuestion;
+    //是否关注
+    private $islooked;
+    //最近访客
+    private $recents;
+    //关注的话题
+    private $topics;
+    //关注的话题总数
+    private $countTopics;
+    //粉丝
+    private $fans;
+    //粉丝总数
+    private $countFans;
+    //关注的用户
+    private $topicUsers;
+    //关注总人数
+    private $countUsers;
+    //用户所在省
+    private $province;
+    //用户所在市
+    private $city;
+    //用户id
+    private $uid;
+    public function __construct(Request $request)
     {
         $this->validate($request, [
             'uid'=>'required|numeric|exists:users,id'
         ]);
+        $this->uid = $request->get('uid');
+        //用户信息
+        $this->userinfo = UserModel::where('id','=',$request->get('uid'))->get();
+        $this->userinfo = ($this->userinfo)[0];
+        //用户所在省份
+        if(!empty($this->userInfo[0]->province))
+        {
+            $this->province = AreaModel::where('id',$this->userInfo[0]->province)->pluck('name')->toArray();
+            $this->province = $this->province[0];
+        }else{
+            $this->province = '';
+        }
+        //用户所在城市
+        if(!empty($this->userInfo[0]->city))
+        {
+            $this->city = AreaModel::where('id',$this->userInfo[0]->city)->pluck('name')->toArray();
+            $this->city = $this->city[0];
+        }else{
+            $this->city = '';
+        }
         //记录最近访问信息
         if(!empty(Auth::id()) && Auth::id() != $request->get('uid'))
         {
@@ -145,30 +85,14 @@ class HomeController extends Controller
                 'visitor_time'=>Carbon::now()
             ]);
         }
-
-        //用户信息
-        $userInfo = UserModel::where('id','=',$request->get('uid'))->get();
-        //用户所在省份
-        if(!empty($userInfo[0]->province))
-        {
-            $province = AreaModel::where('id',$userInfo[0]->province)->pluck('name')->toArray();
-            $province = $province[0];
-        }else{
-            $province = '';
-        }
-        //用户所在城市
-        if(!empty($userInfo[0]->city))
-        {
-            $city = AreaModel::where('id',$userInfo[0]->city)->pluck('name')->toArray();
-            $city = $city[0];
-        }else{
-            $city = '';
-        }
         //文章信息
-        $datas = PostModel::lists($request->get('uid'));
-        $countPost = PostModel::where('user_id',$request->get('uid'))->count();
+        $this->posts = PostModel::lists($request->get('uid'));
+        //文章总数
+        $this->countPost = PostModel::where('user_id',$request->get('uid'))->count();
+        //问答
+        $this->questions = QuestionModel::where('user_id',$request->get('uid'))->paginate('15');
         //问答总数
-        $countQuestion = QuestionModel::where('user_id',$request->get('uid'))->count();
+        $this->countQuestion = QuestionModel::where('user_id',$request->get('uid'))->count();
         //是否关注、
         if(!empty(Auth::id()))
         {
@@ -176,15 +100,15 @@ class HomeController extends Controller
             if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('uid'),'source_type'=>'1'])->exists())
             {
                 //关注了该用户
-                $islooked = true;
+                $this->islooked = true;
             }else{
-                $islooked = false;
+                $this->islooked = false;
             }
         }else{
-            $islooked = false;
+            $this->islooked = false;
         }
         //最近访客 获取最近8位访客
-        $recents = DB::table('visitors')
+        $this->recents = DB::table('visitors')
             ->leftjoin('users', 'visitors.visitor_id', '=', 'users.id')
             ->where('visitors.user_id','=',$request->get('uid'))
             ->select(
@@ -196,7 +120,7 @@ class HomeController extends Controller
             ->orderBy('visitors.visitor_time','desc')
             ->paginate('8');
         //关注的话题
-        $topics = DB::table('attentions')
+        $this->topics = DB::table('attentions')
             ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
             ->where('attentions.user_id','=',$request->get('uid'))
             ->where('attentions.source_type','=','3')
@@ -207,616 +131,185 @@ class HomeController extends Controller
             ->orderBy('attentions.created_at','desc')
             ->paginate('8');
         //关注话题总数
-        $countTopics = DB::table('attentions')
+        $this->countTopics = DB::table('attentions')
             ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
             ->where('attentions.user_id','=',$request->get('uid'))
             ->where('attentions.source_type','=','3')->count();
         //粉丝用户
-        $fans = DB::table('attentions')
+        $this->fans = DB::table('attentions')
             ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
             ->where('attentions.source_type','=','1')
             ->where('attentions.source_id','=',$request->get('uid'))
             ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
         //粉丝总数
-        $countFans = DB::table('attentions')
+        $this->countFans = DB::table('attentions')
             ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
             ->where('attentions.source_type','=','1')
             ->where('attentions.source_id','=',$request->get('uid'))->count();
         //关注的用户
-        $topicUsers = DB::table('attentions')
+        $this->topicUsers = DB::table('attentions')
             ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
             ->where('attentions.source_type','=','1')
             ->where('attentions.user_id','=',$request->get('uid'))
             ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
         //关注总人数
-        $countUsers = DB::table('attentions')
+        $this->countUsers = DB::table('attentions')
             ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
             ->where('attentions.source_type','=','1')
             ->where('attentions.user_id','=',$request->get('uid'))->count();
-        return view('ask.home.post',['userinfo'=>$userInfo[0],'province'=>$province,'city'=>$city,'datas'=>$datas,'countPost'=>$countPost,'countQuestion'=>$countQuestion,'topicUsers'=>$topicUsers,'countUsers'=>$countUsers,'fans'=>$fans,'countFans'=>$countFans,'topics'=>$topics,'countTopics'=>$countTopics,'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
+    }
+
+    //个人主页
+    public function index()
+    {
+    	return view('ask.home.post',['userinfo'=>$this->userinfo,
+            'datas'=>$this->posts,
+            'province'=>$this->province,
+            'city'=>$this->city,
+            'countPost'=>$this->countPost,
+            'questions'=>$this->questions,
+            'countQuestion'=>$this->countQuestion,
+            'topicUsers'=>$this->topicUsers,
+            'countUsers'=>$this->countUsers,
+            'fans'=>$this->fans,
+            'countFans'=>$this->countFans,
+            'topics'=>$this->topics,
+            'countTopics'=>$this->countTopics,
+            'uid'=>$this->uid,
+            'islooked'=>$this->islooked,
+            'recents'=>$this->recents]);
+    }
+    
+    public function post()
+    {
+        return view('ask.home.post',['userinfo'=>$this->userinfo,
+            'province'=>$this->province,
+            'city'=>$this->city,
+            'datas'=>$this->posts,
+            'countPost'=>$this->countPost,
+            'countQuestion'=>$this->countQuestion,
+            'topicUsers'=>$this->topicUsers,
+            'countUsers'=>$this->countUsers,
+            'fans'=>$this->fans,
+            'countFans'=>$this->countFans,
+            'topics'=>$this->topics,
+            'countTopics'=>$this->countTopics,
+            'uid'=>$this->uid,
+            'islooked'=>$this->islooked,
+            'recents'=>$this->recents]);
     }
     
     //问答
-    public function question(Request $request)
+    public function question()
     {
-        $this->validate($request, [
-            'uid'=>'required|numeric|exists:users,id'
-        ]);
-        //记录最近访问信息
-        if(!empty(Auth::id()) && Auth::id() != $request->get('uid'))
-        {
-            VisitorModel::updateOrCreate([
-                'user_id'=>$request->get('uid'),
-                'visitor_id'=>Auth::id()
-            ], [
-                'user_id'=>$request->get('uid'),
-                'visitor_id'=>Auth::id(),
-                'visitor_time'=>Carbon::now()
-            ]);
-        }
-
-        //用户信息
-        $userInfo = UserModel::where('id','=',$request->get('uid'))->get();
-        //用户所在省份
-        if(!empty($userInfo[0]->province))
-        {
-            $province = AreaModel::where('id',$userInfo[0]->province)->pluck('name')->toArray();
-            $province = $province[0];
-        }else{
-            $province = '';
-        }
-        //用户所在城市
-        if(!empty($userInfo[0]->city))
-        {
-            $city = AreaModel::where('id',$userInfo[0]->city)->pluck('name')->toArray();
-            $city = $city[0];
-        }else{
-            $city = '';
-        }
-        //文章总数
-        $countPost = PostModel::where('user_id',$request->get('uid'))->count();
-        //问答
-        $questions = QuestionModel::where('user_id',$request->get('uid'))->paginate('15');
-        //问答总数
-        $countQuestion = QuestionModel::where('user_id',$request->get('uid'))->count();
-        //是否关注、
-        if(!empty(Auth::id()))
-        {
-            //查看该用户是否已经关注该主页用户
-            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('uid'),'source_type'=>'1'])->exists())
-            {
-                //关注了该用户
-                $islooked = true;
-            }else{
-                $islooked = false;
-            }
-        }else{
-            $islooked = false;
-        }
-        //最近访客 获取最近8位访客
-        $recents = DB::table('visitors')
-            ->leftjoin('users', 'visitors.visitor_id', '=', 'users.id')
-            ->where('visitors.user_id','=',$request->get('uid'))
-            ->select(
-                'users.id as user_id',
-                'users.name as user_name',
-                'users.avator as user_avator',
-                'visitors.visitor_time as visitor_time'
-            )
-            ->orderBy('visitors.visitor_time','desc')
-            ->paginate('8');
-        //关注的话题
-        $topics = DB::table('attentions')
-            ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->where('attentions.source_type','=','3')
-            ->select(
-                'tags.id as tag_id',
-                'tags.name as tag_name'
-            )
-            ->orderBy('attentions.created_at','desc')
-            ->paginate('8');
-        //关注话题总数
-        $countTopics = DB::table('attentions')
-            ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->where('attentions.source_type','=','3')->count();
-        //粉丝用户
-        $fans = DB::table('attentions')
-            ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.source_id','=',$request->get('uid'))
-            ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
-        //粉丝总数
-        $countFans = DB::table('attentions')
-            ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.source_id','=',$request->get('uid'))->count();
-        //关注的用户
-        $topicUsers = DB::table('attentions')
-            ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
-        //关注总人数
-        $countUsers = DB::table('attentions')
-            ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.user_id','=',$request->get('uid'))->count();
-        return view('ask.home.question',['userinfo'=>$userInfo[0],'province'=>$province,'city'=>$city,'countPost'=>$countPost,'questions'=>$questions,'countQuestion'=>$countQuestion,'topicUsers'=>$topicUsers,'countUsers'=>$countUsers,'fans'=>$fans,'countFans'=>$countFans,'topics'=>$topics,'countTopics'=>$countTopics,'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
+        return view('ask.home.question',['userinfo'=>$this->userinfo,
+            'province'=>$this->province,
+            'city'=>$this->city,
+            'countPost'=>$this->countPost,
+            'questions'=>$this->questions,
+            'countQuestion'=>$this->countQuestion,
+            'topicUsers'=>$this->topicUsers,
+            'countUsers'=>$this->countUsers,
+            'fans'=>$this->fans,
+            'countFans'=>$this->countFans,
+            'topics'=>$this->topics,
+            'countTopics'=>$this->countTopics,
+            'uid'=>$this->uid,
+            'islooked'=>$this->islooked,
+            'recents'=>$this->recents]);
     }
 
     //关注
-    public function topic(Request $request)
+    public function topic()
     {
-        $this->validate($request, [
-            'uid'=>'required|numeric|exists:users,id'
-        ]);
-        //记录最近访问信息
-        if(!empty(Auth::id()) && Auth::id() != $request->get('uid'))
-        {
-            VisitorModel::updateOrCreate([
-                'user_id'=>$request->get('uid'),
-                'visitor_id'=>Auth::id()
-            ], [
-                'user_id'=>$request->get('uid'),
-                'visitor_id'=>Auth::id(),
-                'visitor_time'=>Carbon::now()
-            ]);
-        }
-
-        //用户信息
-        $userInfo = UserModel::where('id','=',$request->get('uid'))->get();
-        //用户所在省份
-        if(!empty($userInfo[0]->province))
-        {
-            $province = AreaModel::where('id',$userInfo[0]->province)->pluck('name')->toArray();
-            $province = $province[0];
-        }else{
-            $province = '';
-        }
-        //用户所在城市
-        if(!empty($userInfo[0]->city))
-        {
-            $city = AreaModel::where('id',$userInfo[0]->city)->pluck('name')->toArray();
-            $city = $city[0];
-        }else{
-            $city = '';
-        }
-        //文章总数
-        $countPost = PostModel::where('user_id',$request->get('uid'))->count();
-        //问答总数
-        $countQuestion = QuestionModel::where('user_id',$request->get('uid'))->count();
-        //是否关注、
-        if(!empty(Auth::id()))
-        {
-            //查看该用户是否已经关注该主页用户
-            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('uid'),'source_type'=>'1'])->exists())
-            {
-                //关注了该用户
-                $islooked = true;
-            }else{
-                $islooked = false;
-            }
-        }else{
-            $islooked = false;
-        }
-        //最近访客 获取最近8位访客
-        $recents = DB::table('visitors')
-            ->leftjoin('users', 'visitors.visitor_id', '=', 'users.id')
-            ->where('visitors.user_id','=',$request->get('uid'))
-            ->select(
-                'users.id as user_id',
-                'users.name as user_name',
-                'users.avator as user_avator',
-                'visitors.visitor_time as visitor_time'
-            )
-            ->orderBy('visitors.visitor_time','desc')
-            ->paginate('8');
-        //关注的话题
-        $topics = DB::table('attentions')
-            ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->where('attentions.source_type','=','3')
-            ->select(
-                'tags.id as tag_id',
-                'tags.name as tag_name'
-            )
-            ->orderBy('attentions.created_at','desc')
-            ->paginate('8');
-        //关注话题总数
-        $countTopics = DB::table('attentions')
-            ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->where('attentions.source_type','=','3')->count();
-        //粉丝用户
-        $fans = DB::table('attentions')
-            ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.source_id','=',$request->get('uid'))
-            ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
-        //粉丝总数
-        $countFans = DB::table('attentions')
-            ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.source_id','=',$request->get('uid'))->count();
-        //关注的用户
-        $topicUsers = DB::table('attentions')
-            ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
-        //关注总人数
-        $countUsers = DB::table('attentions')
-            ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.user_id','=',$request->get('uid'))->count();
-        return view('ask.home.topic',['userinfo'=>$userInfo[0],'province'=>$province,'city'=>$city,'countPost'=>$countPost,'countQuestion'=>$countQuestion,'topicUsers'=>$topicUsers,'countUsers'=>$countUsers,'fans'=>$fans,'countFans'=>$countFans,'topics'=>$topics,'countTopics'=>$countTopics,'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
+        return view('ask.home.topic',[
+            'userinfo'=>$this->userinfo,
+            'province'=>$this->province,
+            'city'=>$this->city,
+            'countPost'=>$this->countPost,
+            'countQuestion'=>$this->countQuestion,
+            'topicUsers'=>$this->topicUsers,
+            'countUsers'=>$this->countUsers,
+            'fans'=>$this->fans,
+            'countFans'=>$this->countFans,
+            'topics'=>$this->topics,
+            'countTopics'=>$this->countTopics,
+            'uid'=>$this->uid,
+            'islooked'=>$this->islooked,
+            'recents'=>$this->recents]);
     }
 
     //关注的人
-    public function topicUser(Request $request)
+    public function topicUser()
     {
-        $this->validate($request, [
-            'uid'=>'required|numeric|exists:users,id'
-        ]);
-        //记录最近访问信息
-        if(!empty(Auth::id()) && Auth::id() != $request->get('uid'))
-        {
-            VisitorModel::updateOrCreate([
-                'user_id'=>$request->get('uid'),
-                'visitor_id'=>Auth::id()
-            ], [
-                'user_id'=>$request->get('uid'),
-                'visitor_id'=>Auth::id(),
-                'visitor_time'=>Carbon::now()
-            ]);
-        }
-
-        //用户信息
-        $userInfo = UserModel::where('id','=',$request->get('uid'))->get();
-        //用户所在省份
-        if(!empty($userInfo[0]->province))
-        {
-            $province = AreaModel::where('id',$userInfo[0]->province)->pluck('name')->toArray();
-            $province = $province[0];
-        }else{
-            $province = '';
-        }
-        //用户所在城市
-        if(!empty($userInfo[0]->city))
-        {
-            $city = AreaModel::where('id',$userInfo[0]->city)->pluck('name')->toArray();
-            $city = $city[0];
-        }else{
-            $city = '';
-        }
-        //文章总数
-        $countPost = PostModel::where('user_id',$request->get('uid'))->count();
-        //问答总数
-        $countQuestion = QuestionModel::where('user_id',$request->get('uid'))->count();
-        //是否关注、
-        if(!empty(Auth::id()))
-        {
-            //查看该用户是否已经关注该主页用户
-            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('uid'),'source_type'=>'1'])->exists())
-            {
-                //关注了该用户
-                $islooked = true;
-            }else{
-                $islooked = false;
-            }
-        }else{
-            $islooked = false;
-        }
-        //最近访客 获取最近8位访客
-        $recents = DB::table('visitors')
-            ->leftjoin('users', 'visitors.visitor_id', '=', 'users.id')
-            ->where('visitors.user_id','=',$request->get('uid'))
-            ->select(
-                'users.id as user_id',
-                'users.name as user_name',
-                'users.avator as user_avator',
-                'visitors.visitor_time as visitor_time'
-            )
-            ->orderBy('visitors.visitor_time','desc')
-            ->paginate('8');
-        //关注的话题
-        $topics = DB::table('attentions')
-            ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->where('attentions.source_type','=','3')
-            ->select(
-                'tags.id as tag_id',
-                'tags.name as tag_name'
-            )
-            ->orderBy('attentions.created_at','desc')
-            ->paginate('8');
-        //关注话题总数
-        $countTopics = DB::table('attentions')
-            ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->where('attentions.source_type','=','3')->count();
-        //粉丝用户
-        $fans = DB::table('attentions')
-            ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.source_id','=',$request->get('uid'))
-            ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
-        //粉丝总数
-        $countFans = DB::table('attentions')
-            ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.source_id','=',$request->get('uid'))->count();
-        //关注的用户
-        $topicUsers = DB::table('attentions')
-            ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('15');
-        //关注总人数
-        $countUsers = DB::table('attentions')
-            ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.user_id','=',$request->get('uid'))->count();
-        return view('ask.home.topicUser',['userinfo'=>$userInfo[0],'province'=>$province,'city'=>$city,'countPost'=>$countPost,'countQuestion'=>$countQuestion,'topicUsers'=>$topicUsers,'countUsers'=>$countUsers,'fans'=>$fans,'countFans'=>$countFans,'topics'=>$topics,'countTopics'=>$countTopics,'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
+        return view('ask.home.topicUser',[
+            'userinfo'=>$this->userinfo,
+            'province'=>$this->province,
+            'city'=>$this->city,
+            'countPost'=>$this->countPost,
+            'countQuestion'=>$this->countQuestion,
+            'topicUsers'=>$this->topicUsers,
+            'countUsers'=>$this->countUsers,
+            'fans'=>$this->fans,
+            'countFans'=>$this->countFans,
+            'topics'=>$this->topics,
+            'countTopics'=>$this->countTopics,
+            'uid'=>$this->uid,
+            'islooked'=>$this->islooked,
+            'recents'=>$this->recents]);
     }
     //他的粉丝
-    public function topicedUser(Request $request)
+    public function topicedUser()
     {
-        $this->validate($request, [
-            'uid'=>'required|numeric|exists:users,id'
-        ]);
-        //记录最近访问信息
-        if(!empty(Auth::id()) && Auth::id() != $request->get('uid'))
-        {
-            VisitorModel::updateOrCreate([
-                'user_id'=>$request->get('uid'),
-                'visitor_id'=>Auth::id()
-            ], [
-                'user_id'=>$request->get('uid'),
-                'visitor_id'=>Auth::id(),
-                'visitor_time'=>Carbon::now()
-            ]);
-        }
-
-        //用户信息
-        $userInfo = UserModel::where('id','=',$request->get('uid'))->get();
-        //用户所在省份
-        if(!empty($userInfo[0]->province))
-        {
-            $province = AreaModel::where('id',$userInfo[0]->province)->pluck('name')->toArray();
-            $province = $province[0];
-        }else{
-            $province = '';
-        }
-        //用户所在城市
-        if(!empty($userInfo[0]->city))
-        {
-            $city = AreaModel::where('id',$userInfo[0]->city)->pluck('name')->toArray();
-            $city = $city[0];
-        }else{
-            $city = '';
-        }
-        //文章总数
-        $countPost = PostModel::where('user_id',$request->get('uid'))->count();
-        //问答总数
-        $countQuestion = QuestionModel::where('user_id',$request->get('uid'))->count();
-        //是否关注、
-        if(!empty(Auth::id()))
-        {
-            //查看该用户是否已经关注该主页用户
-            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('uid'),'source_type'=>'1'])->exists())
-            {
-                //关注了该用户
-                $islooked = true;
-            }else{
-                $islooked = false;
-            }
-        }else{
-            $islooked = false;
-        }
-        //最近访客 获取最近8位访客
-        $recents = DB::table('visitors')
-            ->leftjoin('users', 'visitors.visitor_id', '=', 'users.id')
-            ->where('visitors.user_id','=',$request->get('uid'))
-            ->select(
-                'users.id as user_id',
-                'users.name as user_name',
-                'users.avator as user_avator',
-                'visitors.visitor_time as visitor_time'
-            )
-            ->orderBy('visitors.visitor_time','desc')
-            ->paginate('8');
-        //关注的话题
-        $topics = DB::table('attentions')
-            ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->where('attentions.source_type','=','3')
-            ->select(
-                'tags.id as tag_id',
-                'tags.name as tag_name'
-            )
-            ->orderBy('attentions.created_at','desc')
-            ->paginate('8');
-        //关注话题总数
-        $countTopics = DB::table('attentions')
-            ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->where('attentions.source_type','=','3')->count();
-        //粉丝用户
-        $fans = DB::table('attentions')
-            ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.source_id','=',$request->get('uid'))
-            ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
-        //粉丝总数
-        $countFans = DB::table('attentions')
-            ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.source_id','=',$request->get('uid'))->count();
-        //关注的用户
-        $topicUsers = DB::table('attentions')
-            ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('15');
-        //关注总人数
-        $countUsers = DB::table('attentions')
-            ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.user_id','=',$request->get('uid'))->count();
-        return view('ask.home.topicedUser',['userinfo'=>$userInfo[0],'province'=>$province,'city'=>$city,'countPost'=>$countPost,'countQuestion'=>$countQuestion,'topicUsers'=>$topicUsers,'countUsers'=>$countUsers,'fans'=>$fans,'countFans'=>$countFans,'topics'=>$topics,'countTopics'=>$countTopics,'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
+        return view('ask.home.topicedUser',[
+            'userinfo'=>$this->userinfo,
+            'province'=>$this->province,
+            'city'=>$this->city,
+            'countPost'=>$this->countPost,
+            'countQuestion'=>$this->countQuestion,
+            'topicUsers'=>$this->topicUsers,
+            'countUsers'=>$this->countUsers,
+            'fans'=>$this->fans,
+            'countFans'=>$this->countFans,
+            'topics'=>$this->topics,
+            'countTopics'=>$this->countTopics,
+            'uid'=>$this->uid,
+            'islooked'=>$this->islooked,
+            'recents'=>$this->recents]);
 
     }
 
     //关注的话题
-    public function topics(Request $request)
+    public function topics()
     {
-        $this->validate($request, [
-            'uid'=>'required|numeric|exists:users,id'
-        ]);
-        //记录最近访问信息
-        if(!empty(Auth::id()) && Auth::id() != $request->get('uid'))
-        {
-            VisitorModel::updateOrCreate([
-                'user_id'=>$request->get('uid'),
-                'visitor_id'=>Auth::id()
-            ], [
-                'user_id'=>$request->get('uid'),
-                'visitor_id'=>Auth::id(),
-                'visitor_time'=>Carbon::now()
-            ]);
-        }
-
-        //用户信息
-        $userInfo = UserModel::where('id','=',$request->get('uid'))->get();
-        //用户所在省份
-        if(!empty($userInfo[0]->province))
-        {
-            $province = AreaModel::where('id',$userInfo[0]->province)->pluck('name')->toArray();
-            $province = $province[0];
-        }else{
-            $province = '';
-        }
-        //用户所在城市
-        if(!empty($userInfo[0]->city))
-        {
-            $city = AreaModel::where('id',$userInfo[0]->city)->pluck('name')->toArray();
-            $city = $city[0];
-        }else{
-            $city = '';
-        }
-        //文章总数
-        $countPost = PostModel::where('user_id',$request->get('uid'))->count();
-        //问答总数
-        $countQuestion = QuestionModel::where('user_id',$request->get('uid'))->count();
-        //是否关注、
-        //是否关注、
-        if(!empty(Auth::id()))
-        {
-            //查看该用户是否已经关注该主页用户
-            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('uid'),'source_type'=>'1'])->exists())
-            {
-                //关注了该用户
-                $islooked = true;
-            }else{
-                $islooked = false;
-            }
-        }else{
-            $islooked = false;
-        }
-        //最近访客 获取最近8位访客
-        $recents = DB::table('visitors')
-            ->leftjoin('users', 'visitors.visitor_id', '=', 'users.id')
-            ->where('visitors.user_id','=',$request->get('uid'))
-            ->select(
-                'users.id as user_id',
-                'users.name as user_name',
-                'users.avator as user_avator',
-                'visitors.visitor_time as visitor_time'
-            )
-            ->orderBy('visitors.visitor_time','desc')
-            ->paginate('8');
-        //关注的话题
-        $topics = DB::table('attentions')
-            ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->where('attentions.source_type','=','3')
-            ->select(
-                'tags.id as tag_id',
-                'tags.name as tag_name',
-                'tags.thumb as tag_thumb'
-            )
-            ->orderBy('attentions.created_at','desc')
-            ->paginate('8');
-        //关注话题总数
-        $countTopics = DB::table('attentions')
-            ->leftjoin('tags', 'attentions.source_id', '=', 'tags.id')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->where('attentions.source_type','=','3')->count();
-        //粉丝用户
-        $fans = DB::table('attentions')
-            ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.source_id','=',$request->get('uid'))
-            ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
-        //粉丝总数
-        $countFans = DB::table('attentions')
-            ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.source_id','=',$request->get('uid'))->count();
-        //关注的用户
-        $topicUsers = DB::table('attentions')
-            ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.user_id','=',$request->get('uid'))
-            ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('15');
-        //关注总人数
-        $countUsers = DB::table('attentions')
-            ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
-            ->where('attentions.source_type','=','1')
-            ->where('attentions.user_id','=',$request->get('uid'))->count();
-        return view('ask.home.topics',['userinfo'=>$userInfo[0],'province'=>$province,'city'=>$city,'countPost'=>$countPost,'countQuestion'=>$countQuestion,'topicUsers'=>$topicUsers,'countUsers'=>$countUsers,'fans'=>$fans,'countFans'=>$countFans,'topics'=>$topics,'countTopics'=>$countTopics,'uid'=>$request->get('uid'),'islooked'=>$islooked,'recents'=>$recents]);
+        return view('ask.home.topics',[
+            'userinfo'=>$this->userinfo,
+            'province'=>$this->province,
+            'city'=>$this->city,
+            'countPost'=>$this->countPost,
+            'countQuestion'=>$this->countQuestion,
+            'topicUsers'=>$this->topicUsers,
+            'countUsers'=>$this->countUsers,
+            'fans'=>$this->fans,
+            'countFans'=>$this->countFans,
+            'topics'=>$this->topics,
+            'countTopics'=>$this->countTopics,
+            'uid'=>$this->uid,
+            'islooked'=>$this->islooked,
+            'recents'=>$this->recents]);
 
     }
 
     //他的回答
     public function answer(Request $request)
     {
-        $this->validate($request, [
-            'uid'=>'required|numeric|exists:users,id'
-        ]);
-        $userInfo = UserModel::where('id','=',$request->get('uid'))->get();
-        $datas = DB::table('questions')
-            ->leftjoin('answers', 'questions.id', '=', 'answers.question_id')
-            ->leftjoin('users', 'questions.user_id', '=', 'users.id')
-            ->where('answers.user_id','=',$request->get('uid'))
-            ->select(
-                'users.id as user_id',
-                'users.name as user_name',
-                'questions.title as title',
-                'questions.id as question_id',
-                'questions.content as content',
-                'questions.created_at as created_at'
-            )
-            ->orderBy('questions.created_at','desc')
-            ->paginate('15');
-        //是否关注、
-        if(!empty(Auth::id()))
-        {
-            //查看该用户是否已经关注该主页用户
-            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('uid'),'source_type'=>'1'])->exists())
-            {
-                //关注了该用户
-                $islooked = true;
-            }else{
-                $islooked = false;
-            }
-        }else{
-            $islooked = false;
-        }
-        return view('wenda.home.answer',['userinfo'=>$userInfo[0],'questions'=>$datas,'province'=>$userInfo[0]['province'],'city'=>$userInfo[0]['city'],'uid'=>$request->get('uid'),'islooked'=>$islooked]);
+        return view('wenda.home.answer',[
+            'userinfo'=>$this->userinfo,
+            'questions'=>$this->questions,
+            'province'=>$this->province,
+            'city'=>$this->city,
+            'uid'=>$this->uid,
+            'islooked'=>$this->islooked]);
     }
 
 }
