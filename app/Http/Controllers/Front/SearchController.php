@@ -17,7 +17,7 @@ class SearchController extends Controller
     public function __construct(Request $request) 
     {
         $this->wd = $request->get('wd');
-        view()->composer('layouts/wenda', function ($view) {
+        view()->composer('layouts/ask', function ($view) {
         	$view->with('wd',$this->wd);
         });
     }
@@ -43,8 +43,7 @@ class SearchController extends Controller
         //用户个数
         $result = UserModel::search($request->get('wd'))->get();
         $userCount = count($result);
-        
-    	return view('wenda.search.index',['postCount'=>$postCount,'questionCount'=>$questionCount,'tagCount'=>$tagCount,'userCount'=>$userCount,'wd'=>$this->wd]);
+    	return view('ask.search.index',['postCount'=>$postCount,'questionCount'=>$questionCount,'tagCount'=>$tagCount,'userCount'=>$userCount,'wd'=>$this->wd]);
     }
     
     //文章搜索
