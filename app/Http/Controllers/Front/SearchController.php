@@ -24,7 +24,6 @@ class SearchController extends Controller
     //默认是文章
     public function index(Request $request)
     {
-
     	$validator = Validator::make($request->all(), [
     			'wd' =>'required|min:1|max:128',
     	]);

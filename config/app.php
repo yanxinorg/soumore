@@ -176,14 +176,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-    	//QQ WeiBo社会化登录
-    	SocialiteProviders\Manager\ServiceProvider::class,
         // 图片处理
         Intervention\Image\ImageServiceProvider::class,
-    	//问答共用数据	
-    	App\Providers\PostServiceProvider::class,
-    	//账户设置
-    	App\Providers\PersonServiceProvider::class,
     	//百度编辑器
     	Stevenyangecho\UEditor\UEditorServiceProvider::class,
     	//全文搜索

@@ -1,14 +1,111 @@
 <?php
 
-//获取话题图片
-Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\FileController@getTopicImg']);
-
 // 首页
 Route::get('/', function () {
     return view('ask.index.index');
 });
+//登录
+Route::get('/login', function () {return view('ask.user.login');});
+//验证登录信息
+Route::post('/login','UserController@login');
+//登出
+Route::get('/logout','UserController@logout');
+// 注册
+Route::get('/register', function () {return view('ask.user.register');});
+//保存注册用户
+Route::post('/register','UserController@register');
+// 检测该用户是否已经存在
+Route::post('/user/check', 'UserController@isExist');
+// 验证码
+Route::get('/captcha/{tmp}', 'Common\CaptchaController@captcha');
+// 邮件验证码
+Route::post('/email/captcha', 'Common\EmailController@sendRegCaptcha');
 
-//授权后页面
+//全文搜索
+Route::post('/search','Front\SearchController@index');
+//全文搜索
+Route::get('/search/wenda','Front\SearchController@wenda');
+//文章全文搜索
+Route::get('/search/post','Front\SearchController@post');
+//文章全文搜索
+Route::get('/search/topic','Front\SearchController@topic');
+//用户全文搜索
+Route::get('/search/user','Front\SearchController@user');
+
+//文章单张图片上传
+Route::post('/post/image/upload', 'Common\FileController@uploadImg');
+//获取分类图片
+Route::get('cate/thumb/{id}', ['as' => 'getCateImg', 'uses' => 'Common\FileController@getCateImg']);
+
+//文章列表
+Route::get('/post', 'Front\PostController@index');
+//问答列表
+Route::get('/question', 'Front\QuestionController@index');
+//问答详情页
+Route::get('/question/detail', 'Front\QuestionController@detail');
+//最新问答列表
+Route::get('/question/latest', 'Front\QuestionController@latest');
+//热门问答列表
+Route::get('/question/hottest', 'Front\QuestionController@hottest');
+//待问答列表
+Route::get('/question/unanswered', 'Front\QuestionController@unanswered');
+//问答分类筛选
+Route::get('/question/cate', 'Front\QuestionController@cate');
+//问答标签筛选
+Route::get('/question/tag', 'Front\QuestionController@tag');
+//个人主页
+Route::get('/home', 'Front\HomeController@index');
+//个人主页文章
+Route::get('/home/post', 'Front\HomeController@post');
+//个人主页问答
+Route::get('/home/question', 'Front\HomeController@question');
+//个人主页关注
+Route::get('/home/topic', 'Front\HomeController@topic');
+//个人主页关注
+Route::get('/home/topicUser', 'Front\HomeController@topicUser');
+//个人主页粉丝
+Route::get('/home/topicedUser', 'Front\HomeController@topicedUser');
+//个人主页关注的话题
+Route::get('/home/topics', 'Front\HomeController@topics');
+//个人主页回答
+Route::get('/home/answer', 'Front\HomeController@answer');
+//加载省份城市信息
+Route::get('/common/loadCity/{province_id}', 'Common\CommonController@loadCity')->where(['province_id'=>'[0-9]+']);
+//获取个人头像
+Route::get('/person/thumb/{img}', ['as' => 'getThumbImg', 'uses' => 'Common\FileController@getThumbImg']);
+//个人发布的文章
+Route::get('/person/post', 'Front\PersonController@post');
+//个人发布的问答
+Route::get('/person/answer', 'Front\PersonController@answer');
+//获取文章图片
+Route::get('/post/images/{img}', ['as' => 'getPostImgs', 'uses' => 'Common\FileController@getPostImgs']);
+//获取文章缩略图
+Route::get('/post/thumb/{id}', ['as' => 'getPostImg', 'uses' => 'Common\FileController@getPostImg']);
+//文章详情
+Route::get('/post/detail', 'Front\PostController@detail');
+//文章分类筛选
+Route::get('/post/cate', 'Front\PostController@cate');
+//文章标签筛选
+Route::get('/post/tag', 'Front\PostController@tag');
+//分类筛选
+Route::get('/cate', 'Front\CategoryController@index');
+//文章分类筛选
+Route::get('/cate/article', 'Front\CategoryController@article');
+//文档分类筛选
+Route::get('/cate/answer', 'Front\CategoryController@answer');
+//话题
+Route::get('/topic', 'Front\TopicController@index');
+//话题详情
+Route::get('/topic/detail', 'Front\TopicController@detail');
+//热门用户列表
+Route::get('/user/hot', 'UserController@index');
+//热门关注话题
+Route::get('/topic/hot', 'Front\TopicController@hot');
+//关注分类
+Route::get('/topic/cate', 'Front\TopicController@cate');
+
+
+//前端授权后页面
 Route::group(['middleware' => 'authed'], function () {
 	Route::group(['namespace' => 'Front'], function()
 	{
@@ -70,6 +167,10 @@ Route::group(['middleware' => 'authed'], function () {
 		Route::get('/person/topic/cancel', 'PersonController@topicCancel');
 		//我已关注的话题
 		Route::get('/person/topiced', 'PersonController@topiced');
+        //文章收藏
+        Route::post('/post/collect', 'PostController@collect');
+        //取消收藏
+        Route::post('/post/collectCancel', 'PostController@collectCancel');
 		//文章新增
 		Route::get('/post/create', 'PostController@create');
 		//保存文章
@@ -84,20 +185,15 @@ Route::group(['middleware' => 'authed'], function () {
 		Route::get('/post/myCollect', 'PostController@myCollect');
 		//添加评论
 		Route::post('/comment/create', 'CommentController@create');
-
-
 	});
-	//文章单张图片上传
-	Route::post('/post/image/upload', 'Common\FileController@uploadImg');
-	//登出
-	Route::get('/logout','UserController@logout');
 
-    //后台首页
-    Route::get('/admin', 'Admin\IndexController@index');
+//获取话题图片
+Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\FileController@getTopicImg']);
+//后台首页
+Route::get('/admin', 'Admin\IndexController@index');
 	//新后台管理
 	Route::group(['prefix' => 'back'], function()
 	{
-
 	    //角色列表
 	    Route::get('/role/list', 'Admin\RoleController@index');
 	    //新增角色
@@ -160,7 +256,6 @@ Route::group(['middleware' => 'authed'], function () {
 	    Route::post('/cate/delete', 'Admin\CateController@delete');
 	    //更改分类状态
 	    Route::post('/cate/status', 'Admin\CateController@status');
-	    
 	    //链接列表
 	    Route::get('/link/list', 'Admin\LinkController@index');
 	    //新增链接
@@ -173,8 +268,6 @@ Route::group(['middleware' => 'authed'], function () {
 	    Route::post('/link/delete', 'Admin\LinkController@delete');
  	    //更改链接状态
 	    Route::post('/link/status', 'Admin\LinkController@status');
-	    
-	    
 	    //文章列表
 	    Route::get('/post/list', 'Admin\PostController@index');
 	    //删除文章
@@ -185,125 +278,5 @@ Route::group(['middleware' => 'authed'], function () {
 	
 });
 
-//获取分类图片
-Route::get('cate/thumb/{id}', ['as' => 'getCateImg', 'uses' => 'Common\FileController@getCateImg']);
-    
-//文章收藏
-Route::post('/post/collect', 'Front\PostController@collect');
-//取消收藏
-Route::post('/post/collectCancel', 'Front\PostController@collectCancel');
-	
-//首页搜索
-Route::get('/sou','Sou\IndexController@index');
-//搜索结果
-Route::any('/result','Sou\IndexController@result');
-//关于
-Route::get('/about', function () {return view('wenda.crumbs.about');});
-//全文搜索
-Route::post('/search','Front\SearchController@index');
-//全文搜索
-Route::get('/search/wenda','Front\SearchController@wenda');
-//文章全文搜索
-Route::get('/search/post','Front\SearchController@post');
-//文章全文搜索
-Route::get('/search/topic','Front\SearchController@topic');
-//用户全文搜索
-Route::get('/search/user','Front\SearchController@user');
 
-//登录
-Route::get('/login', function () {return view('ask.user.login');});
-//验证登录信息
-Route::post('/login','UserController@login');
-// 注册
-Route::get('/register', function () {return view('ask.user.register');});
-//保存注册用户
-Route::post('/register','UserController@register');
-// 检测该用户是否已经存在
-Route::post('/user/check', 'UserController@isExist');
-// 验证码
-Route::get('/captcha/{tmp}', 'Common\CaptchaController@captcha');
-// 邮件验证码
-Route::post('/email/captcha', 'Common\EmailController@sendRegCaptcha');
-//文章列表
-Route::get('/post', 'Front\PostController@index');
-//问答列表
-Route::get('/question', 'Front\QuestionController@index');
-//问答详情页
-Route::get('/question/detail', 'Front\QuestionController@detail');
-//最新问答列表
-Route::get('/question/latest', 'Front\QuestionController@latest');
-//热门问答列表
-Route::get('/question/hottest', 'Front\QuestionController@hottest');
-//待问答列表
-Route::get('/question/unanswered', 'Front\QuestionController@unanswered');
-//问答分类筛选
-Route::get('/question/cate', 'Front\QuestionController@cate');
-//问答标签筛选
-Route::get('/question/tag', 'Front\QuestionController@tag');
-//个人主页
-Route::get('/home', 'Front\HomeController@index');
-//个人主页文章
-Route::get('/home/post', 'Front\HomeController@post');
-//个人主页问答
-Route::get('/home/question', 'Front\HomeController@question');
-
-//个人主页关注
-Route::get('/home/topic', 'Front\HomeController@topic');
-//个人主页关注
-Route::get('/home/topicUser', 'Front\HomeController@topicUser');
-//个人主页粉丝
-Route::get('/home/topicedUser', 'Front\HomeController@topicedUser');
-//个人主页关注的话题
-Route::get('/home/topics', 'Front\HomeController@topics');
-//个人主页回答
-Route::get('/home/answer', 'Front\HomeController@answer');
-
-
-//加载省份城市信息
-Route::get('/common/loadCity/{province_id}', 'Common\CommonController@loadCity')->where(['province_id'=>'[0-9]+']);
-//获取个人头像
-Route::get('/person/thumb/{img}', ['as' => 'getThumbImg', 'uses' => 'Common\FileController@getThumbImg']);
-//个人发布的文章
-Route::get('/person/post', 'Front\PersonController@post');
-//个人发布的问答
-Route::get('/person/answer', 'Front\PersonController@answer');
-//获取文章图片
-Route::get('/post/images/{img}', ['as' => 'getPostImgs', 'uses' => 'Common\FileController@getPostImgs']);
-//获取文章缩略图
-Route::get('/post/thumb/{id}', ['as' => 'getPostImg', 'uses' => 'Common\FileController@getPostImg']);
-//文章详情
-Route::get('/post/detail', 'Front\PostController@detail');
-//文章分类筛选
-Route::get('/post/cate', 'Front\PostController@cate');
-//文章标签筛选
-Route::get('/post/tag', 'Front\PostController@tag');
-//分类筛选
-Route::get('/cate', 'Front\CategoryController@index');
-//文章分类筛选
-Route::get('/cate/article', 'Front\CategoryController@article');
-//文档分类筛选
-Route::get('/cate/answer', 'Front\CategoryController@answer');
-//话题
-Route::get('/topic', 'Front\TopicController@index');
-//话题详情
-Route::get('/topic/detail', 'Front\TopicController@detail');
-//热门用户列表
-Route::get('/user/hot', 'UserController@index');
-
-//热门关注话题
-Route::get('/topic/hot', 'Front\TopicController@hot');
-//关注分类
-Route::get('/topic/cate', 'Front\TopicController@cate');
-//QQ社会化登录
-Route::get('/auth/qq','Common\SocializeController@qqAuth');
-//QQ社会化登录
-Route::get('/auth/qq_redirect','Common\SocializeController@qqCallback');
-// 微博社会化登录 引导用户到新浪微博的登录授权页面
-Route::get('/auth/weibo', 'Common\SocializeController@weiboAuth');
-// 微博社会化登录 用户授权后新浪微博回调的页面
-Route::get('/auth/weibo_redirect', 'Common\SocializeController@weiboCallback');
-//微信社会化监听
-Route::get('/auth/weixin', 'Common\SocializeController@weixinAuth');
-//微信社会化监听
-Route::get('/auth/weixin_redirect', 'Common\SocializeController@weixinCallback');
 

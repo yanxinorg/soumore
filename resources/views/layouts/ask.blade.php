@@ -28,20 +28,36 @@
 			<!-- end logo -->
 			<!-- 搜索框 -->
 			<div class="aw-search-box  hidden-xs hidden-sm">
+
+			{{--<form action="{{ url('/search') }}" method="post" class="navbar-form navbar-left" >--}}
+				{{--{{ csrf_field() }}--}}
+				{{--<div class="form-group">--}}
+					{{--@if(!empty($wd))--}}
+				   		{{--<input type="text" class="form-control search-query" name="wd" value="{{ $wd }}" placeholder="请输入关键词" />--}}
+					{{--@else--}}
+						{{--<input type="text" class="form-control search-query" name="wd" placeholder="请输入关键词" />--}}
+					{{--@endif--}}
+				{{--</div>--}}
+				{{--<button type="submit" class="form-control btn btn-success">搜索</button>--}}
+			{{--</form>--}}
+
+
 				<form class="navbar-search" action="http://ask.com/?/search/" id="global_search_form" method="post">
-					<input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="q" id="aw-search-query">
-					<span title="搜索" id="global_search_btns" onclick="$(&#39;#global_search_form&#39;).submit();"><i class="icon icon-search"></i></span>
+					<input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="wd" id="aw-search-query">
+					<span title="搜索" id="global_search_btns" onclick=""><i class="icon icon-search"></i></span>
 					<div class="aw-dropdown">
 						<div class="mod-body">
 							<p class="title">输入关键字进行搜索</p>
 							<ul class="aw-dropdown-list collapse"></ul>
-							<p class="search"><span>搜索:</span><a onclick="$(&#39;#global_search_form&#39;).submit();"></a></p>
+							<p class="search"><span>搜索:</span><a onclick=""></a></p>
 						</div>
 						<div class="mod-footer">
-							<a href="javascript:;" onclick="$(&#39;#header_publish&#39;).click();" class="pull-right btn btn-mini btn-success publish">发起问题</a>
+							<a href="javascript:;" onclick="" class="pull-right btn btn-mini btn-success publish">发起问题</a>
 						</div>
 					</div>
 				</form>
+
+
 			</div>
 			<!-- end 搜索框 -->
 			@auth

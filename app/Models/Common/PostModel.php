@@ -4,13 +4,31 @@ namespace App\Models\Common;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Laravel\Scout\Searchable;
 
 class PostModel extends Model
 {
+    use Searchable;
 	protected $table = 'posts';
 	public $timestamps = TRUE;
 	protected $fillable = ['user_id','cate_id','title','excerpt','content','thumb','thumb_small','status','mime'];
-	
+
+    /**
+     * 获取模型的索引名称.
+     *
+     * @return string
+     */
+    public function searchableAs()
+    {
+        return 'posts_index';
+    }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        return $array;
+    }
+
 	// 	关联多个标签
 	public function belongsTags()
 	{
