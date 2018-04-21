@@ -8,7 +8,6 @@ use Laravel\Scout\Searchable;
 
 class QuestionModel extends Model
 {
-    use Searchable;
 	protected $table = 'questions';
 	public $timestamps = TRUE;
 	protected $fillable = ['cate_id', 'user_id','content','title'];

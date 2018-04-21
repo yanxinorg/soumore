@@ -7,7 +7,6 @@ use Laravel\Scout\Searchable;
 
 class TagModel extends Model
 {
-    use Searchable;
 	protected $table = 'tags';
 	public $timestamps = TRUE;
 	protected $fillable = ['name','thumb','desc','status','mime'];
