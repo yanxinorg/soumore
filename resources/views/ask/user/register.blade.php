@@ -19,7 +19,6 @@
 <body screen_capture_injected="true">
 <div class="aw-register-box">
     <div class="mod-head">
-        <a href="{{ url('/') }}"><img src="{{ asset('ask/register_files/login_logo.png') }}" ></a>
         <h1>注册新用户</h1>
     </div>
     <div class="mod-body">

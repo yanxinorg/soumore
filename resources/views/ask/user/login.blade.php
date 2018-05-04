@@ -6,7 +6,6 @@
 <meta name="renderer" content="webkit">
 <title>登录Soumores</title>
 <!--<base href="http://ask.com/?/">--><base href="."><!--[if IE]></base><![endif]-->
-<link href="http://ask.com/static/css/default/img/favicon.ico?v=20150226" rel="shortcut icon" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="{{ asset('ask/login_files/bootstrap.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('ask/login_files/icon.css') }}">
 <link href="{{ asset('ask/login_files/common.css') }}" rel="stylesheet" type="text/css">
@@ -17,17 +16,13 @@
 <script src="{{ asset('ask/login_files/jquery.form.js') }}" type="text/javascript"></script>
 <script src="{{ asset('ask/login_files/plug-in_module.js') }}" type="text/javascript"></script>
 <script src="{{ asset('ask/login_files/aws.js') }}" type="text/javascript"></script>
-<script src="{{ asset('ask/login_files/aw_template.js') }}" type="text/javascript"></script>
-<script src="{{ asset('ask/login_files/app.js') }}" type="text/javascript"></script>
 <script type="text/javascript" src="{{ asset('ask/login_files/compatibility.js') }}"></script>
 <style type="text/css">.fancybox-margin{margin-right:0px;}</style>
-<link type="text/css" rel="stylesheet" href="chrome-extension://ckphchjljlekndhjifdfpmmnlaijimcd/style.css"></head>
 <body screen_capture_injected="true">
 <div id="wrapper">
 	<div class="aw-login-box">
 		<div class="mod-body clearfix">
 			<div class="content pull-left">
-				<h1 class="logo"><a href="http://ask.com/?/"></a></h1>
 				<h2>用户登陆</h2>
 				<form id="login_form" method="post" action="{{ url('/login') }}">
 					{{ csrf_field() }}

@@ -11,10 +11,10 @@ use App\Models\Common\PostModel;
 use App\Http\Controllers\Common\FileController;
 use Illuminate\Support\Facades\DB;
 use App\Models\Common\AreaModel;
-use App\Models\Common\CategoryModel;
-use App\Models\Common\TagModel;
 use App\Models\Common\AttentionModel;
 use App\Models\Common\MessageModel;
+use Qiniu\Storage\UploadManager;
+use zgldh\QiniuStorage\QiniuStorage;
 
 class PersonController extends Controller
 {
@@ -122,6 +122,7 @@ class PersonController extends Controller
     {
     	return view('ask.person.thumb');
     }
+
     //保持个人头像
     public function thumbStore(Request $request)
     {
@@ -134,7 +135,25 @@ class PersonController extends Controller
     	],[
     		'thumb.0'=>'图片',
     	]);
-        $imgPath = FileController::saveThumbImg($request->file('thumb.0'));
+        if(env('QINIU_STORE'))
+        {
+            $filePath = $request->file('thumb.0')->getPathname();
+            $type =  $request->file('thumb.0')->getMimeType();
+            $upManager = new UploadManager();
+            $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
+            $token = $auth->uploadToken(env('QINIU_BUCKET'));
+            $key = md5(time().rand(1,9999));
+            list($ret, $error) = $upManager->put($token, $key, $filePath);
+            if($error){
+                return redirect()->back()->withErrors(['error'=>'头像更新失败']);
+            }else{
+                $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
+            }
+
+        }else{
+            $imgPath = FileController::saveThumbImg($request->file('thumb.0'));
+        }
+
         DB::table('users')
         ->where('id',Auth::id())
         ->update(['avator' => $imgPath]);
