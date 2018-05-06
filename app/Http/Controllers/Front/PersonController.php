@@ -137,17 +137,17 @@ class PersonController extends Controller
     	]);
         if(env('QINIU_STORE'))
         {
-            $filePath = $request->file('thumb.0')->getRealPath();
-            $type =  $request->file('thumb.0')->getMimeType();
+            $filePath = $request->file('thumb.0');
             $upManager = new UploadManager();
             $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
             $token = $auth->uploadToken(env('QINIU_BUCKET'));
             $key = md5(time().rand(1,9999));
-            list($ret, $error) = $upManager->put($token, $key, $filePath,null,$type,false);
+            list($ret, $error) = $upManager->put($token, $key, $filePath);
             if($error){
                 return redirect()->back()->withErrors(['error'=>'头像更新失败']);
             }else{
                 $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
+                var_dump($imgPath);exit;
             }
 
         }else{
