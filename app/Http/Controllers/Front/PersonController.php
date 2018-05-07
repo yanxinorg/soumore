@@ -147,7 +147,6 @@ class PersonController extends Controller
                 return redirect()->back()->withErrors(['error'=>'头像更新失败']);
             }else{
                 $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
-                var_dump($imgPath);exit;
             }
 
         }else{

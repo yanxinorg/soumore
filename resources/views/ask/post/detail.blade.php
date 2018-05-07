@@ -4,6 +4,9 @@
 @parent
 <link href="{{ asset('ask/zoom/dist/zoomify.min.css') }}" rel="stylesheet">
 @stop
+<?php
+use App\Models\Common\UserModel;
+?>
 <div class="aw-container-wrap">
     <div class="container">
         <div class="row">
@@ -87,30 +90,73 @@
                         <!-- 文章评论 -->
                         <div class="aw-mod">
                             <div class="mod-head common-head">
-                                <h2>0 个评论</h2>
+                                <h2>{{ $datas->comments }}个评论</h2>
                             </div>
-                            <div class="mod-body aw-feed-list"></div>
+                            <div class="mod-body aw-feed-list">
+                                @foreach($comments as $comment)
+                                <div class="aw-item" id="answer_list_1">
+                                    <div class="mod-head">
+                                        <a class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$comment->user_id]) }}">
+                                            <img src="{{ route('getThumbImg', $comment->user_id ) }}" alt="{{ $comment->commentator }}">
+                                        </a>
+                                        <p>
+                                            <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$comment->user_id]) }}">{{ $comment->commentator }}</a>
+                                            @if(!empty($comment->to_user_id))
+                                                <span >回复</span>
+                                                <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$comment->to_user_id]) }}">
+                                                    @php echo (UserModel::where('id',$comment->to_user_id)->pluck('name'))[0]; @endphp
+                                                </a>
+                                            @endif
+                                        </p>
+                                    </div>
+                                    <div class="mod-body">
+                                        <div class="markitup-box"> {{ $comment->content }}</div>
+                                    </div>
+                                    <div class="mod-footer">
+                                        <div class="meta">
+                                            <span class="pull-right text-color-999">{{\Carbon\Carbon::parse($comment->created_at)->diffForHumans()}}</span>
+                                            <a class="text-color-999 " onclick="AWS.User.article_comment_vote($(this), 1, 1)"><i class="icon icon-agree"></i> 0 赞</a>
+                                            @if($comment->user_id !== Auth::id() )
+                                                <a href="javascript:void(0);" class="aw-article-comment text-color-999" data-id="1" onclick="reply({{ $comment->user_id }},'{{ $comment->commentator }}')"><i class="icon icon-comment"></i> 回复</a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            <div class="paginate" style="text-align:center;">{!! $comments->appends(array('id'=>$id))->render() !!}</div>
     					</div>
                         <!-- end 文章评论 -->
-    
+
                         <!-- 回复编辑器 -->
-                        <div class="aw-mod aw-article-replay-box">
-                            <a name="answer_form"></a>
-                            <form action="" onsubmit="return false;" method="post" id="answer_form">
-                                <input type="hidden" name="post_hash" value="b7fceca538cbf06aefb43a49c34aa3fd">
-                                <input type="hidden" name="article_id" value="2">
-                                <div class="mod-head">
-                                    <a href="" class="aw-user-name"><img alt="admin" src="./post_detail_files/avatar-mid-img.png"></a>
+                    <div class="panel">
+                        <div class="panel-body">
+                            <form class="form-horizontal" method="post" action="{{ url('/comment/create') }}" id="Form">
+                                {{ csrf_field() }}
+                                <div class="form-group" hidden>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" name="user_id" value="{{ Auth::id() }}" >
+                                    </div>
                                 </div>
-                                <div class="mod-body">
-                                    <textarea rows="3" name="message" id="comment_editor" class="form-control autosize" placeholder="写下你的评论..." style="overflow: hidden; word-wrap: break-word; resize: none; height: 74px;"></textarea>
+                                <div class="form-group" hidden>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" name="post_id" value="{{ $datas->post_id }}" >
+                                    </div>
                                 </div>
-                                <div class="mod-footer clearfix">
-                                    <a href="javascript:;" onclick="AWS.ajax_post($(&#39;#answer_form&#39;), AWS.ajax_processer, &#39;reply&#39;);" class="btn btn-normal btn-success pull-right btn-submit btn-reply">回复</a>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <textarea rows="4" class="form-control" name="comment" id="comment" placeholder="写下你的评论..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-10 col-md-6">
+                                        <button type="submit" class="btn btn-primary">提交评论</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
-                        <!-- end 回复编辑器 -->
+                    </div>
+
                 </div>
                 <!-- 侧边栏 -->
                 <div class="col-sm-12 col-md-3 aw-side-bar hidden-sm hidden-xs">
@@ -206,6 +252,16 @@
                         layer.msg(data.msg);
                     }
                 });
+    }
+    //评论回复
+    function reply($userId,$userName)
+    {
+        location.href = "#Form";
+        $("#comment").attr("placeholder","回复"+$userName);
+        var myform=$('#Form'); //得到form对象
+        var tmpInput=$("<input type='hidden' name='to_user_id' />");
+        tmpInput.attr("value", $userId);
+        myform.append(tmpInput);
     }
 
 </script>

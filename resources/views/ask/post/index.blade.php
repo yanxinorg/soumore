@@ -34,7 +34,11 @@
     						<div class="aw-mod aw-topic-category">
                                 <div class="mod-body clearfix">
                                 <ul>
+									@if(empty($cid))
                                     <li><a class="active" href="{{ url('/post') }}">全部分类</a></li>
+									@else
+									<li><a  href="{{ url('/post') }}">全部分类</a></li>
+									@endif
                                     @foreach($cates as $cate)
                     					@if($cate->id == $cid)
                     					 <li ><a class="active" style="text-decoration:none;" href="{{ URL::action('Front\PostController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>

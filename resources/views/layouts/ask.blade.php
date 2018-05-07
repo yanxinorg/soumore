@@ -80,7 +80,7 @@
 					<div class="aw-user-nav">
 						<!-- 登陆&注册栏 -->
 						<a href="{{ URL::action('Front\HomeController@index', ['uid'=>Auth::id()]) }}" class="aw-user-nav-dropdown">
-							<img alt="{{ Auth::user()->name }}" src="{{ route('getThumbImg', Auth::user()->id) }}">
+							<img src="{{ route('getThumbImg', Auth::user()->id) }}">
 						</a>
 						<div class="aw-dropdown dropdown-list pull-right">
 							<ul class="aw-dropdown-list">

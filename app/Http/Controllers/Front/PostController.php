@@ -419,6 +419,7 @@ class PostController extends Controller
             'posts.content as content',
             'posts.thumb as thumb',
             'posts.likes as likes',
+            'posts.comments as comments',
             'posts.created_at as created_at',
             'posts.comments as countcomment'
             )->orderBy('posts.created_at','desc')->get();
@@ -447,7 +448,7 @@ class PostController extends Controller
         	'users.name as commentator',
         	'users.avator as avator')
         ->orderBy('comments.created_at','asc')
-        ->paginate('15');
+        ->paginate('10');
         
         //是否收藏
         if(!empty(Auth::id()))
