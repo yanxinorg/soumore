@@ -27,7 +27,7 @@ class HomeController extends Controller
     //问答总数
     private $countQuestion;
     //是否关注
-    private $islooked;
+    private $islooked =  false;
     //最近访客
     private $recents;
     //关注的话题
@@ -48,6 +48,7 @@ class HomeController extends Controller
     private $city;
     //用户id
     private $uid;
+
     public function __construct(Request $request)
     {
         $this->validate($request, [
@@ -93,9 +94,11 @@ class HomeController extends Controller
         $this->questions = QuestionModel::where('user_id',$request->get('uid'))->paginate('15');
         //问答总数
         $this->countQuestion = QuestionModel::where('user_id',$request->get('uid'))->count();
-        //是否关注、
-        if(!empty(Auth::id()))
+        //是否关注
+        if(empty(Auth::id()))
         {
+            $this->islooked = false;
+        }else{
             //查看该用户是否已经关注该主页用户
             if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('uid'),'source_type'=>'1'])->exists())
             {
@@ -104,8 +107,6 @@ class HomeController extends Controller
             }else{
                 $this->islooked = false;
             }
-        }else{
-            $this->islooked = false;
         }
         //最近访客 获取最近8位访客
         $this->recents = DB::table('visitors')
@@ -113,6 +114,7 @@ class HomeController extends Controller
             ->where('visitors.user_id','=',$request->get('uid'))
             ->select(
                 'users.id as user_id',
+                'users.avator as avator',
                 'users.name as user_name',
                 'users.avator as user_avator',
                 'visitors.visitor_time as visitor_time'
@@ -140,7 +142,7 @@ class HomeController extends Controller
             ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
             ->where('attentions.source_type','=','1')
             ->where('attentions.source_id','=',$request->get('uid'))
-            ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
+            ->select('users.id as user_id','users.name as name','users.avator as avator')->orderBy('attentions.created_at','desc')->paginate('20');
         //粉丝总数
         $this->countFans = DB::table('attentions')
             ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
@@ -151,7 +153,7 @@ class HomeController extends Controller
             ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
             ->where('attentions.source_type','=','1')
             ->where('attentions.user_id','=',$request->get('uid'))
-            ->select('users.id as user_id','users.name as name')->orderBy('attentions.created_at','desc')->paginate('20');
+            ->select('users.id as user_id','users.name as name','users.avator as avator')->orderBy('attentions.created_at','desc')->paginate('20');
         //关注总人数
         $this->countUsers = DB::table('attentions')
             ->leftjoin('users', 'attentions.source_id', '=', 'users.id')

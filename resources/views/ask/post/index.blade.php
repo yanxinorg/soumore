@@ -54,7 +54,7 @@
 							<div class="aw-common-list">
 								@foreach($datas as $data)
 								<div class="aw-item article" data-topic-id="3,">
-										<a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" rel="nofollow"><img src="{{ route('getThumbImg', $data->user_id) }}" alt=""></a>	
+										<a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" rel="nofollow"><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
 										<div class="aw-question-content">
     										<h4><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ $data->title }}</a></h4>
                                     		<p>
@@ -115,7 +115,7 @@
 									@foreach($hotUsers as $user)
                             		 <dl>
                             			<dt class="pull-left aw-border-radius-5">
-                            				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}"><img alt="" src="{{ route('getThumbImg', $user->id) }}"></a>
+                            				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}"><img  src="{{ $user->avator }}-sm_thumb_small"></a>
                             			</dt>
                             			<dd class="pull-left">
                             				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}" data-id="2" class="aw-user-name">{{ $user->name  }}</a>

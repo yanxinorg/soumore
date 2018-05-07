@@ -15,7 +15,6 @@
 <script src="{{ asset('ask/index_files/jquery.2.js') }}" type="text/javascript"></script>
 <script src="{{ asset('ask/index_files/jquery.form.js') }}" type="text/javascript"></script>
 <script src="{{ asset('ask/index_files/plug-in_module.js') }}" type="text/javascript"></script>
-{{--<script src="{{ asset('ask/index_files/aws.js') }}" type="text/javascript"></script>--}}
 <script type="text/javascript" src="{{ asset('ask/index_files/compatibility.js') }}"></script>
 @show
 <body screen_capture_injected="true">
@@ -80,7 +79,11 @@
 					<div class="aw-user-nav">
 						<!-- 登陆&注册栏 -->
 						<a href="{{ URL::action('Front\HomeController@index', ['uid'=>Auth::id()]) }}" class="aw-user-nav-dropdown">
-							<img src="{{ route('getThumbImg', Auth::user()->id) }}">
+                            @if(!empty($thumb))
+							    <img src="{{ $thumb[0] }}-sm_thumb_small">
+                                @else
+                                <img src="">
+                            @endif
 						</a>
 						<div class="aw-dropdown dropdown-list pull-right">
 							<ul class="aw-dropdown-list">

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Common\CategoryModel;
 use App\Http\Controllers\Common\CommonController;
 use Illuminate\Support\Facades\Validator;
+use Qiniu\Storage\UploadManager;
 
 class CateController extends Controller
 {
@@ -54,7 +55,20 @@ class CateController extends Controller
     			if($request->file('thumb'))
 	    		{
 	    			//存储缩略图
-	    			$imgPath = CommonController::ImgStore($request->file('thumb'),'category');
+                    $filePath = $request->file('thumb');
+                    $type = $request->file('thumb')->getMimeType();
+                    $upManager = new UploadManager();
+                    $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
+                    $token = $auth->uploadToken(env('QINIU_BUCKET'));
+                    $key = md5(time().rand(1,9999));
+                    list($ret,$error) = $upManager->putFile($token,$key,$filePath,null,$type,false);
+                    if($error){
+                        return redirect()->back()->withErrors(['error'=>'保存失败']);
+                    }else{
+                        $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
+                    }
+
+//	    			$imgPath = CommonController::ImgStore($request->file('thumb'),'category');
 	    			CategoryModel::where('id','=',$request->get('id'))->update([
 	    				'pid'=>$request->get('cateid'),
 	    				'name'=>$request->get('name'),
@@ -83,7 +97,19 @@ class CateController extends Controller
 	    		if($request->file('thumb'))
 	    		{
 	    			//存储缩略图
-	    			$imgPath = CommonController::ImgStore($request->file('thumb'),'category');
+                    $filePath = $request->file('thumb');
+                    $type = $request->file('thumb')->getMimeType();
+                    $upManager = new UploadManager();
+                    $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
+                    $token = $auth->uploadToken(env('QINIU_BUCKET'));
+                    $key = md5(time().rand(1,9999));
+                    list($ret,$error) = $upManager->putFile($token,$key,$filePath,null,$type,false);
+                    if($error){
+                        return redirect()->back()->withErrors(['error'=>'保存失败']);
+                    }else{
+                        $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
+                    }
+//	    			$imgPath = CommonController::ImgStore($request->file('thumb'),'category');
 	    		}
 	    		$cate->thumb = $imgPath;
 	    		if($cate->save())

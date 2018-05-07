@@ -8,6 +8,7 @@ use App\Models\Common\TagModel;
 use App\Models\Common\CategoryModel;
 use App\Http\Controllers\Common\CommonController;
 use Illuminate\Support\Facades\Validator;
+use Qiniu\Storage\UploadManager;
 
 class TopicController extends Controller
 {
@@ -53,15 +54,41 @@ class TopicController extends Controller
                 //图片不为空
                 if($request->file('thumb'))
                 {
-                    //存储缩略图
-                    $imgPath = CommonController::ImgStore($request->file('thumb'),'topic');
-                    TagModel::where('id','=',$request->get('id'))->update([
-                        'cate_id'=>$request->get('cateid'),
-                        'name'=>$request->get('name'),
-                        'status'=>$request->get('status'),
-                        'desc'=>$request->get('desc'),
-                        'thumb'=>$imgPath
-                    ]);
+                    //七牛存储
+                    if(env('QINIU_STORE'))
+                    {
+                        $filePath = $request->file('thumb');
+                        $type = $request->file('thumb')->getMimeType();
+                        $upManager = new UploadManager();
+                        $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
+                        $token = $auth->uploadToken(env('QINIU_BUCKET'));
+                        $key = md5(time().rand(1,9999));
+                        list($ret,$error) = $upManager->putFile($token,$key,$filePath,null,$type,false);
+                        if($error){
+                            return redirect()->back()->withErrors(['error'=>'保存失败']);
+                        }else{
+                            $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
+                            TagModel::where('id','=',$request->get('id'))->update([
+                                'cate_id'=>$request->get('cateid'),
+                                'name'=>$request->get('name'),
+                                'status'=>$request->get('status'),
+                                'desc'=>$request->get('desc'),
+                                'thumb'=>$imgPath
+                            ]);
+                        }
+
+                    }else{
+                        //存储缩略图
+                        $imgPath = CommonController::ImgStore($request->file('thumb'),'topic');
+                        TagModel::where('id','=',$request->get('id'))->update([
+                            'cate_id'=>$request->get('cateid'),
+                            'name'=>$request->get('name'),
+                            'status'=>$request->get('status'),
+                            'desc'=>$request->get('desc'),
+                            'thumb'=>$imgPath
+                        ]);
+                    }
+
                 }else{
                     //无缩略图
                     TagModel::where('id','=',$request->get('id'))->update([
@@ -83,7 +110,20 @@ class TopicController extends Controller
                 if($request->file('thumb'))
                 {
                     //存储缩略图
-                    $imgPath = CommonController::ImgStore($request->file('thumb'),'topic');
+                    $filePath = $request->file('thumb');
+                    $type = $request->file('thumb')->getMimeType();
+                    $upManager = new UploadManager();
+                    $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
+                    $token = $auth->uploadToken(env('QINIU_BUCKET'));
+                    $key = md5(time().rand(1,9999));
+                    list($ret,$error) = $upManager->putFile($token,$key,$filePath,null,$type,false);
+                    if($error){
+                        return redirect()->back()->withErrors(['error'=>'保存失败']);
+                    }else{
+                        $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
+                    }
+
+//                    $imgPath = CommonController::ImgStore($request->file('thumb'),'topic');
                 }
                 $tag->thumb = $imgPath;
                 if($tag->save())

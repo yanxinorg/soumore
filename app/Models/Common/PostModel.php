@@ -35,6 +35,7 @@ class PostModel extends Model
         ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
 		->select(
                 'users.name as author',
+                'users.avator as avator',
                 'users.id as user_id',
                 'category.id as cate_id',
                 'category.name as cate_name',
