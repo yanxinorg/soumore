@@ -74,10 +74,10 @@ use App\Models\Common\UserModel;
                                             @endif()
                                             <a class="text-color-999 dropdown-toggle" data-toggle="dropdown"><i class="icon icon-share"></i>分享 </a>
                                             <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
-                                                <ul class="aw-dropdown-list">
-                                                    <li><a onclick="""><i class="icon icon-weibo"></i> 微博</a></li>
-        											<li><a onclick=""><i class="icon icon-qzone"></i> QZONE</a></li>
-        											<li><a onclick=""><i class="icon icon-wechat"></i> 微信</a></li>
+                                                <ul class="aw-dropdown-list" >
+                                                    <li><a ><i class="icon icon-weibo"></i> 微博</a></li>
+        											<li ><a ><i class="icon icon-qzone"></i> QZONE</a></li>
+        											<li><a><i class="icon icon-wechat"></i> 微信</a></li>
                                                 </ul>
                                             </div>
                                             <em class="text-color-999">{{\Carbon\Carbon::parse($datas->created_at)->diffForHumans()}}</em>
@@ -97,10 +97,15 @@ use App\Models\Common\UserModel;
                                 <div class="aw-item" id="answer_list_1">
                                     <div class="mod-head">
                                         <a class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$comment->user_id]) }}">
-                                            <img src="{{ route('getThumbImg', $comment->user_id ) }}" alt="{{ $comment->commentator }}">
+                                            <img src="{{ route('getThumbImg', $comment->user_id ) }}">
                                         </a>
                                         <p>
-                                            <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$comment->user_id]) }}">{{ $comment->commentator }}</a>
+                                            @if($comment->user_id == $datas->user_id)
+                                                <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$comment->user_id]) }}">作者</a>
+                                            @else
+                                                <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$comment->user_id]) }}">{{ $comment->commentator }}</a>
+                                            @endif
+
                                             @if(!empty($comment->to_user_id))
                                                 <span >回复</span>
                                                 <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$comment->to_user_id]) }}">
@@ -168,7 +173,7 @@ use App\Models\Common\UserModel;
                             <div class="mod-body">
                                 <dl>
                                     <dt class="pull-left aw-border-radius-5">
-                                        <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}"><img alt="{{ $datas->author }}" src="{{ route('getThumbImg', $datas->user_id) }}"></a>
+                                        <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}"><img src="{{ route('getThumbImg', $datas->user_id) }}"></a>
                                     </dt>
                                     <dd class="pull-left">
                                         <a class="aw-user-name" href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}" data-id="1">{{ $datas->author }}</a>
@@ -217,25 +222,25 @@ use App\Models\Common\UserModel;
     // 文章收藏
     function collect(id){
         $.post("{{ url('/post/collect') }}",
+            {
+                "_token":'{{ csrf_token() }}',
+                "id": id,
+            },function(data){
+                if(data.code == 1)
                 {
-                    "_token":'{{ csrf_token() }}',
-                    "id": id,
-                },function(data){
-                    if(data.code == 1)
+                    layer.msg(data.msg);
+                    location.reload() ;
+                }else{
+                    if(data.code == 2)
                     {
                         layer.msg(data.msg);
-                        location.reload() ;
+                        location.reload();
                     }else{
-                        if(data.code == 2)
-                        {
-                            layer.msg(data.msg);
-                            location.reload();
-                        }else{
-                            layer.msg(data.msg);
-                            location.reload();
-                        }
+                        layer.msg(data.msg);
+                        location.reload();
                     }
-                });
+                }
+            });
     }
     //取消收藏
     function collectCancel(id){
@@ -263,7 +268,6 @@ use App\Models\Common\UserModel;
         tmpInput.attr("value", $userId);
         myform.append(tmpInput);
     }
-
 </script>
 @stop
 @endsection
