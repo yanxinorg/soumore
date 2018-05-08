@@ -27,7 +27,7 @@
 													<div class="aw-item article" >
 														<a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" rel="nofollow"><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
 														<div class="aw-question-content">
-															<h4><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ $data->title }}</a></h4>
+															<h4><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->id]) }}">{{ $data->title }}</a></h4>
 															<p>
 																<span class="text-color-999">{{ $data->comments }} 个评论 • {{ $data->hits }} 次浏览 • {{ $data->created_at }}</span>
 																<span class="text-color-999 related-topic collapse"> • 来自相关话题</span>
