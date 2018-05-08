@@ -89,15 +89,17 @@ use App\Models\Common\UserModel;
     
                         <!-- 文章评论 -->
                         <div class="aw-mod">
+
                             <div class="mod-head common-head">
                                 <h2>{{ $datas->comments }}个评论</h2>
                             </div>
+
                             <div class="mod-body aw-feed-list">
                                 @foreach($comments as $comment)
                                 <div class="aw-item" id="answer_list_1">
                                     <div class="mod-head">
                                         <a class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$comment->user_id]) }}">
-                                            <img src="{{ route('getThumbImg', $comment->user_id ) }}">
+                                            <img src="{{ $comment->avator }}">
                                         </a>
                                         <p>
                                             @if($comment->user_id == $datas->user_id)
@@ -120,7 +122,7 @@ use App\Models\Common\UserModel;
                                     <div class="mod-footer">
                                         <div class="meta">
                                             <span class="pull-right text-color-999">{{\Carbon\Carbon::parse($comment->created_at)->diffForHumans()}}</span>
-                                            <a class="text-color-999 " onclick="AWS.User.article_comment_vote($(this), 1, 1)"><i class="icon icon-agree"></i> 0 赞</a>
+                                            <a class="text-color-999 " onclick=""><i class="icon icon-agree"></i> 0 赞</a>
                                             @if($comment->user_id !== Auth::id() )
                                                 <a href="javascript:void(0);" class="aw-article-comment text-color-999" data-id="1" onclick="reply({{ $comment->user_id }},'{{ $comment->commentator }}')"><i class="icon icon-comment"></i> 回复</a>
                                             @endif
@@ -134,58 +136,62 @@ use App\Models\Common\UserModel;
                         <!-- end 文章评论 -->
 
                         <!-- 回复编辑器 -->
-                    <div class="panel">
-                        <div class="panel-body">
-                            <form class="form-horizontal" method="post" action="{{ url('/comment/create') }}" id="Form">
-                                {{ csrf_field() }}
-                                <div class="form-group" hidden>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" name="user_id" value="{{ Auth::id() }}" >
-                                    </div>
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <form class="form-horizontal" method="post" action="{{ url('/comment/create') }}" id="Form">
+                                        {{ csrf_field() }}
+                                        <div class="form-group" hidden>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="user_id" value="{{ Auth::id() }}" >
+                                            </div>
+                                        </div>
+                                        <div class="form-group" hidden>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="post_id" value="{{ $datas->post_id }}" >
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <textarea rows="4" class="form-control" name="comment" id="comment" placeholder="写下你的评论..."></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-offset-10 col-md-6">
+                                                <button type="submit" class="btn btn-primary">提交评论</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="form-group" hidden>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" name="post_id" value="{{ $datas->post_id }}" >
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <textarea rows="4" class="form-control" name="comment" id="comment" placeholder="写下你的评论..."></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-offset-10 col-md-6">
-                                        <button type="submit" class="btn btn-primary">提交评论</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
+                            </div>
+                    <!-- 回复编辑器 -->
                 </div>
+
+
                 <!-- 侧边栏 -->
-                <div class="col-sm-12 col-md-3 aw-side-bar hidden-sm hidden-xs">
-                    <!-- 发起人 -->
-                       <div class="aw-mod user-detail">
-                            <div class="mod-head">
-                                <h3>发起人</h3>
+                    <div class="col-sm-12 col-md-3 aw-side-bar hidden-sm hidden-xs">
+                        <!-- 发起人 -->
+                           <div class="aw-mod user-detail">
+                                <div class="mod-head">
+                                    <h3>发起人</h3>
+                                </div>
+                                <div class="mod-body">
+                                    <dl>
+                                        <dt class="pull-left aw-border-radius-5">
+                                            <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}"><img src="{{ $datas->avator }}-sm_thumb_small"></a>
+                                        </dt>
+                                        <dd class="pull-left">
+                                            <a class="aw-user-name" href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}" data-id="1">{{ $datas->author }}</a>
+                                            <p></p>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="mod-footer clearfix"></div>
                             </div>
-                            <div class="mod-body">
-                                <dl>
-                                    <dt class="pull-left aw-border-radius-5">
-                                        <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}"><img src="{{ route('getThumbImg', $datas->user_id) }}"></a>
-                                    </dt>
-                                    <dd class="pull-left">
-                                        <a class="aw-user-name" href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}" data-id="1">{{ $datas->author }}</a>
-                                        <p></p>
-                                    </dd>
-                                </dl>
-                            </div>
-                        	<div class="mod-footer clearfix"></div>
-                    	</div>
-                   <!-- end 发起人 -->
-				</div>
+                       <!-- end 发起人 -->
+                    </div>
                 <!-- end 侧边栏 -->
+
+
             </div>
         </div>
     </div>

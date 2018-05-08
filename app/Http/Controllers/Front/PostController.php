@@ -411,8 +411,9 @@ class PostController extends Controller
         ->where('posts.id','=',$request->get('id'))
         ->select('posts.id as post_id',
             'posts.title as title', 
-            'users.name as author', 
-        	'posts.user_id as user_id',
+            'users.name as author',
+            'users.avator as avator',
+            'posts.user_id as user_id',
         	'category.name as catename',
         	'posts.cate_id as cateid',
             'posts.excerpt as excerpt', 
