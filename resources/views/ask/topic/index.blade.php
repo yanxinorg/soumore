@@ -42,7 +42,7 @@
                                 <p class="clearfix">
                                     <!-- 话题内容 -->
                                     <span class="topic-tag">
-                                        <a class="text" href="{{ URL::action('Front\TopicController@detail', ['id'=>$tag->id]) }}" data-id="2">{{ $tag->name }}</a>
+                                        <a class="text" href="{{ URL::action('Front\TopicController@detail', ['id'=>$tag->id]) }}">{{ $tag->name }}</a>
                                     </span>
                                     <!-- end 话题内容 -->
                                 </p>

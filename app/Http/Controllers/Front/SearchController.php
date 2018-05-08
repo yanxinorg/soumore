@@ -56,8 +56,8 @@ class SearchController extends Controller
     	{
     		return redirect()->back();
     	}
-    	$datas = PostModel::search($request->get('wd'))->paginate(15);
-    	return view('wenda.search.post',['datas'=>$datas,'wd'=>$request->get('wd')]);
+    	$datas = PostModel::search($request->get('wd'))->paginate(10);
+    	return view('ask.search.post',['datas'=>$datas,'wd'=>$request->get('wd')]);
     	 
     }
     
@@ -71,8 +71,8 @@ class SearchController extends Controller
     	{
     		return redirect()->back();
     	}
-    	$datas = QuestionModel::search($request->get('wd'))->paginate(15);
-    	return view('wenda.search.question',['datas'=>$datas,'wd'=>$request->get('wd')]);
+    	$datas = QuestionModel::search($request->get('wd'))->paginate(10);
+    	return view('ask.search.question',['datas'=>$datas,'wd'=>$request->get('wd')]);
     	
     }
     
@@ -86,8 +86,8 @@ class SearchController extends Controller
     	{
     		return redirect()->back();
     	}
-    	$datas = TagModel::search($request->get('wd'))->paginate(15);
-    	return view('wenda.search.topic',['datas'=>$datas,'wd'=>$request->get('wd')]);
+    	$datas = TagModel::search($request->get('wd'))->paginate(10);
+    	return view('ask.search.topic',['datas'=>$datas,'wd'=>$request->get('wd')]);
     
     }
     
@@ -102,7 +102,7 @@ class SearchController extends Controller
     	{
     		return redirect()->back();
     	}
-    	$datas = UserModel::search($request->get('wd'))->paginate(15);
-    	return view('wenda.search.user',['datas'=>$datas,'wd'=>$request->get('wd')]);
+    	$datas = UserModel::search($request->get('wd'))->paginate(10);
+    	return view('ask.search.user',['datas'=>$datas,'wd'=>$request->get('wd')]);
     }
 }

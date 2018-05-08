@@ -8,9 +8,19 @@ use Laravel\Scout\Searchable;
 
 class PostModel extends Model
 {
+    use Searchable;
 	protected $table = 'posts';
 	public $timestamps = TRUE;
 	protected $fillable = ['user_id','cate_id','title','excerpt','content','thumb','thumb_small','status','mime'];
+
+    //返回特定内容
+    public function toSearchableArray()
+    {
+        #_ Read Data & Filter Field
+        $Arr_Posts = array_only($this -> toArray(), ['title']);
+        #_ Back to Scout
+        return $Arr_Posts;
+    }
 
 	// 	关联多个标签
 	public function belongsTags()

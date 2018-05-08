@@ -20,7 +20,7 @@ Route::get('/captcha/{tmp}', 'Common\CaptchaController@captcha');
 Route::post('/email/captcha', 'Common\EmailController@sendRegCaptcha');
 
 //全文搜索
-Route::post('/search','Front\SearchController@index');
+Route::match(['get', 'post'], '/search/index', 'Front\SearchController@index');
 //全文搜索
 Route::get('/search/wenda','Front\SearchController@wenda');
 //文章全文搜索

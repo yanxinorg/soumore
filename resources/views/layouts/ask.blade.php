@@ -27,7 +27,7 @@
 			<!-- end logo -->
 			<!-- 搜索框 -->
 			<div class="aw-search-box  hidden-xs hidden-sm">
-				<form class="navbar-search" action="{{ url('/search') }}" method="post">
+				<form class="navbar-search" action="{{ url('/search/index') }}" method="post">
                     {{ csrf_field() }}
                     @if(!empty($wd))
                         <input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="wd" value="{{ $wd }}">
