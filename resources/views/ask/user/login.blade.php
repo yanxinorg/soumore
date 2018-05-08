@@ -63,7 +63,19 @@
     
     
 			</div>
-			<div class="side-bar pull-left"></div>
+			<div class="side-bar pull-left">
+				<h3>第三方账号登录</h3>
+				<a href="http://wenda.wecenter.com/account/openid/weibo/bind/return_url-aHR0cDovL3dlbmRhLndlY2VudGVyLmNvbS90b3BpYy8=" class="btn btn-block btn-weibo"><i class="icon icon-weibo"></i> 微博登录</a>
+
+				<a href="http://wenda.wecenter.com/account/openid/qq/bind/return_url-aHR0cDovL3dlbmRhLndlY2VudGVyLmNvbS90b3BpYy8=" class="btn btn-block btn-qq"><i class="icon icon-qq"></i> QQ 登录</a>
+
+				<a href="http://wenda.wecenter.com/account/weixin_login/return_url-aHR0cDovL3dlbmRhLndlY2VudGVyLmNvbS90b3BpYy8=" class="btn btn-block btn-wechat">
+					<i class="icon icon-wechat"></i> 微信扫一扫登录
+					<div class="img">
+						<img src="http://wenda.wecenter.com/weixin/login_qr_code/">
+					</div>
+				</a>
+			</div>
 		</div>
 		<div class="mod-footer">
 			<span>还没有账号?</span>&nbsp;&nbsp;
