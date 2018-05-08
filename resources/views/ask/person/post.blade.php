@@ -34,7 +34,11 @@
                                 <div class="aw-mod aw-topic-category">
                                     <div class="mod-body clearfix">
                                         <ul>
-                                            <li><a class="active" href="{{ url('/person/post') }}">全部分类</a></li>
+                                            @if(empty($cid))
+                                                <li><a class="active" href="{{ url('/person/post') }}">全部分类</a></li>
+                                            @else
+                                                <li><a href="{{ url('/person/post') }}">全部分类</a></li>
+                                            @endif
                                             @foreach($cates as $cate)
                                                 @if($cate->id == $cid)
                                                     <li ><a class="active" style="text-decoration:none;" href="{{ URL::action('Front\PersonController@post', ['cid'=>$cate->id,'status'=>$status]) }}">{{ $cate->name }}</a></li>
@@ -49,7 +53,7 @@
                                 @foreach($datas as $data)
                                 <div class="aw-item" data-history-id="8">
                                     <div class="mod-head">
-                                        <a data-id="1" class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}"><img src="{{ route('getThumbImg', $data->user_id) }}" ></a>
+                                        <a data-id="1" class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}"><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
                                         <p class="text-color-999">
                                             <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name" data-id="1">{{ $data->author }}</a> 发表了文章 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}} •
                                             <a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}" class="text-color-999">{{ $data->countcomment }} 个评论</a>

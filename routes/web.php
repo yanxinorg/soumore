@@ -1,9 +1,7 @@
 <?php
 
 // 首页
-Route::get('/', function () {
-    return view('ask.index.index');
-});
+Route::get('/',  'Front\PostController@index');
 //登录
 Route::get('/login', function () {return view('ask.user.login');});
 //验证登录信息
@@ -59,8 +57,6 @@ Route::get('/home', 'Front\HomeController@index');
 Route::get('/home/post', 'Front\HomeController@post');
 //个人主页问答
 Route::get('/home/question', 'Front\HomeController@question');
-//个人主页关注
-Route::get('/home/topic', 'Front\HomeController@topic');
 //个人主页关注
 Route::get('/home/topicUser', 'Front\HomeController@topicUser');
 //个人主页粉丝

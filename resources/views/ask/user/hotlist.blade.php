@@ -17,7 +17,7 @@ use App\Models\Common\AttentionModel;
                                 <div class="aw-item">
                                     <span class="aw-user-sort-count aw-border-radius-5 active"><i class="icon icon-flag"></i> <em>1</em></span>
                                     <a class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}">
-                                        <img style="width:50px;" src="{{ route('getThumbImg', $user->id) }}">
+                                        <img style="width:50px;" src="{{ $user->avator }}-sm_thumb_middle">
                                     </a>
                                     <p class="text-color-999 title">
                                         <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}" class="aw-user-name">{{ $user->name  }}</a>

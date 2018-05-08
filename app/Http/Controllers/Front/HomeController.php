@@ -94,20 +94,7 @@ class HomeController extends Controller
         $this->questions = QuestionModel::where('user_id',$request->get('uid'))->paginate('15');
         //问答总数
         $this->countQuestion = QuestionModel::where('user_id',$request->get('uid'))->count();
-        //是否关注
-        if(empty(Auth::id()))
-        {
-            $this->islooked = false;
-        }else{
-            //查看该用户是否已经关注该主页用户
-            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('uid'),'source_type'=>'1'])->exists())
-            {
-                //关注了该用户
-                $this->islooked = true;
-            }else{
-                $this->islooked = false;
-            }
-        }
+
         //最近访客 获取最近8位访客
         $this->recents = DB::table('visitors')
             ->leftjoin('users', 'visitors.visitor_id', '=', 'users.id')
@@ -128,7 +115,8 @@ class HomeController extends Controller
             ->where('attentions.source_type','=','3')
             ->select(
                 'tags.id as tag_id',
-                'tags.name as tag_name'
+                'tags.name as tag_name',
+                'tags.thumb as tag_thumb'
             )
             ->orderBy('attentions.created_at','desc')
             ->paginate('8');
@@ -164,7 +152,22 @@ class HomeController extends Controller
     //个人主页
     public function index()
     {
-    	return view('ask.home.post',['userinfo'=>$this->userinfo,
+        //是否关注
+        if(empty(Auth::id()))
+        {
+            $this->islooked = false;
+        }else{
+            //查看该用户是否已经关注该主页用户
+            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$this->uid,'source_type'=>'1'])->exists())
+            {
+                //关注了该用户
+                $this->islooked = true;
+            }else{
+                $this->islooked = false;
+            }
+        }
+    	return view('ask.home.post',[
+    	    'userinfo'=>$this->userinfo,
             'datas'=>$this->posts,
             'province'=>$this->province,
             'city'=>$this->city,
@@ -184,7 +187,22 @@ class HomeController extends Controller
     
     public function post()
     {
-        return view('ask.home.post',['userinfo'=>$this->userinfo,
+        //是否关注
+        if(empty(Auth::id()))
+        {
+            $this->islooked = false;
+        }else{
+            //查看该用户是否已经关注该主页用户
+            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$this->uid,'source_type'=>'1'])->exists())
+            {
+                //关注了该用户
+                $this->islooked = true;
+            }else{
+                $this->islooked = false;
+            }
+        }
+        return view('ask.home.post',[
+            'userinfo'=>$this->userinfo,
             'province'=>$this->province,
             'city'=>$this->city,
             'datas'=>$this->posts,
@@ -204,6 +222,20 @@ class HomeController extends Controller
     //问答
     public function question()
     {
+        //是否关注
+        if(empty(Auth::id()))
+        {
+            $this->islooked = false;
+        }else{
+            //查看该用户是否已经关注该主页用户
+            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$this->uid,'source_type'=>'1'])->exists())
+            {
+                //关注了该用户
+                $this->islooked = true;
+            }else{
+                $this->islooked = false;
+            }
+        }
         return view('ask.home.question',['userinfo'=>$this->userinfo,
             'province'=>$this->province,
             'city'=>$this->city,
@@ -221,29 +253,23 @@ class HomeController extends Controller
             'recents'=>$this->recents]);
     }
 
-    //关注
-    public function topic()
-    {
-        return view('ask.home.topic',[
-            'userinfo'=>$this->userinfo,
-            'province'=>$this->province,
-            'city'=>$this->city,
-            'countPost'=>$this->countPost,
-            'countQuestion'=>$this->countQuestion,
-            'topicUsers'=>$this->topicUsers,
-            'countUsers'=>$this->countUsers,
-            'fans'=>$this->fans,
-            'countFans'=>$this->countFans,
-            'topics'=>$this->topics,
-            'countTopics'=>$this->countTopics,
-            'uid'=>$this->uid,
-            'islooked'=>$this->islooked,
-            'recents'=>$this->recents]);
-    }
-
     //关注的人
     public function topicUser()
     {
+        //是否关注
+        if(empty(Auth::id()))
+        {
+            $this->islooked = false;
+        }else{
+            //查看该用户是否已经关注该主页用户
+            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$this->uid,'source_type'=>'1'])->exists())
+            {
+                //关注了该用户
+                $this->islooked = true;
+            }else{
+                $this->islooked = false;
+            }
+        }
         return view('ask.home.topicUser',[
             'userinfo'=>$this->userinfo,
             'province'=>$this->province,
@@ -263,6 +289,20 @@ class HomeController extends Controller
     //他的粉丝
     public function topicedUser()
     {
+        //是否关注
+        if(empty(Auth::id()))
+        {
+            $this->islooked = false;
+        }else{
+            //查看该用户是否已经关注该主页用户
+            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$this->uid,'source_type'=>'1'])->exists())
+            {
+                //关注了该用户
+                $this->islooked = true;
+            }else{
+                $this->islooked = false;
+            }
+        }
         return view('ask.home.topicedUser',[
             'userinfo'=>$this->userinfo,
             'province'=>$this->province,
@@ -284,6 +324,20 @@ class HomeController extends Controller
     //关注的话题
     public function topics()
     {
+        //是否关注
+        if(empty(Auth::id()))
+        {
+            $this->islooked = false;
+        }else{
+            //查看该用户是否已经关注该主页用户
+            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$this->uid,'source_type'=>'1'])->exists())
+            {
+                //关注了该用户
+                $this->islooked = true;
+            }else{
+                $this->islooked = false;
+            }
+        }
         return view('ask.home.topics',[
             'userinfo'=>$this->userinfo,
             'province'=>$this->province,
@@ -305,6 +359,20 @@ class HomeController extends Controller
     //他的回答
     public function answer(Request $request)
     {
+        //是否关注
+        if(empty(Auth::id()))
+        {
+            $this->islooked = false;
+        }else{
+            //查看该用户是否已经关注该主页用户
+            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$this->uid,'source_type'=>'1'])->exists())
+            {
+                //关注了该用户
+                $this->islooked = true;
+            }else{
+                $this->islooked = false;
+            }
+        }
         return view('wenda.home.answer',[
             'userinfo'=>$this->userinfo,
             'questions'=>$this->questions,

@@ -190,6 +190,7 @@ class PersonController extends Controller
 						'posts.title as title',
 						'users.name as author',
 						'users.id as user_id',
+                        'users.avator as avator',
 						'posts.excerpt as excerpt',
 						'posts.content as content',
 						'posts.thumb as thumb',
@@ -222,14 +223,14 @@ class PersonController extends Controller
     		->leftjoin('users', 'users.id', '=', 'questions.user_id')
     		->where('questions.user_id','=',Auth::id())
     		->where('questions.cate_id','=',$request->get('cid'))
-    		->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.comments as countcomment','questions.created_at as created_at')
+    		->select('users.id as user_id','users.name as user_name','users.avator as avator', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.comments as countcomment','questions.created_at as created_at')
     		->orderBy('questions.created_at','desc')
     		->paginate('15');
     	}else{
     		$questions = DB::table('questions')
     		->leftjoin('users', 'users.id', '=', 'questions.user_id')
     		->where('questions.user_id','=',Auth::id())
-    		->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.comments as countcomment','questions.created_at as created_at')
+    		->select('users.id as user_id','users.name as user_name','users.avator as avator', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.comments as countcomment','questions.created_at as created_at')
     		->orderBy('questions.created_at','desc')
     		->paginate('15');
     	}
@@ -250,6 +251,7 @@ class PersonController extends Controller
     	->select('posts.id as post_id',
     			'posts.title as title',
     			'users.name as author',
+                'users.avator as avator',
     			'posts.user_id as user_id',
     			'posts.cate_id as cateid',
     			'posts.excerpt as excerpt',
@@ -272,6 +274,7 @@ class PersonController extends Controller
     	->select(
     			'users.id as user_id',
     			'users.name as user_name',
+                'users.avator as avator',
     			'questions.title as title',
     			'questions.id as question_id',
     			'questions.content as content',
@@ -414,6 +417,7 @@ class PersonController extends Controller
     	->select(
     			'users.id as id',
     			'users.name as username',
+                'users.avator as avator',
     			'messages.content as content',
     			'messages.to_user_id as to_user_id',
     			'messages.from_user_id as from_user_id',

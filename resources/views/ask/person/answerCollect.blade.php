@@ -39,7 +39,7 @@
                                 @foreach($questions as $data)
                                 <div class="aw-item" data-history-id="8">
                                     <div class="mod-head">
-                                        <a data-id="1" class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}"><img src="{{ route('getThumbImg', $data->user_id) }}" ></a>
+                                        <a data-id="1" class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}"><img src="{{ $data->avator }}" ></a>
                                         <p class="text-color-999">
                                             <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name" data-id="1">{{ $data->user_name }}</a> 发表了文章 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}} •
                                             <a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$data->question_id]) }}" class="text-color-999">{{ $data->comments }} 个评论</a>
@@ -95,17 +95,7 @@
                                         <p></p>
                                     </dd>
                                 </dl>
-                                <dl>
-                                    <dt class="pull-left aw-border-radius-5">
-                                        <a href="http://ask.com/?/people/admin" data-id="2" class="aw-user-name"><img alt="admin" src="./动态 - WeCenter_files/avatar-min-img.png"></a>
-                                    </dt>
-                                    <dd class="pull-left">
-                                        <a href="" data-id="2" class="aw-user-name"><span>admin</span></a>
-                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), &#39;user&#39;, 2);AWS.ajax_request(G_BASE_URL + &#39;/account/ajax/clean_user_recommend_cache/&#39;);"></a>
-                                        <p class="signature"></p>
-                                        <p></p>
-                                    </dd>
-                                </dl>
+
                                 <dl>
                                     <dt class="pull-left aw-border-radius-5">
                                         <a href="" data-id="3" class="aw-user-name"><img alt="admin" src="./动态 - WeCenter_files/avatar-min-img.png"></a>
@@ -117,18 +107,7 @@
                                         <p></p>
                                     </dd>
                                 </dl>
-                                <dl>
-                                    <dt class="pull-left aw-border-radius-5">
-                                        <a href=""><img alt="默认话题" src="./动态 - WeCenter_files/topic-mid-img.png"></a>
-                                    </dt>
-                                    <dd class="pull-left">
-                                        <span class="topic-tag">
-                                            <a href="" class="text">默认话题</a>
-                                        </span>&nbsp;
-                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), &#39;topic&#39;, 1);AWS.ajax_request(G_BASE_URL + &#39;/account/ajax/clean_user_recommend_cache/&#39;);"></a>
-                                        <p></p>
-                                    </dd>
-                                </dl>
+
                             </div>
                         </div>
                     </div>

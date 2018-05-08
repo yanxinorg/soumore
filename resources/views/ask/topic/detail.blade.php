@@ -217,7 +217,7 @@ use App\Models\Common\AttentionModel;
 						<div class="mod-body">
 							<div id="focus_users" class="aw-border-radius-5">
 								@foreach($attenUsers as $user)
-								<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->user_id]) }}"><img src="{{ route('getThumbImg', $user->user_id) }}" alt="admin"></a> 
+								<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->user_id]) }}"><img src="{{ $user->avator }}" alt="{{ $user->name }}"></a>
 								@endforeach()
 							</div>
 						</div>
@@ -231,11 +231,11 @@ use App\Models\Common\AttentionModel;
 						</div>
 						<div class="mod-body collapse">
 							<ul>
-								<li onclick="AWS.dialog(&#39;topicEditHistory&#39;, decodeURIComponent(&#39;2018-04-05%3A%20%3Ca%20href%3D%22people%2Fadmin%22%3Eadmin%3C%2Fa%3E%20%E4%BF%AE%E6%94%B9%E4%BA%86%E8%AF%9D%E9%A2%98%E5%9B%BE%E7%89%87&#39;));">
+								<li onclick="">
 									<span class="pull-right text-color-999">2018-04-05</span>
 									<a href="javascript:;" data-id="" class="aw-user-name">admin</a>
 								</li>
-								<li onclick="AWS.dialog(&#39;topicEditHistory&#39;, decodeURIComponent(&#39;2018-04-05%3A%20%3Ca%20href%3D%22people%2Fadmin%22%3Eadmin%3C%2Fa%3E%20%E5%88%9B%E5%BB%BA%E4%BA%86%E8%AF%A5%E8%AF%9D%E9%A2%98%3C%2Fp%3E&#39;));">
+								<li onclick="">
 									<span class="pull-right text-color-999">2018-04-05</span>
 									<a href="javascript:;" data-id="" class="aw-user-name">admin</a>
 								</li>

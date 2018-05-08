@@ -9,7 +9,7 @@
                         <!-- 用户数据内容 -->
                         <div class="aw-mod aw-user-detail-box">
                             <div class="mod-head">
-                                <img style="width:100px;" src="{{ route('getThumbImg', $userinfo['id'] ) }}" alt="{{ $userinfo['name'] }}">
+                                <img style="width:100px;" src="{{ $userinfo['avator'] }}" alt="{{ $userinfo['name'] }}">
                                 @if(Auth::id() == $uid)
                                 <span class="pull-right operate">
                                     <a href="{{ url('/person/info') }}" class="btn btn-mini btn-success">编辑</a>
@@ -43,7 +43,7 @@
                                     <li><a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}">问答<span class="badge">{{ $countQuestion }}</span></a></li>
                                     <li><a href="" id="page_answers" data-toggle="tab">回复<span class="badge">0</span></a></li>
                                     <li><a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}">文章<span class="badge">{{ $countPost }}</span></a></li>
-                                    <li class="active"><a href="{{ URL::action('Front\HomeController@topic', ['uid'=>$uid]) }}">关注</a></li>
+                                    <li class="active"><a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}">关注</a></li>
                                     <li><a href="" id="page_actions" data-toggle="tab">动态</a></li>
                                     <li><a href="" id="page_detail" data-toggle="tab">详细资料</a></li>
                                 </ul>
@@ -187,22 +187,22 @@
                     <div class="col-sm-12 col-md-3 aw-side-bar">
                         <div class="aw-mod people-following">
                             <div class="mod-body">
-                                <a onclick="" class="pull-right font-size-12">更多 »</a>
+                                <a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}" class="pull-right font-size-12">更多 »</a>
                                 <span>关注 <em class="aw-text-color-blue">{{  $countUsers }}</em>人</span>
                                 <p>
                                 @foreach($topicUsers as $topicUser)
-                                    <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$topicUser->user_id]) }}"><img src="{{ route('getThumbImg', $topicUser->user_id) }}" alt="{{ $topicUser->name }}"></a>
+                                    <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$topicUser->user_id]) }}"><img src="{{ $topicUser->avator }}-sm_thumb_middle" alt="{{ $topicUser->name }}"></a>
                                 @endforeach()
                                 </p>
                             </div>
                         </div>
                         <div class="aw-mod people-following">
                             <div class="mod-body">
-                                <a onclick="" class="pull-right font-size-12">更多 »</a>
+                                <a href="{{ URL::action('Front\HomeController@topicedUser', ['uid'=>$uid]) }}" class="pull-right font-size-12">更多 »</a>
                                 <span> 被 <em class="aw-text-color-blue">{{ $countFans  }}</em> 人关注</span>
                                 <p>
                                 	@foreach($fans as $fan)
-                                    <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$fan->user_id]) }}"><img src="{{ route('getThumbImg', $fan->user_id) }}" alt="{{ $fan->name }}"></a>
+                                    <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$fan->user_id]) }}"><img src="{{ $fan->avator }}-sm_thumb_middle" alt="{{ $fan->name }}"></a>
                                 	@endforeach()
                                 </p>
                             </div>
@@ -222,7 +222,7 @@
                             <span class="aw-text-color-666">最近访客</span>
                             	<p>
                             	@foreach($recents as $recent)
-                                    <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$recent->user_id]) }}"><img src="{{ route('getThumbImg', $recent->user_id) }}" alt="{{ $recent->user_name }}"></a>
+                                    <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$recent->user_id]) }}"><img src="{{ $recent->avator }}-sm_thumb_middle" alt="{{ $recent->user_name }}"></a>
                                 @endforeach()
                                 </p>
                             </div>

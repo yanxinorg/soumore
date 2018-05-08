@@ -43,7 +43,7 @@
                                     <li><a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}">问答<span class="badge">{{ $countQuestion }}</span></a></li>
                                     <li><a href="" id="page_answers" data-toggle="tab">回复<span class="badge">0</span></a></li>
                                     <li class="active"><a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}">文章<span class="badge">{{ $countPost }}</span></a></li>
-                                    <li><a href="{{ URL::action('Front\HomeController@topic', ['uid'=>$uid]) }}">关注</a></li>
+                                    <li><a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}">关注</a></li>
                                     <li><a href="" id="page_actions" data-toggle="tab">动态</a></li>
                                     <li><a href="" id="page_detail" data-toggle="tab">详细资料</a></li>
                                 </ul>
@@ -170,7 +170,7 @@
                     <div class="col-sm-12 col-md-3 aw-side-bar">
                         <div class="aw-mod people-following">
                             <div class="mod-body">
-                                <a onclick="" class="pull-right font-size-12">更多 »</a>
+                                <a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}" class="pull-right font-size-12">更多 »</a>
                                 <span>关注 <em class="aw-text-color-blue">{{  $countUsers }}</em>人</span>
                                 <p>
                                 @foreach($topicUsers as $topicUser)
@@ -181,7 +181,7 @@
                         </div>
                         <div class="aw-mod people-following">
                             <div class="mod-body">
-                                <a onclick="" class="pull-right font-size-12">更多 »</a>
+                                <a href="{{ URL::action('Front\HomeController@topicedUser', ['uid'=>$uid]) }}" class="pull-right font-size-12">更多 »</a>
                                 <span> 被 <em class="aw-text-color-blue">{{ $countFans  }}</em> 人关注</span>
                                 <p>
                                 	@foreach($fans as $fan)

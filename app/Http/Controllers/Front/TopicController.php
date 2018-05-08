@@ -60,7 +60,7 @@ class TopicController extends Controller
     		->where('attentions.source_type','=','3')
     		->select('users.id as user_id',
     				'users.name as name',
-    		        'users.avator as thumb'
+    		        'users.avator as avator'
     		    )
     		->orderBy('users.created_at','asc')
     		->limit('15')->get()->toArray();
