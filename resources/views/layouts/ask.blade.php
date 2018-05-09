@@ -19,23 +19,24 @@
 @show
 <style>
     .container1{
-        width: 80%;
+        width: 82%;
         margin: 0 auto;
     }
     .container{
         margin: 0 auto;
-        width: 80%;
+        width: 82%;
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+    .navbar-collapse
+    {
+        padding-left: 0px;
+        padding-right: 15px;
     }
 </style>
 <body screen_capture_injected="true">
 	<div class="aw-top-menu-wrap">
 		<div class="container" >
-			<!-- logo -->
-			<div class="aw-logo hidden-xs">
-				<a href="{{ url('/') }}"></a>
-			</div>
-			<!-- end logo -->
-
 			@auth
 				<!-- 导航 -->
 					<div class="aw-top-nav navbar">
@@ -51,28 +52,12 @@
 								<li><a href=""><i class="icon icon-list"></i>关于</a></li>
 								<li><a href="" ><i class="icon icon-list"></i>下载</a></li>
                                 <li><a href="" ><i class="icon icon-list"></i>文档</a></li>
-								<li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" class="{{ (Request::getPathinfo() == '/person/post')  ? 'active':'' }}"><i class="icon icon-home"></i> 动态</a></li>
 								<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-list"></i>文章</a></li>
 								<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-list"></i>问答</a></li>
 								<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i>话题</a></li>
-								<li>
-									<a href="" class=""><i class="icon icon-bell"></i> 通知</a>
-									<span class="badge badge-important" style="display:none" id="notifications_unread">0</span>
-									<div class="aw-dropdown pull-right hidden-xs">
-										<div class="mod-body">
-											<ul id="header_notification_list"><p class="aw-padding10" align="center">没有未读通知</p></ul>
-										</div>
-										<div class="mod-footer">
-											<a href="">查看全部</a>
-										</div>
-									</div>
-								</li>
-								<li>
-									<a style="font-weight:bold;">· · ·</a>
-									<div class="dropdown-list pull-right">
-										<ul id="extensions-nav-list">
-									</div>
-								</li>
+                                <li><a href=""><i class="icon icon-topic"></i>视频</a></li>
+                                <li><a href=""><i class="icon icon-topic"></i>作品集</a></li>
+                                <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" class="{{ (Request::getPathinfo() == '/person/post')  ? 'active':'' }}"><i class="icon icon-home"></i> 动态</a></li>
 							</ul>
 						</nav>
 					</div>
@@ -140,13 +125,8 @@
 							<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-list"></i> 文章</a></li>
 							<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-list"></i>问答</a></li>
 							<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i> 话题</a></li>
-							<li>
-								<a style="font-weight:bold;">· · ·</a>
-								<div class="dropdown-list pull-right">
-									<ul id="extensions-nav-list">
-									</ul>
-								</div>
-							</li>
+                            <li><a href=""><i class="icon icon-topic"></i>视频</a></li>
+                            <li><a href=""><i class="icon icon-topic"></i>作品集</a></li>
 						</ul>
 					</nav>
 				</div>

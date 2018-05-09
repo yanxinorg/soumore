@@ -203,7 +203,9 @@ a.aw-load-more-content{display: block;}
 .aw-publish-btn .dropdown-list ul li:last-child a{border-radius: 0 0 4px 4px;}
 .aw-top-nav{margin:0;border: none;}
 .aw-top-nav .icon-bar{background-color: #fff;font-size: 0;}
-.aw-top-nav > nav > ul > li > a{padding:16px;color: #fff;}
+.aw-top-nav > nav > ul > li > a{
+    /*padding:16px;*/
+    color: #fff;}
 .aw-top-nav > nav > ul > li > a.active{background: #4dabff;font-weight: bold;}
 .aw-top-nav > nav > ul > li > a:hover, .aw-top-nav > nav > ul > li > a:focus{background: #4dabff;}
 .aw-top-nav > nav > ul > li > a i{position:relative;top:2px;font-size: 16px;}
