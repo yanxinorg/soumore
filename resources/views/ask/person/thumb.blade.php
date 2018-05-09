@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('ask/avator/css/jquery.filer-dragdropbox-theme.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('ask/avator/css/custom.css') }}">
     <div class="aw-container-wrap">
-        <div class="container">
+        <div class="container1">
             <div class="row">
                 <div class="aw-content-wrap clearfix">
                     <div class="aw-user-setting">

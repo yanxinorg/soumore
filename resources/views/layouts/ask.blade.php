@@ -17,26 +17,25 @@
 <script src="{{ asset('ask/index_files/plug-in_module.js') }}" type="text/javascript"></script>
 <script type="text/javascript" src="{{ asset('ask/index_files/compatibility.js') }}"></script>
 @show
+<style>
+    .container1{
+        width: 80%;
+        margin: 0 auto;
+    }
+    .container{
+        margin: 0 auto;
+        width: 80%;
+    }
+</style>
 <body screen_capture_injected="true">
 	<div class="aw-top-menu-wrap">
-		<div class="container">
+		<div class="container" >
 			<!-- logo -->
 			<div class="aw-logo hidden-xs">
 				<a href="{{ url('/') }}"></a>
 			</div>
 			<!-- end logo -->
-			<!-- 搜索框 -->
-			<div class="aw-search-box  hidden-xs hidden-sm">
-				<form class="navbar-search" action="{{ url('/search/index') }}" method="post">
-                    {{ csrf_field() }}
-                    @if(!empty($wd))
-                        <input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="wd" value="{{ $wd }}">
-                    @else
-                        <input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="wd" >
-                    @endif
-				</form>
-			</div>
-			<!-- end 搜索框 -->
+
 			@auth
 				<!-- 导航 -->
 					<div class="aw-top-nav navbar">
@@ -49,6 +48,9 @@
 						</div>
 						<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
 							<ul class="nav navbar-nav">
+								<li><a href=""><i class="icon icon-list"></i>关于</a></li>
+								<li><a href="" ><i class="icon icon-list"></i>下载</a></li>
+                                <li><a href="" ><i class="icon icon-list"></i>文档</a></li>
 								<li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" class="{{ (Request::getPathinfo() == '/person/post')  ? 'active':'' }}"><i class="icon icon-home"></i> 动态</a></li>
 								<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-list"></i>文章</a></li>
 								<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-list"></i>问答</a></li>
@@ -75,6 +77,20 @@
 						</nav>
 					</div>
 					<!-- end 导航 -->
+
+                    <!-- 搜索框 -->
+                    <div class="aw-search-box  hidden-xs hidden-sm">
+                        <form class="navbar-search" action="{{ url('/search/index') }}" method="post">
+                            {{ csrf_field() }}
+                            @if(!empty($wd))
+                                <input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="wd" value="{{ $wd }}">
+                            @else
+                                <input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="wd" >
+                            @endif
+                        </form>
+                    </div>
+                    <!-- end 搜索框 -->
+
 					<!-- 用户栏 -->
 					<div class="aw-user-nav">
 						<!-- 登陆&注册栏 -->
@@ -118,6 +134,9 @@
 					</div>
 					<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
 						<ul class="nav navbar-nav">
+                            <li><a href=""><i class="icon icon-list"></i>关于</a></li>
+                            <li><a href="" ><i class="icon icon-list"></i>下载</a></li>
+                            <li><a href="" ><i class="icon icon-list"></i>文档</a></li>
 							<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-list"></i> 文章</a></li>
 							<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-list"></i>问答</a></li>
 							<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i> 话题</a></li>
@@ -132,6 +151,19 @@
 					</nav>
 				</div>
 				<!-- end 导航 -->
+
+                <!-- 搜索框 -->
+                <div class="aw-search-box  hidden-xs hidden-sm">
+                    <form class="navbar-search" action="{{ url('/search/index') }}" method="post">
+                        {{ csrf_field() }}
+                        @if(!empty($wd))
+                            <input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="wd" value="{{ $wd }}">
+                        @else
+                            <input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="wd" >
+                        @endif
+                    </form>
+                </div>
+                <!-- end 搜索框 -->
 				<!-- 用户栏 -->
 				<div class="aw-user-nav">
 					<!-- 登陆&注册栏 -->
@@ -139,12 +171,9 @@
 					<a class="register btn btn-normal btn-success" href="{{ url('/register') }}">注册</a>								<!-- end 登陆&注册栏 -->
 				</div>
 			@endauth
-
-
-
 		</div>
 	</div>
-	
+
 	@yield('content')
 	
     <div class="aw-footer-wrap">

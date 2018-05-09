@@ -8,7 +8,7 @@
 use App\Models\Common\UserModel;
 ?>
 <div class="aw-container-wrap">
-    <div class="container">
+    <div class="container1">
         <div class="row">
             <div class="aw-content-wrap clearfix">
                 <div class="col-sm-12 col-md-9 aw-main-content aw-article-content">

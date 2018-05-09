@@ -27,7 +27,7 @@
 </style>
 @include('UEditor::head')
 	<div class="aw-container-wrap">
-		<div class="container aw-publish aw-publish-article">
+		<div class="container1 aw-publish aw-publish-article">
 			<div class="row">
 				<div class="aw-content-wrap clearfix">
 					<div class="col-sm-12 col-md-9 aw-main-content">
