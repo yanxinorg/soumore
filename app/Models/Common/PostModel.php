@@ -63,7 +63,7 @@ class PostModel extends Model
 				
 	}
 	//文章列表
-	public static function lists($user_id = "",$status = "-1",$cateid = "")
+	public static function lists($user_id = "",$status = "-1",$cateid = "",$condition="created_at")
 	{
 		if(!empty($user_id))
 		{
@@ -74,7 +74,7 @@ class PostModel extends Model
 						'posts.user_id'=>$user_id,
 						'posts.status'=>$status,
 						'posts.cate_id'=>$cateid
-				])->orderBy('posts.created_at','desc')->paginate('15');
+				])->orderBy("posts.$condition",'desc')->paginate('15');
 			}
 			if($status >= 0 )
 			{
@@ -82,13 +82,13 @@ class PostModel extends Model
 				return $datas->where([
 					'posts.user_id'=>$user_id,
 					'posts.status'=>$status
-				])->orderBy('posts.created_at','desc')->paginate('15');
+				])->orderBy("posts.$condition",'desc')->paginate('15');
 			}
 			$datas = self::select();
-			return $datas->where('posts.user_id','=',$user_id)->orderBy('posts.created_at','desc')->paginate('15');
+			return $datas->where('posts.user_id','=',$user_id)->orderBy("posts.$condition",'desc')->paginate('15');
 		}else{
 			$datas = self::select();
-			return $datas->where('posts.status','=','1')->orderBy('posts.created_at','desc')->paginate('15');
+			return $datas->where('posts.status','=','1')->orderBy("posts.$condition",'desc')->paginate('15');
 		}
 		
 	}

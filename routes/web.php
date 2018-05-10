@@ -37,6 +37,26 @@ Route::get('cate/thumb/{id}', ['as' => 'getCateImg', 'uses' => 'Common\FileContr
 
 //文章列表
 Route::get('/post', 'Front\PostController@index');
+//推荐文章
+Route::get('/post/recom', 'Front\PostController@recom');
+//热门文章
+Route::get('/post/hot', 'Front\PostController@hot');
+//获取文章图片
+Route::get('/post/images/{img}', ['as' => 'getPostImgs', 'uses' => 'Common\FileController@getPostImgs']);
+//获取文章缩略图
+Route::get('/post/thumb/{id}', ['as' => 'getPostImg', 'uses' => 'Common\FileController@getPostImg']);
+//文章详情
+Route::get('/post/detail', 'Front\PostController@detail');
+//文章分类筛选
+Route::get('/post/cate', 'Front\PostController@cate');
+//文章分类筛选
+Route::get('/post/hotCate', 'Front\PostController@hotCate');
+//文章分类筛选
+Route::get('/post/recomCate', 'Front\PostController@recomCate');
+//文章标签筛选
+Route::get('/post/tag', 'Front\PostController@tag');
+
+
 //问答列表
 Route::get('/question', 'Front\QuestionController@index');
 //问答详情页
@@ -73,16 +93,7 @@ Route::get('/person/thumb/{img}', ['as' => 'getThumbImg', 'uses' => 'Common\File
 Route::get('/person/post', 'Front\PersonController@post');
 //个人发布的问答
 Route::get('/person/answer', 'Front\PersonController@answer');
-//获取文章图片
-Route::get('/post/images/{img}', ['as' => 'getPostImgs', 'uses' => 'Common\FileController@getPostImgs']);
-//获取文章缩略图
-Route::get('/post/thumb/{id}', ['as' => 'getPostImg', 'uses' => 'Common\FileController@getPostImg']);
-//文章详情
-Route::get('/post/detail', 'Front\PostController@detail');
-//文章分类筛选
-Route::get('/post/cate', 'Front\PostController@cate');
-//文章标签筛选
-Route::get('/post/tag', 'Front\PostController@tag');
+
 //分类筛选
 Route::get('/cate', 'Front\CategoryController@index');
 //文章分类筛选
@@ -99,7 +110,12 @@ Route::get('/user/hot', 'UserController@index');
 Route::get('/topic/hot', 'Front\TopicController@hot');
 //关注分类
 Route::get('/topic/cate', 'Front\TopicController@cate');
-
+//该话题文章
+Route::get('/topic/post', 'Front\TopicController@post');
+//该话题问答
+Route::get('/topic/question', 'Front\TopicController@question');
+//该话题视频
+Route::get('/topic/video', 'Front\TopicController@video');
 
 //前端授权后页面
 Route::group(['middleware' => 'authed'], function () {

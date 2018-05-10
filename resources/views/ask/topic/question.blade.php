@@ -19,15 +19,7 @@ use App\Models\Common\AttentionModel;
 					<div class="aw-mod aw-topic-detail-title">
 						<div class="mod-body">
 							<img style="width:50px;" src="{{ $datas->thumb }}" alt="地方">
-							<h2 class="pull-left">
-                                <span>{{ $datas->name }}</span>
-                                <p class="text-color-999">
-                                    <span>{{ $datas->watchs }} 个关注</span>
-                                    <span>{{ $datas->posts }} 个文章</span>
-                                    <span>{{ $datas->questions }} 个问答</span>
-                                </p>
-                            </h2>
-
+							<h2 class="pull-left">{{ $datas->name }} </h2>
 							<div class="aw-topic-operate text-color-999">
 								@if( AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$datas->id,'source_type'=>'3'])->exists())
 									<a href="{{ URL::action('Front\PersonController@topicCancel', ['tid'=>$datas->id]) }}" class="follow btn btn-normal btn-success active" ><span>取消关注</span></a>
@@ -43,9 +35,9 @@ use App\Models\Common\AttentionModel;
 							<div class="tabbable">
 								<!-- tab 切换 -->
 								<ul class="nav nav-tabs aw-nav-tabs hidden-xs">
-									<li class="active"><a href="{{ URL::action('Front\TopicController@detail', ['id'=>$tid]) }}" >关于话题</a></li>
-									<li><a href="{{ URL::action('Front\TopicController@post', ['id'=>$tid]) }}" >文章</a></li>
-									<li><a href="{{ URL::action('Front\TopicController@question', ['id'=>$tid]) }}" >问答</a></li>
+									<li ><a href="{{ URL::action('Front\TopicController@detail', ['id'=>$tid]) }}" >关于话题</a></li>
+									<li ><a href="{{ URL::action('Front\TopicController@post', ['id'=>$tid]) }}" >文章</a></li>
+									<li class="active"><a href="{{ URL::action('Front\TopicController@question', ['id'=>$tid]) }}" >问答</a></li>
     								<li><a href="{{ URL::action('Front\TopicController@video', ['id'=>$tid]) }}" >视频</a></li>
 									<div class="aw-search-bar pull-right hidden-xs">
 										<i class="icon icon-search"></i>
@@ -65,7 +57,22 @@ use App\Models\Common\AttentionModel;
 							<div class="tab-content">
 								<div class="tab-pane active" id="about">
 									<div class="aw-topic-detail-about text-color-666 markitup-box">
-										{{ $datas->desc }}
+										<div class="aw-common-list">
+											@foreach($questions as $question)
+												<div class="aw-item article" data-topic-id="3,">
+													<a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$question->user_id]) }}" rel="nofollow"><img src="{{ $question->avator }}" alt="{{ $question->author }}"></a>
+													<div class="aw-question-content">
+														<h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$question->question_id]) }}">{{ $question->title }}</a></h4>
+														<p>
+															<a class="aw-question-tags" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$question->cate_id]) }}">{{ $question->cate_name  }}</a>
+															<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$question->user_id]) }}" class="aw-user-name">{{ $question->author }}</a> <span class="text-color-999">发表了文章 • {{ $question->comments }}个评论 • {{ $question->views }} 次浏览 • {{\Carbon\Carbon::parse($question->created_at)->diffForHumans()}}</span>
+															<span class="text-color-999 related-topic collapse"> • 来自相关话题</span>
+														</p>
+													</div>
+												</div>
+											@endforeach()
+											<div class="paginate" style="text-align:center;">{!! $questions->appends(array('id'=>$tid))->render() !!}</div>
+										</div>
 									</div>
 								</div>
 							</div>
