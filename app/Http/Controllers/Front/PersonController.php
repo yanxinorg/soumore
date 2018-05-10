@@ -244,8 +244,8 @@ class PersonController extends Controller
     public function postCollect(Request $request)
     {
     	$datas = DB::table('collections')
-    	->leftjoin('users', 'collections.user_id', '=', 'users.id')
-    	->leftjoin('posts', 'collections.source_id', '=', 'posts.id')
+    	->join('users', 'collections.user_id', '=', 'users.id')
+    	->join('posts', 'collections.source_id', '=', 'posts.id')
     	->where('collections.user_id','=',Auth::id())
     	->where('collections.source_type','=','1')
     	->select('posts.id as post_id',
@@ -267,8 +267,8 @@ class PersonController extends Controller
     public function answerCollect(Request $request)
     {
     	$datas = DB::table('collections')
-    	->leftjoin('users', 'collections.user_id', '=', 'users.id')
-    	->leftjoin('questions', 'collections.source_id', '=', 'questions.id')
+    	->join('users', 'collections.user_id', '=', 'users.id')
+    	->join('questions', 'collections.source_id', '=', 'questions.id')
     	->where('collections.user_id','=',Auth::id())
     	->where('collections.source_type','=','2')
     	->select(

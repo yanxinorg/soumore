@@ -576,7 +576,7 @@ class PostController extends Controller
     	])->delete();
         // 标签文章删除
         DB::table('tags')->leftjoin('post_tag', 'post_tag.tags_id', '=', 'tags.id')->where('post_tag.posts_id','=',$request->get('id'))->where('tags.posts', '>', 0)->decrement('posts');
-    	if($result)
+        if($result)
     	{
     		$data = [
     				'code'=>'1',

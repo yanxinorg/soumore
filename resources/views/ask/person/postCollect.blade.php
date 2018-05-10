@@ -26,7 +26,6 @@
                         <a name="c_contents"></a>
                         <div class="aw-mod clearfix">
                             <div class="mod-body aw-feed-list clearfix" id="main_contents">
-
                                 <div class="aw-mod aw-topic-category">
                                     <div class="mod-body clearfix">
                                         <ul>
@@ -35,7 +34,6 @@
                                         </ul>
                                     </div>
                                 </div>
-
                                 @foreach($datas as $data)
                                 <div class="aw-item" data-history-id="8">
                                     <div class="mod-head">
@@ -49,7 +47,6 @@
                                 </div>
                                 @endforeach
                             </div>
-
                             <div class="mod-footer">
                                 <div class="paginate" style="text-align:center;">{{ $datas->links() }}</div>
                             </div>

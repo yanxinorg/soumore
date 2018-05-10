@@ -537,7 +537,7 @@ class QuestionController extends Controller
 				    ->leftjoin('users', 'users.id', '=', 'questions.user_id')
                     ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
 				    ->where('questions.cate_id','=',$request->get('cid'))
-				    ->select('users.id as user_id','users.avator as avator','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
+				    ->select('users.id as user_id','users.avator as avator','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id','questions.comments as comments','questions.views as views','questions.content as content','questions.created_at as created_at')
 				    ->orderBy('questions.created_at','desc')
     				->paginate('15');
     	//查询分类
