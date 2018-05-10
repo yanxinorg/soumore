@@ -252,8 +252,8 @@ use App\Models\Common\AttentionModel;
 							<ul>
 								<li><a href="http://ask.com/?/topic/edit/2">编辑话题</a></li>
 								<li><a href="http://ask.com/?/topic/manage/2">管理话题</a></li>
-								<li><a href="javascript:;" onclick="AWS.ajax_request(G_BASE_URL + &#39;/topic/ajax/lock/&#39;, &#39;topic_id=2&#39;);">锁定话题</a></li>
-								<li><a href="javascript:;" onclick="AWS.dialog(&#39;confirm&#39;, {&#39;message&#39; : &#39;确认删除?&#39;}, function(){AWS.ajax_request(G_BASE_URL + &#39;/topic/ajax/remove/&#39;, &#39;topic_id=2&#39;);});">删除话题</a></li>
+								<li><a href="javascript:;" onclick="">锁定话题</a></li>
+								<li><a href="javascript:;" onclick="">删除话题</a></li>
 							</ul>
 						</div>
 					</div>

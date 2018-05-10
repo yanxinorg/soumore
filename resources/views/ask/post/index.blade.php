@@ -27,7 +27,7 @@
 						<li><a href="{{ url('/post') }}">热门</a></li>
 						<li><a href="{{ url('/post') }}">推荐</a></li>
 						<li class="active"><a href="{{ url('/post') }}">最新</a></li>
-						<h2 class="hidden-xs"><i class="icon icon-list"></i>发现</h2>
+						<h2 class="hidden-xs"><i class="icon icon-file"></i>文章</h2>
 					</ul>
 					<!-- end tab切换 -->
 					<div class="aw-mod aw-explore-list">

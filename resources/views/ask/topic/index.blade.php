@@ -7,9 +7,6 @@
                 <div class="col-sm-12 col-md-9 aw-main-content">
                     <!-- tab切换 -->
                     <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
-                        <li><a href="">30 天</a></li>
-                        <li><a href="">7 天</a></li>
-                        <li class="active"><a href="">全部</a></li>
                         <h2 class="hidden-xs"><i class="icon icon-topic"></i>热门话题</h2>
                     </ul>
                     <!-- end tab切换 -->
@@ -19,7 +16,11 @@
         				<div class="aw-mod aw-topic-category">
                             <div class="mod-body clearfix">
                             <ul>
-                                <li><a class="active" href="">话题分类</a></li>
+                                @if(empty($cid))
+                                    <li><a class="active" href="{{ URL::action('Front\TopicController@index') }}">话题分类</a></li>
+                                @else
+                                    <li><a  href="{{ URL::action('Front\TopicController@index') }}">话题分类</a></li>
+                                @endif
                                 @foreach($cates as $cate)
                 					@if($cate->id == $cid)
                 					 <li ><a class="active" style="text-decoration:none;" href="{{ URL::action('Front\TopicController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
@@ -92,9 +93,6 @@
                             </div>
                             <div class="mod-body clearfix">
                                 <div class="aw-topic-bar">
-                                
-                                	
-                        	
                                     <div class="topic-bar clearfix">
                                     	@foreach($tags as $tag)
                                         <span class="topic-tag">

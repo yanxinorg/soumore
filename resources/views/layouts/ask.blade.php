@@ -49,14 +49,14 @@
 						</div>
 						<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
 							<ul class="nav navbar-nav">
-								<li><a href=""><i class="icon icon-list"></i>关于</a></li>
-								<li><a href="" ><i class="icon icon-list"></i>下载</a></li>
-                                <li><a href="" ><i class="icon icon-list"></i>文档</a></li>
-								<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-list"></i>文章</a></li>
-								<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-list"></i>问答</a></li>
+								<li><a href=""><i class="icon icon-about"></i>关于</a></li>
+								<li><a href="" ><i class="icon icon-download"></i>下载</a></li>
+                                <li><a href="" ><i class="icon icon-log"></i>文档</a></li>
+								<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-file"></i>文章</a></li>
+								<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
 								<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i>话题</a></li>
-                                <li><a href=""><i class="icon icon-topic"></i>视频</a></li>
-                                <li><a href=""><i class="icon icon-topic"></i>作品集</a></li>
+                                <li><a href=""><i class="icon icon-video"></i>视频</a></li>
+                                <li><a href=""><i class="icon icon-list"></i>作品集</a></li>
                                 <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" class="{{ (Request::getPathinfo() == '/person/post')  ? 'active':'' }}"><i class="icon icon-home"></i> 动态</a></li>
 							</ul>
 						</nav>
@@ -119,14 +119,14 @@
 					</div>
 					<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
 						<ul class="nav navbar-nav">
-                            <li><a href=""><i class="icon icon-list"></i>关于</a></li>
-                            <li><a href="" ><i class="icon icon-list"></i>下载</a></li>
-                            <li><a href="" ><i class="icon icon-list"></i>文档</a></li>
-							<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-list"></i> 文章</a></li>
-							<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-list"></i>问答</a></li>
+                            <li><a href=""><i class="icon icon-about"></i>关于</a></li>
+                            <li><a href="" ><i class="icon icon-download"></i>下载</a></li>
+                            <li><a href="" ><i class="icon icon-log"></i>文档</a></li>
+							<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-file"></i> 文章</a></li>
+							<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
 							<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i> 话题</a></li>
-                            <li><a href=""><i class="icon icon-topic"></i>视频</a></li>
-                            <li><a href=""><i class="icon icon-topic"></i>作品集</a></li>
+                            <li><a href=""><i class="icon icon-video"></i>视频</a></li>
+                            <li><a href=""><i class="icon icon-list"></i>作品集</a></li>
 						</ul>
 					</nav>
 				</div>

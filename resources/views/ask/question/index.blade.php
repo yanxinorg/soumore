@@ -27,7 +27,7 @@
 						<li><a href="{{ url('/question') }}">热门</a></li>
 						<li><a href="{{ url('/question') }}">推荐</a></li>
 						<li class="active"><a href="{{ url('/question') }}">最新</a></li>
-						<h2 class="hidden-xs"><i class="icon icon-list"></i>问答</h2>
+						<h2 class="hidden-xs"><i class="icon icon-help"></i>问答</h2>
 					</ul>
 					<!-- end tab切换 -->
 					<div class="aw-mod aw-explore-list">
