@@ -28,7 +28,7 @@ class QuestionController extends Controller
     	$questions = DB::table('questions')
 				    	->leftjoin('users', 'users.id', '=', 'questions.user_id')
                         ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
-				    	->select('users.id as user_id','users.avator as avator','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
+				    	->select('users.id as user_id','users.avator as avator','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id','questions.comments as comments','questions.views as views', 'questions.content as content','questions.created_at as created_at')
 						->orderBy('questions.created_at','desc')		    	
     					->paginate('15');
         //热门用户
@@ -83,6 +83,8 @@ class QuestionController extends Controller
 	    		
 	    		foreach($tmpArr as $tag)
 	    		{
+                    //话题问答总数自增一
+                    DB::table("tags")->where('id',$tag)->increment("questions");
 	    			QuestionTagModel::updateOrCreate([
 	    					'questions_id'=>$questionId->id,
 	    					'tags_id'=>$tag
@@ -101,6 +103,8 @@ class QuestionController extends Controller
     	$this->validate($request, [
     			'id'=>'required|numeric|exists:questions,id'
     	]);
+        //浏览数自增
+        DB::table("questions")->where('id',$request->get('id'))->increment("views");
     	//查询文章
     	$datas = DB::table('questions')
     	->leftjoin('users', 'questions.user_id', '=', 'users.id')
@@ -651,6 +655,8 @@ class QuestionController extends Controller
     			'id'=>$request->get('id'),
     			'user_id'=>Auth::id()
     	])->delete();
+        // 标签问答删除
+        DB::table('tags')->leftjoin('question_tag', 'question_tag.tags_id', '=', 'tags.id')->where('question_tag.questions_id',$request->get('id'))->where('tags.questions','>', 0)->decrement('questions');
     	if($result)
     	{
     		$data = [
@@ -729,21 +735,33 @@ class QuestionController extends Controller
     	
     	//更新
     	$questionId = QuestionModel::updateOrCreate(array('id' => $request->get('id')), $data);
+
+        //话题文章总数自减一
+        $tagIds = QuestionTagModel::where(['questions_id'=>$request->get('id')])->pluck('tags_id');
+        if(!($tagIds->isEmpty()))
+        {
+            foreach ($tagIds as $k)
+            {
+                DB::table('tags')->where('id', $k)->where('questions', '>', 0)->decrement("questions");
+            }
+        }
     	//清除原有标签
-    	QuestionTagModel::where(['questions_id'=>$request->get('id')])->delete();
+    	QuestionTagModel::where('questions_id',$request->get('id'))->delete();
     	//新增标签
     	if(!empty($request->get('tags')[0]))
     	{
     		//只取前5个标签存入
     		$tmpArr = array_only($request->get('tags'), ['0','1','2','3','4']);
-    
+
     		foreach($tmpArr as $tag)
     		{
+                //话题问答总数自增一
+                DB::table('tags')->where('id',$tag)->increment("questions");
     			QuestionTagModel::updateOrCreate([
-    					'questions_id'=>$request->get('id'),
+    					'questions_id'=>$questionId->id,
     					'tags_id'=>$tag
     			],[
-    					'questions_id'=>$request->get('id'),
+    					'questions_id'=>$questionId->id,
     					'tags_id'=>$tag
     			]);
     		}

@@ -59,16 +59,9 @@
     										<h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$data->question_id]) }}">{{ $data->title }}</a></h4>
                                     		<p>
                                     			<a class="aw-question-tags" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$data->cate_id]) }}">{{ $data->cate_name  }}</a>
-                                    			<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->author }}</a> <span class="text-color-999">发表了文章 • 111个评论 • 111 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
+                                    			<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->author }}</a> <span class="text-color-999">发表了文章 • {{ $data->comments }}个评论 • {{ $data->views }} 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
                                     			<span class="text-color-999 related-topic collapse"> • 来自相关话题</span>
                                     		</p>
-                            				{{--<!-- 文章内容调用 -->--}}
-                            				{{--<div class="markitup-box">--}}
-                            					{{--<div class="img pull-right"></div>--}}
-                            					{{--{!! $data->content !!}--}}
-                            				{{--</div>--}}
-    										{{--<div class="collapse all-content">{!! $data->content !!}</div>--}}
-    		                              {{--<!-- end 文章内容调用 -->--}}
 										</div>
 								</div>
 								@endforeach()

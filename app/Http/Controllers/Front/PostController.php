@@ -28,7 +28,6 @@ class PostController extends Controller
         //话题
       	$tags = TagModel::orderBy('watchs','desc')->limit('6')->get();
         //热门用户
-        //热门用户
         $hotUsers = UserModel::limit(10)->get();
         return view('ask.post.index',['datas'=>$datas,'cates'=>$cates,'tags'=>$tags,'cid'=>'','tid'=>'','hotUsers'=>$hotUsers]);
     }
@@ -215,34 +214,22 @@ class PostController extends Controller
     	if(!empty($request->file('cover')))
     	{
     	    $file = $request->file('cover');
-    	    
     	    $file = $file[0];
-    	    
     	    $extention = $file->getClientOriginalExtension();
-    	    
     	    $data['mime'] = $file->getClientMimeType();
     	    //存储原始图片
     		$thumb = FileController::savePostImg($file);
-    		
     		//图片原始尺寸
     		$orgheight = Image::make(storage_path().'/app/'.$thumb)->height();
-    		
     		//图片原始宽度
     		$orgwidth = Image::make(storage_path().'/app/'.$thumb)->width();
-    		
     		//开始压缩图片
     		$img = Image::make(storage_path().'/app/'.$thumb);
-    		
     		$orgwidth >= $orgheight?$img->resize(168, 168*($orgheight/$orgwidth)):$img->resize(168*($orgwidth/$orgheight), 168);
-    	
     		$fileName = uniqid(str_random(10)).'.'.$extention;
-    		 
     		$smallfilepath = 'article/'.gmdate("Y")."/".gmdate("m")."/".$fileName;
-    		 
     		$img->save(storage_path().'/app/'.$smallfilepath);
-    		
     		$data['thumb'] = $thumb;
-    		
     		$data['thumb_small'] = $smallfilepath;
     	}
     	$postId = PostModel::create($data);
@@ -251,9 +238,10 @@ class PostController extends Controller
     	{
     		//只取前5个标签存入
     		$tmpArr = array_only($request->get('tags'), ['0','1','2','3','4']);
-    		
     		foreach($tmpArr as $tag)
     		{
+    		    //话题文章总数自增一
+                DB::table("tags")->where('id',$tag)->increment("posts");
     			PostTagModel::updateOrCreate([
     					'posts_id'=>$postId->id,
     					'tags_id'=>$tag
@@ -336,24 +324,17 @@ class PostController extends Controller
     	if($request->hasFile('cover'))
     	{
     		$file = $request->file('cover');
-    			
     		$file = $file[0];
-    		
     		$extention = $file->getClientOriginalExtension();
-    			
     		$data['mime'] = $file->getClientMimeType();
     		//存储原始图片
     		$thumb = FileController::savePostImg($file);
-    	
     		//图片原始尺寸
     		$orgheight = Image::make(storage_path().'/app/'.$thumb)->height();
-    	
     		//图片原始宽度
     		$orgwidth = Image::make(storage_path().'/app/'.$thumb)->width();
-    	
     		//开始压缩图片
     		$img = Image::make(storage_path().'/app/'.$thumb);
-    	
     		if($orgwidth >= $orgheight)
     		{
     			//压缩
@@ -362,19 +343,24 @@ class PostController extends Controller
     			//压缩
     			$img->resize(168*($orgwidth/$orgheight), 168);
     		}
-    		 
     		$fileName = uniqid(str_random(10)).'.'.$extention;
-    		 
     		$smallfilepath = 'article/'.gmdate("Y")."/".gmdate("m")."/".$fileName;
-    		 
     		$img->save(storage_path().'/app/'.$smallfilepath);
-    	
     		$data['thumb'] = $thumb;
-    	
     		$data['thumb_small'] = $smallfilepath;
     	}
     	//更新
     	$postId = PostModel::updateOrCreate(array('id' => $request->get('id')), $data);
+
+        //话题文章总数自减一
+        $tagIds = PostTagModel::where(['posts_id'=>$request->get('id')])->pluck('tags_id');
+        if(!($tagIds->isEmpty()))
+        {
+            foreach ($tagIds as $k)
+            {
+                DB::table('tags')->where('id', $k)->where('posts', '>', 0)->decrement("posts");
+            }
+        }
     	//清除原有标签
     	PostTagModel::where(['posts_id'=>$request->get('id')])->delete();
     	//新增标签
@@ -385,7 +371,10 @@ class PostController extends Controller
     		
     			foreach($tmpArr as $tag)
     			{
-    				PostTagModel::updateOrCreate([
+                    //话题文章总数自增一
+                    DB::table('tags')->where('id',$tag)->increment("posts");
+
+                    PostTagModel::updateOrCreate([
     						'posts_id'=>$postId->id,
     						'tags_id'=>$tag
     				],[
@@ -403,7 +392,8 @@ class PostController extends Controller
         $this->validate($request, [
             'id'=>'required|numeric|exists:posts,id'
         ]);
-        
+        //浏览数自增
+        DB::table("posts")->where('id',$request->get('id'))->increment("hits");
         //查询文章
         $datas = DB::table('posts')
         ->leftjoin('users', 'posts.user_id', '=', 'users.id')
@@ -574,7 +564,7 @@ class PostController extends Controller
     	return view('wenda.post.index',['datas'=>$datas,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
     }
     
-    //文章删除
+        //文章删除
     public function del(Request $request)
     {
     	$this->validate($request, [
@@ -584,6 +574,8 @@ class PostController extends Controller
     			'id'=>$request->get('id'),
     			'user_id'=>Auth::id()
     	])->delete();
+        // 标签文章删除
+        DB::table('tags')->leftjoin('post_tag', 'post_tag.tags_id', '=', 'tags.id')->where('post_tag.posts_id','=',$request->get('id'))->where('tags.posts', '>', 0)->decrement('posts');
     	if($result)
     	{
     		$data = [

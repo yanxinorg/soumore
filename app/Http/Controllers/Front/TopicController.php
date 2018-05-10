@@ -19,6 +19,7 @@ class TopicController extends Controller
         $todayTag = TagModel::orderBy('created_at','desc')->limit(1)->get()->toArray();
         //话题分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
+
     	return view('ask.topic.index',['tags'=>$tags,'todayTag'=>$todayTag[0],'cates'=>$cates,'cid'=>'']);
     }
     
@@ -32,7 +33,8 @@ class TopicController extends Controller
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
         //今日话题
         $todayTag = TagModel::orderBy('created_at','desc')->limit(1)->get()->toArray();
-        
+
+
         return view('ask.topic.index',['tags'=>$tags,'todayTag'=>$todayTag[0],'cates'=>$cates,'cid'=>$request->get('cid')]);
     }
     

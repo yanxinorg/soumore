@@ -12,7 +12,6 @@
                     <!-- end tab切换 -->
                     <!-- 我关注的话题 -->
                     <div class="aw-mod aw-topic-list">
-                    
         				<div class="aw-mod aw-topic-category">
                             <div class="mod-body clearfix">
                             <ul>
@@ -33,27 +32,27 @@
                     	</div>
                                 	
                         <div class="mod-body clearfix">
-                        @foreach($tags as $tag )
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="{{ URL::action('Front\TopicController@detail', ['id'=>$tag->id]) }}" data-id="2">
-                                    <img style="width:50px;" src="{{ $tag->thumb }}" alt="{{ $tag->name }}">
-                                </a>
-                                <!-- end 话题图片 -->
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="{{ URL::action('Front\TopicController@detail', ['id'=>$tag->id]) }}">{{ $tag->name }}</a>
-                                    </span>
-                                    <!-- end 话题内容 -->
-                                </p>
-                                <p class="text-color-999">
-                                    <span>1 个讨论</span>
-                                    <span>1 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 1 个讨论, 30 天新增 1 个讨论 </p>
-                            </div>
-                         @endforeach()
+                            @foreach($tags as $tag )
+                                <div class="aw-item">
+                                    <!-- 话题图片 -->
+                                    <a class="img aw-border-radius-5" href="{{ URL::action('Front\TopicController@detail', ['id'=>$tag->id]) }}">
+                                        <img style="width:50px;" src="{{ $tag->thumb }}" alt="{{ $tag->name }}">
+                                    </a>
+                                    <!-- end 话题图片 -->
+                                    <p class="clearfix">
+                                        <!-- 话题内容 -->
+                                        <span class="topic-tag">
+                                            <a class="text" href="{{ URL::action('Front\TopicController@detail', ['id'=>$tag->id]) }}">{{ $tag->name }}</a>
+                                        </span>
+                                        <!-- end 话题内容 -->
+                                    </p>
+                                    <p class="text-color-999">
+                                        <span>{{ $tag->watchs }} 个关注</span>
+                                        <span>{{ $tag->posts }} 个文章</span>
+                                        <span>{{ $tag->questions }} 个问答</span>
+                                    </p>
+                                </div>
+                             @endforeach()
 
                         </div>
                         <div class="mod-footer clearfix">

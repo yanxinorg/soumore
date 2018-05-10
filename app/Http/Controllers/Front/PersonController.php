@@ -342,6 +342,9 @@ class PersonController extends Controller
     			'tags.id as tag_id',
                 'tags.thumb as tag_thumb',
     			'tags.name as tag_name',
+                'tags.watchs as tag_watchs',
+                'tags.posts as tag_posts',
+                'tags.questions as tag_questions',
     			'tags.desc as tag_desc'
     	)->orderBy('tags.created_at','desc')->paginate('15');
     	return view('ask.person.topic',['topics'=>$topics]);
@@ -364,7 +367,7 @@ class PersonController extends Controller
     			'source_type'=>'3'
     	]);
     	//话题关注数量加一
-    	DB::table('tags')->increment('watchs', 1);
+    	DB::table('tags')->where('id',$request->get('tid'))->increment('watchs');
     	return redirect()->back();
     }
     
@@ -381,7 +384,7 @@ class PersonController extends Controller
     			'source_type'=>'3'
     	])->delete();
     	//话题关注数量减一
-    	DB::table('tags')->decrement('watchs', 1);
+        DB::table('tags')->where('id',$request->get('tid'))->where('watchs','>', 0)->decrement('watchs');
     	return redirect()->back();
     }
     

@@ -28,7 +28,6 @@
                             <div class="mod-head common-head">
                                 <h2 id="main_title">关注的话题</h2>
                             </div>
-
                             <div class="mod-body aw-feed-list clearfix aw-topic-list" id="main_contents">
 
                                 @foreach($topics as $topic)
@@ -42,11 +41,10 @@
                                         <!-- end 话题内容 -->
                                     </p>
                                     <p class="text-color-999">
-                                        <span>1 个讨论</span>
-                                        <span>1 个关注</span>
+                                        <span>{{ $topic->tag_watchs }} 个关注</span>
+                                        <span>{{ $topic->tag_posts }} 个文章</span>
+                                        <span>{{ $topic->tag_questions }} 个问答</span>
                                     </p>
-                                    <p class="text-color-999">
-                                        7 天新增 1 个讨论, 30 天新增 1 个讨论    </p>
                                 </div>
                                 @endforeach()
                             </div>
