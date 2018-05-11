@@ -24,9 +24,9 @@
 					<!-- end 新消息通知 -->
 					<!-- tab切换 -->
 					<ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
-						<li><a href="{{ url('/question/remain') }}">待回答</a></li>
-						<li><a href="{{ url('/question/hot') }}">热门</a></li>
-						<li class="active"><a href="{{ url('/question') }}">最新</a></li>
+						<li class="active"><a href="{{ url('/question/remain') }}">待回答</a></li>
+						<li ><a href="{{ url('/question/hot') }}">热门</a></li>
+						<li ><a href="{{ url('/question') }}">最新</a></li>
 						<h2 class="hidden-xs"><i class="icon icon-help"></i>问答</h2>
 					</ul>
 					<!-- end tab切换 -->
@@ -35,15 +35,15 @@
                                 <div class="mod-body clearfix">
                                 <ul>
 									@if(empty($cid))
-										<li><a class="active" href="{{ url('/question') }}">全部分类</a></li>
+										<li><a class="active" href="{{ url('/question/remain') }}">全部分类</a></li>
 									@else
-										<li><a href="{{ url('/question') }}">全部分类</a></li>
+										<li><a href="{{ url('/question/remain') }}">全部分类</a></li>
 									@endif
                                     @foreach($cates as $cate)
                     					@if($cate->id == $cid)
-                    					 <li ><a class="active" style="text-decoration:none;" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
+                    					 <li ><a class="active" style="text-decoration:none;" href="{{ URL::action('Front\QuestionController@remainCate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
                     					@else
-                    					 <li><a style="text-decoration:none;" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
+                    					 <li><a style="text-decoration:none;" href="{{ URL::action('Front\QuestionController@remainCate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
                     					@endif
                             		@endforeach()
                               	</ul>

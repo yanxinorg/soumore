@@ -59,16 +59,19 @@ Route::get('/post/tag', 'Front\PostController@tag');
 
 //问答列表
 Route::get('/question', 'Front\QuestionController@index');
+//热门问答列表
+Route::get('/question/hot', 'Front\QuestionController@hot');
+//待问答列表
+Route::get('/question/remain', 'Front\QuestionController@remain');
 //问答详情页
 Route::get('/question/detail', 'Front\QuestionController@detail');
-//最新问答列表
-Route::get('/question/latest', 'Front\QuestionController@latest');
-//热门问答列表
-Route::get('/question/hottest', 'Front\QuestionController@hottest');
-//待问答列表
-Route::get('/question/unanswered', 'Front\QuestionController@unanswered');
+
 //问答分类筛选
 Route::get('/question/cate', 'Front\QuestionController@cate');
+//热门分类筛选
+Route::get('/question/hotCate', 'Front\QuestionController@hotCate');
+//待回答分类筛选
+Route::get('/question/remainCate', 'Front\QuestionController@remainCate');
 //问答标签筛选
 Route::get('/question/tag', 'Front\QuestionController@tag');
 //个人主页

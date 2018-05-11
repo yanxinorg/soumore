@@ -209,112 +209,8 @@ class QuestionController extends Controller
     	return $data;
     }
     
-    //最新问答
-    public function latest(Request $request)
-    {
-    	$this->validate($request, [
-    			'cid'=>$request->get('cid') != null ?'required|numeric|exists:category,id':'',
-    			'tid'=>$request->get('tid') != null ?'required|numeric|exists:tags,id':'',
-    	]);
-    	//分类和标签都不为空
-    	if(!empty($request->get('cid')) && !empty($request->get('tid')))
-    	{
-    		//查询
-    		$questions = DB::table('questions')
-    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
-    		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
-    		->where('question_tag.tags_id','=',$request->get('tid'))
-    		->where('questions.cate_id','=',$request->get('cid'))
-    		->select(
-    				'users.id as user_id',
-    				'users.name as user_name',
-    				'questions.title as title',
-    				'questions.id as question_id',
-    				'questions.content as content',
-    				'questions.created_at as created_at'
-    				)
-    		->orderBy('questions.created_at','desc')
-    		->paginate('15');
-    		$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
-    		//查询该分类下面的标签文章
-    		$tags = DB::table('question_tag')
-    				->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
-    				->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
-    				->whereIn('question_tag.questions_id', $questionIds)
-    				->select('tags.id as id','tags.name as name')->get();
-    		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    		return view('wenda.question.index',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
-    	}
-    	//分类不为空,标签为空
-    	if(!empty($request->get('cid')))
-    	{
-    		$questions = DB::table('questions')
-    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
-    		->where('questions.cate_id','=',$request->get('cid'))
-    		->select(
-    				'users.id as user_id',
-    				'users.name as user_name',
-    				'questions.title as title',
-    				'questions.id as question_id',
-    				'questions.content as content',
-    				'questions.created_at as created_at'
-    				)
-    		->orderBy('questions.created_at','desc')
-    		->paginate('15');
-    		$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
-    		//查询该分类下面的标签文章
-    		$tags = DB::table('question_tag')
-    				->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
-    				->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
-    				->whereIn('question_tag.questions_id', $questionIds)
-    				->select('tags.id as id','tags.name as name')->get();
-    		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    		return view('wenda.question.index',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
-    	}
-    	//标签不为空,分类为空
-    	if(!empty($request->get('tid')))
-    	{
-    		$questions = DB::table('questions')
-    		->leftjoin('users', 'questions.user_id', '=', 'users.id')
-    		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
-    		->where('question_tag.tags_id','=',$request->get('tid'))
-    		->select(
-    				'users.id as user_id',
-    				'users.name as user_name', 
-    				'questions.title as title',
-    				'questions.id as question_id', 
-    				'questions.content as content',
-    				'questions.created_at as created_at'
-    				)
-    		->orderBy('questions.created_at','desc')
-    		->paginate('15');
-    		$questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
-    		//查询该分类下面的标签问答
-    		$tags = DB::table('question_tag')
-    				->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
-    				->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
-    				->whereIn('question_tag.questions_id', $questionIds)
-    				->select('tags.id as id','tags.name as name')->get();
-    		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    		return view('wenda.question.index',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
-    	}
-    	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    	$tags = TagModel::all();
-    	$questions = DB::table('questions')
-				    ->leftjoin('users', 'users.id', '=', 'questions.user_id')
-				    ->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
-				    ->paginate('15');
-    	return view('wenda.question.index',[
-    		'questions'=>$questions,
-    		'cates'=>$cates,
-    		'tags'=>$tags,
-    		'tid'=>'',
-    		'cid'=>''
-    	]);
-    }
-    
     //最热问答
-    public function hottest(Request $request)
+    public function hot(Request $request)
     {
     	$this->validate($request, [
     			'cid'=>$request->get('cid') != null ?'required|numeric|exists:category,id':'',
@@ -327,13 +223,19 @@ class QuestionController extends Controller
     		$questions = DB::table('questions')
     		->leftjoin('users', 'questions.user_id', '=', 'users.id')
     		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
+            ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
     		->where('question_tag.tags_id','=',$request->get('tid'))
     		->where('questions.cate_id','=',$request->get('cid'))
     		->select(
     				'users.id as user_id',
-    				'users.name as user_name',
+    				'users.name as author',
+                    'users.avator as avator',
+                    'category.id as cate_id',
+                    'category.name as cate_name',
     				'questions.title as title',
     				'questions.id as question_id',
+                    'questions.comments as comments',
+                    'questions.views as views',
     				'questions.content as content',
     				'questions.created_at as created_at'
     				)
@@ -348,19 +250,27 @@ class QuestionController extends Controller
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    		return view('wenda.question.index',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
+            //热门用户
+            $hotUsers = UserModel::limit(10)->get();
+    		return view('ask.question.hot',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags,'hotUsers'=>$hotUsers]);
     	}
     	//分类不为空,标签为空
     	if(!empty($request->get('cid')))
     	{
     		$questions = DB::table('questions')
     		->leftjoin('users', 'questions.user_id', '=', 'users.id')
+            ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
     		->where('questions.cate_id','=',$request->get('cid'))
     		->select(
     				'users.id as user_id',
-    				'users.name as user_name',
+    				'users.name as author',
+                    'users.avator as avator',
+                    'category.id as cate_id',
+                    'category.name as cate_name',
     				'questions.title as title',
     				'questions.id as question_id',
+                    'questions.comments as comments',
+                    'questions.views as views',
     				'questions.content as content',
     				'questions.created_at as created_at'
     				)
@@ -375,7 +285,9 @@ class QuestionController extends Controller
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    		return view('wenda.question.index',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
+            //热门用户
+            $hotUsers = UserModel::limit(10)->get();
+    		return view('ask.question.hot',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags,'hotUsers'=>$hotUsers]);
     	}
     	//标签不为空,分类为空
     	if(!empty($request->get('tid')))
@@ -383,12 +295,18 @@ class QuestionController extends Controller
     		$questions = DB::table('questions')
     		->leftjoin('users', 'questions.user_id', '=', 'users.id')
     		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
+            ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
     		->where('question_tag.tags_id','=',$request->get('tid'))
     		->select(
     				'users.id as user_id',
-    				'users.name as user_name',
+    				'users.name as author',
+                    'users.avator as avator',
+                    'category.id as cate_id',
+                    'category.name as cate_name',
     				'questions.title as title',
     				'questions.id as question_id',
+                    'questions.comments as comments',
+                    'questions.views as views',
     				'questions.content as content',
     				'questions.created_at as created_at'
     				)
@@ -403,26 +321,23 @@ class QuestionController extends Controller
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    		return view('wenda.question.index',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
+    		return view('ask.question.hot',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
     	}
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
     	$tags = TagModel::all();
     	$questions = DB::table('questions')
     	->leftjoin('users', 'users.id', '=', 'questions.user_id')
-    	->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
+        ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
+    	->select('users.id as user_id','users.name as author', 'users.avator as avator','category.id as cate_id','category.name as cate_name','questions.title as title','questions.id as question_id','questions.comments as comments','questions.views as views', 'questions.content as content','questions.created_at as created_at')
     	->orderBy('questions.views','desc')
     	->paginate('15');
-    	return view('wenda.question.index',[
-    			'questions'=>$questions,
-    			'cates'=>$cates,
-    			'tags'=>$tags,
-    			'tid'=>'',
-    			'cid'=>''
-    	]);
+        //热门用户
+        $hotUsers = UserModel::limit(10)->get();
+    	return view('ask.question.hot',['questions'=>$questions,'cates'=>$cates,'tags'=>$tags,'tid'=>'','cid'=>'','hotUsers'=>$hotUsers]);
     }
     
     //待回答
-    public function unanswered(Request $request)
+    public function remain(Request $request)
     {
     	$this->validate($request, [
     			'cid'=>$request->get('cid') != null ?'required|numeric|exists:category,id':'',
@@ -435,14 +350,20 @@ class QuestionController extends Controller
     		$questions = DB::table('questions')
     		->leftjoin('users', 'questions.user_id', '=', 'users.id')
     		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
+            ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
     		->where('question_tag.tags_id','=',$request->get('tid'))
     		->where('questions.cate_id','=',$request->get('cid'))
-    		->where('questions.comments','=','')
+    		->where('questions.comments','<','1')
     		->select(
     				'users.id as user_id',
-    				'users.name as user_name',
+    				'users.name as author',
+                    'users.avator as avator',
+                    'category.id as cate_id',
+                    'category.name as cate_name',
     				'questions.title as title',
     				'questions.id as question_id',
+                    'questions.comments as comments',
+                    'questions.views as views',
     				'questions.content as content',
     				'questions.created_at as created_at'
     				)
@@ -456,20 +377,28 @@ class QuestionController extends Controller
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    		return view('wenda.question.index',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
+            //热门用户
+            $hotUsers = UserModel::limit(10)->get();
+    		return view('ask.question.remain',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags,'hotUsers'=>$hotUsers]);
     	}
     	//分类不为空,标签为空
     	if(!empty($request->get('cid')))
     	{
     		$questions = DB::table('questions')
     		->leftjoin('users', 'questions.user_id', '=', 'users.id')
+            ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
     		->where('questions.cate_id','=',$request->get('cid'))
-    		->where('questions.comments','=','')
+    		->where('questions.comments','<','1')
     		->select(
     				'users.id as user_id',
-    				'users.name as user_name',
+    				'users.name as author',
+                    'users.avator as avator',
+                    'category.id as cate_id',
+                    'category.name as cate_name',
     				'questions.title as title',
     				'questions.id as question_id',
+                    'questions.comments as comments',
+                    'questions.views as views',
     				'questions.content as content',
     				'questions.created_at as created_at'
     				)
@@ -483,7 +412,9 @@ class QuestionController extends Controller
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    		return view('wenda.question.index',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
+            //热门用户
+            $hotUsers = UserModel::limit(10)->get();
+    		return view('ask.question.remain',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags,'hotUsers'=>$hotUsers]);
     	}
     	//标签不为空,分类为空
     	if(!empty($request->get('tid')))
@@ -491,13 +422,19 @@ class QuestionController extends Controller
     		$questions = DB::table('questions')
     		->leftjoin('users', 'questions.user_id', '=', 'users.id')
     		->leftjoin('question_tag', 'questions.id', '=', 'question_tag.questions_id')
+            ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
     		->where('question_tag.tags_id','=',$request->get('tid'))
-    		->where('questions.comments','=','')
+    		->where('questions.comments','<','1')
     		->select(
     				'users.id as user_id',
-    				'users.name as user_name',
-    				'questions.title as title',
+    				'users.name as author',
+                    'users.avator as avator',
+                    'category.id as cate_id',
+                    'category.name as cate_name',
+                    'questions.title as title',
     				'questions.id as question_id',
+                    'questions.comments as comments',
+                    'questions.views as views',
     				'questions.content as content',
     				'questions.created_at as created_at'
     				)
@@ -511,23 +448,20 @@ class QuestionController extends Controller
     				->whereIn('question_tag.questions_id', $questionIds)
     				->select('tags.id as id','tags.name as name')->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-    		return view('wenda.question.index',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
+    		return view('ask.question.remain',['questions'=>$questions,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
     	}
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
     	$tags = TagModel::all();
     	$questions = DB::table('questions')
     	->leftjoin('users', 'users.id', '=', 'questions.user_id')
-    	->where('questions.comments','=','')
-    	->select('users.id as user_id','users.name as user_name', 'questions.title as title','questions.id as question_id', 'questions.content as content','questions.created_at as created_at')
+        ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
+    	->where('questions.comments','<','1')
+    	->select('users.id as user_id','users.name as author','users.avator as avator','category.id as cate_id','category.name as cate_name',  'questions.title as title','questions.id as question_id' ,'questions.comments as comments','questions.views as views','questions.content as content','questions.created_at as created_at')
     	->orderBy('questions.created_at','desc')
     	->paginate('15');
-    	return view('wenda.question.index',[
-    			'questions'=>$questions,
-    			'cates'=>$cates,
-    			'tags'=>$tags,
-    			'tid'=>'',
-    			'cid'=>''
-    	]);
+        //热门用户
+        $hotUsers = UserModel::limit(10)->get();
+    	return view('ask.question.remain',['questions'=>$questions,'cates'=>$cates,'tags'=>$tags,'tid'=>'','cid'=>'','hotUsers'=>$hotUsers]);
     }
 //     分类
     public function cate(Request $request)
@@ -557,7 +491,66 @@ class QuestionController extends Controller
         $hotUsers = UserModel::limit(10)->get();
     	return view('ask.question.index',['questions'=>$questions,'cates'=>$cates,'tags'=>$tags,'tid'=>'','cid'=>$request->get('cid'),'hotUsers'=>$hotUsers]);
     }
-    
+
+    // 热门分类筛选
+    public function hotCate(Request $request)
+    {
+        $this->validate($request, ['cid'=>'required|numeric|exists:category,id']);
+        $questions = DB::table('questions')
+            ->leftjoin('users', 'users.id', '=', 'questions.user_id')
+            ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
+            ->where('questions.cate_id','=',$request->get('cid'))
+            ->select('users.id as user_id','users.avator as avator','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id','questions.comments as comments','questions.views as views','questions.content as content','questions.created_at as created_at')
+            ->orderBy('questions.likes','desc')
+            ->paginate('15');
+        //查询分类
+        $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
+        $questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
+        //查询该分类下面的问答
+        $tagIds = DB::table('question_tag')
+            ->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
+            ->whereIn('question_tag.questions_id', $questionIds)
+            ->select('question_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+        //去重
+        $tagIds = array_unique($tagIds);
+        $tags = DB::table('tags')
+            ->whereIn('tags.id', $tagIds)
+            ->get();
+        //热门用户
+        $hotUsers = UserModel::limit(10)->get();
+        return view('ask.question.hot',['questions'=>$questions,'cates'=>$cates,'tags'=>$tags,'tid'=>'','cid'=>$request->get('cid'),'hotUsers'=>$hotUsers]);
+    }
+
+    // 待回答分类筛选
+    public function remainCate(Request $request)
+    {
+        $this->validate($request, ['cid'=>'required|numeric|exists:category,id']);
+        $questions = DB::table('questions')
+            ->leftjoin('users', 'users.id', '=', 'questions.user_id')
+            ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
+            ->where('questions.cate_id','=',$request->get('cid'))
+            ->where('questions.comments','<','1')
+            ->select('users.id as user_id','users.avator as avator','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id','questions.comments as comments','questions.views as views','questions.content as content','questions.created_at as created_at')
+            ->orderBy('questions.created_at','desc')
+            ->paginate('15');
+        //查询分类
+        $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
+        $questionIds  = DB::table('questions')->where('cate_id','=',$request->get('cid'))->pluck('id');
+        //查询该分类下面的问答
+        $tagIds = DB::table('question_tag')
+            ->leftjoin('questions', 'question_tag.questions_id', '=', 'questions.id')
+            ->whereIn('question_tag.questions_id', $questionIds)
+            ->select('question_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+        //去重
+        $tagIds = array_unique($tagIds);
+        $tags = DB::table('tags')
+            ->whereIn('tags.id', $tagIds)
+            ->get();
+        //热门用户
+        $hotUsers = UserModel::limit(10)->get();
+        return view('ask.question.remain',['questions'=>$questions,'cates'=>$cates,'tags'=>$tags,'tid'=>'','cid'=>$request->get('cid'),'hotUsers'=>$hotUsers]);
+    }
+
     //问答分类筛选列表
     public function tag(Request $request)
     {

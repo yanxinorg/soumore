@@ -19,7 +19,14 @@ use App\Models\Common\AttentionModel;
 					<div class="aw-mod aw-topic-detail-title">
 						<div class="mod-body">
 							<img style="width:50px;" src="{{ $datas->thumb }}" alt="地方">
-							<h2 class="pull-left">{{ $datas->name }} </h2>
+							<h2 class="pull-left">
+								<span>{{ $datas->name }}</span>
+								<p class="text-color-999">
+									<span>{{ $datas->watchs }} 个关注</span>
+									<span>{{ $datas->posts }} 个文章</span>
+									<span>{{ $datas->questions }} 个问答</span>
+								</p>
+							</h2>
 							<div class="aw-topic-operate text-color-999">
 								@if( AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$datas->id,'source_type'=>'3'])->exists())
 									<a href="{{ URL::action('Front\PersonController@topicCancel', ['tid'=>$datas->id]) }}" class="follow btn btn-normal btn-success active" ><span>取消关注</span></a>
