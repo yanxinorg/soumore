@@ -55,7 +55,7 @@
 								<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-file"></i>文章</a></li>
 								<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
 								<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i>话题</a></li>
-                                <li><a href=""><i class="icon icon-video"></i>视频</a></li>
+                                <li><a href="http://video.soumore.cn"><i class="icon icon-video"></i>视频</a></li>
                                 <li><a href=""><i class="icon icon-list"></i>作品</a></li>
 								<li><a href=""><i class="icon icon-list"></i>聊天室</a></li>
                                 <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" class="{{ (Request::getPathinfo() == '/person/post')  ? 'active':'' }}"><i class="icon icon-home"></i> 动态</a></li>
@@ -90,7 +90,7 @@
 						<div class="aw-dropdown dropdown-list pull-right">
 							<ul class="aw-dropdown-list">
 								<li><a href=""><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread" style="display: none;">0</span></a></li>
-								<li class="hidden-xs"><a href=""><i class="icon icon-setting"></i> 设置</a></li>
+								<li class="hidden-xs"><a href="{{ url('/person/info') }}"><i class="icon icon-setting"></i> 设置</a></li>
 								<li class="hidden-xs"><a href="{{ url('/admin') }}"><i class="icon icon-job"></i> 管理</a></li>
 								<li><a href="{{  url('/logout') }}"><i class="icon icon-logout"></i> 退出</a></li>
 							</ul>
@@ -126,7 +126,7 @@
 							<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-file"></i> 文章</a></li>
 							<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
 							<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i> 话题</a></li>
-                            <li><a href=""><i class="icon icon-video"></i>视频</a></li>
+                            <li><a href="http://video.soumore.cn"><i class="icon icon-video"></i>视频</a></li>
                             <li><a href=""><i class="icon icon-list"></i>作品</a></li>
 							<li><a href=""><i class="icon icon-list"></i>聊天室</a></li>
 						</ul>
