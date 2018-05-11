@@ -43,73 +43,17 @@
                                     <li><a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}">问答<span class="badge">{{ $countQuestion }}</span></a></li>
                                     <li><a href="" id="page_answers" data-toggle="tab">回复<span class="badge">0</span></a></li>
                                     <li class="active"><a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}">文章<span class="badge">{{ $countPost }}</span></a></li>
-                                    <li><a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}">关注</a></li>
+                                    <li ><a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}">关注的人</a></li>
+                                    <li ><a href="{{ URL::action('Front\HomeController@topics', ['uid'=>$uid]) }}">关注的话题</a></li>
+                                    <li ><a href="{{ URL::action('Front\HomeController@topicedUser', ['uid'=>$uid]) }}">粉丝</a></li>
                                     <li><a href="" id="page_actions" data-toggle="tab">动态</a></li>
                                     <li><a href="" id="page_detail" data-toggle="tab">详细资料</a></li>
                                 </ul>
                             </div>
                         </div>
                         <!-- end 用户数据内容 -->
-
                         <div class="aw-user-center-tab">
                             <div class="tab-content">
-                                <div class="tab-pane " id="overview">
-                                    <!-- 回复 -->
-                                    <div class="aw-mod">
-                                        <div class="mod-head">
-                                            <h3><a class="pull-right aw-more-content" href="javascript:;" onclick="$(&#39;#page_answers&#39;).click();">更多 »</a>回复</h3>
-                                        </div>
-                                        <div class="mod-body">
-                                            <div class="aw-profile-answer-list">
-                                                <p class="padding10 text-center">没有内容</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end 回复 -->
-
-                                    <!-- 发问 -->
-                                    <div class="aw-mod">
-                                        <div class="mod-head">
-                                            <h3><a class="pull-right aw-more-content" href="javascript:;" onclick="$(&#39;#page_questions&#39;).click();">更多 »</a>发问</h3>
-                                        </div>
-                                        <div class="mod-body">
-                                            <div class="aw-profile-publish-list">
-                                                <p class="padding10 text-center">没有内容</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end 发问 -->
-
-                                    <!-- 最新动态 -->
-                                    <div class="aw-mod">
-                                        <div class="mod-head">
-                                            <h3><a class="pull-right aw-more-content" href="javascript:;" onclick="$(&#39;#page_actions&#39;).click();">更多 »</a>动态</h3>
-                                        </div>
-                                        <div class="mod-body">
-                                            <ul>
-                                                <p class="padding10 text-center">没有内容</p>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="tab-pane" id="answers">
-                                    <div class="aw-mod">
-                                        <div class="mod-head">
-                                            <h3>回复</h3>
-                                        </div>
-                                        <div class="mod-body">
-                                            <div class="aw-profile-answer-list" id="contents_user_actions_answers"><p style="padding: 15px 0" align="center">没有内容</p></div>
-                                        </div>
-                                        <div class="mod-footer">
-                                            <!-- 加载更多内容 -->
-                                            <a class="aw-load-more-content disabled" id="bp_user_actions_answers_more" data-page="0">
-                                                <span>没有更多了</span>
-                                            </a>
-                                            <!-- end 加载更多内容 -->
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="tab-pane active" id="articles">
                                     <div class="aw-mod">
                                         <div class="mod-head">
@@ -134,31 +78,6 @@
                                                     @endforeach()
                                                      <div class="paginate" style="text-align:center;">{!! $datas->appends(array('uid'=>$uid ))->render() !!}</div>
                                                 </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="tab-pane" id="detail">
-                                    <div class="aw-mod">
-                                        <div class="mod-head">
-                                            <h3>详细资料</h3>
-                                        </div>
-                                        <div class="mod-body aw-user-center-details">
-                                            <dl>
-                                                <dt><span>个人成就:</span></dt>
-                                                <dd>
-                                                    <p class="meta">
-                                                        <span><i class="icon icon-prestige"></i>威望: <em class="aw-text-color-green">0</em></span>
-                                                        <span><i class="icon icon-agree"></i>赞同: <em class="aw-text-color-orange">0</em></span>
-                                                        <span><i class="icon icon-thank"></i>感谢: <em class="aw-text-color-orange">0</em></span>
-                                                    </p>
-                                                </dd>
-                                            </dl>
-                                            <dl>
-                                                <dt><span>最后活跃:</span></dt>
-                                                <dd>41 秒前</dd>
-                                            </dl>
-
                                         </div>
                                     </div>
                                 </div>
