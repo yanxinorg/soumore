@@ -56,7 +56,6 @@ Route::get('/post/recomCate', 'Front\PostController@recomCate');
 //文章标签筛选
 Route::get('/post/tag', 'Front\PostController@tag');
 
-
 //问答列表
 Route::get('/question', 'Front\QuestionController@index');
 //热门问答列表
@@ -65,7 +64,6 @@ Route::get('/question/hot', 'Front\QuestionController@hot');
 Route::get('/question/remain', 'Front\QuestionController@remain');
 //问答详情页
 Route::get('/question/detail', 'Front\QuestionController@detail');
-
 //问答分类筛选
 Route::get('/question/cate', 'Front\QuestionController@cate');
 //热门分类筛选
@@ -74,6 +72,19 @@ Route::get('/question/hotCate', 'Front\QuestionController@hotCate');
 Route::get('/question/remainCate', 'Front\QuestionController@remainCate');
 //问答标签筛选
 Route::get('/question/tag', 'Front\QuestionController@tag');
+
+//视频列表
+Route::get('/video', 'Front\VideoController@index');
+//新增视频
+Route::get('/video/create', 'Front\VideoController@create');
+//保存视频
+Route::post('/video/store', 'Front\VideoController@store');
+//视频详情
+Route::get('/video/detail', 'Front\VideoController@detail');
+//视频分类筛选
+Route::get('/video/cate', 'Front\VideoController@cate');
+
+
 //个人主页
 Route::get('/home', 'Front\HomeController@index');
 //个人主页文章

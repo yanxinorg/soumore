@@ -55,7 +55,7 @@
 								<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-file"></i>文章</a></li>
 								<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
 								<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i>话题</a></li>
-                                <li><a href="http://video.soumore.cn"><i class="icon icon-video"></i>视频</a></li>
+                                <li><a href="{{ url('/video') }}"><i class="icon icon-video"></i>视频</a></li>
                                 <li><a href=""><i class="icon icon-list"></i>作品</a></li>
 								<li><a href=""><i class="icon icon-list"></i>聊天室</a></li>
                                 <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" class="{{ (Request::getPathinfo() == '/person/post')  ? 'active':'' }}"><i class="icon icon-home"></i> 动态</a></li>
@@ -100,11 +100,12 @@
 					<!-- end 用户栏 -->
 					<!-- 发起 -->
 					<div class="aw-publish-btn">
-						<a id="header_publish" class="btn-primary" href="javascript:void(0);" style="text-decoration: none;"><i class="icon icon-ask"></i>发起</a>
+						<a id="header_publish" class="btn-primary" href="javascript:;" style="text-decoration: none;"><i class="icon icon-ask"></i>发起</a>
 						<div class="dropdown-list pull-right">
 							<ul>
 								<li><a href="{{ url('/post/create') }}">文章</a></li>
 								<li><a href="{{ url('/question/create') }}">问题</a></li>
+								<li><a href="{{ url('/video/create') }}">视频</a></li>
 							</ul>
 						</div>
 					</div>
@@ -126,7 +127,7 @@
 							<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-file"></i> 文章</a></li>
 							<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
 							<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i> 话题</a></li>
-                            <li><a href="http://video.soumore.cn"><i class="icon icon-video"></i>视频</a></li>
+                            <li><a href="{{ url('/video') }}"><i class="icon icon-video"></i>视频</a></li>
                             <li><a href=""><i class="icon icon-list"></i>作品</a></li>
 							<li><a href=""><i class="icon icon-list"></i>聊天室</a></li>
 						</ul>

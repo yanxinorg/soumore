@@ -441,8 +441,7 @@ class PostController extends Controller
             'posts.thumb as thumb',
             'posts.likes as likes',
             'posts.comments as comments',
-            'posts.created_at as created_at',
-            'posts.comments as countcomment'
+            'posts.created_at as created_at'
             )->orderBy('posts.created_at','desc')->get();
         //标签
         $tagss = DB::table('post_tag')
