@@ -26,6 +26,47 @@
 	white-space: nowrap;
 	line-height: 24px;
 	}
+
+	.jFiler {
+		font-family: sans-serif;
+		font-size: 14px;
+		color: #494949;
+		display: inline-block;
+	}
+
+	.jFiler-item-container {
+        width: 100%;
+		margin: 0 20px 30px 0;
+		padding: 10px;
+		border: 1px solid #e1e1e1;
+		border-radius: 3px;
+		background: #fff;
+		-webkit-box-shadow: 0px 0px 3px rgba(0,0,0,0.06);
+		-moz-box-shadow: 0px 0px 3px rgba(0,0,0,0.06);
+		box-shadow: 0px 0px 3px rgba(0,0,0,0.06);
+	}
+    .jFiler-input-dragDrop {
+        display: block;
+        width: 343px;
+        margin: 0 auto 15px auto;
+        padding: 25px;
+        color: #8d9499;
+        color: #97A1A8;
+        background: #fff;
+        border: 2px dashed #C8CBCE;
+        text-align: center;
+        -webkit-transition: box-shadow 0.3s,
+        border-color 0.3s;
+        -moz-transition: box-shadow 0.3s,
+        border-color 0.3s;
+        transition: box-shadow 0.3s,
+        border-color 0.3s;
+    }
+    .item .jFiler-item-container .jFiler-item-thumb .jFiler-item-thumb-image {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+    }
 </style>
 @include('UEditor::head')
 	<div class="aw-container-wrap">
@@ -69,24 +110,24 @@
                                     {{--缩略图上传--}}
                                     <h3>视频头图:</h3>
                                     <div class="aw-mod aw-user-setting-bind">
-                                        <div class="mod-head" style="padding-bottom: 48px;padding-top: 24px;">
-                                            @if ($errors->has('success'))
-                                                <div class="form-group">
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="alert alert-success ">
-                                                            {{ $errors->first('success') }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                            @if ($errors->has('thumb.0'))
-                                                <div class="col-md-12 col-sm-12">
-                                                    <div class="alert alert-danger " >
-                                                        {{ $errors->first('thumb.0') }}
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        </div>
+                                        {{--<div class="mod-head" style="padding-bottom: 48px;padding-top: 24px;">--}}
+                                            {{--@if ($errors->has('success'))--}}
+                                                {{--<div class="form-group">--}}
+                                                    {{--<div class="col-md-12 col-sm-12">--}}
+                                                        {{--<div class="alert alert-success ">--}}
+                                                            {{--{{ $errors->first('success') }}--}}
+                                                        {{--</div>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                            {{--@endif--}}
+                                            {{--@if ($errors->has('thumb.0'))--}}
+                                                {{--<div class="col-md-12 col-sm-12">--}}
+                                                    {{--<div class="alert alert-danger " >--}}
+                                                        {{--{{ $errors->first('thumb.0') }}--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                            {{--@endif--}}
+                                        {{--</div>--}}
                                         <div style="clear: both;"></div>
                                         <input type="file" name="thumb" id="demo-fileInput-4" multiple>
                                     </div>
