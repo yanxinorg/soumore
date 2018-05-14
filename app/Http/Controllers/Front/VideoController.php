@@ -87,20 +87,23 @@ class VideoController extends Controller
             'title'=>'required|min:2',
             'thumb.0'=>'required|image|max:2048',
             'excerpt'=>'required|min:10',
-            'url'=>'required|url',
+            'local_video'=>$request->file('local_video')?'required|mimetypes:video/avi,video/mpeg,video/quicktime,video/x-m4v':'',
+            'third_video'=>$request->get('third_video') ?'required|url':'',
             'status'=>'required|numeric|min:0|max:1'
         ],[
             'required'=>':attribute为必填项',
             'min'=>':attribute至少 :min个字节长',
             'max'=>':attribute超出限制',
-            'image'=>'图片',
-            'url'=>'地址格式错误'
+            'image'=>':attribute格式错误',
+            'mimetypes'=>':attribute格式错误',
+            'url'=>':attribute格式错误'
         ],[
             'cid'=>'分类',
             'title'=>'标题',
             'thumb.0'=>'头图',
             'excerpt'=>'简介',
-            'url'=>'地址',
+            'local_video'=>'视频',
+            'third_video'=>'地址',
             'status'=>'状态',
         ]);
         if($validator->fails())
@@ -121,13 +124,31 @@ class VideoController extends Controller
         }else{
             $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
         }
+        //视频是否存在
+        if(!empty($request->file('local_video')))
+        {
+            $filePath = $request->file('local_video');
+            $type = $request->file('local_video')->getMimeType();
+            $upManager = new UploadManager();
+            $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
+            $token = $auth->uploadToken(env('QINIU_BUCKET'));
+            $key = md5(time().rand(1,9999));
+            list($ret,$error) = $upManager->putFile($token,$key,$filePath,null,$type,false);
+            if($error){
+                return redirect()->back()->withErrors(['error'=>'保存失败']);
+            }else{
+                $videoPath = env('QINIU_DOMAIN').'/'.$ret['key'];
+            }
+        }else{
+            $videoPath = $request->get('third_video');
+        }
         $data = [
             'user_id'  => Auth::user()->id,
             'cate_id'  => $request->get('cid'),
             'title'    => trim($request->get('title')),
             'excerpt'  => $request->get('excerpt'),
             'thumb'  => $imgPath,
-            'url'  =>  $request->get('url'),
+            'url'  =>  $videoPath,
             'status'   => $request->get('status'),
         ];
 
@@ -149,10 +170,8 @@ class VideoController extends Controller
                     'tags_id'=>$tag
                 ]);
             }
-
         }
         return redirect('/video');
-
     }
 
     //视频详情

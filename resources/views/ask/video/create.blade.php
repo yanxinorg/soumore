@@ -76,7 +76,8 @@
 					<div class="col-sm-12 col-md-9 aw-main-content">
 						<!-- tab 切换 -->
 						<ul class="nav nav-tabs aw-nav-tabs active">
-							<li class="active"><a href="{{ url('/post/create') }}">文章</a></li>
+                            <li class="active"><a href="{{ url('/video/create') }}">视频</a></li>
+							<li ><a href="{{ url('/post/create') }}">文章</a></li>
 							<li><a href="{{ url('/question/create') }}">问题</a></li>
 							<h2 class="hidden-xs"><i class="icon icon-ask"></i> 发起</h2>
 						</ul>
@@ -141,16 +142,37 @@
 											</div>
 										</div>
 									</div>
-
-                                    <h3>视频地址:</h3>
-                                    <div class="aw-mod aw-editor-box">
-                                        <div class="mod-head">
-                                            <div class="wmd-panel">
-                                                <input type="text" name="url"　value="{{ old('url') }}" class="form-control" placeholder="http://www.soumore.cn">
-                                            </div>
-                                        </div>
-                                    </div>
-
+									<h3>上传视频:</h3>
+									<div class="row">
+										<div class="col-md-4 col-sm-4">
+											<div class="aw-topic-bar">
+												<div class="dropdown ">
+													<select class="form-control" name="video" id="upload_video">
+														<option value="1">本地上传</option>
+														<option value="0">第三方链接</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-8 col-sm-8" id="local_video">
+											<div class="aw-mod aw-editor-box">
+												<div class="mod-head">
+													<div class="wmd-panel">
+														<input type="file" name="local_video"　value="{{ old('local_video') }}" class="form-control" multiple>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-8 col-sm-8" style="display: none;" id="third_video">
+											<div class="aw-mod aw-editor-box">
+												<div class="mod-head">
+													<div class="wmd-panel">
+														<input type="text" name="third_video"　value="{{ old('third_video') }}" class="form-control" placeholder="例如：http://www.soumore.cn">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
                                     <div class="row">
                                         <div class="col-md-8 col-sm-8 ">
                                             <h3>添加话题(至多5个):</h3>
@@ -213,6 +235,19 @@
 <script src="{{ asset('ask/chosen/chosen.jquery.js') }}"></script>
 <script type="text/javascript">
 jQuery(function(){
+	//视频上传
+	$("#upload_video").change(function () {
+		if($("#upload_video").val() == '1')
+		{
+			$("#local_video").css("display","inline-block");
+			$("#third_video").css("display","none");
+		}else
+		{
+			$("#local_video").css("display","none");
+			$("#third_video").css("display","inline-block");
+		}
+
+	});
 	var editor = UE.getEditor('container',{
 		//这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
 		toolbars:[['bold', 'italic', 'underline','superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist','cleardoc', '|',
@@ -242,6 +277,7 @@ jQuery(function(){
 		$(selector).chosen(config[selector]);
 	}
 });
+
 </script>
 @stop
 @endsection

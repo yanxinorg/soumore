@@ -33,6 +33,7 @@
 					<div class="col-sm-12 col-md-9 aw-main-content">
 						<!-- tab 切换 -->
 						<ul class="nav nav-tabs aw-nav-tabs active">
+							<li><a href="{{ url('/video/create') }}">视频</a></li>
 							<li><a href="{{ url('/post/create') }}">文章</a></li>
 							<li class="active"><a href="{{ url('/question/create') }}">问题</a></li>
 							<h2 class="hidden-xs"><i class="icon icon-ask"></i> 发起</h2>

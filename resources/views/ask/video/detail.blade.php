@@ -1,6 +1,19 @@
 @extends('layouts.ask')
 @section('content')
 @section('css')
+    <style>
+        video::-internal-media-controls-download-button {
+            display:none;
+        }
+
+        video::-webkit-media-controls-enclosure {
+            overflow:hidden;
+        }
+
+        video::-webkit-media-controls-panel {
+            width: calc(100% + 30px);
+        }
+    </style>
     @parent
     <link href="{{ asset('ask/zoom/dist/zoomify.min.css') }}" rel="stylesheet">
 @stop
@@ -55,9 +68,12 @@ use App\Models\Common\UserModel;
                         </div>
                         <div class="mod-body">
                             <div class="content markitup-box">
-                                <div height="410px" width="100%">
-                                    <iframe height="410px" width="100%" src="{{ $datas->url }}" frameborder=0 allowfullscreen></iframe>
-                                </div>
+                                <video width="100%" controls="controls" autoplay="autoplay" >
+                                    <source src="{{ $datas->url }}" type="video/mp4">
+                                    <object data="movie.mp4" width="100%" height="auto">
+                                        <embed src="movie.swf" width="100%" height="auto">
+                                    </object>
+                                </video>
                             </div>
                             <div class="meta clearfix">
                                 <div class="aw-article-vote pull-left disabled">
