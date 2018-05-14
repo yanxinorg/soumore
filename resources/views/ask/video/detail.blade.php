@@ -68,12 +68,7 @@ use App\Models\Common\UserModel;
                         </div>
                         <div class="mod-body">
                             <div class="content markitup-box">
-                                <video width="100%" controls="controls" autoplay="autoplay" >
-                                    <source src="{{ $datas->url }}" type="video/mp4">
-                                    <object data="movie.mp4" width="100%" height="auto">
-                                        <embed src="movie.swf" width="100%" height="auto">
-                                    </object>
-                                </video>
+                                <embed src='{{ $datas->url }}' allowFullScreen='true' quality='high' width='100%' height='600' align='middle' allowScriptAccess='always' type='application/x-shockwave-flash'></embed>
                             </div>
                             <div class="meta clearfix">
                                 <div class="aw-article-vote pull-left disabled">
