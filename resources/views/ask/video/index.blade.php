@@ -72,32 +72,10 @@
                     </div>
                     <!-- 侧边栏 -->
                     <div class="col-sm-3 col-md-3 aw-side-bar hidden-sm hidden-xs">
-                        <!-- 今日话题 -->
-                        <div class="aw-mod topic-daily hidden-xs">
-                            <div class="mod-head">
-                                <h3>今日话题</h3>
-                            </div>
-                            <div class="mod-body">
-                                <dl>
-                                    <dt class="pull-left">
-                                        <!-- 话题图片 -->
-                                        <a data-id="" class="img aw-border-radius-5" href="{{ URL::action('Front\TopicController@detail', ['id'=>$todayTag['id']]) }}">
-                                            <img src="{{ $todayTag['thumb']  }}" alt="{{ $todayTag['name']  }}">
-                                        </a>
-                                        <!-- end 话题图片 -->
-                                    </dt>
-                                    <dd class="pull-left"></dd>
-                                </dl>
-                                <!-- 话题描述 -->
-                                <p><span></span>...<a href="{{ URL::action('Front\TopicController@detail', ['id'=>$todayTag['id']]) }}">进入话题 »</a></p>
-                                <!-- end 话题描述 -->
-                            </div>
-                        </div>
-                        <!-- end 今日话题 -->
                         <!-- 新增话题 -->
                         <div class="aw-mod new-topic">
                             <div class="mod-head">
-                                <h3>新增话题</h3>
+                                <h3>相关话题</h3>
                             </div>
                             <div class="mod-body clearfix">
                                 <div class="aw-topic-bar">

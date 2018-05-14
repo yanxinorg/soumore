@@ -57,7 +57,6 @@
 								<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i>话题</a></li>
                                 <li><a href="{{ url('/video') }}"><i class="icon icon-video"></i>视频</a></li>
                                 <li><a href=""><i class="icon icon-list"></i>作品</a></li>
-								<li><a href=""><i class="icon icon-list"></i>聊天室</a></li>
                                 <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" class="{{ (Request::getPathinfo() == '/person/post')  ? 'active':'' }}"><i class="icon icon-home"></i> 动态</a></li>
 							</ul>
 						</nav>
@@ -128,7 +127,6 @@
 							<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
 							<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i> 话题</a></li>
                             <li><a href="{{ url('/video') }}"><i class="icon icon-video"></i>视频</a></li>
-                            <li><a href=""><i class="icon icon-list"></i>作品</a></li>
 							<li><a href=""><i class="icon icon-list"></i>聊天室</a></li>
 						</ul>
 					</nav>
