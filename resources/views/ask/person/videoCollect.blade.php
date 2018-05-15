@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="mod-body clearfix">
                                     @foreach($videos as $video)
-                                        <div class="aw-item" >
+                                        <div class="aw-item col-md-3" >
                                             <a class="img aw-border-radius-5" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">
                                                 <img style="width:180px;height: 120px;" src="{{ $video->thumb }}" alt="{{ $video->title }}">
                                             </a>

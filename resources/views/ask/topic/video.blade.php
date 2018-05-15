@@ -42,8 +42,8 @@ use App\Models\Common\AttentionModel;
 								<ul class="nav nav-tabs aw-nav-tabs hidden-xs">
 									<li ><a href="{{ URL::action('Front\TopicController@detail', ['id'=>$tid]) }}" >关于话题</a></li>
 									<li ><a href="{{ URL::action('Front\TopicController@post', ['id'=>$tid]) }}" >文章<span class="badge">{{ $datas->posts }}</span></a></li>
-									<li class="active"><a href="{{ URL::action('Front\TopicController@question', ['id'=>$tid]) }}" >问答<span class="badge">{{ $datas->questions }}</span></a></li>
-    								<li><a href="{{ URL::action('Front\TopicController@video', ['id'=>$tid]) }}" >视频<span class="badge">{{ $datas->videos }}</span></a></li>
+									<li ><a href="{{ URL::action('Front\TopicController@question', ['id'=>$tid]) }}" >问答<span class="badge">{{ $datas->questions }}</span></a></li>
+    								<li class="active"><a href="{{ URL::action('Front\TopicController@video', ['id'=>$tid]) }}" >视频<span class="badge">{{ $datas->videos }}</span></a></li>
 									<div class="aw-search-bar pull-right hidden-xs">
 										<i class="icon icon-search"></i>
 										<input type="text" id="question-input" class="search-query form-control" placeholder="搜索...">
@@ -63,20 +63,25 @@ use App\Models\Common\AttentionModel;
 								<div class="tab-pane active" id="about">
 									<div class="aw-topic-detail-about text-color-666 markitup-box">
 										<div class="aw-common-list">
-											@foreach($questions as $question)
-												<div class="aw-item article" data-topic-id="3,">
-													<a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$question->user_id]) }}" rel="nofollow"><img src="{{ $question->avator }}" alt="{{ $question->author }}"></a>
-													<div class="aw-question-content">
-														<h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$question->question_id]) }}">{{ $question->title }}</a></h4>
-														<p>
-															<a class="aw-question-tags" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$question->cate_id]) }}">{{ $question->cate_name  }}</a>
-															<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$question->user_id]) }}" class="aw-user-name">{{ $question->author }}</a> <span class="text-color-999">发表了文章 • {{ $question->comments }}个评论 • {{ $question->views }} 次浏览 • {{\Carbon\Carbon::parse($question->created_at)->diffForHumans()}}</span>
-															<span class="text-color-999 related-topic collapse"> • 来自相关话题</span>
+											<div class="mod-body clearfix">
+												@foreach($videos as $video)
+													<div class="aw-item col-md-3" >
+														<a class="img aw-border-radius-5" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">
+															<img style="width:180px;height: 120px;" src="{{ $video->thumb }}" alt="{{ $video->title }}">
+														</a>
+														<p class="clearfix" style="margin-top: 12px;">
+															<a class="text" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">{{ str_limit($video->title,36) }}</a>
+														</p>
+														<p class="text-color-999">
+															<span>作者：<a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$video->user_id]) }}" rel="nofollow">{{ $video->author }}</a></span>
+														</p>
+														<p class="text-color-999">
+															<span>发布时间：{{ substr($video->created_at,0,11) }}</span>
 														</p>
 													</div>
-												</div>
-											@endforeach()
-											<div class="paginate" style="text-align:center;">{!! $questions->appends(array('id'=>$tid))->render() !!}</div>
+												@endforeach()
+											</div>
+											<div class="paginate" style="text-align:center;">{!! $videos->appends(array('id'=>$tid))->render() !!}</div>
 										</div>
 									</div>
 								</div>
@@ -112,6 +117,7 @@ use App\Models\Common\AttentionModel;
 						</div>
 					</div>
 					<!-- end xx人关注该话题 -->
+
 					<div class="aw-mod">
 						<div class="mod-head">
 							<h3>管理</h3>

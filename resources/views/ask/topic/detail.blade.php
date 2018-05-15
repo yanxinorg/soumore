@@ -23,8 +23,6 @@ use App\Models\Common\AttentionModel;
                                 <span>{{ $datas->name }}</span>
                                 <p class="text-color-999">
                                     <span>{{ $datas->watchs }} 个关注</span>
-                                    <span>{{ $datas->posts }} 个文章</span>
-                                    <span>{{ $datas->questions }} 个问答</span>
                                 </p>
                             </h2>
 
@@ -44,9 +42,9 @@ use App\Models\Common\AttentionModel;
 								<!-- tab 切换 -->
 								<ul class="nav nav-tabs aw-nav-tabs hidden-xs">
 									<li class="active"><a href="{{ URL::action('Front\TopicController@detail', ['id'=>$tid]) }}" >关于话题</a></li>
-									<li><a href="{{ URL::action('Front\TopicController@post', ['id'=>$tid]) }}" >文章</a></li>
-									<li><a href="{{ URL::action('Front\TopicController@question', ['id'=>$tid]) }}" >问答</a></li>
-    								<li><a href="{{ URL::action('Front\TopicController@video', ['id'=>$tid]) }}" >视频</a></li>
+									<li><a href="{{ URL::action('Front\TopicController@post', ['id'=>$tid]) }}" >文章<span class="badge">{{ $datas->posts }}</span></a></li>
+									<li><a href="{{ URL::action('Front\TopicController@question', ['id'=>$tid]) }}" >问答<span class="badge">{{ $datas->questions }}</span></a></li>
+    								<li><a href="{{ URL::action('Front\TopicController@video', ['id'=>$tid]) }}" >视频<span class="badge">{{ $datas->videos }}</span></a></li>
 									<div class="aw-search-bar pull-right hidden-xs">
 										<i class="icon icon-search"></i>
 										<input type="text" id="question-input" class="search-query form-control" placeholder="搜索...">
@@ -86,25 +84,6 @@ use App\Models\Common\AttentionModel;
 						</div>
 					</div>
 					<!-- end 话题描述 -->
-
-					<div class="aw-mod topic-about">
-                    	<div class="mod-head">
-                    		<h3>相关话题</h3>
-                    	</div>
-                    	<div class="mod-body" data-type="topic">
-                    		<div class="aw-topic-bar" data-type="topic" data-id="2">
-                    			<div class="tag-bar clearfix">
-                    			@foreach($relateAttens as $relate)
-                    				<a href="{{ URL::action('Front\TopicController@detail', ['id'=>$relate->id]) }}"><img style="width: 36px;" alt="{{ $relate->name }}" src="{{ $relate->thumb }}"></a>
-                    			@endforeach()
-                    			</div>
-                    		</div>
-                    	</div>
-					</div>
-					
-					<!-- 最佳回复者 -->
-					<!-- end 最佳回复者 -->
-
 					<!-- xx人关注该话题 -->
 					<div class="aw-mod topic-status">
 						<div class="mod-head">
@@ -119,26 +98,6 @@ use App\Models\Common\AttentionModel;
 						</div>
 					</div>
 					<!-- end xx人关注该话题 -->
-
-					<!-- 话题修改记录 -->
-					<div class="aw-mod topic-edit-notes">
-						<div class="mod-head">
-							<h3><i class="icon icon-down pull-right"></i>话题修改记录</h3>
-						</div>
-						<div class="mod-body collapse">
-							<ul>
-								<li onclick="">
-									<span class="pull-right text-color-999">2018-04-05</span>
-									<a href="javascript:;" data-id="" class="aw-user-name">admin</a>
-								</li>
-								<li onclick="">
-									<span class="pull-right text-color-999">2018-04-05</span>
-									<a href="javascript:;" data-id="" class="aw-user-name">admin</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<!-- end 话题修改记录 -->
 
 					<div class="aw-mod">
 						<div class="mod-head">

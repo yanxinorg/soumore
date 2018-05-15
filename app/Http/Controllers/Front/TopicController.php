@@ -101,9 +101,6 @@ class TopicController extends Controller
             ->orderBy('posts.created_at','desc')
             ->paginate('15');
         $datas = TagModel::where('id',$request->get('id'))->get();
-        //相关话题
-        $attenCateId = TagModel::where('id',$request->get('id'))->pluck('cate_id');
-        $relateAttens = TagModel::where('cate_id',$attenCateId)->get();
         //关注该话题的人
         $attenUser = DB::table('attentions')
             ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
@@ -117,7 +114,7 @@ class TopicController extends Controller
             ->limit('15')->get()->toArray();
         //关注该话题的总人数
         $attenCount = DB::table('attentions')->where('source_type','3')->where('source_id',$request->get('id'))->count();
-        return view('ask.topic.post',['datas'=>$datas[0],'posts'=>$posts,'relateAttens'=>$relateAttens,'attenUsers'=>$attenUser,'attenCount'=>$attenCount,'tid'=>$request->get('id')]);
+        return view('ask.topic.post',['datas'=>$datas[0],'posts'=>$posts,'attenUsers'=>$attenUser,'attenCount'=>$attenCount,'tid'=>$request->get('id')]);
     }
 
     //该话题问答
@@ -126,7 +123,6 @@ class TopicController extends Controller
         $this->validate($request, [
             'id'=>'required|numeric|exists:tags,id'
         ]);
-
         //问答
         $questions = DB::table('questions')
             ->leftjoin('users', 'users.id', '=', 'questions.user_id')
@@ -137,9 +133,6 @@ class TopicController extends Controller
             ->orderBy('questions.created_at','desc')
             ->paginate('15');
         $datas = TagModel::where('id',$request->get('id'))->get();
-        //相关话题
-        $attenCateId = TagModel::where('id',$request->get('id'))->pluck('cate_id');
-        $relateAttens = TagModel::where('cate_id',$attenCateId)->get();
         //关注该话题的人
         $attenUser = DB::table('attentions')
             ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
@@ -153,7 +146,7 @@ class TopicController extends Controller
             ->limit('15')->get()->toArray();
         //关注该话题的总人数
         $attenCount = DB::table('attentions')->where('source_type','3')->where('source_id',$request->get('id'))->count();
-        return view('ask.topic.question',['datas'=>$datas[0],'questions'=>$questions,'relateAttens'=>$relateAttens,'attenUsers'=>$attenUser,'attenCount'=>$attenCount,'tid'=>$request->get('id')]);
+        return view('ask.topic.question',['datas'=>$datas[0],'questions'=>$questions,'attenUsers'=>$attenUser,'attenCount'=>$attenCount,'tid'=>$request->get('id')]);
     }
 
     //该话题文章
@@ -162,6 +155,38 @@ class TopicController extends Controller
         $this->validate($request, [
             'id'=>'required|numeric|exists:tags,id'
         ]);
+        //该话题视频
+        $videos = DB::table('videos')
+            ->leftjoin('users', 'users.id', '=', 'videos.user_id')
+            ->leftjoin('other_tag', 'other_tag.videos_id', '=', 'videos.id')
+            ->leftjoin('category', 'videos.cate_id', '=', 'category.id')
+            ->where('other_tag.tags_id','=',$request->get('id'))
+            ->select('videos.id as id',
+                'videos.title as title',
+                'users.id as user_id',
+                'users.name as author',
+                'videos.thumb as thumb',
+                'videos.hits as hits',
+                'videos.comments as comments',
+                'videos.created_at as created_at'
+            )
+            ->orderBy('videos.created_at','desc')
+            ->paginate('16');
+        $datas = TagModel::where('id',$request->get('id'))->get();
+        //关注该话题的人
+        $attenUser = DB::table('attentions')
+            ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
+            ->where('attentions.source_id','=',$request->get('id'))
+            ->where('attentions.source_type','=','3')
+            ->select('users.id as user_id',
+                'users.name as name',
+                'users.avator as avator'
+            )
+            ->orderBy('users.created_at','asc')
+            ->limit('15')->get()->toArray();
+        //关注该话题的总人数
+        $attenCount = DB::table('attentions')->where('source_type','3')->where('source_id',$request->get('id'))->count();
+        return view('ask.topic.video',['datas'=>$datas[0],'videos'=>$videos,'attenUsers'=>$attenUser,'attenCount'=>$attenCount,'tid'=>$request->get('id')]);
 
     }
 }
