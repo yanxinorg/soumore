@@ -243,48 +243,75 @@ class PersonController extends Controller
     //我收藏的文章
     public function postCollect(Request $request)
     {
-    	$datas = DB::table('collections')
-    	->join('users', 'collections.user_id', '=', 'users.id')
-    	->join('posts', 'collections.source_id', '=', 'posts.id')
-    	->where('collections.user_id','=',Auth::id())
-    	->where('collections.source_type','=','1')
-    	->select('posts.id as post_id',
-    			'posts.title as title',
-    			'users.name as author',
+        $postIds = DB::table('collections')
+            ->leftjoin('users', 'collections.user_id', '=', 'users.id')
+            ->where('collections.user_id','=',Auth::id())
+            ->where('collections.source_type','=','1')
+            ->pluck('source_id')->toArray();
+        $datas = DB::table('posts')
+            ->leftjoin('users', 'posts.user_id', '=', 'users.id')
+            ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
+            ->whereIn('posts.id',$postIds)
+            ->select('posts.id as post_id',
+                'posts.title as title',
+                'users.name as author',
                 'users.avator as avator',
-    			'posts.user_id as user_id',
-    			'posts.cate_id as cateid',
-    			'posts.excerpt as excerpt',
-    			'posts.content as content',
-    			'posts.thumb as thumb',
-    			'posts.created_at as created_at',
-    			'posts.comments as countcomment'
-    			)->orderBy('posts.created_at','desc')->paginate('15');
-    	return view('ask.person.postCollect',['datas'=>$datas]);
+                'posts.user_id as user_id',
+                'posts.cate_id as cateid',
+                'posts.excerpt as excerpt',
+                'posts.content as content',
+                'posts.thumb as thumb',
+                'posts.created_at as created_at',
+                'posts.comments as countcomment'
+            )->orderBy('posts.created_at','desc')->paginate('15');
+        return view('ask.person.postCollect',['datas'=>$datas]);
     }
-    
+
     //我收藏的问答
     public function answerCollect(Request $request)
     {
-    	$datas = DB::table('collections')
-    	->join('users', 'collections.user_id', '=', 'users.id')
-    	->join('questions', 'collections.source_id', '=', 'questions.id')
+    	$questionIds = DB::table('collections')
+    	->leftjoin('users', 'collections.user_id', '=', 'users.id')
     	->where('collections.user_id','=',Auth::id())
     	->where('collections.source_type','=','2')
-    	->select(
-    			'users.id as user_id',
-    			'users.name as user_name',
-                'users.avator as avator',
-    			'questions.title as title',
-    			'questions.id as question_id',
-    			'questions.content as content',
-                'questions.comments as comments',
-    			'questions.created_at as created_at'
-    			)
-    	->orderBy('questions.created_at','desc')
-    	->paginate('15');
+    	->pluck('source_id')->toArray();
+        $datas = DB::table('questions')
+            ->leftjoin('users', 'questions.user_id', '=', 'users.id')
+            ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
+            ->whereIn('questions.id',$questionIds)
+            ->select('users.id as user_id','users.avator as avator','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id','questions.comments as comments','questions.views as views', 'questions.content as content','questions.created_at as created_at')
+            ->orderBy('questions.created_at','desc')->paginate('15');
     	return view('ask.person.answerCollect',['questions'=>$datas]);
     }
+
+    //我收藏的视频
+    public function videoCollect()
+    {
+        $videoIds = DB::table('collections')
+            ->leftjoin('users', 'collections.user_id', '=', 'users.id')
+            ->where('collections.user_id','=',Auth::id())
+            ->where('collections.source_type','=','3')
+            ->pluck('source_id')->toArray();
+        $datas = DB::table('videos')
+            ->leftjoin('users', 'videos.user_id', '=', 'users.id')
+            ->leftjoin('category', 'videos.cate_id', '=', 'category.id')
+            ->whereIn('videos.id',$videoIds)
+            ->select(
+                'users.name as author',
+                'users.avator as avator',
+                'videos.id as id',
+                'videos.user_id as user_id',
+                'videos.thumb as thumb',
+                'videos.title as title',
+                'videos.hits as hits',
+                'videos.comments as comments',
+                'videos.created_at as created_at'
+            )
+            ->orderBy('videos.created_at','desc')
+            ->paginate('15');
+        return view('ask.person.videoCollect',['videos'=>$datas]);
+    }
+
     
     //我的关注
     public function myAttention(Request $request)

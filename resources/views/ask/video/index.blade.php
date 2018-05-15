@@ -80,9 +80,11 @@
                             <div class="mod-body clearfix">
                                 <div class="aw-topic-bar">
                                     <div class="topic-bar clearfix">
+                                        @foreach($tags as $tag)
                                             <span class="topic-tag">
-                                            <a class="text" href="" >11111111111</a>
-                                        </span>
+                                                <a class="text" href="{{ URL::action('Front\TopicController@detail', ['id'=>$tag->id]) }}">{{ $tag->name }}</a>
+                                            </span>
+                                        @endforeach()
                                     </div>
                                 </div>
                             </div>

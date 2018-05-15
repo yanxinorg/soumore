@@ -97,7 +97,7 @@ use App\Models\Common\UserModel;
                         <div class="mod-footer"></div>
                     </div>
 
-                    <!-- 文章评论 -->
+                    <!-- 视频评论 -->
                     <div class="aw-mod">
 
                         <div class="mod-head common-head">
@@ -230,9 +230,9 @@ use App\Models\Common\UserModel;
         },function(){});
     }
 
-    // 文章收藏
+    // 视频收藏
     function collect(id){
-        $.post("{{ url('/post/collect') }}",
+        $.post("{{ url('/video/collect') }}",
                 {
                     "_token":'{{ csrf_token() }}',
                     "id": id,
@@ -255,7 +255,7 @@ use App\Models\Common\UserModel;
     }
     //取消收藏
     function collectCancel(id){
-        $.post("{{ url('/post/collectCancel') }}",
+        $.post("{{ url('/video/collectCancel') }}",
                 {
                     "_token":'{{ csrf_token() }}',
                     "id": id,

@@ -58,17 +58,13 @@ Route::get('/post/tag', 'Front\PostController@tag');
 
 //问答列表
 Route::get('/question', 'Front\QuestionController@index');
-//热门问答列表
-Route::get('/question/hot', 'Front\QuestionController@hot');
-//待问答列表
-Route::get('/question/remain', 'Front\QuestionController@remain');
 //问答详情页
 Route::get('/question/detail', 'Front\QuestionController@detail');
-//问答分类筛选
+//问答分类
 Route::get('/question/cate', 'Front\QuestionController@cate');
-//热门分类筛选
+//热门分类
 Route::get('/question/hotCate', 'Front\QuestionController@hotCate');
-//待回答分类筛选
+//待回答分类
 Route::get('/question/remainCate', 'Front\QuestionController@remainCate');
 //问答标签筛选
 Route::get('/question/tag', 'Front\QuestionController@tag');
@@ -143,10 +139,10 @@ Route::group(['middleware' => 'authed'], function () {
 		Route::post('/question/update', 'QuestionController@update');
 		//问答收藏
 		Route::post('/question/collect', 'QuestionController@collect');
+        //取消收藏
+        Route::post('/question/collectCancel', 'QuestionController@collectCancel');
 		//问答回答提交
 		Route::post('/question/answer', 'QuestionController@answer');
-		//取消收藏
-		Route::post('/question/collectCancel', 'QuestionController@collectCancel');
 		//关注其他
 		Route::get('/attention/user', 'AttentionController@user');
 		//取消关注其他
@@ -177,6 +173,8 @@ Route::group(['middleware' => 'authed'], function () {
 		Route::get('/person/postCollect', 'PersonController@postCollect');
 		//我收藏的问答
 		Route::get('/person/answerCollect', 'PersonController@answerCollect');
+        //我收藏的视频
+        Route::get('/person/videoCollect', 'PersonController@videoCollect');
 		//我的关注
 		Route::get('/person/attention', 'PersonController@myAttention');
 		//我关注的用户
@@ -211,6 +209,10 @@ Route::group(['middleware' => 'authed'], function () {
         Route::post('/video/store', 'VideoController@store');
         //视频删除
         Route::post('/video/del', 'VideoController@del');
+        //视频收藏
+        Route::post('/video/collect', 'VideoController@collect');
+        //取消收藏
+        Route::post('/video/collectCancel', 'VideoController@collectCancel');
 		//添加评论
 		Route::post('/comment/create', 'CommentController@create');
 	});

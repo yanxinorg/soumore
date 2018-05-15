@@ -24,8 +24,8 @@
 					<!-- end 新消息通知 -->
 					<!-- tab切换 -->
 					<ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
-						<li><a href="{{ url('/question/remain') }}">待回答</a></li>
-						<li><a href="{{ url('/question/hot') }}">热门</a></li>
+						<li><a href="{{ url('/question/remainCate') }}">待回答</a></li>
+						<li><a href="{{ url('/question/hotCate') }}">热门</a></li>
 						<li class="active"><a href="{{ url('/question') }}">最新</a></li>
 						<h2 class="hidden-xs"><i class="icon icon-help"></i>问答</h2>
 					</ul>

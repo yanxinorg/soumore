@@ -18,7 +18,7 @@ class CreateTableCollection extends Migration
             $table->increments('id')->unsigned()->comment('自增id');
             $table->integer('user_id')->index()->unsigned()->comment('用户id'); 
             $table->integer('source_id')->index()->unsigned()->comment('资源id');
-            $table->smallInteger('source_type')->unsigned()->comment('资源类型 1,文章  2,问答');
+            $table->smallInteger('source_type')->unsigned()->comment('资源类型 1,文章  2,问答 3,视频');
             $table->string('title',256)->nullable()->comment('收藏资源标题');
             $table->timestamps();
         });

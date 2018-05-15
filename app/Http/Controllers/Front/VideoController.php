@@ -33,12 +33,11 @@ class VideoController extends Controller
             )
             ->orderBy('videos.created_at','desc')
             ->paginate('16');
-
-        //今日话题
-        $todayTag = TagModel::orderBy('created_at','desc')->limit(1)->get()->toArray();
+        //相关话题
+        $tags = TagModel::all();
         //话题分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-        return view('ask.video.index',['videos'=>$videos,'todayTag'=>$todayTag[0],'cates'=>$cates,'cid'=>'']);
+        return view('ask.video.index',['videos'=>$videos,'tags'=>$tags,'cates'=>$cates,'cid'=>'']);
     }
 
     //视频分类筛选列表
@@ -62,11 +61,10 @@ class VideoController extends Controller
             ->paginate('16');
         //话题分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-        //今日话题
-        $todayTag = TagModel::orderBy('created_at','desc')->limit(1)->get()->toArray();
-        return view('ask.video.index',['videos'=>$videos,'todayTag'=>$todayTag[0],'cates'=>$cates,'cid'=>$request->get('cid')]);
+        //相关话题
+        $tags = TagModel::all();
+        return view('ask.video.index',['videos'=>$videos,'tags'=>$tags,'cates'=>$cates,'cid'=>$request->get('cid')]);
     }
-
 
     //新增视频
     public function create()
@@ -227,7 +225,6 @@ class VideoController extends Controller
                 'users.avator as avator')
             ->orderBy('comments.created_at','asc')
             ->paginate('10');
-
         //是否收藏
         if(!empty(Auth::id()))
         {
@@ -267,6 +264,54 @@ class VideoController extends Controller
                 'msg'=>'删除失败'
             ];
         }
+        return $data;
+    }
+
+    //视频收藏
+    public function collect(Request $request)
+    {
+        $this->validate($request, [
+            'id'=>'required|numeric|exists:videos,id'
+        ]);
+        //处理收藏
+        if(empty(Auth::id()))
+        {
+            $data = [
+                'code'=>'2',
+                'msg'=>'收藏失败，请先登录'
+            ];
+            return $data;
+        }
+        if(!CollectionModel::where(['user_id' => Auth::id(),'source_id'=>$request->get('id'),'source_type'=>'2'])->exists())
+        {
+            CollectionModel::updateOrCreate(
+                array('user_id' => Auth::id(),'source_id'=>$request->get('id'),'source_type'=>'3'),
+                array('user_id' => Auth::id(),'source_id'=>$request->get('id'),'source_type'=>'3')
+            );
+            $data = [
+                'code'=>'1',
+                'msg'=>'收藏成功'
+            ];
+            return $data;
+        }
+        $data = [
+            'code'=>'0',
+            'msg'=>'已收藏过该文章'
+        ];
+        return $data;
+    }
+
+    //取消收藏
+    public function collectCancel(Request $request)
+    {
+        $this->validate($request, [
+            'id'=>'required|numeric|exists:videos,id'
+        ]);
+        CollectionModel::where(['user_id' => Auth::id(),'source_id'=>$request->get('id'),'source_type'=>'3'])->delete();
+        $data = [
+            'code'=>'1',
+            'msg'=>'取消收藏'
+        ];
         return $data;
     }
 }

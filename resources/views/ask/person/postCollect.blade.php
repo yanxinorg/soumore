@@ -31,6 +31,7 @@
                                         <ul>
                                             <li><a class="active" href="{{ url('/person/postCollect') }}">文章</a></li>
                                             <li><a  href="{{ url('/person/answerCollect') }}">问答</a></li>
+                                            <li><a  href="{{ url('/person/videoCollect') }}">视频</a></li>
                                         </ul>
                                     </div>
                                 </div>
