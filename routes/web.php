@@ -83,6 +83,8 @@ Route::get('/home', 'Front\HomeController@index');
 Route::get('/home/post', 'Front\HomeController@post');
 //个人主页问答
 Route::get('/home/question', 'Front\HomeController@question');
+//个人主页视频
+Route::get('/home/video', 'Front\HomeController@video');
 //个人主页关注
 Route::get('/home/topicUser', 'Front\HomeController@topicUser');
 //个人主页粉丝

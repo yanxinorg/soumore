@@ -20,12 +20,16 @@ class HomeController extends Controller
     private $userinfo ;
     //文章信息
     private $posts;
+    //视频信息
+    private $videos;
     //文章总数
     private $countPost;
     //问答
     private $questions;
     //问答总数
     private $countQuestion;
+    //视频总数
+    private $countVideo;
     //是否关注
     private $islooked =  false;
     //最近访客
@@ -94,7 +98,23 @@ class HomeController extends Controller
         $this->questions = QuestionModel::where('user_id',$request->get('uid'))->paginate('15');
         //问答总数
         $this->countQuestion = QuestionModel::where('user_id',$request->get('uid'))->count();
-
+        //视频
+        $this->videos = DB::table('videos')
+            ->leftjoin('users', 'videos.user_id', '=', 'users.id')
+            ->where('videos.status','=','1')
+            ->where('users.id','=',$request->get('uid'))
+            ->select('videos.id as id',
+                'videos.title as title',
+                'users.id as user_id',
+                'users.name as author',
+                'videos.thumb as thumb',
+                'videos.hits as hits',
+                'videos.comments as comments',
+                'videos.created_at as created_at'
+            )
+            ->orderBy('videos.created_at','desc')
+            ->paginate('16');
+        $this->countVideo =  DB::table('videos')->leftjoin('users', 'videos.user_id', '=', 'users.id')->where('videos.status','=','1')->where('users.id','=',$request->get('uid'))->count();
         //最近访客 获取最近8位访客
         $this->recents = DB::table('visitors')
             ->leftjoin('users', 'visitors.visitor_id', '=', 'users.id')
@@ -174,6 +194,8 @@ class HomeController extends Controller
             'countPost'=>$this->countPost,
             'questions'=>$this->questions,
             'countQuestion'=>$this->countQuestion,
+            'videos'=>$this->videos,
+            'countVideo'=>$this->countVideo,
             'topicUsers'=>$this->topicUsers,
             'countUsers'=>$this->countUsers,
             'fans'=>$this->fans,
@@ -208,6 +230,8 @@ class HomeController extends Controller
             'datas'=>$this->posts,
             'countPost'=>$this->countPost,
             'countQuestion'=>$this->countQuestion,
+            'videos'=>$this->videos,
+            'countVideo'=>$this->countVideo,
             'topicUsers'=>$this->topicUsers,
             'countUsers'=>$this->countUsers,
             'fans'=>$this->fans,
@@ -242,6 +266,8 @@ class HomeController extends Controller
             'countPost'=>$this->countPost,
             'questions'=>$this->questions,
             'countQuestion'=>$this->countQuestion,
+            'videos'=>$this->videos,
+            'countVideo'=>$this->countVideo,
             'topicUsers'=>$this->topicUsers,
             'countUsers'=>$this->countUsers,
             'fans'=>$this->fans,
@@ -252,7 +278,41 @@ class HomeController extends Controller
             'islooked'=>$this->islooked,
             'recents'=>$this->recents]);
     }
-
+    //视频
+    public function video()
+    {
+        //是否关注
+        if(empty(Auth::id()))
+        {
+            $this->islooked = false;
+        }else{
+            //查看该用户是否已经关注该主页用户
+            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$this->uid,'source_type'=>'1'])->exists())
+            {
+                //关注了该用户
+                $this->islooked = true;
+            }else{
+                $this->islooked = false;
+            }
+        }
+        return view('ask.home.video',['userinfo'=>$this->userinfo,
+            'province'=>$this->province,
+            'city'=>$this->city,
+            'countPost'=>$this->countPost,
+            'questions'=>$this->questions,
+            'countQuestion'=>$this->countQuestion,
+            'videos'=>$this->videos,
+            'countVideo'=>$this->countVideo,
+            'topicUsers'=>$this->topicUsers,
+            'countUsers'=>$this->countUsers,
+            'fans'=>$this->fans,
+            'countFans'=>$this->countFans,
+            'topics'=>$this->topics,
+            'countTopics'=>$this->countTopics,
+            'uid'=>$this->uid,
+            'islooked'=>$this->islooked,
+            'recents'=>$this->recents]);
+    }
     //关注的人
     public function topicUser()
     {
@@ -276,6 +336,8 @@ class HomeController extends Controller
             'city'=>$this->city,
             'countPost'=>$this->countPost,
             'countQuestion'=>$this->countQuestion,
+            'videos'=>$this->videos,
+            'countVideo'=>$this->countVideo,
             'topicUsers'=>$this->topicUsers,
             'countUsers'=>$this->countUsers,
             'fans'=>$this->fans,
@@ -309,6 +371,8 @@ class HomeController extends Controller
             'city'=>$this->city,
             'countPost'=>$this->countPost,
             'countQuestion'=>$this->countQuestion,
+            'videos'=>$this->videos,
+            'countVideo'=>$this->countVideo,
             'topicUsers'=>$this->topicUsers,
             'countUsers'=>$this->countUsers,
             'fans'=>$this->fans,
@@ -344,6 +408,8 @@ class HomeController extends Controller
             'city'=>$this->city,
             'countPost'=>$this->countPost,
             'countQuestion'=>$this->countQuestion,
+            'videos'=>$this->videos,
+            'countVideo'=>$this->countVideo,
             'topicUsers'=>$this->topicUsers,
             'countUsers'=>$this->countUsers,
             'fans'=>$this->fans,

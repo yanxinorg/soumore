@@ -43,9 +43,10 @@
                                     <li><a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}">问答<span class="badge">{{ $countQuestion }}</span></a></li>
                                     <li><a href="" id="page_answers" data-toggle="tab">回复<span class="badge">0</span></a></li>
                                     <li><a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}">文章<span class="badge">{{ $countPost }}</span></a></li>
-                                    <li class="active"><a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}">关注的人</a></li>
-                                    <li ><a href="{{ URL::action('Front\HomeController@topics', ['uid'=>$uid]) }}">关注的话题</a></li>
-                                    <li ><a href="{{ URL::action('Front\HomeController@topicedUser', ['uid'=>$uid]) }}">粉丝</a></li>
+                                    <li ><a href="{{ URL::action('Front\HomeController@video', ['uid'=>$uid]) }}">视频<span class="badge">{{ $countVideo }}</span></a></li>
+                                    <li class="active"><a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}">关注的人<span class="badge">{{  $countUsers }}</span></a></li>
+                                    <li ><a href="{{ URL::action('Front\HomeController@topics', ['uid'=>$uid]) }}">关注的话题<span class="badge">{{ $countTopics }}</span></a></li>
+                                    <li ><a href="{{ URL::action('Front\HomeController@topicedUser', ['uid'=>$uid]) }}">粉丝<span class="badge">{{ $countFans  }}</span></a></li>
                                     <li><a href="" id="page_actions" data-toggle="tab">动态</a></li>
                                     <li><a href="" id="page_detail" data-toggle="tab">详细资料</a></li>
                                 </ul>
