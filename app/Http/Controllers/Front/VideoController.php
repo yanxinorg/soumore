@@ -243,4 +243,30 @@ class VideoController extends Controller
         return view('ask.video.detail',['datas'=>$datas[0],'tagss'=>$tagss,'comments'=>$comments,'id'=>$request->get('id'),'isCollected'=>$isCollected]);
     }
 
+    //视频删除
+    public function del(Request $request)
+    {
+        $this->validate($request, [
+            'id'=>'required|numeric|exists:videos,id'
+        ]);
+        $result = DB::table('videos')->where([
+            'id'=>$request->get('id'),
+            'user_id'=>Auth::id()
+        ])->delete();
+        // 标签视频总数减一
+        DB::table('tags')->leftjoin('other_tag', 'other_tag.tags_id', '=', 'tags.id')->where('other_tag.videos_id','=',$request->get('id'))->where('tags.videos', '>', 0)->decrement('videos');
+        if($result)
+        {
+            $data = [
+                'code'=>'1',
+                'msg'=>'删除成功'
+            ];
+        }else{
+            $data = [
+                'code'=>'0',
+                'msg'=>'删除失败'
+            ];
+        }
+        return $data;
+    }
 }

@@ -26,11 +26,20 @@ class PostController extends Controller
         $datas = PostModel::lists();
         //分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-        //话题
-        $tags = TagModel::orderBy('watchs','desc')->limit('6')->get();
+        //热门话题
+        $hotTags = TagModel::orderBy('watchs','desc')->limit('6')->get();
+        //查询标签文章
+        $tagIds = DB::table('post_tag')
+            ->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
+            ->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+        //去重
+        $tagIds = array_unique($tagIds);
+        $relateTags = DB::table('tags')
+            ->whereIn('tags.id', $tagIds)
+            ->get();
         //热门用户
         $hotUsers = UserModel::limit(10)->get();
-        return view('ask.post.index',['datas'=>$datas,'cates'=>$cates,'tags'=>$tags,'cid'=>'','tid'=>'','hotUsers'=>$hotUsers]);
+        return view('ask.post.index',['datas'=>$datas,'cates'=>$cates,'hotTags'=>$hotTags,'relateTags'=>$relateTags,'cid'=>'','tid'=>'','hotUsers'=>$hotUsers]);
     }
 
     //推荐文章
@@ -40,11 +49,20 @@ class PostController extends Controller
         $datas = PostModel::lists("","","",$condition="supports");
         //分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-        //话题
-        $tags = TagModel::orderBy('watchs','desc')->limit('6')->get();
+        //热门话题
+        $hotTags = TagModel::orderBy('watchs','desc')->limit('6')->get();
+        //查询标签文章
+        $tagIds = DB::table('post_tag')
+            ->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
+            ->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+        //去重
+        $tagIds = array_unique($tagIds);
+        $relateTags = DB::table('tags')
+            ->whereIn('tags.id', $tagIds)
+            ->get();
         //热门用户
         $hotUsers = UserModel::limit(10)->get();
-        return view('ask.post.recom',['datas'=>$datas,'cates'=>$cates,'tags'=>$tags,'cid'=>'','tid'=>'','hotUsers'=>$hotUsers]);
+        return view('ask.post.recom',['datas'=>$datas,'cates'=>$cates,'hotTags'=>$hotTags,'relateTags'=>$relateTags,'cid'=>'','tid'=>'','hotUsers'=>$hotUsers]);
     }
 
     //热门文章
@@ -54,11 +72,20 @@ class PostController extends Controller
         $datas = PostModel::lists("","","",$condition="hits");
         //分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-        //话题
-        $tags = TagModel::orderBy('watchs','desc')->limit('6')->get();
+        //热门话题
+        $hotTags = TagModel::orderBy('watchs','desc')->limit('6')->get();
+        //查询标签文章
+        $tagIds = DB::table('post_tag')
+            ->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
+            ->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+        //去重
+        $tagIds = array_unique($tagIds);
+        $relateTags = DB::table('tags')
+            ->whereIn('tags.id', $tagIds)
+            ->get();
         //热门用户
         $hotUsers = UserModel::limit(10)->get();
-        return view('ask.post.hot',['datas'=>$datas,'cates'=>$cates,'tags'=>$tags,'cid'=>'','tid'=>'','hotUsers'=>$hotUsers]);
+        return view('ask.post.hot',['datas'=>$datas,'cates'=>$cates,'hotTags'=>$hotTags,'relateTags'=>$relateTags,'cid'=>'','tid'=>'','hotUsers'=>$hotUsers]);
     }
 
 
@@ -381,7 +408,6 @@ class PostController extends Controller
     	}
     	//更新
     	$postId = PostModel::updateOrCreate(array('id' => $request->get('id')), $data);
-
         //话题文章总数自减一
         $tagIds = PostTagModel::where(['posts_id'=>$request->get('id')])->pluck('tags_id');
         if(!($tagIds->isEmpty()))
@@ -488,31 +514,50 @@ class PostController extends Controller
     //文章分类筛选列表
     public function cate(Request $request)
     {
-    	$this->validate($request, ['cid'=>'required|numeric|exists:category,id']);
-    	$datas = DB::table('posts')
-    	->leftjoin('users', 'posts.user_id', '=', 'users.id')
-        ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
-    	->where('posts.status','=','1')
-    	->where('posts.cate_id','=',$request->get('cid'))
-    	->select(
-    			'users.name as author',
+    	$this->validate($request, [
+    	    'cid'=>'required|numeric|exists:category,id',
+            'tid'=>$request->get('tid')?'required|numeric|exists:tags,id':''
+        ]);
+        if($request->get('tid'))
+        {
+            $sql = [
+                'posts.cate_id'=>$request->get('cid'),
+                'post_tag.tags_id'=>$request->get('tid')
+            ];
+        }else{
+            $sql = [
+                'posts.cate_id'=>$request->get('cid'),
+            ];
+        }
+        $datas = DB::table('posts')
+            ->leftjoin('users', 'posts.user_id', '=', 'users.id')
+            ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
+            ->where($sql)
+            ->where('posts.status','=','1')
+            ->select(
+                'users.name as author',
                 'users.avator as avator',
                 'category.name as cate_name',
                 'category.id as cate_id',
                 'posts.id as post_id',
                 'posts.title as title',
-    			'posts.user_id as user_id',
-    			'posts.excerpt as excerpt',
-    			'posts.content as content',
-    			'posts.thumb as thumb',
-    			'posts.created_at as created_at',
-    			'posts.comments as countcomment',
-    	        'posts.hits as hits'
-    	    )
-    	->orderBy('posts.created_at','desc')
-    	->paginate('15');
+                'posts.user_id as user_id',
+                'posts.excerpt as excerpt',
+                'posts.content as content',
+                'posts.thumb as thumb',
+                'posts.created_at as created_at',
+                'posts.comments as countcomment',
+                'posts.hits as hits'
+            )
+            ->orderBy('posts.created_at','desc')
+            ->paginate('15');
+
 		//查询分类
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
+        //热门话题
+        $hotTags = TagModel::orderBy('watchs','desc')->limit('6')->get();
+        //热门用户
+        $hotUsers = UserModel::limit(10)->get();
     	$postIds  = DB::table('posts')->where('cate_id','=',$request->get('cid'))->pluck('id');
     	//查询该分类下面的标签文章
     	$tagIds = DB::table('post_tag')
@@ -521,23 +566,42 @@ class PostController extends Controller
     	->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
     	//去重
     	$tagIds = array_unique($tagIds);
-    	$tags = DB::table('tags')
+        $relateTags = DB::table('tags')
     	->whereIn('tags.id', $tagIds)
     	->get();
-        //热门用户
-        $hotUsers = UserModel::limit(10)->get();
-    	return view('ask.post.index',['datas'=>$datas,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags,'hotUsers'=>$hotUsers]);
+    	return view('ask.post.index',['datas'=>$datas,'hotTags'=>$hotTags,'hotUsers'=>$hotUsers,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'relateTags'=>$relateTags,'hotUsers'=>$hotUsers]);
     }
 
     //文章分类筛选列表
     public function recomCate(Request $request)
     {
-        $this->validate($request, ['cid'=>'required|numeric|exists:category,id']);
+        $this->validate($request, [
+            'cid'=>$request->get('cid')?'required|numeric|exists:category,id':'',
+            'tid'=>$request->get('tid')?'required|numeric|exists:tags,id':''
+        ]);
+        if($request->get('cid') && $request->get('tid'))
+        {
+            $sql = [
+                'posts.cate_id'=>$request->get('cid'),
+                'post_tag.tags_id'=>$request->get('tid')
+            ];
+        }elseif ($request->get('cid'))
+        {
+            $sql = [
+                'posts.cate_id'=>$request->get('cid'),
+            ];
+        }elseif ($request->get('tid'))
+        {
+            $sql = [
+                'post_tag.tags_id'=>$request->get('tid')
+            ];
+        }
         $datas = DB::table('posts')
             ->leftjoin('users', 'posts.user_id', '=', 'users.id')
             ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
+            ->leftjoin('post_tag', 'posts.id', '=', 'post_tag.posts_id')
+            ->where($sql)
             ->where('posts.status','=','1')
-            ->where('posts.cate_id','=',$request->get('cid'))
             ->select(
                 'users.name as author',
                 'users.avator as avator',
@@ -553,35 +617,71 @@ class PostController extends Controller
                 'posts.comments as countcomment',
                 'posts.hits as hits'
             )
-            ->orderBy('posts.created_at','desc')
+            ->orderBy('posts.isrecommond','desc')
             ->paginate('15');
         //查询分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-        $postIds  = DB::table('posts')->where('cate_id','=',$request->get('cid'))->pluck('id');
-        //查询该分类下面的标签文章
-        $tagIds = DB::table('post_tag')
-            ->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
-            ->whereIn('post_tag.posts_id', $postIds)
-            ->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
-        //去重
-        $tagIds = array_unique($tagIds);
-        $tags = DB::table('tags')
-            ->whereIn('tags.id', $tagIds)
-            ->get();
+        //热门话题
+        $hotTags = TagModel::orderBy('watchs','desc')->limit('6')->get();
         //热门用户
         $hotUsers = UserModel::limit(10)->get();
-        return view('ask.post.recom',['datas'=>$datas,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags,'hotUsers'=>$hotUsers]);
+        if($request->get('cid'))
+        {
+            $postIds  = DB::table('posts')->where('cate_id','=',$request->get('cid'))->pluck('id');
+            //查询该分类下面的标签文章
+            $tagIds = DB::table('post_tag')
+                ->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
+                ->whereIn('post_tag.posts_id', $postIds)
+                ->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+            //去重
+            $tagIds = array_unique($tagIds);
+            $relateTags = DB::table('tags')
+                ->whereIn('tags.id', $tagIds)
+                ->get();
+        }else{
+            //查询标签文章
+            $tagIds = DB::table('post_tag')
+                ->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
+                ->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+            //去重
+            $tagIds = array_unique($tagIds);
+            $relateTags = DB::table('tags')
+                ->whereIn('tags.id', $tagIds)
+                ->get();
+        }
+        return view('ask.post.recom',['datas'=>$datas,'hotTags'=>$hotTags,'hotUsers'=>$hotUsers,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'relateTags'=>$relateTags,'cates'=>$cates,'hotUsers'=>$hotUsers]);
     }
 
     //文章分类筛选列表
     public function hotCate(Request $request)
     {
-        $this->validate($request, ['cid'=>'required|numeric|exists:category,id']);
+        $this->validate($request, [
+            'cid'=>$request->get('cid')?'required|numeric|exists:category,id':'',
+            'tid'=>$request->get('tid')?'required|numeric|exists:tags,id':''
+        ]);
+        if($request->get('cid') && $request->get('tid'))
+        {
+            $sql = [
+                'posts.cate_id'=>$request->get('cid'),
+                'post_tag.tags_id'=>$request->get('tid')
+            ];
+        }elseif ($request->get('cid'))
+        {
+            $sql = [
+                'posts.cate_id'=>$request->get('cid'),
+            ];
+        }elseif ($request->get('tid'))
+        {
+            $sql = [
+                'post_tag.tags_id'=>$request->get('tid')
+            ];
+        }
         $datas = DB::table('posts')
             ->leftjoin('users', 'posts.user_id', '=', 'users.id')
             ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
+            ->leftjoin('post_tag', 'posts.id', '=', 'post_tag.posts_id')
+            ->where($sql)
             ->where('posts.status','=','1')
-            ->where('posts.cate_id','=',$request->get('cid'))
             ->select(
                 'users.name as author',
                 'users.avator as avator',
@@ -597,56 +697,89 @@ class PostController extends Controller
                 'posts.comments as countcomment',
                 'posts.hits as hits'
             )
-            ->orderBy('posts.created_at','desc')
+            ->orderBy('posts.likes','desc')
             ->paginate('15');
         //查询分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-        $postIds  = DB::table('posts')->where('cate_id','=',$request->get('cid'))->pluck('id');
-        //查询该分类下面的标签文章
-        $tagIds = DB::table('post_tag')
-            ->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
-            ->whereIn('post_tag.posts_id', $postIds)
-            ->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
-        //去重
-        $tagIds = array_unique($tagIds);
-        $tags = DB::table('tags')
-            ->whereIn('tags.id', $tagIds)
-            ->get();
+        //热门话题
+        $hotTags = TagModel::orderBy('watchs','desc')->limit('6')->get();
         //热门用户
         $hotUsers = UserModel::limit(10)->get();
-        return view('ask.post.hot',['datas'=>$datas,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags,'hotUsers'=>$hotUsers]);
+        if($request->get('cid'))
+        {
+            $postIds  = DB::table('posts')->where('cate_id','=',$request->get('cid'))->pluck('id');
+            //查询该分类下面的标签文章
+            $tagIds = DB::table('post_tag')
+                ->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
+                ->whereIn('post_tag.posts_id', $postIds)
+                ->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+            //去重
+            $tagIds = array_unique($tagIds);
+            $relateTags = DB::table('tags')
+                ->whereIn('tags.id', $tagIds)
+                ->get();
+        }else{
+            //查询标签文章
+            $tagIds = DB::table('post_tag')
+                ->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
+                ->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+            //去重
+            $tagIds = array_unique($tagIds);
+            $relateTags = DB::table('tags')
+                ->whereIn('tags.id', $tagIds)
+                ->get();
+        }
+        return view('ask.post.hot',['datas'=>$datas,'hotTags'=>$hotTags,'hotUsers'=>$hotUsers,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'relateTags'=>$relateTags,'cates'=>$cates,'hotUsers'=>$hotUsers]);
     }
 
     //文章标签筛选列表
     public function tag(Request $request)
     {
     	$this->validate($request, [
-    		'cid'=>$request->get('cid') != null ?'required|numeric|exists:category,id':'',
+    		'cid'=>$request->get('cid')?'required|numeric|exists:category,id':'',
     		'tid'=>'required|numeric|exists:tags,id'
     	]);
+        //查询标签文章
+        $tagIds = DB::table('post_tag')
+            ->leftjoin('posts', 'post_tag.posts_id', '=', 'posts.id')
+            ->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+        //去重
+        $tagIds = array_unique($tagIds);
+        $relateTags = DB::table('tags')
+            ->whereIn('tags.id', $tagIds)
+            ->get();
     	//查询分类
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
+        //热门话题
+        $hotTags = TagModel::orderBy('watchs','desc')->limit('6')->get();
+        //热门用户
+        $hotUsers = UserModel::limit(10)->get();
     	//分类为空 只查询包含该tag属性的文章
     	if(empty($request->get('cid')))
     	{
     		//该标签的文章
     		$datas = DB::table('posts')
     		->leftjoin('users', 'posts.user_id', '=', 'users.id')
+            ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
     		->leftjoin('post_tag', 'posts.id', '=', 'post_tag.posts_id')
     		->where('post_tag.tags_id','=',$request->get('tid'))
     		->where('posts.status','=','1')
     		->select('posts.id as post_id',
     				'posts.title as title',
     				'users.name as author',
+                    'users.avator as avator',
+                    'category.id as cate_id',
+                    'category.name as cate_name',
     				'posts.user_id as user_id',
     				'posts.excerpt as excerpt',
     				'posts.content as content',
     				'posts.thumb as thumb',
-    				'posts.created_at as created_at',
-    				'posts.comments as comments')
+                    'posts.hits as hits',
+                    'posts.comments as countcomment',
+    				'posts.created_at as created_at'
+    				)
     				->orderBy('posts.created_at','desc')
     				->paginate('15');
-    		$tags = TagModel::all();	 
     	}else{
     		$postIds  = DB::table('posts')->where('cate_id','=',$request->get('cid'))->pluck('id');
     		//查询该分类下面的标签文章
@@ -656,12 +789,13 @@ class PostController extends Controller
     		->select('post_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
     		//去重
     		$tagIds = array_unique($tagIds);
-    		$tags = DB::table('tags')
+            $relateTags = DB::table('tags')
     		->whereIn('tags.id', $tagIds)
     		->get();
     		//查询该分类下面的标签文章
     		$datas = DB::table('posts')
     		->leftjoin('users', 'posts.user_id', '=', 'users.id')
+            ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
     		->leftjoin('post_tag', 'posts.id', '=', 'post_tag.posts_id')
     		->where('posts.status','=','1')
     		->where('post_tag.tags_id','=',$request->get('tid'))
@@ -669,16 +803,21 @@ class PostController extends Controller
     		->select('posts.id as post_id',
     				'posts.title as title',
     				'users.name as author',
+                    'users.avator as avator',
+                    'category.id as cate_id',
+                    'category.name as cate_name',
     				'posts.user_id as user_id',
     				'posts.excerpt as excerpt',
     				'posts.content as content',
     				'posts.thumb as thumb',
-    				'posts.created_at as created_at',
-    				'posts.comments as comments')
+                    'posts.hits as hits',
+                    'posts.comments as countcomment',
+    				'posts.created_at as created_at'
+    				)
     				->orderBy('posts.created_at','desc')
     				->paginate('15');
     		}
-    	return view('wenda.post.index',['datas'=>$datas,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
+    	return view('ask.post.index',['datas'=>$datas,'cates'=>$cates,'hotTags'=>$hotTags,'relateTags'=>$relateTags,'hotUsers'=>$hotUsers,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates]);
     }
     
         //文章删除

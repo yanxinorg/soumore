@@ -50,6 +50,7 @@
                                         <span>{{ $tag->watchs }} 个关注</span>
                                         <span>{{ $tag->posts }} 个文章</span>
                                         <span>{{ $tag->questions }} 个问答</span>
+                                        <span>{{ $tag->videos }} 个视频</span>
                                     </p>
                                 </div>
                              @endforeach()

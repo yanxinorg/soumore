@@ -75,10 +75,6 @@ Route::get('/question/tag', 'Front\QuestionController@tag');
 
 //视频列表
 Route::get('/video', 'Front\VideoController@index');
-//新增视频
-Route::get('/video/create', 'Front\VideoController@create');
-//保存视频
-Route::post('/video/store', 'Front\VideoController@store');
 //视频详情
 Route::get('/video/detail', 'Front\VideoController@detail');
 //视频分类筛选
@@ -209,6 +205,12 @@ Route::group(['middleware' => 'authed'], function () {
 		Route::post('/post/del', 'PostController@del');
 		//我收藏的文章
 		Route::get('/post/myCollect', 'PostController@myCollect');
+        //新增视频
+        Route::get('/video/create', 'VideoController@create');
+        //保存视频
+        Route::post('/video/store', 'VideoController@store');
+        //视频删除
+        Route::post('/video/del', 'VideoController@del');
 		//添加评论
 		Route::post('/comment/create', 'CommentController@create');
 	});

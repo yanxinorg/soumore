@@ -41,23 +41,14 @@ use App\Models\Common\UserModel;
                         <div class="mod-head">
                             <h1>{{ $datas->title  }}</h1>
                             <div class="operate clearfix">
-                            @if($datas->user_id == Auth::id())
+                             @if($datas->user_id == Auth::id())
                                 <!-- 下拉菜单 -->
                                     <div class="btn-group pull-left">
                                         <a class="btn btn-gray dropdown-toggle" data-toggle="dropdown" href="javascript:;">...</a>
                                         <div class="dropdown-menu aw-dropdown pull-right" aria-labelledby="dropdownMenu">
                                             <ul class="aw-dropdown-list">
                                                 <li>
-                                                    <a href="javascript:;" onclick="">锁定文章</a>
-                                                </li>
-                                                <li>
-                                                    <a  href="javascript:;" onclick="del({{ $datas->video_id }})">删除文章</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:;" onclick="">推荐文章</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:;" onclick="">添加到帮助中心</a>
+                                                    <a  href="javascript:;" onclick="del({{ $datas->video_id }})">删除视频</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -70,6 +61,12 @@ use App\Models\Common\UserModel;
                             <div class="content markitup-box">
                                 <embed src='{{ $datas->url }}' allowFullScreen='true' quality='high' width='100%' height='600' align='middle' allowScriptAccess='always' type='application/x-shockwave-flash'></embed>
                             </div>
+                            <div class="meta clearfix">
+                                <div class="content markitup-box">
+                                    {!! $datas->excerpt !!}
+                                </div>
+                            </div>
+
                             <div class="meta clearfix">
                                 <div class="aw-article-vote pull-left disabled">
                                     <a href="javascript:;" class="agree" onclick=""><i class="icon icon-agree"></i> <b>0</b></a>
@@ -210,60 +207,14 @@ use App\Models\Common\UserModel;
     </div>
 </div>
 @section('js')
-    @parent
-    <script type="text/javascript" src="{{ asset('ask/layer/layer.js') }}" ></script>
-    <script src="{{ asset('ask/zoom/dist/zoomify.min.js') }}"></script>
-    <script type="text/javascript">
-        //图片放大
-        $(document).ready(function(){
-            $('.content img').zoomify();
-        });
-        function del(id){
-            layer.confirm('确认删除该文章？', {
-                btn: ['确认','取消'] //按钮
-            },function(){
-                $.post("{{ url('/post/del') }}",
-                        {
-                            "_token":'{{ csrf_token() }}',
-                            "id": id,
-                        },function(data){
-                            if(data.code)
-                            {
-                                layer.msg(data.msg);
-                                window.location.href=("{{ url('/post')  }}");
-                            }else{
-                                layer.msg(data.msg);
-                            }
-                        });
-            },function(){});
-        }
-
-        // 文章收藏
-        function collect(id){
-            $.post("{{ url('/post/collect') }}",
-                    {
-                        "_token":'{{ csrf_token() }}',
-                        "id": id,
-                    },function(data){
-                        if(data.code == 1)
-                        {
-                            layer.msg(data.msg);
-                            location.reload() ;
-                        }else{
-                            if(data.code == 2)
-                            {
-                                layer.msg(data.msg);
-                                location.reload();
-                            }else{
-                                layer.msg(data.msg);
-                                location.reload();
-                            }
-                        }
-                    });
-        }
-        //取消收藏
-        function collectCancel(id){
-            $.post("{{ url('/post/collectCancel') }}",
+@parent
+<script type="text/javascript" src="{{ asset('ask/layer/layer.js') }}" ></script>
+<script type="text/javascript">
+    function del(id){
+        layer.confirm('确认删除该视频？', {
+            btn: ['确认','取消'] //按钮
+        },function(){
+            $.post("{{ url('/video/del') }}",
                     {
                         "_token":'{{ csrf_token() }}',
                         "id": id,
@@ -271,22 +222,63 @@ use App\Models\Common\UserModel;
                         if(data.code)
                         {
                             layer.msg(data.msg);
-                            location.reload() ;
+                            window.location.href=("{{ url('/video')  }}");
                         }else{
                             layer.msg(data.msg);
                         }
                     });
-        }
-        //评论回复
-        function reply($userId,$userName)
-        {
-            location.href = "#Form";
-            $("#comment").attr("placeholder","回复"+$userName);
-            var myform=$('#Form'); //得到form对象
-            var tmpInput=$("<input type='hidden' name='to_user_id' />");
-            tmpInput.attr("value", $userId);
-            myform.append(tmpInput);
-        }
-    </script>
+        },function(){});
+    }
+
+    // 文章收藏
+    function collect(id){
+        $.post("{{ url('/post/collect') }}",
+                {
+                    "_token":'{{ csrf_token() }}',
+                    "id": id,
+                },function(data){
+                    if(data.code == 1)
+                    {
+                        layer.msg(data.msg);
+                        location.reload() ;
+                    }else{
+                        if(data.code == 2)
+                        {
+                            layer.msg(data.msg);
+                            location.reload();
+                        }else{
+                            layer.msg(data.msg);
+                            location.reload();
+                        }
+                    }
+                });
+    }
+    //取消收藏
+    function collectCancel(id){
+        $.post("{{ url('/post/collectCancel') }}",
+                {
+                    "_token":'{{ csrf_token() }}',
+                    "id": id,
+                },function(data){
+                    if(data.code)
+                    {
+                        layer.msg(data.msg);
+                        location.reload() ;
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                });
+    }
+    //评论回复
+    function reply($userId,$userName)
+    {
+        location.href = "#Form";
+        $("#comment").attr("placeholder","回复"+$userName);
+        var myform=$('#Form'); //得到form对象
+        var tmpInput=$("<input type='hidden' name='to_user_id' />");
+        tmpInput.attr("value", $userId);
+        myform.append(tmpInput);
+    }
+</script>
 @stop
 @endsection

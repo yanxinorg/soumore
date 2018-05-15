@@ -74,50 +74,73 @@
 
 				<!-- 侧边栏 -->
 				<div class="col-sm-12 col-md-3 aw-side-bar hidden-xs hidden-sm">
+                    <!-- 相关话题 -->
+                    <div class="aw-mod new-topic">
+                        <div class="mod-head">
+                            <h3>相关话题</h3>
+                        </div>
+                        <div class="mod-body clearfix">
+                            <div class="aw-topic-bar">
+                                <div class="topic-bar clearfix">
+                                    @foreach($relateTags as $relateTag)
+                                        @if($relateTag->id == $tid)
+                                            <span class="topic-tag">
+                                                <a style="background-color:red;" class="text" href="{{ URL::action('Front\PostController@recomCate', ['tid'=>$relateTag->id,'cid'=>$cid]) }}" >{{ $relateTag->name }}</a>
+                                            </span>
+                                        @else
+                                            <span class="topic-tag">
+                                                <a class="text" href="{{ URL::action('Front\PostController@recomCate', ['tid'=>$relateTag->id,'cid'=>$cid]) }}" >{{ $relateTag->name }}</a>
+                                            </span>
+                                        @endif
+                                    @endforeach()
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end 相关话题 -->
+
         				<div class="aw-mod aw-text-align-justify">
                             	<div class="mod-head">
                             		<a href="{{ url('/topic') }}" class="pull-right">更多 &gt;</a>
                             		<h3>热门话题</h3>
                             	</div>
-                    	
-                    			<div class="mod-body">
-                    				@foreach($tags as $tag)
-                    				<dl>
-                        				<dt class="pull-left aw-border-radius-5">
-                        					<a href="{{ URL::action('Front\TopicController@detail', ['id'=>$tag->id]) }}"><img alt="" src="{{ $tag->thumb }}"></a>
-                        				</dt>
-                        				<dd class="pull-left">
-                        					<p class="clearfix">
-                        						<span class="topic-tag">
-                        							<a href="{{ URL::action('Front\TopicController@detail', ['id'=>$tag->id]) }}" class="text" data-id="2">{{ $tag->name }}</a>
-                        						</span>
-                        					</p>
-                        					<p><b>1</b> 个问题, <b>1</b> 人关注</p>
-                        				</dd>
-                        			</dl>
-                        			@endforeach()
-                    				
-                    			</div>
+                                <div class="mod-body">
+                                    @foreach($hotTags as $hottag)
+                                        <dl>
+                                            <dt class="pull-left aw-border-radius-5">
+                                                <a href="{{ URL::action('Front\TopicController@detail', ['id'=>$hottag->id]) }}"><img alt="" src="{{ $hottag->thumb }}"></a>
+                                            </dt>
+                                            <dd class="pull-left">
+                                                <p class="clearfix">
+                                                    <span class="topic-tag">
+                                                        <a href="{{ URL::action('Front\TopicController@detail', ['id'=>$hottag->id]) }}" class="text" data-id="2">{{ $hottag->name }}</a>
+                                                    </span>
+                                                </p>
+                                                <p><b>{{ $hottag->posts }}</b> 篇文章, <b>{{ $hottag->watchs }}</b> 人关注</p>
+                                            </dd>
+                                        </dl>
+                                    @endforeach()
+                                </div>
         				 </div>
     					<div class="aw-mod aw-text-align-justify">
                             	<div class="mod-head">
                             		<a href="{{ url('/user/hot')  }}" class="pull-right">更多 &gt;</a>
                             		<h3>热门用户</h3>
                             	</div>
-                            	<div class="mod-body">
-									@foreach($hotUsers as $user)
-                            		 <dl>
-                            			<dt class="pull-left aw-border-radius-5">
-                            				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}"><img  src="{{ $user->avator }}-sm_thumb_small"></a>
-                            			</dt>
-                            			<dd class="pull-left">
-                            				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}" data-id="2" class="aw-user-name">{{ $user->name  }}</a>
-                            				<p class="signature"></p>
-                            				<p><b>0</b> 个问题, <b>0</b> 次赞同</p>
-                            			</dd>
-                            		 </dl>
-                            		@endforeach()
-                            	</div>
+                                <div class="mod-body">
+                                    @foreach($hotUsers as $user)
+                                        <dl>
+                                            <dt class="pull-left aw-border-radius-5">
+                                                <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}"><img  src="{{ $user->avator }}-sm_thumb_small"></a>
+                                            </dt>
+                                            <dd class="pull-left">
+                                                <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}" data-id="2" class="aw-user-name">{{ $user->name  }}</a>
+                                                <p class="signature"></p>
+                                                <p><b>0</b> 个问题, <b>0</b> 次赞同</p>
+                                            </dd>
+                                        </dl>
+                                    @endforeach()
+                                </div>
     					</div>				
 				</div>
 				<!-- end 侧边栏 -->
