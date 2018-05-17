@@ -7,12 +7,26 @@
                     <div class="ibox-content">
                         <h2>用户列表</h2>
                         <p>All clients need to be verified before you can send email and set a project.</p>
-                        <div class="input-group">
+                        <div class="pull-right ">
+                            <div class="dt-buttons btn-group">
+                                <a href="{{ url('/back/user/add') }}" class="btn btn-default buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
+                                    <span><i class="fa fa-plus">新增</i></span>
+                                </a>
+                                <a class="btn btn-default buttons-excel buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
+                                    <span>Excel</span>
+                                </a>
+                                <a class="btn btn-default buttons-pdf buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
+                                    <span>PDF</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="input-group col-md-6">
                             <input type="text" placeholder="用户名称，邮箱，角色"  class="input form-control">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Search</button>
                             </span>
                         </div>
+
                         <div class="clients-list">
                             <ul class="nav nav-tabs">
                                 <span class="pull-right small text-muted">1406 Elements</span>
