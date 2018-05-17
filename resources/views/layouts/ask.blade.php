@@ -90,7 +90,7 @@
 							<ul class="aw-dropdown-list">
 								<li><a href=""><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread" style="display: none;">0</span></a></li>
 								<li class="hidden-xs"><a href="{{ url('/person/info') }}"><i class="icon icon-setting"></i> 设置</a></li>
-								<li class="hidden-xs"><a href="{{ url('/admin') }}"><i class="icon icon-job"></i> 管理</a></li>
+								<li class="hidden-xs"><a href="{{ url('/panel') }}"><i class="icon icon-job"></i> 管理</a></li>
 								<li><a href="{{  url('/logout') }}"><i class="icon icon-logout"></i> 退出</a></li>
 							</ul>
 						</div>

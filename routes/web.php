@@ -25,6 +25,8 @@ Route::match(['get', 'post'], '/search/index', 'Front\SearchController@index');
 Route::get('/search/wenda','Front\SearchController@wenda');
 //文章全文搜索
 Route::get('/search/post','Front\SearchController@post');
+//视频全文搜索
+Route::get('/search/video','Front\SearchController@video');
 //文章全文搜索
 Route::get('/search/topic','Front\SearchController@topic');
 //用户全文搜索
@@ -222,7 +224,7 @@ Route::group(['middleware' => 'authed'], function () {
 //获取话题图片
 Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\FileController@getTopicImg']);
 //后台首页
-Route::get('/admin', 'Admin\IndexController@index');
+Route::get('/panel', 'Admin\IndexController@index');
 	//新后台管理
 	Route::group(['prefix' => 'back'], function()
 	{

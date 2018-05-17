@@ -17,7 +17,7 @@ class UserController extends Controller
     //用户列表
     public function index(Request $request) 
     {
-    	$users = UserModel::all();
+    	$users = UserModel::paginate('16');
     	//用户所属角色
         return view('admin.user.index',['users'=>$users]);
     }

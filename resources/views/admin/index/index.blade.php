@@ -1,258 +1,169 @@
 @extends('layouts.admin')
 @section('content')
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="wrapper wrapper-content">
-                        <div class="row">
-                        <div class="col-lg-4">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content no-padding">
-                                    <ul class="list-group">
-                                        <li class="list-group-item">
-                                            <p><a class="text-info" href="index.html#">@Alan Marry</a> I belive that. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                            <small class="block text-muted"><i class="fa fa-clock-o"></i> 1 minuts ago</small>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <p><a class="text-info" href="index.html#">@Stock Man</a> Check this stock chart. This price is crazy! </p>
-                                            <div class="text-center m">
-                                                <span id="sparkline8"></span>
-                                            </div>
-                                            <small class="block text-muted"><i class="fa fa-clock-o"></i> 2 hours ago</small>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <p><a class="text-info" href="index.html#">@Kevin Smith</a> Lorem ipsum unknown printer took a galley </p>
-                                            <small class="block text-muted"><i class="fa fa-clock-o"></i> 2 minuts ago</small>
-                                        </li>
-                                        <li class="list-group-item ">
-                                            <p><a class="text-info" href="index.html#">@Jonathan Febrick</a> The standard chunk of Lorem Ipsum</p>
-                                            <small class="block text-muted"><i class="fa fa-clock-o"></i> 1 hour ago</small>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <p><a class="text-info" href="index.html#">@Alan Marry</a> I belive that. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                            <small class="block text-muted"><i class="fa fa-clock-o"></i> 1 minuts ago</small>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <p><a class="text-info" href="index.html#">@Kevin Smith</a> Lorem ipsum unknown printer took a galley </p>
-                                            <small class="block text-muted"><i class="fa fa-clock-o"></i> 2 minuts ago</small>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content no-padding">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REDIRECT_MIBDIRS:</a>    "D:/xampp/php/extras/mibs"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REDIRECT_MYSQL_HOME:</a> "\xampp\mysql\bin"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REDIRECT_OPENSSL_CONF:</a>   "D:/xampp/apache/bin/openssl.cnf"</p>
+                                </li>
+                                <li class="list-group-item ">
+                                    <p><a class="text-info" href="index.html#">REDIRECT_PHP_PEAR_SYSCONF_DIR:</a>   "\xampp\php"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REDIRECT_PHPRC:</a>  "\xampp\php"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REDIRECT_TMP:</a>    "\xampp\tmp"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REDIRECT_STATUS:</a> "200"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">MIBDIRS:</a> "D:/xampp/php/extras/mibs"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">MYSQL_HOME:</a>  "\xampp\mysql\bin"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">OPENSSL_CONF:</a>    "D:/xampp/apache/bin/openssl.cnf"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">PHP_PEAR_SYSCONF_DIR:</a>    "\xampp\php"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">PHPRC:</a>   "\xampp\php"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">TMP:</a> "\xampp\tmp"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">HTTP_HOST:</a>   "soumore.com"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">HTTP_CONNECTION:</a> "keep-alive"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">HTTP_UPGRADE_INSECURE_REQUESTS:</a>  "1"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">HTTP_USER_AGENT:</a> "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">HTTP_ACCEPT:</a> "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">HTTP_REFERER:</a>    "http://soumore.com/person/pass"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">HTTP_ACCEPT_ENCODING:</a>    "gzip, deflate"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">HTTP_ACCEPT_LANGUAGE:</a>    "zh-CN,zh;q=0.9"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">PATH:</a>    "C:\Python27\;C:\Python27\Scripts;C:\Ruby23-x64\bin;%APPCAN_PATH%;C:\Program Files (x86)\Common Files\NetSarang;C:\Windows\system32;C:\Windows;C:\Windows\System3 ▶"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">SystemRoot:</a>  "C:\Windows\system32\cmd.exe"</p>
+                                </li>
+
+                            </ul>
                         </div>
-                            <div class="col-lg-4">
-                                <div class="ibox float-e-margins">
-                                    <div class="ibox-title">
-                                        <h5>Your daily feed</h5>
-                                        <div class="ibox-tools">
-                                            <span class="label label-warning-light pull-right">10 Messages</span>
-                                           </div>
-                                    </div>
-                                    <div class="ibox-content">
-
-                                        <div>
-                                            <div class="feed-activity-list">
-
-                                                <div class="feed-element">
-                                                    <a href="profile.html" class="pull-left">
-                                                        <img alt="image" class="img-circle" src="{{ asset('back/admin/img/profile.jpg') }}">
-                                                    </a>
-                                                    <div class="media-body ">
-                                                        <small class="pull-right">5m ago</small>
-                                                        <strong>Monica Smith</strong> posted a new blog. <br>
-                                                        <small class="text-muted">Today 5:60 pm - 12.06.2014</small>
-                                                    </div>
-                                                </div>
-
-                                                <div class="feed-element">
-                                                    <a href="profile.html" class="pull-left">
-                                                        <img alt="image" class="img-circle" src="{{ asset('back/admin/img/a2.jpg') }}">
-                                                    </a>
-                                                    <div class="media-body ">
-                                                        <small class="pull-right">2h ago</small>
-                                                        <strong>Mark Johnson</strong> posted message on <strong>Monica Smith</strong> site. <br>
-                                                        <small class="text-muted">Today 2:10 pm - 12.06.2014</small>
-                                                    </div>
-                                                </div>
-                                                <div class="feed-element">
-                                                    <a href="profile.html" class="pull-left">
-                                                        <img alt="image" class="img-circle" src="{{ asset('back/admin/img/a3.jpg') }}">
-                                                    </a>
-                                                    <div class="media-body ">
-                                                        <small class="pull-right">2h ago</small>
-                                                        <strong>Janet Rosowski</strong> add 1 photo on <strong>Monica Smith</strong>. <br>
-                                                        <small class="text-muted">2 days ago at 8:30am</small>
-                                                    </div>
-                                                </div>
-                                                <div class="feed-element">
-                                                    <a href="profile.html" class="pull-left">
-                                                        <img alt="image" class="img-circle" src="{{ asset('back/admin/img/a4.jpg') }}">
-                                                    </a>
-                                                    <div class="media-body ">
-                                                        <small class="pull-right text-navy">5h ago</small>
-                                                        <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
-                                                        <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
-                                                        <div class="actions">
-                                                            <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>
-                                                            <a class="btn btn-xs btn-white"><i class="fa fa-heart"></i> Love</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="feed-element">
-                                                    <a href="profile.html" class="pull-left">
-                                                        <img alt="image" class="img-circle" src="{{ asset('back/admin/img/a5.jpg') }}">
-                                                    </a>
-                                                    <div class="media-body ">
-                                                        <small class="pull-right">2h ago</small>
-                                                        <strong>Kim Smith</strong> posted message on <strong>Monica Smith</strong> site. <br>
-                                                        <small class="text-muted">Yesterday 5:20 pm - 12.06.2014</small>
-                                                        <div class="well">
-                                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                                                            Over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-                                                        </div>
-                                                        <div class="pull-right">
-                                                            <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="feed-element">
-                                                    <a href="profile.html" class="pull-left">
-                                                        <img alt="image" class="img-circle" src="{{ asset('back/admin/img/profile.jpg') }}">
-                                                    </a>
-                                                    <div class="media-body ">
-                                                        <small class="pull-right">23h ago</small>
-                                                        <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
-                                                        <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
-                                                    </div>
-                                                </div>
-                                                <div class="feed-element">
-                                                    <a href="profile.html" class="pull-left">
-                                                        <img alt="image" class="img-circle" src="{{ asset('back/admin/img/a7.jpg') }}">
-                                                    </a>
-                                                    <div class="media-body ">
-                                                        <small class="pull-right">46h ago</small>
-                                                        <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
-                                                        <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <button class="btn btn-primary btn-block m-t"><i class="fa fa-arrow-down"></i> Show More</button>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        <div class="col-lg-4">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content inspinia-timeline">
-
-                                    <div class="timeline-item">
-                                        <div class="row">
-                                            <div class="col-xs-3 date">
-                                                <i class="fa fa-briefcase"></i>
-                                                6:00 am
-                                                <br/>
-                                                <small class="text-navy">2 hour ago</small>
-                                            </div>
-                                            <div class="col-xs-7 content no-top-border">
-                                                <p class="m-b-xs"><strong>Meeting</strong></p>
-
-                                                <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the
-                                                    sale.</p>
-
-                                                <p><span data-diameter="40" class="updating-chart">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,4,7,3,2,9,8,7,4,5,1,2,9,5,4,7,2,7,7,3,5,2</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="timeline-item">
-                                        <div class="row">
-                                            <div class="col-xs-3 date">
-                                                <i class="fa fa-file-text"></i>
-                                                7:00 am
-                                                <br/>
-                                                <small class="text-navy">3 hour ago</small>
-                                            </div>
-                                            <div class="col-xs-7 content">
-                                                <p class="m-b-xs"><strong>Send documents to Mike</strong></p>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="timeline-item">
-                                        <div class="row">
-                                            <div class="col-xs-3 date">
-                                                <i class="fa fa-coffee"></i>
-                                                8:00 am
-                                                <br/>
-                                            </div>
-                                            <div class="col-xs-7 content">
-                                                <p class="m-b-xs"><strong>Coffee Break</strong></p>
-                                                <p>
-                                                    Go to shop and find some products.
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="timeline-item">
-                                        <div class="row">
-                                            <div class="col-xs-3 date">
-                                                <i class="fa fa-phone"></i>
-                                                11:00 am
-                                                <br/>
-                                                <small class="text-navy">21 hour ago</small>
-                                            </div>
-                                            <div class="col-xs-7 content">
-                                                <p class="m-b-xs"><strong>Phone with Jeronimo</strong></p>
-                                                <p>
-                                                    Lorem Ipsum has been the industry's standard dummy text ever since.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="timeline-item">
-                                        <div class="row">
-                                            <div class="col-xs-3 date">
-                                                <i class="fa fa-user-md"></i>
-                                                09:00 pm
-                                                <br/>
-                                                <small>21 hour ago</small>
-                                            </div>
-                                            <div class="col-xs-7 content">
-                                                <p class="m-b-xs"><strong>Go to the doctor dr Smith</strong></p>
-                                                <p>
-                                                    Find some issue and go to doctor.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="timeline-item">
-                                        <div class="row">
-                                            <div class="col-xs-3 date">
-                                                <i class="fa fa-comments"></i>
-                                                12:50 pm
-                                                <br/>
-                                                <small class="text-navy">48 hour ago</small>
-                                            </div>
-                                            <div class="col-xs-7 content">
-                                                <p class="m-b-xs"><strong>Chat with Monica and Sandra</strong></p>
-                                                <p>
-                                                    Web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        </div>
+                    </div>
                 </div>
-               
+                <div class="col-md-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content no-padding">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">PATHEXT:</a> ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">WINDIR:</a>  "<address>Apache/2.4.23 (Win32) OpenSSL/1.0.2h PHP/7.0.9 Server at soumore.com Port 80</address>\n"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">SERVER_SOFTWARE:</a> "Apache/2.4.23 (Win32) OpenSSL/1.0.2h PHP/7.0.9"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">SERVER_NAME:</a> "soumore.com"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">SERVER_ADDR:</a> "127.0.0.1"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">SERVER_PORT:</a> "80"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REMOTE_ADDR:</a> "127.0.0.1"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">DOCUMENT_ROOT:</a>   "D:/xampp/htdocs/SouMore/soumore/public"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REQUEST_SCHEME:</a>  "http"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">CONTEXT_PREFIX:</a>  ""</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">CONTEXT_DOCUMENT_ROOT:</a>   "D:/xampp/htdocs/SouMore/soumore/public"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">SERVER_ADMIN:</a>    "root@soumore.com"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">SCRIPT_FILENAME:</a> "D:/xampp/htdocs/SouMore/soumore/public/index.php"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REMOTE_PORT:</a> "64565"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REDIRECT_URL:</a>    "/person/thumb"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">GATEWAY_INTERFACE:</a>   "CGI/1.1"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">SERVER_PROTOCOL:</a> "HTTP/1.1"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REQUEST_METHOD:</a>  "GET"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">QUERY_STRING:</a>    ""</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REQUEST_URI:</a> "/person/thumb"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">SCRIPT_NAME:</a> "/index.php"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">PHP_SELF:</a>    "/index.php"</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REQUEST_TIME_FLOAT:</a>  1526526431.689</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><a class="text-info" href="index.html#">REQUEST_TIME:</a>    1526526431</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
+    </div>
+</div>
 @endsection

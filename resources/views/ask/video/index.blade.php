@@ -10,6 +10,12 @@
             width: auto;
             padding: 20px 15px 20px 15px;
         }
+        p{
+            margin: 0px;
+        }
+        .aw-topic-list .aw-item p + p {
+            margin: 0px;
+        }
     </style>
     <div class="aw-container-wrap">
         <div class="container1">
@@ -22,7 +28,7 @@
                         </ul>
                         <!-- end tab切换 -->
                         <!-- 我关注的话题 -->
-                        <div class="aw-mod aw-topic-list">
+                        <div class="aw-mod aw-topic-list ">
                             <div class="aw-mod aw-topic-category">
                                 <div class="mod-body clearfix">
                                     <ul>
@@ -49,7 +55,7 @@
                                                 <img style="width:180px;height: 120px;" src="{{ $video->thumb }}" alt="{{ $video->title }}">
                                             </a>
                                             <p class="clearfix" style="margin-top: 12px;">
-                                                <a class="text" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">{{ str_limit($video->title,36) }}</a>
+                                                <a class="text" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">{{ str_limit($video->title,20) }}</a>
                                             </p>
                                             <p class="text-color-999">
                                                 <span>作者：<a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$video->user_id]) }}" rel="nofollow">{{ $video->author }}</a></span>
@@ -57,10 +63,6 @@
                                             <p class="text-color-999">
                                                 <span>发布时间：{{ substr($video->created_at,0,11) }}</span>
                                             </p>
-                                            {{--<p class="text-color-999">--}}
-                                                {{--<span>{{ $video->hits }} 次观看</span>--}}
-                                                {{--<span>{{ $video->comments }} 个评论</span>--}}
-                                            {{--</p>--}}
                                         </div>
                                     @endforeach()
                             </div>

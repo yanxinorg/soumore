@@ -9,11 +9,11 @@
 							<div class="mod-head">
 								<div class="tabbable">
 									<ul class="nav nav-tabs aw-nav-tabs active" id="list_nav">
-										<li><a href="{{ URL::action('Front\SearchController@user', ['wd'=>$wd]) }}" >用户</a></li>
-										<li class="active"><a href="{{ URL::action('Front\SearchController@topic', ['wd'=>$wd]) }}" >话题</a></li>
-										<li ><a href="{{ URL::action('Front\SearchController@wenda', ['wd'=>$wd]) }}" >问题</a></li>
-										<li ><a href="{{ URL::action('Front\SearchController@post', ['wd'=>$wd]) }}" >文章</a></li>
-										<li ><a  href="{{ URL::action('Front\SearchController@index', ['wd'=>$wd]) }}">全部</a></li>
+										<li ><a  href="{{ URL::action('Front\SearchController@video', ['wd'=>$wd]) }}">视频<span class="badge">{{ $videoCount }}</span></a></li>
+										<li><a href="{{ URL::action('Front\SearchController@user', ['wd'=>$wd]) }}" >用户<span class="badge">{{ $userCount }}</span></a></li>
+										<li class="active"><a href="{{ URL::action('Front\SearchController@topic', ['wd'=>$wd]) }}" >话题<span class="badge">{{  $tagCount }}</span></a></li>
+										<li ><a href="{{ URL::action('Front\SearchController@wenda', ['wd'=>$wd]) }}" >问答<span class="badge">{{ $questionCount }}</span></a></li>
+										<li ><a href="{{ URL::action('Front\SearchController@post', ['wd'=>$wd]) }}" >文章<span class="badge">{{ $postCount }}</span></a></li>
 										<h2 class="hidden-xs"><p>搜索 - <span id="aw-search-type">全部</span></p></h2>
 									</ul>
 								</div>
