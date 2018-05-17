@@ -16,7 +16,7 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <form method="post" action="{{ url('/back/user/store') }}" class="form-horizontal" enctype="multipart/form-data">
+                            <form method="post" action="{{ url('/back/user/update') }}" class="form-horizontal" enctype="multipart/form-data">
                                 {{ csrf_field() }}
                                 <div class="form-group" hidden>
 			                          <input type="text" name="id" class="form-control" value="{{ $user->id }}">
@@ -46,9 +46,9 @@
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                	<label class="col-sm-2 control-label">密码</label>
+                                	<label class="col-sm-2 control-label">新密码</label>
                                     <div class="col-sm-6">
-                                    	<input type="password" class="form-control" name="password" value="{{ $user->password }}">
+                                    	<input type="password" class="form-control" name="newpassword">
                                     </div>
                                     <div class="col-sm-2">
 	                              		 @if ($errors->has('password'))

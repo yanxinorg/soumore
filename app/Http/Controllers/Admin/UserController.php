@@ -35,7 +35,7 @@ class UserController extends Controller
     	$validator = Validator::make($request->all(),[
 	    		'username'=>'required',
     			'email'=>$request->isMethod('get')?'required|email|unique:users,email':'required|email',
-    			'password'=>'required',
+    			'password'=>'required|min:6',
 	    		'status'=>'required|numeric|between:0,1',
 	    		'avatar'=>$request->file('avatar')?'image|max:2048':''
     	],[
@@ -49,78 +49,36 @@ class UserController extends Controller
     			'avatar'=>'头像',
     			'status'=>'状态',
     	]);
-    
-    	if(!$validator->fails())
-    	{
-    		//编辑更新保存
-    		if(!empty($request->get('id')))
-    		{
-    			//图片不为空
-    			if($request->file('avatar'))
-	    		{
-	    			//存储头像
-	    			$imgPath = CommonController::ImgStore($request->file('avatar'),'avatar');
-	    			UserModel::where('id','=',$request->get('id'))->update([
-	    				'name'=>$request->get('username'),
-	    				'email'=>$request->get('email'),
-	    				'password'=>Hash::make($request->get('password')),
-	    				'status'=>$request->get('status'),
-	    				'avator'=>$imgPath
-	    			]);
-	    		}else{
-	    			//无缩略图
-	    			UserModel::where('id','=',$request->get('id'))->update([
-	    				'name'=>$request->get('username'),
-	    				'email'=>$request->get('email'),
-	    				'password'=>Hash::make($request->get('password')),
-	    				'status'=>$request->get('status'),
-	    			]);
-	    		}
-	    		//角色不为空
-	    		if(!empty($request->get('roles')))
-	    		{
-	    			//清除之前的角色
-	    			DB::table('role_user')->where('user_id','=',$request->get('id'))->delete();
-	    			$user = UserModel::where('id','=',$request->get('id'))->first();
-	    			//用户分配角色
-	    			foreach ($request->get('roles') as $role)
-	    			{
-	    				$user->roles()->attach($role);
-	    			}
-	    		}
-	    		return redirect('/back/user/list');
-    		}else{
-    			//创建保存
-	    		$user = new UserModel();
-	    		$user->name = $request->get('username');
-	    		$user->email = $request->get('email');
-	    		$user->password = Hash::make($request->get('password'));
-	    		$user->status = $request->get('status');
-	    		$imgPath = '';
-	    		if($request->file('avatar'))
-	    		{
-	    			//存储缩略图
-	    			$imgPath = CommonController::ImgStore($request->file('avatar'),'avatar');
-	    		}
-	    		$user->avator = $imgPath;
-	    		if($user->save())
-	    		{
-	    			//角色不为空
-	    			if(!empty($request->get('roles')))
-	    			{
-    					//用户分配角色
-    					foreach ($request->get('roles') as $role)
-    					{
-    						$user->roles()->attach($role);
-    					}
-	    			}
-	    			
-	    		}
-	    		return redirect('/back/user/list');
-    		}
-    		
-    	}
-    	return redirect()->back()->withErrors($validator)->withInput();
+    	if($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        //创建保存
+        $user = new UserModel();
+        $user->name = $request->get('username');
+        $user->email = $request->get('email');
+        $user->password = Hash::make($request->get('password'));
+        $user->status = $request->get('status');
+        $imgPath = '';
+        if($request->file('avatar'))
+        {
+            //存储缩略图
+            $imgPath = CommonController::ImgStore($request->file('avatar'),'avatar');
+        }
+        $user->avator = $imgPath;
+        if($user->save())
+        {
+            //角色不为空
+            if(!empty($request->get('roles')))
+            {
+                //用户分配角色
+                foreach ($request->get('roles') as $role)
+                {
+                    $user->roles()->attach($role);
+                }
+            }
+
+        }
+        return redirect('/back/user/list');
     }
     
     //编辑用户
@@ -136,7 +94,71 @@ class UserController extends Controller
     			'roles'=>$roles
     	]);
     }
-    
+
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'id'=>'required|numeric|exists:users,id',
+            'username'=>'required',
+            'email'=>$request->isMethod('get')?'required|email|unique:users,email':'required|email',
+            'newpassword'=>$request->get('bewpassword')?'required|min:6':'',
+            'status'=>'required|numeric|between:0,1',
+            'avatar'=>$request->file('avatar')?'image|max:2048':''
+        ],[
+            'required'=>':attribute为必填项',
+            'numeric'=>'数字',
+            'image'=>'图片格式错误'
+        ],[
+            'username'=>'名称',
+            'email'=>'邮箱',
+            'newpassword'=>'新密码',
+            'avatar'=>'头像',
+            'status'=>'状态',
+        ]);
+        if($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        //新密码存在
+        if($request->get('newpassword'))
+        {
+            $data = [
+                'name'=>$request->get('username'),
+                'email'=>$request->get('email'),
+                'password'=>Hash::make($request->get('newpassword')),
+                'status'=>$request->get('status')
+            ];
+        }else{
+            $data = [
+                'name'=>$request->get('username'),
+                'email'=>$request->get('email'),
+                'status'=>$request->get('status')
+            ];
+        }
+        //图片不为空
+        if($request->file('avatar'))
+        {
+            //存储头像
+            $imgPath = CommonController::ImgStore($request->file('avatar'),'avatar');
+            $data['avator'] = $imgPath;
+            UserModel::where('id','=',$request->get('id'))->update($data);
+        }else{
+            //无缩略图
+            UserModel::where('id','=',$request->get('id'))->update($data);
+        }
+        //角色不为空
+        if(!empty($request->get('roles')))
+        {
+            //清除之前的角色
+            DB::table('role_user')->where('user_id','=',$request->get('id'))->delete();
+            $user = UserModel::where('id','=',$request->get('id'))->first();
+            //用户分配角色
+            foreach ($request->get('roles') as $role)
+            {
+                $user->roles()->attach($role);
+            }
+        }
+        return redirect('/back/user/list');
+    }
     //删除用户
     public function delete(Request $request)
     {

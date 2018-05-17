@@ -223,15 +223,15 @@ Route::group(['middleware' => 'authed'], function () {
 
 //获取话题图片
 Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\FileController@getTopicImg']);
-//后台首页
-Route::get('/panel', 'Admin\IndexController@index');
 	//新后台管理
-	Route::group(['prefix' => 'back'], function()
+	Route::group(['prefix' => 'back','middleware' => ['role:admin']], function()
 	{
+        //后台首页
+        Route::get('/panel', 'Admin\IndexController@index');
 	    //角色列表
-	    Route::get('/role/list', 'Admin\RoleController@index');
+	    Route::get('/role/list', [ 'middleware' => ['permission:role-list'], 'uses' => 'Admin\RoleController@index']);
 	    //新增角色
-	    Route::get('/role/add', 'Admin\RoleController@add');
+	    Route::get('/role/add', [ 'middleware' => ['permission:role-add'], 'uses' => 'Admin\RoleController@add']);
 	    //存储角色
 	    Route::post('/role/store', 'Admin\RoleController@store');
 	    //编辑角色
@@ -258,6 +258,8 @@ Route::get('/panel', 'Admin\IndexController@index');
 	    Route::get('/user/add', 'Admin\UserController@add');
 	    //保存用户
 	    Route::post('/user/store', 'Admin\UserController@store');
+        //更新用户
+        Route::post('/user/update', 'Admin\UserController@update');
 	    //编辑用户
 	    Route::get('/user/edit', 'Admin\UserController@edit');
 	    //删除用户
