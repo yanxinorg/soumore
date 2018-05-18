@@ -20,7 +20,8 @@ class CreateTablePostsComments extends Migration
             $table->integer('post_id')->unsigned()->index()->comment('文章id');     
             $table->text('content')->comment('评论内容');
             $table->integer('to_user_id')->unsigned()->nullable()->comment('回复评论人id');
-            $table->tinyInteger('status')->unsigned()->default(1)->comment('1,启用 2,不启用');;
+            $table->tinyInteger('status')->unsigned()->default(1)->comment('1,启用 2,不启用');
+             $table->softDeletes();
             $table->timestamps();
         });
     }

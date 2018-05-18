@@ -22,6 +22,7 @@ class CreateTableCaptcha extends Migration
             $table->string('email_code')->nullable()->index()->comment('邮箱验证码');
             $table->timestamp('valid_time')->nullable()->comment('验证码有效期');
             $table->unsignedInteger('type')->default(0)->comment('验证码类型: 0:一般验证码  1:注册验证码 2:密码找回验证码');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

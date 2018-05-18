@@ -10,7 +10,7 @@
                             <select class="input-md form-control input-s-md inline" name="searchid">
                                 <option value="1">启用</option>
                                 <option value="0">禁用</option>
-                            </select> 
+                            </select>
                         </div>
                         <div class="col-md-3 m-b-md">
                             <div class="input-group">

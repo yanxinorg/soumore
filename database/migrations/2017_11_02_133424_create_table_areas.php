@@ -19,6 +19,7 @@ class CreateTableAreas extends Migration
     		$table->string('name','64');                    //地区名称
     		$table->smallInteger('parent_id')->default(0);  //父级
     		$table->tinyInteger('grade');                   //当前级别
+            $table->softDeletes();
     	});
     }
 

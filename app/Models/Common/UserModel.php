@@ -18,7 +18,7 @@ class UserModel extends Model
     public function toSearchableArray()
     {
         #_ Read Data & Filter Field
-        $Arr_Users = array_only($this -> toArray(), ['name']);
+        $Arr_Users = array_only($this -> toArray(), ['name','email']);
         #_ Back to Scout
         return $Arr_Users;
     }

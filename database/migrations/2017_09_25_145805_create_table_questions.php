@@ -35,6 +35,7 @@ class CreateTableQuestions extends Migration
             $table->unsignedTinyInteger('istop')->default(0)->comment('是否置顶(后台管理员操作)  1:置顶 0:不置顶');
             $table->unsignedTinyInteger('isrecommond')->default(0)->comment('是否推荐(后台管理员操作)  1:推荐 0:不推荐');
             $table->timestamp('publish_time')->nullable()->comment('问答预约发布时间');
+            $table->softDeletes();
             $table->timestamps();
             $table->index('created_at');
             $table->index('updated_at');

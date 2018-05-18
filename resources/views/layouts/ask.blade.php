@@ -106,7 +106,9 @@
 							<ul>
 								<li><a href="{{ url('/post/create') }}">文章</a></li>
 								<li><a href="{{ url('/question/create') }}">问题</a></li>
+								@role('admin')
 								<li><a href="{{ url('/video/create') }}">视频</a></li>
+								@endrole
 							</ul>
 						</div>
 					</div>

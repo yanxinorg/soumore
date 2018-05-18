@@ -34,6 +34,7 @@ class CreateTableVideos extends Migration
             $table->unsignedTinyInteger('status')->default(1)->comment('是否发布(后台管理员操作)  1:已审核 0:未审核');
             $table->unsignedInteger('order')->default(0)->comment('视频排序');
             $table->timestamp('publish_time')->nullable()->comment('视频预约发布时间');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

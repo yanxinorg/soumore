@@ -1,202 +1,150 @@
 @extends('layouts.admin')
 @section('content')
-    <div class="wrapper wrapper-content  animated fadeInRight">
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="ibox">
-                    <div class="ibox-content">
-                        <div class="tab-content">
-                            @foreach($users as $user)
-                                <div id="contact-{{ $user->id }}" class="tab-pane @if($user->id == \Illuminate\Support\Facades\Auth::id()) active @endif">
-                                    <div class="row m-b-lg">
-                                        <div class="col-lg-4 text-center">
-                                            <h2>{{ $user->name }}</h2>
-                                            <div class="m-b-sm">
-                                                <img alt="image" class="img-circle" src="{{ $user->avator }}"style="width: 62px;height: 62px;">
-                                            </div>
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>用户列表</h5>
+                        </div>
+                        <div class="ibox-content">
+                        	<div class="row">
+                                <div class="col-md-3 m-b-md">
+                                    <select class="input-md form-control input-s-md inline" name="searchid">
+                                        <option value="1">启用</option>
+                                        <option value="0">禁用</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 m-b-md">
+                                    <form action="{{ url('/back/search/user') }}" method="post">
+                                        {{ csrf_field() }}
+                                        <div class="input-group">
+                                            <input type="text" placeholder="用户名，邮箱" name="wd" value="{{ $wd }}"  class="input-md form-control">
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-md btn-primary">Search</button>
+                                            </span>
                                         </div>
-                                        <div class="col-lg-8">
-                                            <strong>自我介绍</strong>
-                                            <p>{{ $user->bio }}</p>
-                                            <button type="button" class="btn btn-primary btn-sm btn-block">
-                                                <i class="fa fa-envelope"></i> Send Message
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="client-detail">
-                                        <div class="full-height-scroll">
-                                            <strong style="font-size: 18px;">活动记录</strong>
-                                            <ul class="list-group clear-list">
-                                                <li class="list-group-item fist-item">
-                                                    <span class="pull-right">{{ $user->latest_login_time }}</span>最近登录时间
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span class="pull-right">{{ $user->latest_logout_time }}</span>最近登出时间
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span class="pull-right">{{ $user->latest_login_ip }}</span>最近登录IP
-                                                </li>
-                                            </ul>
-                                            <strong>Notes</strong>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua.
-                                            </p>
-                                            <hr/>
-                                            <strong>Timeline activity</strong>
-                                            <div id="vertical-timeline" class="vertical-container dark-timeline">
-                                                <div class="vertical-timeline-block">
-                                                    <div class="vertical-timeline-icon gray-bg">
-                                                        <i class="fa fa-coffee"></i>
-                                                    </div>
-                                                    <div class="vertical-timeline-content">
-                                                        <p>Conference on the sales results for the previous year.
-                                                        </p>
-                                                        <span class="vertical-date small text-muted"> 2:10 pm - 12.06.2014 </span>
-                                                    </div>
-                                                </div>
-                                                <div class="vertical-timeline-block">
-                                                    <div class="vertical-timeline-icon gray-bg">
-                                                        <i class="fa fa-briefcase"></i>
-                                                    </div>
-                                                    <div class="vertical-timeline-content">
-                                                        <p>Many desktop publishing packages and web page editors now use Lorem.
-                                                        </p>
-                                                        <span class="vertical-date small text-muted"> 4:20 pm - 10.05.2014 </span>
-                                                    </div>
-                                                </div>
-                                                <div class="vertical-timeline-block">
-                                                    <div class="vertical-timeline-icon gray-bg">
-                                                        <i class="fa fa-bolt"></i>
-                                                    </div>
-                                                    <div class="vertical-timeline-content">
-                                                        <p>There are many variations of passages of Lorem Ipsum available.
-                                                        </p>
-                                                        <span class="vertical-date small text-muted"> 06:10 pm - 11.03.2014 </span>
-                                                    </div>
-                                                </div>
-                                                <div class="vertical-timeline-block">
-                                                    <div class="vertical-timeline-icon navy-bg">
-                                                        <i class="fa fa-warning"></i>
-                                                    </div>
-                                                    <div class="vertical-timeline-content">
-                                                        <p>The generated Lorem Ipsum is therefore.
-                                                        </p>
-                                                        <span class="vertical-date small text-muted"> 02:50 pm - 03.10.2014 </span>
-                                                    </div>
-                                                </div>
-                                                <div class="vertical-timeline-block">
-                                                    <div class="vertical-timeline-icon gray-bg">
-                                                        <i class="fa fa-coffee"></i>
-                                                    </div>
-                                                    <div class="vertical-timeline-content">
-                                                        <p>Conference on the sales results for the previous year.
-                                                        </p>
-                                                        <span class="vertical-date small text-muted"> 2:10 pm - 12.06.2014 </span>
-                                                    </div>
-                                                </div>
-                                                <div class="vertical-timeline-block">
-                                                    <div class="vertical-timeline-icon gray-bg">
-                                                        <i class="fa fa-briefcase"></i>
-                                                    </div>
-                                                    <div class="vertical-timeline-content">
-                                                        <p>Many desktop publishing packages and web page editors now use Lorem.
-                                                        </p>
-                                                        <span class="vertical-date small text-muted"> 4:20 pm - 10.05.2014 </span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-3 m-b-md">
+                                    <div class="pull-right">
+                                        <div class="dt-buttons btn-group">
+	                                        <a href="{{ url('/back/user/add') }}" class="btn btn-default buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
+	                                        	<span><i class="fa fa-plus">新增</i></span>
+	                                        </a>
+	                                        <a class="btn btn-default buttons-excel buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
+	                                        	<span>Excel</span>
+	                                        </a>
+	                                        <a class="btn btn-default buttons-pdf buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
+	                                        	<span>PDF</span>
+	                                        </a>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach()
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <div class="ibox">
-                    <div class="ibox-content">
-                        <h2>用户列表</h2>
-                        <p>All clients need to be verified before you can send email and set a project.</p>
-                        <div class="pull-right ">
-                            <div class="dt-buttons btn-group">
-                                <a href="{{ url('/back/user/add') }}" class="btn btn-default buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
-                                    <span><i class="fa fa-plus">新增</i></span>
-                                </a>
-                                <a class="btn btn-default buttons-excel buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
-                                    <span>Excel</span>
-                                </a>
-                                <a class="btn btn-default buttons-pdf buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
-                                    <span>PDF</span>
-                                </a>
                             </div>
-                        </div>
-                        <div class="input-group col-md-6">
-                            <input type="text" placeholder="用户名称，邮箱，角色"  class="input form-control">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Search</button>
-                            </span>
-                        </div>
-
-                        <div class="clients-list">
-                            <ul class="nav nav-tabs">
-                                <span class="pull-right small text-muted">1406 Elements</span>
-                                <li class="active"><a data-toggle="tab" href="clients.html#tab-1"><i class="fa fa-user"></i> Contacts</a></li>
-                                <li class=""><a data-toggle="tab" href="clients.html#tab-2"><i class="fa fa-briefcase"></i> Companies</a></li>
-                            </ul>
-                            <div class="tab-content">
-                                <div id="tab-1" class="tab-pane active">
-                                    <div class="full-height-scroll">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-hover">
-                                                <tbody>
-                                                    @foreach($users as $user)
-                                                    <tr>
-                                                        <td class="client-avatar"><a data-toggle="tab" href="#contact-{{ $user->id }}"><img alt="{{ $user->name }}" src="{{ $user->avator }}"></a> </td>
-                                                        <td><a data-toggle="tab" href="#contact-{{ $user->id }}" class="client-link">{{ $user->name }}</a></td>
-                                                        <td class="contact-type"><i class="fa fa-envelope"> </i></td>
-                                                        <td>{{ $user->email }}</td>
-                                                        <td>{{ $user->created_at }}</td>
-                                                        <td class="client-status">
-                                                         @if($user->status == 1)<span class="label label-primary">Active</span>@else<span class="label label-danger">Disabled</span>@endif
-                                                        </td>
-                                                        <td class="text-right footable-visible footable-last-column">
-                                                            <div class="btn-group">
-                                                                <a class="btn btn-white" href="{{ URL::action('Admin\UserController@edit', ['id'=>$user->id]) }}"><i class="fa fa-edit"></i></a>
-                                                                <a class="btn btn-white " href="javascript:void(0);" onclick="del({{ $user->id }});"><i class="fa fa-trash"></i></a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach()
-                                                </tbody>
-
-                                            </table>
-                                            <div class="clearfix pull-right">{{ $users->links() }}</div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="table-responsive">
+                            <table class="table table-hover issue-tracker">
+                             	<thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>头像</th>
+                                        <th>用户</th>
+                                        <th>邮箱</th>
+                                        <th>角色</th>
+                                        <th><a href="">注册时间<span class="fa fa-fw fa-sort"></span></a></th>
+                                        <th>状态</th>
+                                        <th class="text-right" >操作</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                @foreach($users as $user)
+                                <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td class="client-avatar"><img alt="image" src="{{ $user->avator }}"> </td>
+                                    <td><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}">{{ $user->name }}</a></td>
+                                    <td ><i class="fa fa-envelope">  {{ $user->email }}</i></td>
+                                    <td><span class="label label-primary">administrator</span></td>
+                                    <td>{{ $user->created_at }}</td>
+                                    <td>
+	                                    <select class="form-control" id="user_status">
+            					            @if($user->status == 1)
+            		                            <option selected value="{{ $user->id }}"><span class="label label-primary">启用</span></option>
+            		                            <option value="{{ $user->id }}"><span class="label label-danger">禁用</span></option>
+            								@else
+            									<option value="{{ $user->id }}"><span class="label label-primary">启用</span></option>
+            									<option selected value="{{ $user->id }}"><span class="label label-danger">禁用</span></option>
+            								@endif
+	                                    </select>
+                                    </td>
+                                    <td class="text-right footable-visible footable-last-column">
+                                        <div class="btn-group">
+                                            <a class="btn btn-white" href="{{ URL::action('Admin\UserController@edit', ['id'=>$user->id]) }}"><i class="fa fa-edit"></i></a>
+                                            <a class="btn btn-white " href="javascript:void(0);" onclick="del({{ $user->id }});"><i class="fa fa-trash"></i></a>
                                         </div>
-                                    </div>
-                                </div>
-                                <div id="tab-2" class="tab-pane">
-                                    <div class="full-height-scroll">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-hover">
-                                                <tbody>
-                                                <tr>
-                                                    <td><a data-toggle="tab" href="clients.html#company-1" class="client-link">Tellus Institute</a></td>
-                                                    <td>Rexton</td>
-                                                    <td><i class="fa fa-flag"></i> Angola</td>
-                                                    <td class="client-status"><span class="label label-primary">Active</span></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </td>
+                                </tr>
+                                @endforeach()
+                                </tbody>
+                            </table>
+                                <div class="pull-right">{!! $users->appends(array('wd'=>$wd))->render() !!}</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+@section('js')
+@parent
+<script>
+//删除用户
+function del(id){
+	 swal({
+         title: "确认删除该用户?",
+         type: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#DD6B55",
+         confirmButtonText: "Yes, delete it!",
+         closeOnConfirm: false
+     }, function () {
+     	 $.post("{{ url('/back/user/delete') }}",
+                  {
+                  "_token":'{{ csrf_token() }}',
+                  "id": id,
+                  },function(data){
+                	  swal({
+                	         title: data.msg,
+                	         confirmButtonColor: "#DD6B55",
+                	         animation: false,
+                	         showConfirmButton: true
+                	     }, function () {
+                	    	 $.pjax.reload('table');
+                    	     });
+                  });
+     });
+}
+//改变用户状态
+$("select#user_status").change(function(){
+    $.post("{{ url('/back/user/status') }}",
+            {
+                "_token":'{{ csrf_token() }}',
+                "id": $(this).val(),
+            },function(data){
+                $.pjax.reload({container:"#user_status", async:true});
+                //通知
+                setTimeout(function() {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.success('更新成功', '状态');
+                }, 300);
+
+            });
+});
+</script>
+@stop
 @endsection

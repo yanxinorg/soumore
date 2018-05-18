@@ -2,24 +2,31 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Common\PostModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Common\UserModel;
 use App\Role;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Common\CommonController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use Qiniu\Storage\UploadManager;
 
 class UserController extends Controller
 {
     //用户列表
     public function index(Request $request) 
     {
-    	$users = UserModel::paginate('16');
-    	//用户所属角色
-        return view('admin.user.index',['users'=>$users]);
+//    	$users = UserModel::paginate('16');
+        $result = count(PostModel::all());
+        var_dump($result);exit;
+        $user = \app\User::all();
+        foreach ($user->roles as $role) {
+            echo $role->pivot->created_at;
+        }
+
+        return view('admin.user.index',['users'=>$users,'wd'=>$request->get('wd')?$request->get('wd'):'']);
     }
     
     //新增用户
@@ -61,8 +68,18 @@ class UserController extends Controller
         $imgPath = '';
         if($request->file('avatar'))
         {
-            //存储缩略图
-            $imgPath = CommonController::ImgStore($request->file('avatar'),'avatar');
+            $filePath = $request->file('avatar');
+            $type = $request->file('avatar')->getMimeType();
+            $upManager = new UploadManager();
+            $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
+            $token = $auth->uploadToken(env('QINIU_BUCKET'));
+            $key = md5(time().rand(1,9999));
+            list($ret,$error) = $upManager->putFile($token,$key,$filePath,null,$type,false);
+            if($error){
+                return redirect()->back()->withErrors(['error'=>'头像更新失败']);
+            }else{
+                $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
+            }
         }
         $user->avator = $imgPath;
         if($user->save())
@@ -76,7 +93,6 @@ class UserController extends Controller
                     $user->roles()->attach($role);
                 }
             }
-
         }
         return redirect('/back/user/list');
     }
@@ -100,7 +116,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(),[
             'id'=>'required|numeric|exists:users,id',
             'username'=>'required',
-            'email'=>$request->isMethod('get')?'required|email|unique:users,email':'required|email',
+            'email'=>'required|email',
             'newpassword'=>$request->get('bewpassword')?'required|min:6':'',
             'status'=>'required|numeric|between:0,1',
             'avatar'=>$request->file('avatar')?'image|max:2048':''
@@ -137,9 +153,18 @@ class UserController extends Controller
         //图片不为空
         if($request->file('avatar'))
         {
-            //存储头像
-            $imgPath = CommonController::ImgStore($request->file('avatar'),'avatar');
-            $data['avator'] = $imgPath;
+            $filePath = $request->file('avatar');
+            $type = $request->file('avatar')->getMimeType();
+            $upManager = new UploadManager();
+            $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
+            $token = $auth->uploadToken(env('QINIU_BUCKET'));
+            $key = md5(time().rand(1,9999));
+            list($ret,$error) = $upManager->putFile($token,$key,$filePath,null,$type,false);
+            if($error){
+                return redirect()->back()->withErrors(['error'=>'头像更新失败']);
+            }else{
+                $data['avator'] = env('QINIU_DOMAIN').'/'.$ret['key'];
+            }
             UserModel::where('id','=',$request->get('id'))->update($data);
         }else{
             //无缩略图
@@ -165,7 +190,6 @@ class UserController extends Controller
     	$this->validate($request, [
     			'id'=>'required|numeric|exists:users,id'
     	]);
-    	
     	$result = User::where('id','=',$request->get('id'))->delete();
         if($result)
         {
@@ -180,7 +204,27 @@ class UserController extends Controller
             ];
         }
         return $data;
-    	 
+    }
+
+    //更改状态
+    public function status(Request $request)
+    {
+        $this->validate($request, [
+            'id'=>'required|numeric|exists:users,id'
+        ]);
+        if(UserModel::where(['id'=>$request->get('id'),'status'=>'1'])->update(['status'=>'0']) || UserModel::where(['id'=>$request->get('id'),'status'=>'0'])->update(['status'=>'1']))
+        {
+            $data = [
+                'code'=>'1',
+                'msg'=>'更新成功!'
+            ];
+        }else{
+            $data = [
+                'code'=>'0',
+                'msg'=>'更新失败!'
+            ];
+        }
+        return $data;
     }
     
 }

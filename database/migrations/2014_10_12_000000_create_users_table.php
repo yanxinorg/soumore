@@ -68,6 +68,7 @@ class CreateUsersTable extends Migration
             $table->string('site_notifications')->nullable()->comment('站内通知');   
             $table->string('email_notifications')->nullable()->comment('邮件通知策略');  
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

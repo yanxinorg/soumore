@@ -22,6 +22,7 @@ class CreateTableMessages extends Migration
     		$table->tinyInteger('is_read')->unsigned()->nullable()->comment('是否已经阅读');
     		$table->tinyInteger('from_deleted')->unsigned()->nullable()->comment('发信人删除');
     		$table->tinyInteger('to_deleted')->unsigned()->nullable()->comment('收信人删除');
+            $table->softDeletes();
     		$table->timestamps();
     	});
     }

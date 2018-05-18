@@ -23,6 +23,7 @@ class CreateTableCategory extends Migration
             $table->mediumText("desc")->nullable()->comment('分类描述');
             $table->integer("order")->default(0)->comment('优先级，越大，同级显示的时候越靠前');
             $table->unsignedSmallInteger('status')->default(1)->comment('分类状态: 1,启用 0,禁用');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

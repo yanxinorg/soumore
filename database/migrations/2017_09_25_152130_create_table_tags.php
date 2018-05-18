@@ -23,6 +23,7 @@ class CreateTableTags extends Migration
             $table->integer('cate_id')->unsigned()->index()->default(0)->comment('标签默认分类'); 
             $table->integer('watchs')->unsigned()->index()->default(0)->comment('该标签关注数');
             $table->unsignedSmallInteger('status')->default(1)->comment('话题状态: 1,已审核 0,未审核');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

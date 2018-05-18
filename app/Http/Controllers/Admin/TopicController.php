@@ -55,31 +55,17 @@ class TopicController extends Controller
                 if($request->file('thumb'))
                 {
                     //七牛存储
-                    if(env('QINIU_STORE'))
-                    {
-                        $filePath = $request->file('thumb');
-                        $type = $request->file('thumb')->getMimeType();
-                        $upManager = new UploadManager();
-                        $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
-                        $token = $auth->uploadToken(env('QINIU_BUCKET'));
-                        $key = md5(time().rand(1,9999));
-                        list($ret,$error) = $upManager->putFile($token,$key,$filePath,null,$type,false);
-                        if($error){
-                            return redirect()->back()->withErrors(['error'=>'保存失败']);
-                        }else{
-                            $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
-                            TagModel::where('id','=',$request->get('id'))->update([
-                                'cate_id'=>$request->get('cateid'),
-                                'name'=>$request->get('name'),
-                                'status'=>$request->get('status'),
-                                'desc'=>$request->get('desc'),
-                                'thumb'=>$imgPath
-                            ]);
-                        }
-
+                    $filePath = $request->file('thumb');
+                    $type = $request->file('thumb')->getMimeType();
+                    $upManager = new UploadManager();
+                    $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
+                    $token = $auth->uploadToken(env('QINIU_BUCKET'));
+                    $key = md5(time().rand(1,9999));
+                    list($ret,$error) = $upManager->putFile($token,$key,$filePath,null,$type,false);
+                    if($error){
+                        return redirect()->back()->withErrors(['error'=>'保存失败']);
                     }else{
-                        //存储缩略图
-                        $imgPath = CommonController::ImgStore($request->file('thumb'),'topic');
+                        $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
                         TagModel::where('id','=',$request->get('id'))->update([
                             'cate_id'=>$request->get('cateid'),
                             'name'=>$request->get('name'),
@@ -88,7 +74,6 @@ class TopicController extends Controller
                             'thumb'=>$imgPath
                         ]);
                     }
-
                 }else{
                     //无缩略图
                     TagModel::where('id','=',$request->get('id'))->update([
@@ -122,8 +107,6 @@ class TopicController extends Controller
                     }else{
                         $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
                     }
-
-//                    $imgPath = CommonController::ImgStore($request->file('thumb'),'topic');
                 }
                 $tag->thumb = $imgPath;
                 if($tag->save())
@@ -131,7 +114,6 @@ class TopicController extends Controller
                     return redirect('/back/topic/list');
                 }
             }
-        
         }
         return redirect()->back()->withErrors($validator)->withInput();
     }
@@ -191,12 +173,6 @@ class TopicController extends Controller
             ];
         }
         return $data;
-         
     }
-    //话题搜索
-    public function search(Request $request)
-    {
-        
-    }
-    
+
 }

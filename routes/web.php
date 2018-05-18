@@ -18,7 +18,6 @@ Route::post('/user/check', 'UserController@isExist');
 Route::get('/captcha/{tmp}', 'Common\CaptchaController@captcha');
 // 邮件验证码
 Route::post('/email/captcha', 'Common\EmailController@sendRegCaptcha');
-
 //全文搜索
 Route::match(['get', 'post'], '/search/index', 'Front\SearchController@index');
 //全文搜索
@@ -31,22 +30,12 @@ Route::get('/search/video','Front\SearchController@video');
 Route::get('/search/topic','Front\SearchController@topic');
 //用户全文搜索
 Route::get('/search/user','Front\SearchController@user');
-
-//文章单张图片上传
-Route::post('/post/image/upload', 'Common\FileController@uploadImg');
-//获取分类图片
-Route::get('cate/thumb/{id}', ['as' => 'getCateImg', 'uses' => 'Common\FileController@getCateImg']);
-
 //文章列表
 Route::get('/post', 'Front\PostController@index');
 //推荐文章
 Route::get('/post/recom', 'Front\PostController@recom');
 //热门文章
 Route::get('/post/hot', 'Front\PostController@hot');
-//获取文章图片
-Route::get('/post/images/{img}', ['as' => 'getPostImgs', 'uses' => 'Common\FileController@getPostImgs']);
-//获取文章缩略图
-Route::get('/post/thumb/{id}', ['as' => 'getPostImg', 'uses' => 'Common\FileController@getPostImg']);
 //文章详情
 Route::get('/post/detail', 'Front\PostController@detail');
 //文章分类筛选
@@ -57,7 +46,6 @@ Route::get('/post/hotCate', 'Front\PostController@hotCate');
 Route::get('/post/recomCate', 'Front\PostController@recomCate');
 //文章标签筛选
 Route::get('/post/tag', 'Front\PostController@tag');
-
 //问答列表
 Route::get('/question', 'Front\QuestionController@index');
 //问答详情页
@@ -70,15 +58,12 @@ Route::get('/question/hotCate', 'Front\QuestionController@hotCate');
 Route::get('/question/remainCate', 'Front\QuestionController@remainCate');
 //问答标签筛选
 Route::get('/question/tag', 'Front\QuestionController@tag');
-
 //视频列表
 Route::get('/video', 'Front\VideoController@index');
 //视频详情
 Route::get('/video/detail', 'Front\VideoController@detail');
 //视频分类筛选
 Route::get('/video/cate', 'Front\VideoController@cate');
-
-
 //个人主页
 Route::get('/home', 'Front\HomeController@index');
 //个人主页文章
@@ -97,13 +82,10 @@ Route::get('/home/topics', 'Front\HomeController@topics');
 Route::get('/home/answer', 'Front\HomeController@answer');
 //加载省份城市信息
 Route::get('/common/loadCity/{province_id}', 'Common\CommonController@loadCity')->where(['province_id'=>'[0-9]+']);
-//获取个人头像
-Route::get('/person/thumb/{img}', ['as' => 'getThumbImg', 'uses' => 'Common\FileController@getThumbImg']);
 //个人发布的文章
 Route::get('/person/post', 'Front\PersonController@post');
 //个人发布的问答
 Route::get('/person/answer', 'Front\PersonController@answer');
-
 //分类筛选
 Route::get('/cate', 'Front\CategoryController@index');
 //文章分类筛选
@@ -126,7 +108,6 @@ Route::get('/topic/post', 'Front\TopicController@post');
 Route::get('/topic/question', 'Front\TopicController@question');
 //该话题视频
 Route::get('/topic/video', 'Front\TopicController@video');
-
 //前端授权后页面
 Route::group(['middleware' => 'authed'], function () {
 	Route::group(['namespace' => 'Front'], function()
@@ -220,9 +201,6 @@ Route::group(['middleware' => 'authed'], function () {
 		//添加评论
 		Route::post('/comment/create', 'CommentController@create');
 	});
-
-//获取话题图片
-Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\FileController@getTopicImg']);
 	//新后台管理
 	Route::group(['prefix' => 'back','middleware' => ['role:admin']], function()
 	{
@@ -264,6 +242,8 @@ Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\Fil
 	    Route::get('/user/edit', 'Admin\UserController@edit');
 	    //删除用户
 	    Route::post('/user/delete', 'Admin\UserController@delete');
+        //更改用户状态
+        Route::post('/user/status', 'Admin\UserController@status');
 	    //话题列表
 	    Route::get('/topic/list', 'Admin\TopicController@index');
 	    //新增话题
@@ -276,8 +256,6 @@ Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\Fil
 	    Route::post('/topic/delete', 'Admin\TopicController@delete');
 	    //更改话题状态
 	    Route::post('/topic/status', 'Admin\TopicController@status');
-	    //搜索话题
-	    Route::post('/topic/search', 'Admin\TopicController@search');
 	    //分类列表
 	    Route::get('/cate/list', 'Admin\CateController@index');
 	    //新增分类
@@ -310,8 +288,9 @@ Route::get('/back/tag/thumb/{id}', ['as' => 'getTopicImg', 'uses' => 'Common\Fil
 	    Route::post('/post/delete', 'Admin\PostController@delete');
 	    //更改文章状态
 	    Route::post('/post/status', 'Admin\PostController@status');
-	});
-	
+        //用户搜索
+        Route::match(['get', 'post'],'/search/user', 'Admin\SearchController@userSearch');
+    });
 });
 
 

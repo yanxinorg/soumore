@@ -23,6 +23,7 @@ class CreateLinksTable extends Migration
             $table->unsignedInteger('order')->nullable()->comment('链接排序');
             $table->integer('cate_id')->unsigned()->index()->nullable()->comment('链接所属分类id');
             $table->integer('tag_id')->unsigned()->index()->nullable()->comment('链接所属标签id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

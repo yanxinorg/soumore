@@ -24,6 +24,7 @@ class CreateTableQuestionAnswers extends Migration
             $table->integer('oppositions')->unsigned()->default(0)->comment('该问答反对数');  
             $table->integer('comments')->unsigned()->default(0)->comment('该问答评论数');              
             $table->tinyInteger('status')->unsigned()->default(0)->comment('0,待审核 1,已审核');
+             $table->softDeletes();
             $table->timestamps();
             $table->index('created_at');
             $table->index('updated_at');

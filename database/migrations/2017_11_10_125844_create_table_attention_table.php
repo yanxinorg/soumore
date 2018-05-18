@@ -19,6 +19,7 @@ class CreateTableAttentionTable extends Migration
             $table->bigInteger('user_id')->index()->unsigned()->comment('用户id'); 
             $table->bigInteger('source_id')->index()->unsigned()->comment('资源id');
             $table->smallInteger('source_type')->unsigned()->comment('资源类型 1,用户  2,分类 3,标签');
+             $table->softDeletes();
             $table->timestamps();
         });
     }

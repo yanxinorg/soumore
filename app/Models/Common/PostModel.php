@@ -1,6 +1,7 @@
 <?php
 namespace App\Models\Common;
 
+use App\Scopes\PostScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -12,6 +13,17 @@ class PostModel extends Model
 	protected $table = 'posts';
 	public $timestamps = TRUE;
 	protected $fillable = ['user_id','cate_id','title','excerpt','content','thumb','thumb_small','status','mime'];
+
+    /**
+     * 模型的“启动”方法.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new PostScope);
+    }
 
     //返回特定内容
     public function toSearchableArray()
