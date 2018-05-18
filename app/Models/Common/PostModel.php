@@ -39,7 +39,8 @@ class PostModel extends Model
 	{
 		return $this->belongsToMany('App\Models\Common\TagModel', 'post_tag', 'posts_id', 'tags_id');
 	}
-	
+
+
 	public function getCreatedAtAttribute($date)
 	{
 		if (Carbon::now() < Carbon::parse($date)->addDays(10))

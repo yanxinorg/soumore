@@ -18,14 +18,7 @@ class UserController extends Controller
     //用户列表
     public function index(Request $request) 
     {
-//    	$users = UserModel::paginate('16');
-        $result = count(PostModel::all());
-        var_dump($result);exit;
-        $user = \app\User::all();
-        foreach ($user->roles as $role) {
-            echo $role->pivot->created_at;
-        }
-
+        $users = UserModel::paginate('16');
         return view('admin.user.index',['users'=>$users,'wd'=>$request->get('wd')?$request->get('wd'):'']);
     }
     
@@ -103,11 +96,11 @@ class UserController extends Controller
     	$this->validate($request, [
     			'id'=>'required|numeric|exists:users,id'
     	]);
-    	$user = UserModel::where('id','=',$request->get('id'))->get();
+    	$user = UserModel::find($request->get('id'));
     	$roles = Role::all();
     	return view('admin.user.edit',[
     			'user'=>$user[0],
-    			'roles'=>$roles
+    			'roless'=>$roles
     	]);
     }
 

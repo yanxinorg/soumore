@@ -37,13 +37,12 @@ class RoleController extends Controller
     	$role->name = $request->get('rolename');
     	$role->display_name = $request->get('rolealias');
     	$role->description = $request->get('roleremark');
-    	if($role->save())
+    	if($role->save() && $request->get('permits'))
     	{
-    		//角色赋予权限
-    		$role->attachPermissions($request->get('permits'));
-    		return redirect('/back/role/list');
+            //角色赋予权限
+            $role->attachPermissions($request->get('permits'));
     	}
-    	return redirect()->back();
+        return redirect('/back/role/list');
     }
     
     //编辑角色

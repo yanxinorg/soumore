@@ -1,6 +1,10 @@
 @extends('layouts.admin')
 @section('content')
-
+<style>
+    select[multiple], select[size] {
+        min-height: 300px;
+    }
+</style>
 <div class="wrapper wrapper-content animated fadeInRight">
  <div class="row">
                 <div class="col-lg-12">

@@ -65,7 +65,11 @@
                                     <td class="client-avatar"><img alt="image" src="{{ $user->avator }}"> </td>
                                     <td><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}">{{ $user->name }}</a></td>
                                     <td ><i class="fa fa-envelope">  {{ $user->email }}</i></td>
-                                    <td><span class="label label-primary">administrator</span></td>
+                                    <td>
+                                        @foreach($user->roles as $role)
+                                            <span class="label label-danger">{{ $role->display_name }}</span>&nbsp;&nbsp;
+                                        @endforeach
+                                    </td>
                                     <td>{{ $user->created_at }}</td>
                                     <td>
 	                                    <select class="form-control" id="user_status">

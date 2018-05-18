@@ -18,7 +18,7 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">路由名称</label>
                                     <div class="col-sm-6">
-                                    	<input type="text" class="form-control" name="urlname" placeholder="eg：post.edit">
+                                    	<input type="text" class="form-control" name="urlname" placeholder="eg：post-edit">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>

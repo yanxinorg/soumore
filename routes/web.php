@@ -189,11 +189,11 @@ Route::group(['middleware' => 'authed'], function () {
 		//我收藏的文章
 		Route::get('/post/myCollect', 'PostController@myCollect');
         //新增视频
-        Route::get('/video/create', 'VideoController@create');
+        Route::get('/video/create',[ 'middleware' => ['permission:video-create'], 'uses' =>'VideoController@create'] );
         //保存视频
-        Route::post('/video/store', 'VideoController@store');
+        Route::post('/video/store',[ 'middleware' => ['permission:video-store'], 'uses' =>'VideoController@store']);
         //视频删除
-        Route::post('/video/del', 'VideoController@del');
+        Route::post('/video/del',[ 'middleware' => ['permission:video-delete'], 'uses' =>'VideoController@del'] );
         //视频收藏
         Route::post('/video/collect', 'VideoController@collect');
         //取消收藏
@@ -202,7 +202,7 @@ Route::group(['middleware' => 'authed'], function () {
 		Route::post('/comment/create', 'CommentController@create');
 	});
 	//新后台管理
-	Route::group(['prefix' => 'back','middleware' => ['role:admin']], function()
+	Route::group(['prefix' => 'back','middleware' => ['role:administrators']], function()
 	{
         //后台首页
         Route::get('/panel', 'Admin\IndexController@index');
@@ -211,85 +211,85 @@ Route::group(['middleware' => 'authed'], function () {
 	    //新增角色
 	    Route::get('/role/add', [ 'middleware' => ['permission:role-add'], 'uses' => 'Admin\RoleController@add']);
 	    //存储角色
-	    Route::post('/role/store', 'Admin\RoleController@store');
+	    Route::post('/role/store', [ 'middleware' => ['permission:role-store'], 'uses' => 'Admin\RoleController@store'] );
 	    //编辑角色
-	    Route::get('/role/edit', 'Admin\RoleController@edit');
+	    Route::get('/role/edit', [ 'middleware' => ['permission:role-edit'], 'uses' => 'Admin\RoleController@edit'] );
 	    //保存更新角色
-	    Route::post('/role/update', 'Admin\RoleController@update');
+	    Route::post('/role/update', [ 'middleware' => ['permission:role-update'], 'uses' =>  'Admin\RoleController@update']);
 	    //删除角色
-	    Route::post('/role/delete', 'Admin\RoleController@delete');
+	    Route::post('/role/delete',  [ 'middleware' => ['permission:role-delete'], 'uses' =>'Admin\RoleController@delete']);
 	    //权限列表
-	    Route::get('/permit/list', 'Admin\PermissionController@index');
+	    Route::get('/permit/list', [ 'middleware' => ['permission:permit-list'], 'uses' => 'Admin\PermissionController@index']);
 	    //新增权限
-	    Route::get('/permit/add', 'Admin\PermissionController@add');
+	    Route::get('/permit/add', [ 'middleware' => ['permission:permit-add'], 'uses' =>  'Admin\PermissionController@add']);
 	    //存储权限
-	    Route::post('/permit/store', 'Admin\PermissionController@store');
+	    Route::post('/permit/store', [ 'middleware' => ['permission:permit-store'], 'uses' => 'Admin\PermissionController@store']);
 	    //删除权限
-	    Route::post('/permit/delete', 'Admin\PermissionController@delete');
-	    //更新权限
-	    Route::get('/permit/edit', 'Admin\PermissionController@edit');
-
-	    Route::post('/permit/update', 'Admin\PermissionController@update');
+	    Route::post('/permit/delete', [ 'middleware' => ['permission:permit-delete'], 'uses' => 'Admin\PermissionController@delete'] );
+	    //编辑权限
+	    Route::get('/permit/edit', [ 'middleware' => ['permission:permit-edit'], 'uses' => 'Admin\PermissionController@edit'] );
+        //更新权限
+	    Route::post('/permit/update', [ 'middleware' => ['permission:permit-update'], 'uses' => 'Admin\PermissionController@update'] );
 	    //用户列表
-	    Route::get('/user/list', 'Admin\UserController@index');
+	    Route::get('/user/list',  [ 'middleware' => ['permission:user-list'], 'uses' => 'Admin\UserController@index']);
 	    //新增用户
-	    Route::get('/user/add', 'Admin\UserController@add');
+	    Route::get('/user/add', [ 'middleware' => ['permission:user-add'], 'uses' => 'Admin\UserController@add'] );
 	    //保存用户
-	    Route::post('/user/store', 'Admin\UserController@store');
+	    Route::post('/user/store', [ 'middleware' => ['permission:user-store'], 'uses' =>'Admin\UserController@store'] );
         //更新用户
-        Route::post('/user/update', 'Admin\UserController@update');
+        Route::post('/user/update', [ 'middleware' => ['permission:user-update'], 'uses' => 'Admin\UserController@update'] );
 	    //编辑用户
-	    Route::get('/user/edit', 'Admin\UserController@edit');
+	    Route::get('/user/edit',  [ 'middleware' => ['permission:user-edit'], 'uses' => 'Admin\UserController@edit']);
 	    //删除用户
-	    Route::post('/user/delete', 'Admin\UserController@delete');
+	    Route::post('/user/delete', [ 'middleware' => ['permission:user-delete'], 'uses' =>'Admin\UserController@delete'] );
         //更改用户状态
-        Route::post('/user/status', 'Admin\UserController@status');
+        Route::post('/user/status', [ 'middleware' => ['permission:user-status'], 'uses' =>  'Admin\UserController@status']);
 	    //话题列表
-	    Route::get('/topic/list', 'Admin\TopicController@index');
+	    Route::get('/topic/list', [ 'middleware' => ['permission:topic-list'], 'uses' =>  'Admin\TopicController@index']);
 	    //新增话题
-	    Route::get('/topic/add', 'Admin\TopicController@add');
+	    Route::get('/topic/add',  [ 'middleware' => ['permission:topic-add'], 'uses' => 'Admin\TopicController@add']);
 	    //保存话题
-	    Route::post('/topic/store', 'Admin\TopicController@store');
+	    Route::post('/topic/store', [ 'middleware' => ['permission:topic-store'], 'uses' =>  'Admin\TopicController@store']);
 	    //编辑话题
-	    Route::get('/topic/edit', 'Admin\TopicController@edit');
+	    Route::get('/topic/edit', [ 'middleware' => ['permission:topic-edit'], 'uses' => 'Admin\TopicController@edit'] );
 	    //删除话题
-	    Route::post('/topic/delete', 'Admin\TopicController@delete');
+	    Route::post('/topic/delete', [ 'middleware' => ['permission:topic-delete'], 'uses' =>'Admin\TopicController@delete'] );
 	    //更改话题状态
-	    Route::post('/topic/status', 'Admin\TopicController@status');
+	    Route::post('/topic/status', [ 'middleware' => ['permission:topic-status'], 'uses' =>  'Admin\TopicController@status']);
 	    //分类列表
-	    Route::get('/cate/list', 'Admin\CateController@index');
+	    Route::get('/cate/list', [ 'middleware' => ['permission:cate-list'], 'uses' =>  'Admin\CateController@index']);
 	    //新增分类
-	    Route::get('/cate/add', 'Admin\CateController@add');
+	    Route::get('/cate/add', [ 'middleware' => ['permission:cate-add'], 'uses' =>'Admin\CateController@add'] );
 	    //保存分类
-	    Route::post('/cate/store', 'Admin\CateController@store');
+	    Route::post('/cate/store', [ 'middleware' => ['permission:cate-store'], 'uses' => 'Admin\CateController@store']);
 	    //编辑分类
-	    Route::get('/cate/edit', 'Admin\CateController@edit');
+	    Route::get('/cate/edit',  [ 'middleware' => ['permission:cate-edit'], 'uses' => 'Admin\CateController@edit']);
 	    //新增子分类
-	    Route::get('/cate/addchild', 'Admin\CateController@addChild');
+	    Route::get('/cate/addchild', [ 'middleware' => ['permission:cate-addchild'], 'uses' => 'Admin\CateController@addChild'] );
 	    //删除分类
-	    Route::post('/cate/delete', 'Admin\CateController@delete');
+	    Route::post('/cate/delete', [ 'middleware' => ['permission:cate-delete'], 'uses' => 'Admin\CateController@delete'] );
 	    //更改分类状态
-	    Route::post('/cate/status', 'Admin\CateController@status');
+	    Route::post('/cate/status', [ 'middleware' => ['permission:cate-status'], 'uses' =>  'Admin\CateController@status']);
 	    //链接列表
-	    Route::get('/link/list', 'Admin\LinkController@index');
+	    Route::get('/link/list', [ 'middleware' => ['permission:link-list'], 'uses' =>  'Admin\LinkController@index']);
 	    //新增链接
-	    Route::get('/link/add', 'Admin\LinkController@add');
+	    Route::get('/link/add', [ 'middleware' => ['permission:link-add'], 'uses' => 'Admin\LinkController@add']);
  	    //保存链接
-	    Route::post('/link/store', 'Admin\LinkController@store');
+	    Route::post('/link/store', [ 'middleware' => ['permission:link-store'], 'uses' =>  'Admin\LinkController@store']);
  	    //编辑链接
-	    Route::get('/link/edit', 'Admin\LinkController@edit');
+	    Route::get('/link/edit', [ 'middleware' => ['permission:link-edit'], 'uses' => 'Admin\LinkController@edit'] );
  	    //删除链接
-	    Route::post('/link/delete', 'Admin\LinkController@delete');
+	    Route::post('/link/delete', [ 'middleware' => ['permission:link-delete'], 'uses' => 'Admin\LinkController@delete'] );
  	    //更改链接状态
-	    Route::post('/link/status', 'Admin\LinkController@status');
+	    Route::post('/link/status', [ 'middleware' => ['permission:link-status'], 'uses' => 'Admin\LinkController@status'] );
 	    //文章列表
-	    Route::get('/post/list', 'Admin\PostController@index');
+	    Route::get('/post/list', [ 'middleware' => ['permission:post-list'], 'uses' =>'Admin\PostController@index'] );
 	    //删除文章
-	    Route::post('/post/delete', 'Admin\PostController@delete');
+	    Route::post('/post/delete', [ 'middleware' => ['permission:post-delete'], 'uses' => 'Admin\PostController@delete'] );
 	    //更改文章状态
-	    Route::post('/post/status', 'Admin\PostController@status');
+	    Route::post('/post/status', [ 'middleware' => ['permission:post-status'], 'uses' =>'Admin\PostController@status'] );
         //用户搜索
-        Route::match(['get', 'post'],'/search/user', 'Admin\SearchController@userSearch');
+        Route::match(['get', 'post'],'/search/user', [ 'middleware' => ['permission:search-user'], 'uses' => 'Admin\SearchController@userSearch'] );
     });
 });
 

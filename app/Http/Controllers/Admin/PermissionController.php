@@ -14,7 +14,7 @@ class PermissionController extends Controller
     //权限列表
     public function index()
     {
-    	$permits = Permission::orderBy('created_at','desc')->get();
+    	$permits = Permission::orderBy('created_at','desc')->paginate('16');
     	return view('admin.permission.index',['permits'=>$permits]);
     }
     

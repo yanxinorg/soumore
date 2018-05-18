@@ -22,5 +22,10 @@ class UserModel extends Model
         #_ Back to Scout
         return $Arr_Users;
     }
+    //该用户所拥有的角色
+    public function roleLists()
+    {
+        return $this->belongsToMany('App\Role');
+    }
 
 }

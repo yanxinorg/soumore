@@ -83,11 +83,16 @@
 			                   <div class="form-group">
 			                		<label class="col-lg-2 control-label">角色</label>
 				                	<div class=" col-lg-6">
-					                	<select data-placeholder="Choose a Role..." class="chosen-select form-control" name="roles[]" multiple  tabindex="4">
-							                @foreach($roles as $role )
-							                <option value="{{ $role->id }}">{{ $role->display_name }}</option>
-							                @endforeach()
-						                </select>
+                                        <select data-placeholder="Choose a Role..." class="chosen-select form-control" name="roles[]" multiple  tabindex="4">
+                                            @if(!empty($user->roles))
+                                                @foreach($user->roles as $selected)
+                                                    <option  value="{{ $selected->id }}" selected="selected">{{ $selected->display_name }}</option>
+                                                @endforeach()
+                                            @endif
+                                            @foreach($roles as $role )
+                                                <option value="{{ $role->id }}">{{ $role->display_name }}</option>
+                                            @endforeach()
+                                        </select>
 					                </div>
 				                </div>
 				                

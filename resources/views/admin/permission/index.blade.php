@@ -47,6 +47,7 @@
                                 @endforeach()
                                 </tbody>
                             </table>
+                                <div class="paginate pull-right" >{{ $permits->links() }}</div>
                             </div>
                         </div>
                     </div>
