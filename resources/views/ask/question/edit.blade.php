@@ -82,13 +82,12 @@
                                             <div class="aw-topic-bar active" data-type="publish">
                                                 <div class="dropdown " id="cate">
                                                     <select data-placeholder="标签(选填)" name="tags[]" id="aw_edit_topic_title" multiple class="chosen-select form-control" tabindex="8">
-														@if(!empty($selectedTags))
-															@foreach($selectedTags as $selected)
-																<option  value="{{ $selected->id }}" selected="selected">{{ $selected->name }}</option>
-															@endforeach()
-														@endif
 														@foreach($tags as $tag)
-															<option  value="{{ $tag->id }}">{{ $tag->name }}</option>
+															@if(in_array($tag->id,$selectedTags))
+																<option  value="{{ $tag->id }}" selected="selected">{{ $tag->name }}</option>
+															@else
+																<option  value="{{ $tag->id }}">{{ $tag->name }}</option>
+															@endif
 														@endforeach()
                                                     </select>
                                                 </div>

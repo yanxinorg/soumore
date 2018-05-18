@@ -9,24 +9,33 @@
                         </div>
                         <div class="ibox-content">
                         	<div class="row">
-                                <div class="col-md-3 m-b-md">
-                                    <select class="input-md form-control input-s-md inline" name="searchid">
+                                <form action="{{ url('/back/search/user') }}" method="post">
+                                    {{ csrf_field() }}
+                                <div class="col-md-2 m-b-md">
+                                    <select class="input-md form-control input-s-md inline" name="statusid">
+                                        <option value="1">未设置</option>
                                         <option value="1">启用</option>
                                         <option value="0">禁用</option>
                                     </select>
                                 </div>
-                                <div class="col-md-6 m-b-md">
-                                    <form action="{{ url('/back/search/user') }}" method="post">
-                                        {{ csrf_field() }}
-                                        <div class="input-group">
-                                            <input type="text" placeholder="用户名，邮箱" name="wd" value="{{ $wd }}"  class="input-md form-control">
-                                            <span class="input-group-btn">
-                                                <button type="submit" class="btn btn-md btn-primary">Search</button>
-                                            </span>
-                                        </div>
-                                    </form>
+                                <div class="col-md-2 m-b-md">
+                                    <select class="input-md form-control input-s-md inline" name="roleid">
+                                        <option value="1">未设置</option>
+                                        @foreach($roles as $role)
+                                            <option value="{{ $role->id }}">{{ $role->display_name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div class="col-md-3 m-b-md">
+                                <div class="col-md-6 m-b-md">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="用户名，邮箱" name="wd" value="{{ $wd }}"  class="input-md form-control">
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-md btn-primary">Search</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                </form>
+                                <div class="col-md-2 m-b-md">
                                     <div class="pull-right">
                                         <div class="dt-buttons btn-group">
 	                                        <a href="{{ url('/back/user/add') }}" class="btn btn-default buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">

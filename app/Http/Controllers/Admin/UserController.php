@@ -19,7 +19,8 @@ class UserController extends Controller
     public function index(Request $request) 
     {
         $users = UserModel::paginate('16');
-        return view('admin.user.index',['users'=>$users,'wd'=>$request->get('wd')?$request->get('wd'):'']);
+        $roles = Role::all();
+        return view('admin.user.index',['users'=>$users,'roles'=>$roles,'wd'=>$request->get('wd')?$request->get('wd'):'']);
     }
     
     //新增用户
@@ -96,11 +97,17 @@ class UserController extends Controller
     	$this->validate($request, [
     			'id'=>'required|numeric|exists:users,id'
     	]);
-    	$user = UserModel::find($request->get('id'));
+    	$user = UserModel::where('id',$request->get('id'))->get();
     	$roles = Role::all();
+        $selectedRoles = DB::table('role_user')
+            ->leftjoin('roles', 'role_user.role_id', '=', 'roles.id')
+            ->leftjoin('users', 'role_user.user_id', '=', 'users.id')
+            ->where('users.id',$request->get('id'))
+            ->pluck('roles.id as role_id')->toArray();
     	return view('admin.user.edit',[
     			'user'=>$user[0],
-    			'roless'=>$roles
+    			'roles'=>$roles,
+                'selectedRoles'=>$selectedRoles
     	]);
     }
 
@@ -163,11 +170,11 @@ class UserController extends Controller
             //无缩略图
             UserModel::where('id','=',$request->get('id'))->update($data);
         }
+        //清除之前的角色
+        DB::table('role_user')->where('user_id','=',$request->get('id'))->delete();
         //角色不为空
         if(!empty($request->get('roles')))
         {
-            //清除之前的角色
-            DB::table('role_user')->where('user_id','=',$request->get('id'))->delete();
             $user = UserModel::where('id','=',$request->get('id'))->first();
             //用户分配角色
             foreach ($request->get('roles') as $role)

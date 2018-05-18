@@ -326,15 +326,8 @@ class PostController extends Controller
     	$selectedTags = DB::table('post_tag')
     	->leftjoin('tags', 'post_tag.tags_id', '=', 'tags.id')
     	->where('post_tag.posts_id','=',$request->get('id'))
-    	->select('tags.name as name','tags.id as id')->orderBy('tags.created_at','desc')->get()->toArray();
-    	$tmp = [];
-    	foreach ($selectedTags as $k=>$v)
-    	{
-    		$tmp[$k] = $v->id;
-    	}
-    	//除去选中的tags
-    	$tags = DB::table('tags')
-    	->whereNotIn('id',$tmp)->get();
+        ->pluck('tags.id as id')->toArray();
+    	$tags = TagModel::all();
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
     	return view('ask.post.edit',[
     			'cates'=>$cates,

@@ -429,19 +429,12 @@ class QuestionController extends Controller
     			'id'=>$request->get('id'),
     			'user_id'=>Auth::id()
     	])->get();
-    	//该文章选中的标签
+    	//该问答选中的标签
     	$selectedTags = DB::table('question_tag')
     	->leftjoin('tags', 'question_tag.tags_id', '=', 'tags.id')
     	->where('question_tag.questions_id','=',$request->get('id'))
-    	->select('tags.name as name','tags.id as id')->orderBy('tags.created_at','desc')->get();
-    	$tmp = [];
-    	foreach ($selectedTags as $k=>$v)
-    	{
-    		$tmp[$k] = $v->id;
-    	}
-    	//除去选中的tags
-    	$tags = DB::table('tags')
-    	->whereNotIn('id', $tmp)->get();
+        ->pluck('tags.id as id')->toArray();
+    	$tags = TagModel::all();
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
     	return view('ask.question.edit',[
     			'cates'=>$cates,
