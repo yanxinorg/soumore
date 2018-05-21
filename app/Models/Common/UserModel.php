@@ -2,6 +2,7 @@
 
 namespace App\Models\Common;
 
+use App\RoleUser;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
@@ -25,7 +26,7 @@ class UserModel extends Model
     //该用户所拥有的角色
     public function roleLists()
     {
-        return $this->hasMany('App\RoleUser','user_id','id');
+        return $this->hasMany(RoleUser::class,'user_id','id');
     }
 
 }

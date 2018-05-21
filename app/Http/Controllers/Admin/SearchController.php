@@ -6,7 +6,6 @@ use App\Models\Common\UserModel;
 use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
 {
