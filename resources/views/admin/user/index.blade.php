@@ -13,14 +13,14 @@
                                     {{ csrf_field() }}
                                 <div class="col-md-2 m-b-md">
                                     <select class="input-md form-control input-s-md inline" name="statusid">
-                                        <option value="1">未设置</option>
+                                        <option value="-1">未设置</option>
                                         <option value="1">启用</option>
                                         <option value="0">禁用</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2 m-b-md">
                                     <select class="input-md form-control input-s-md inline" name="roleid">
-                                        <option value="1">未设置</option>
+                                        <option value="-1">未设置</option>
                                         @foreach($roles as $role)
                                             <option value="{{ $role->id }}">{{ $role->display_name }}</option>
                                         @endforeach

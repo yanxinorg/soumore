@@ -25,7 +25,7 @@ class UserModel extends Model
     //该用户所拥有的角色
     public function roleLists()
     {
-        return $this->belongsToMany('App\Role');
+        return $this->hasMany('App\RoleUser','user_id','id');
     }
 
 }
