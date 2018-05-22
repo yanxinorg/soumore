@@ -6,14 +6,14 @@
             <div class="tabs-container">
                     <div class="ibox-content">
                 	<div class="row">
-                        <div class="col-md-6 m-b-md">
-                            <div class="input-group">
-                            	<input type="text" placeholder="分类名称" class="input-md form-control"> 
-                            	<span class="input-group-btn">
-                                	<button type="button" class="btn btn-md btn-primary">Go!</button> 
-                                </span>
+                            <div class="col-md-6 m-b-md">
+                                <div class="input-group">
+                                    <input type="text" placeholder="分类名称" class="input-md form-control">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-md btn-primary">Search</button>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
                         <div class="col-md-6 m-b-md">
                             <div class="pull-right">
                                 <a type="button" class="btn btn-md btn-white" href="{{ url('/back/cate/add') }}"><i class="fa fa-plus">新增</i></a>
@@ -49,7 +49,6 @@
         	    								<span style="color:#1C84C6;">&nbsp;|&nbsp;---------</span>
         	    								@endif
         	                                @endfor
-        	                                
 	        	                             @if( $cate->status == "1")
 	        	                             	<span class="label label-success">{{ $cate->name }}</span>
 	        	                             @else
@@ -72,13 +71,10 @@
         					            <td>
         					             	<div class="btn-group">
             					             	@if($cate->status == 1)
-                					             	<a class="btn btn-white" href="{{ URL::action('Admin\CateController@addChild',['id'=>$cate->id]) }}"><i class="fa fa-plus"></i></a>
-                                                    <a class="btn btn-white" href="{{ URL::action('Admin\CateController@edit', ['id'=>$cate->id])}}"><i class="fa fa-edit"></i></button>
-                                                    <a class="btn btn-white " href="javascript:void(0);" onclick="del({{ $cate->id }});"><i class="fa fa-trash"></i></a>
-            									@else
-                									 <a class="btn btn-white" href="{{ URL::action('Admin\CateController@edit', ['id'=>$cate->id])}}"><i class="fa fa-edit"></i></a>
-                                                     <a class="btn btn-white " href="javascript:void(0);" onclick="del({{ $cate->id }});"><i class="fa fa-trash"></i></a>
+                					             <a class="btn btn-white" href="{{ URL::action('Admin\CateController@addChild',['id'=>$cate->id]) }}"><i class="fa fa-plus"></i></a>
             									@endif
+                                                <a class="btn btn-white" href="{{ URL::action('Admin\CateController@edit', ['id'=>$cate->id])}}"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-white " href="javascript:void(0);" onclick="del({{ $cate->id }});"><i class="fa fa-trash"></i></a>
                                         	</div>
         					            </td>
         					        </tr>

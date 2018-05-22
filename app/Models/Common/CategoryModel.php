@@ -3,9 +3,11 @@
 namespace App\Models\Common;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class CategoryModel extends Model
 {
+    use Searchable;
 	//分类
 	protected $table = 'category';
 	public $timestamps = TRUE;
@@ -28,4 +30,11 @@ class CategoryModel extends Model
 		}
 		return self::$treeList;
 	}
+
+    //返回特定内容
+    public function toSearchableArray()
+    {
+        $Arr_Cates = array_only($this -> toArray(), ['name']);
+        return $Arr_Cates;
+    }
 }

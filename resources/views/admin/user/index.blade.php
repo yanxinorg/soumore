@@ -12,13 +12,6 @@
                                 <form action="{{ url('/back/search/user') }}" method="post">
                                     {{ csrf_field() }}
                                 <div class="col-md-2 m-b-md">
-                                    <select class="input-md form-control input-s-md inline" name="statusid">
-                                        <option value="-1">未设置</option>
-                                        <option value="1">启用</option>
-                                        <option value="0">禁用</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2 m-b-md">
                                     <select class="input-md form-control input-s-md inline" name="roleid">
                                         <option value="-1">未设置</option>
                                         @foreach($roles as $role)
@@ -28,24 +21,18 @@
                                 </div>
                                 <div class="col-md-6 m-b-md">
                                     <div class="input-group">
-                                        <input type="text" placeholder="用户名，邮箱" name="wd" value="{{ $wd }}"  class="input-md form-control">
+                                        <input type="text" placeholder="用户名，邮箱，状态：启用，禁用" name="wd" value="{{ $wd }}"  class="input-md form-control">
                                         <span class="input-group-btn">
                                             <button type="submit" class="btn btn-md btn-primary">Search</button>
                                         </span>
                                     </div>
                                 </div>
                                 </form>
-                                <div class="col-md-2 m-b-md">
+                                <div class="col-md-4 m-b-md">
                                     <div class="pull-right">
                                         <div class="dt-buttons btn-group">
 	                                        <a href="{{ url('/back/user/add') }}" class="btn btn-default buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
 	                                        	<span><i class="fa fa-plus">新增</i></span>
-	                                        </a>
-	                                        <a class="btn btn-default buttons-excel buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
-	                                        	<span>Excel</span>
-	                                        </a>
-	                                        <a class="btn btn-default buttons-pdf buttons-html5" tabindex="0" aria-controls="DataTables_Table_0">
-	                                        	<span>PDF</span>
 	                                        </a>
                                         </div>
                                     </div>
@@ -61,7 +48,7 @@
                                         <th>用户</th>
                                         <th>邮箱</th>
                                         <th>角色</th>
-                                        <th><a href="">注册时间<span class="fa fa-fw fa-sort"></span></a></th>
+                                        <th>注册时间</th>
                                         <th>状态</th>
                                         <th class="text-right" >操作</th>
                                     </tr>

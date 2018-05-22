@@ -14,7 +14,7 @@ class CateController extends Controller
     //分类列表
     public function index()
     {
-    	$cates = CategoryModel::all();
+        $cates = CategoryModel::all();
     	$cates = CommonController::treeCreate($cates);
     	return view('admin.cate.index',['cates'=>$cates]);
     }
@@ -67,7 +67,6 @@ class CateController extends Controller
                     }else{
                         $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
                     }
-
 //	    			$imgPath = CommonController::ImgStore($request->file('thumb'),'category');
 	    			CategoryModel::where('id','=',$request->get('id'))->update([
 	    				'pid'=>$request->get('cateid'),

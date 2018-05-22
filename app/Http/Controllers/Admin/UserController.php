@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Common\PostModel;
+use Faker\Provider\Uuid;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Common\UserModel;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use Maatwebsite\Excel\Facades\Excel;
 use Qiniu\Storage\UploadManager;
 
 class UserController extends Controller
@@ -35,14 +37,15 @@ class UserController extends Controller
     {
     	$validator = Validator::make($request->all(),[
 	    		'username'=>'required',
-    			'email'=>$request->isMethod('get')?'required|email|unique:users,email':'required|email',
+    			'email'=>'required|email|unique:users,email',
     			'password'=>'required|min:6',
 	    		'status'=>'required|numeric|between:0,1',
 	    		'avatar'=>$request->file('avatar')?'image|max:2048':''
     	],[
     			'required'=>':attribute为必填项',
     			'numeric'=>'数字',
-    			'image'=>'图片格式错误'
+    			'image'=>'图片格式错误',
+                'unique'=>':attribute已存在'
     	],[
     			'username'=>'名称',
     			'email'=>'邮箱',
@@ -55,6 +58,7 @@ class UserController extends Controller
         }
         //创建保存
         $user = new UserModel();
+        $user->uid = (\Ramsey\Uuid\Uuid::uuid4()->getHex());
         $user->name = $request->get('username');
         $user->email = $request->get('email');
         $user->password = Hash::make($request->get('password'));
@@ -110,7 +114,7 @@ class UserController extends Controller
                 'selectedRoles'=>$selectedRoles
     	]);
     }
-
+    //更新用户
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -226,5 +230,5 @@ class UserController extends Controller
         }
         return $data;
     }
-    
+
 }

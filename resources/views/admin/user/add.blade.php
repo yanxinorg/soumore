@@ -9,11 +9,9 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <div class="ibox-tools">
-                               <div class="pull-right">
-                                    <a type="button" class="btn btn-sm btn-white" href="{{ url('/back/user/list') }}"> <i class="fa fa-list">列表</i></a>
-                               </div>
-                            </div>
+                           <div class="pull-right">
+                                <a type="button" class="btn btn-sm btn-white" href="{{ url('/back/user/list') }}"> <i class="fa fa-list">列表</i></a>
+                           </div>
                         </div>
                         <div class="ibox-content">
                             <form method="post" action="{{ url('/back/user/store') }}" class="form-horizontal" enctype="multipart/form-data">
@@ -21,7 +19,7 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">名称</label>
                                     <div class="col-sm-6">
-                                    	<input type="text" class="form-control" name="username">
+                                    	<input type="text" class="form-control" name="username" value="{{ old('username') }}">
                                     </div>
                                     <div class="col-sm-2">
 	                              		 @if ($errors->has('username'))
@@ -33,7 +31,7 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">邮箱</label>
                                     <div class="col-sm-6">
-                                    	<input type="text" class="form-control"  name="email">
+                                    	<input type="text" class="form-control"  name="email" value="{{ old('email') }}">
                                     </div>
                                     <div class="col-sm-2">
 	                              		 @if ($errors->has('email'))
@@ -45,7 +43,7 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-6">
-                                    	<input type="password" class="form-control" name="password">
+                                    	<input type="password" class="form-control" name="password" value="{{ old('password') }}">
                                     </div>
                                     <div class="col-sm-2">
 	                              		 @if ($errors->has('password'))

@@ -19,14 +19,14 @@ class UserModel extends Model
     public function toSearchableArray()
     {
         #_ Read Data & Filter Field
-        $Arr_Users = array_only($this -> toArray(), ['name','email']);
+        $Arr_Users = array_only($this -> toArray(), ['name','email','status']);
         #_ Back to Scout
         return $Arr_Users;
     }
     //该用户所拥有的角色
     public function roleLists()
     {
-        return $this->hasMany(RoleUser::class,'user_id','id');
+        return $this->hasMany(RoleUser::class,'user_id','id','status');
     }
 
 }

@@ -9,11 +9,9 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <div class="ibox-tools">
-                               <div class="pull-right">
-                                    <a type="button" class="btn btn-sm btn-white" href="{{ url('/back/user/list') }}"> <i class="fa fa-list">列表</i></a>
-                               </div>
-                            </div>
+                           <div class="pull-right">
+                                <a type="button" class="btn btn-sm btn-white" href="{{ url('/back/user/list') }}"> <i class="fa fa-list">列表</i></a>
+                           </div>
                         </div>
                         <div class="ibox-content">
                             <form method="post" action="{{ url('/back/user/update') }}" class="form-horizontal" enctype="multipart/form-data">

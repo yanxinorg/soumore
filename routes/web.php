@@ -244,6 +244,8 @@ Route::group(['middleware' => 'authed'], function () {
 	    Route::post('/user/delete', [ 'middleware' => ['permission:user-delete'], 'uses' =>'Admin\UserController@delete'] );
         //更改用户状态
         Route::post('/user/status', [ 'middleware' => ['permission:user-status'], 'uses' =>  'Admin\UserController@status']);
+        //用户导出
+        Route::get('/user/export', [ 'uses' =>'Admin\UserController@export'] );
 	    //话题列表
 	    Route::get('/topic/list', [ 'middleware' => ['permission:topic-list'], 'uses' =>  'Admin\TopicController@index']);
 	    //新增话题

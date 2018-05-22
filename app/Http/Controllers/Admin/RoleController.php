@@ -55,10 +55,8 @@ class RoleController extends Controller
     	$pertIds = DB::table('permission_role')->where('role_id',$request->get('id'))->pluck('permission_id')->toArray();
     	//该角色没有的权限
     	$froms = DB::table('permissions')->whereNotIn('id',$pertIds)->get();
-    	
     	//该角色已经拥有的权限
     	$tos = DB::table('permissions')->whereIn('id', $pertIds)->get();
-    	
     	return view('admin.role.edit',['data'=>$data[0],'froms'=>$froms,'tos'=>$tos]);
     }
     
@@ -106,9 +104,7 @@ class RoleController extends Controller
     					'code'=>'1',
     					'msg'=>'删除成功'
     			];
-    			
     		} catch (\Exception $e){
-    			//事务回滚
     			DB::rollback();
     			$this->data = [
     					'code'=>'0',
