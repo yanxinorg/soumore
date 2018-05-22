@@ -18,9 +18,8 @@
 		                             <strong>共 {{ $total }} 个角色.</strong>
                                 </div>
                             </div>
-                            
                             <div class="table-responsive">
-                            <table class="table table-hover issue-tracker">
+                            <table class="table table-bordered table-stripped">
                              	<thead>
                                     <tr>
                                         <th>ID</th>

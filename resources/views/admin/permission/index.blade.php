@@ -10,24 +10,30 @@
                              <h5>权限列表</h5>
                         </div>
                         <div class="ibox-content">
-                        	<div class="m-b-lg">
-                                <div class="m-t-md">
+                            <div class="row">
+                                <div class="col-md-6 m-b-md">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="权限名称" class="input-md form-control">
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-md btn-primary">Search</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 m-b-md">
                                     <div class="pull-right">
-		                                 <a type="button" class="btn btn-md btn-white" href="{{ url('/back/permit/add') }}"><i class="fa fa-plus">新增</i></a>
-		                             </div>
-                                    <strong>共 61 条路由.</strong>
+                                        <a type="button" class="btn btn-md btn-white" href="{{ url('/back/permit/add') }}"><i class="fa fa-plus">新增</i></a>
+                                    </div>
                                 </div>
                             </div>
-                            
                             <div class="table-responsive">
-                            <table class="table table-hover issue-tracker">
+                            <table class="table table-bordered table-stripped">
                              	<thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>中文</th>
                                         <th>英文</th>
                                         <th>创建时间</th>
-                                        <th class="text-right" >操作</th>
+                                        <th >操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -37,7 +43,7 @@
                                     <td><span class="label label-primary">{{ $permit->display_name }}</span></td>
                                     <td>{{ $permit->name }}</td>
                                     <td>{{ $permit->created_at }}</td>
-                                    <td class="text-right footable-visible footable-last-column">
+                                    <td class="footable-visible footable-last-column">
                                         <div class="btn-group">
                                             <a class="btn btn-white" href="{{ URL::action('Admin\PermissionController@edit', ['id'=>$permit->id])}}"><i class="fa fa-edit"></i></a>
                                             <a class="btn btn-white " href="javascript:void(0);" onclick="del({{ $permit->id }});"><i class="fa fa-trash"></i></a>

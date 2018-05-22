@@ -31,6 +31,7 @@
                             <table class="table table-bordered table-stripped">
                                 <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>缩略图</th>
                                     <th>话题名称</th>
                                     <th>状态</th>
@@ -41,7 +42,8 @@
                                 <tbody>
                                 @foreach($tags as $tag)
                                     <tr>
-                                        <td>
+                                        <td style="width: 50px;">{{ $tag->id }}</td>
+                                        <td style="width: 50px;">
                                             <img style="width:48px;" src="{{ $tag->thumb }}">
                                         </td>
                                         <td>

@@ -179,6 +179,8 @@ return [
     	Laravel\Scout\ScoutServiceProvider::class,
     	//RBAC
     	Zizaco\Entrust\EntrustServiceProvider::class,
+        //扩展查看插件
+        Lubusin\Decomposer\DecomposerServiceProvider::class,
     ],
 
     /*

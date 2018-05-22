@@ -206,6 +206,8 @@ Route::group(['middleware' => 'authed'], function () {
 	{
         //后台首页
         Route::get('/panel', 'Admin\IndexController@index');
+        //测试！！！
+        Route::get('/panel/decompose','\Lubusin\Decomposer\Controllers\DecomposerController@index');
 	    //角色列表
 	    Route::get('/role/list', [ 'middleware' => ['permission:role-list'], 'uses' => 'Admin\RoleController@index']);
 	    //新增角色

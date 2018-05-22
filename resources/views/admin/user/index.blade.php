@@ -38,9 +38,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="hr-line-dashed"></div>
                             <div class="table-responsive">
-                            <table class="table table-hover issue-tracker">
+                            <table class="table table-bordered table-stripped">
                              	<thead>
                                     <tr>
                                         <th>ID</th>
@@ -58,7 +57,7 @@
                                 @foreach($users as $user)
                                 <tr>
                                     <td>{{ $user->id }}</td>
-                                    <td class="client-avatar"><img alt="image" src="{{ $user->avator }}"> </td>
+                                    <td class="client-avatar"><img src="{{ $user->avator }}"> </td>
                                     <td><a target="_blank" href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}">{{ $user->name }}</a></td>
                                     <td ><i class="fa fa-envelope">  {{ $user->email }}</i></td>
                                     <td>
