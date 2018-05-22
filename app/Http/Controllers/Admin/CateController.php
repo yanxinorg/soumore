@@ -67,7 +67,6 @@ class CateController extends Controller
                     }else{
                         $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
                     }
-//	    			$imgPath = CommonController::ImgStore($request->file('thumb'),'category');
 	    			CategoryModel::where('id','=',$request->get('id'))->update([
 	    				'pid'=>$request->get('cateid'),
 	    				'name'=>$request->get('name'),
@@ -116,8 +115,6 @@ class CateController extends Controller
 	    			return redirect('/back/cate/list');
 	    		}
     		}
-    		
-    		
     	}
     	return redirect()->back()->withErrors($validator)->withInput();
     }
