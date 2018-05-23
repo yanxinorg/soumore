@@ -34,4 +34,16 @@ class SearchController extends Controller
 
     }
 
+    //分类搜索
+    public function cateSearch(Request $request)
+    {
+        if($request->get('wd'))
+        {
+            $datas = DB::table('category') ->where('name', 'like','%'. $request->get('wd').'%') ->get();
+            return view('admin.cate.result',['cates'=>$datas,'wd'=>$request->get('wd')?$request->get('wd'):'']);
+        }else{
+            return redirect('/back/cate/list');
+        }
+    }
+
 }

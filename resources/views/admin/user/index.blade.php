@@ -130,18 +130,7 @@ $("select#user_status").change(function(){
                 "_token":'{{ csrf_token() }}',
                 "id": $(this).val(),
             },function(data){
-                $.pjax.reload({container:"#user_status", async:true});
-                //通知
-                setTimeout(function() {
-                    toastr.options = {
-                        closeButton: true,
-                        progressBar: true,
-                        showMethod: 'slideDown',
-                        timeOut: 4000
-                    };
-                    toastr.success('更新成功', '状态');
-                }, 300);
-
+                toastr.success(data.msg, '状态');
             });
 });
 </script>

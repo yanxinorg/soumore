@@ -207,7 +207,7 @@ Route::group(['middleware' => 'authed'], function () {
         //后台首页
         Route::get('/panel', 'Admin\IndexController@index');
         //测试！！！
-        Route::get('/panel/decompose','\Lubusin\Decomposer\Controllers\DecomposerController@index');
+//        Route::get('/panel/decompose','\Lubusin\Decomposer\Controllers\DecomposerController@index');
 	    //角色列表
 	    Route::get('/role/list', [ 'middleware' => ['permission:role-list'], 'uses' => 'Admin\RoleController@index']);
 	    //新增角色
@@ -294,6 +294,8 @@ Route::group(['middleware' => 'authed'], function () {
 	    Route::post('/post/status', [ 'middleware' => ['permission:post-status'], 'uses' =>'Admin\PostController@status'] );
         //用户搜索
         Route::match(['get', 'post'],'/search/user', [ 'middleware' => ['permission:search-user'], 'uses' => 'Admin\SearchController@userSearch'] );
+        //分类搜索
+        Route::match(['get', 'post'],'/search/cate', [ 'uses' => 'Admin\SearchController@cateSearch'] );
     });
 });
 

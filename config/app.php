@@ -181,6 +181,8 @@ return [
     	Zizaco\Entrust\EntrustServiceProvider::class,
         //扩展查看插件
         Lubusin\Decomposer\DecomposerServiceProvider::class,
+        //QrCode
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
     ],
 
     /*
@@ -233,6 +235,8 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
     	//RBAC
     	'Entrust' => Zizaco\Entrust\EntrustFacade::class,
+        //QrCode
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ],
 
 ];

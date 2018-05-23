@@ -12,11 +12,11 @@ use Qiniu\Storage\UploadManager;
 class CateController extends Controller
 {
     //分类列表
-    public function index()
+    public function index(Request $request)
     {
         $cates = CategoryModel::all();
     	$cates = CommonController::treeCreate($cates);
-    	return view('admin.cate.index',['cates'=>$cates]);
+    	return view('admin.cate.index',['cates'=>$cates,'wd'=>$request->get('wd')?$request->get('wd'):'']);
     }
     
     //新增分类

@@ -17,7 +17,8 @@
         "qiniu/php-sdk": "^7.2",
         "ramsey/uuid": "^3.7",
         "stevenyangecho/laravel-u-editor": "^1.4",
-        "zizaco/entrust": "5.2.x-dev"
+        "zizaco/entrust": "5.2.x-dev",
+        "simplesoftwareio/simple-qrcode": "~2"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

@@ -44,20 +44,11 @@
                                             <img style="width:36px;" src="{{ $cate->thumb }}">
                                         </td>
         					            <td>
-        					             @if( $cate->count != 0)
-        	                                @for ($i=0;$i<$cate->count;$i++)
-        	                                	@if( $i == 0)
-        	    								<span></span>
-        	    								@else
-        	    								<span style="color:#1C84C6;">&nbsp;|&nbsp;---------</span>
-        	    								@endif
-        	                                @endfor
-	        	                             @if( $cate->status == "1")
-	        	                             	<span class="label label-success">{{ $cate->name }}</span>
-	        	                             @else
-	        	                             	<span class="label label-danger">{{ $cate->name }}</span>
-	        	                             @endif
-        	                             @endif
+                                         @if( $cate->status == "1")
+                                            <span class="label label-success">{{ $cate->name }}</span>
+                                         @else
+                                            <span class="label label-danger">{{ $cate->name }}</span>
+                                         @endif
         					            </td>
         					            <td>
         					              	<select class="form-control" id="cate_status">

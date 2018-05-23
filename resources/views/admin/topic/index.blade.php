@@ -6,15 +6,9 @@
             <div class="tabs-container">
                     <div class="ibox-content">
                 	<div class="row">
-                        <div class="col-md-3 m-b-md">
-                            <select class="input-md form-control input-s-md inline" name="searchid">
-                                <option value="1">启用</option>
-                                <option value="0">禁用</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 m-b-md">
+                        <div class="col-md-6 m-b-md">
                             <div class="input-group">
-                            	<input type="text" placeholder="话题名称" class="input-md form-control"> 
+                            	<input type="text" placeholder="话题名称，状态：启用，禁用" class="input-md form-control">
                             	<span class="input-group-btn">
                                 	<button type="button" class="btn btn-md btn-primary">Go!</button> 
                                 </span>
@@ -91,18 +85,8 @@
              "_token":'{{ csrf_token() }}',
              "id": $(this).val(),
             },function(data){
+                toastr.success('更新成功', '状态');
             	$.pjax.reload({container:"#topic_status", async:true});
-            	//通知
-            	setTimeout(function() {
-                    toastr.options = {
-                        closeButton: true,
-                        progressBar: true,
-                        showMethod: 'slideDown',
-                        timeOut: 4000
-                    };
-                    toastr.success('更新成功', '状态');
-                }, 300);
-            	
             });
     });
 
