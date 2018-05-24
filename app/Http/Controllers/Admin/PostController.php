@@ -49,7 +49,7 @@ class PostController extends Controller
     	$this->validate($request, [
     			'id'=>'required|numeric|exists:posts,id'
     	]);
-    	if(PostModel::where(['id'=>$request->get('id'),'status'=>'1'])->update(['status'=>'0']) || PostModel::where(['id'=>$request->get('id'),'status'=>'0'])->update(['status'=>'1']))
+        if(PostModel::where(['id'=>$request->get('id'),'status'=>'1'])->update(['status'=>'0']) || PostModel::where(['id'=>$request->get('id'),'status'=>'0'])->update(['status'=>'1']))
     	{
     		$data = [
     				'code'=>'1',

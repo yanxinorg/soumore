@@ -100,8 +100,8 @@ $("select#cate_status").change(function(){
          "_token":'{{ csrf_token() }}',
          "id": $(this).val(),
         },function(data){
-             toastr.success('更新成功', '状态');
-             $.pjax.reload({container:"#cate_status", async:true});
+             toastr.success(data.msg, '状态');
+             location.reload() ;
         });
 });
 	
@@ -126,7 +126,7 @@ function del(id){
                 	         animation: false,
                 	         showConfirmButton: true
                 	     }, function () {
-                	    	 $.pjax.reload('table');
+                          location.reload() ;
                     	     });
                   });
      });

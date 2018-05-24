@@ -33,6 +33,9 @@
         padding-left: 0px;
         padding-right: 15px;
     }
+	 img{
+		 max-width: 100%;
+	 }
 </style>
 <body screen_capture_injected="true">
 	<div class="aw-top-menu-wrap">
@@ -169,7 +172,5 @@
     <!-- DO NOT REMOVE -->
     <div id="aw-ajax-box" class="aw-ajax-box"></div>
     <div style="display:none;" id="__crond"><img src="{{ asset('ask/index_files/saved_resource') }}" width="1" height="1"></div>
-
-
 </body>
 </html>

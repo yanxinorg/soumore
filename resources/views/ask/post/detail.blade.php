@@ -1,12 +1,9 @@
 @extends('layouts.ask')
 @section('content')
-@section('css')
-@parent
-<link href="{{ asset('ask/zoom/dist/zoomify.min.css') }}" rel="stylesheet">
-@stop
 <?php
 use App\Models\Common\UserModel;
 ?>
+
 <div class="aw-container-wrap">
     <div class="container1" >
         <div class="row">
@@ -35,16 +32,10 @@ use App\Models\Common\UserModel;
                                                 <div class="dropdown-menu aw-dropdown pull-right" aria-labelledby="dropdownMenu">
                                                     <ul class="aw-dropdown-list">
                                                         <li>
-                                                            <a href="javascript:;" onclick="">锁定文章</a>
+                                                            <a href="{{ URL::action('Front\PostController@edit', ['id'=>$datas->post_id]) }}" >编辑文章</a>
                                                         </li>
                                                         <li>
                                                             <a  href="javascript:;" onclick="del({{ $datas->post_id }})">删除文章</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:;" onclick="">推荐文章</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:;" onclick="">添加到帮助中心</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -54,7 +45,7 @@ use App\Models\Common\UserModel;
                             	</div>
                             </div>
                             <div class="mod-body">
-                                    <div class="content markitup-box">
+                                    <div class="content" >
                                         {!! $datas->content !!}
                                     </div>
                                     <div class="meta clearfix">
@@ -199,12 +190,7 @@ use App\Models\Common\UserModel;
 @section('js')
 @parent
 <script type="text/javascript" src="{{ asset('ask/layer/layer.js') }}" ></script>
-<script src="{{ asset('ask/zoom/dist/zoomify.min.js') }}"></script>
 <script type="text/javascript">
-    //图片放大
-    $(document).ready(function(){
-        $('.content img').zoomify();
-    });
     function del(id){
         layer.confirm('确认删除该文章？', {
             btn: ['确认','取消'] //按钮

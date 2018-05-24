@@ -22,7 +22,7 @@ class PostModel extends Model
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope(new PostScope);
+//        static::addGlobalScope(new PostScope);
     }
 
     //返回特定内容

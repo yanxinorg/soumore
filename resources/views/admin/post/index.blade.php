@@ -71,16 +71,15 @@
 @section('js')
 @parent
 <script>
-
-//改变分类状态
+//改变文章状态
 $("select#post_status").change(function(){
 	 $.post("{{ url('/back/post/status') }}",
        {
          "_token":'{{ csrf_token() }}',
          "id": $(this).val(),
         },function(data){
-//        	$.pjax.reload({container:"#post_status", async:true});
             toastr.success(data.msg, '状态');
+//            location.reload() ;
         });
 });
 

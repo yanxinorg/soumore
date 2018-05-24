@@ -1,9 +1,5 @@
 @extends('layouts.ask')
 @section('content')
-@section('css')
-@parent
-<link href="{{ asset('ask/zoom/dist/zoomify.min.css') }}" rel="stylesheet">
-@stop
 <?php
 use App\Models\Common\UserModel;
 ?>
@@ -38,7 +34,7 @@ use App\Models\Common\UserModel;
                                                        <a href="">修改记录</a>
                                                    </li>
                                                    <li>
-                                                       <a href="javascript:;" onclick="">锁定问题</a>
+                                                       <a href="{{ URL::action('Front\QuestionController@edit', ['id'=>$datas->question_id]) }}" >编辑问题</a>
                                                    </li>
                                                    <li>
                                                        <a href="javascript:;" onClick="del({{ $datas->question_id }});">删除问题</a>
@@ -62,9 +58,7 @@ use App\Models\Common\UserModel;
                             	</div>
                             </div>
                             <div class="mod-body">
-                                    <div class="content markitup-box">
-                                        {!! $datas->content !!}
-                                    </div>
+                                    <div class="content">{!! $datas->content !!}</div>
                                     <div class="meta clearfix">
                                         <div class="aw-article-vote pull-left disabled">
                                             <a href="javascript:;" class="agree" onclick=""><i class="icon icon-agree"></i> <b>0</b></a>
@@ -170,9 +164,6 @@ use App\Models\Common\UserModel;
                                 </div>
                             </div>
                         <!-- end 回复编辑器 -->
-
-
-
                 </div>
                 <!-- 侧边栏 -->
                 <div class="col-sm-12 col-md-3 aw-side-bar hidden-sm hidden-xs">
@@ -204,12 +195,7 @@ use App\Models\Common\UserModel;
 @section('js')
 @parent
 <script type="text/javascript" src="{{ asset('ask/layer/layer.js') }}" ></script>
-<script src="{{ asset('ask/zoom/dist/zoomify.min.js') }}"></script>
 <script type="text/javascript">
-    //图片放大
-    $(document).ready(function(){
-        $('.content img').zoomify();
-    });
 function del(id){
     layer.confirm('确认删除该提问？', {
         btn: ['确认','取消'] //按钮
