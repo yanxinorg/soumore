@@ -183,6 +183,9 @@ return [
         Lubusin\Decomposer\DecomposerServiceProvider::class,
         //QrCode
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        //QQ社会化登录
+        SocialiteProviders\Manager\ServiceProvider::class,
+
     ],
 
     /*
@@ -237,6 +240,8 @@ return [
     	'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         //QrCode
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        //社会化登录
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

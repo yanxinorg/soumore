@@ -60,15 +60,11 @@
 						</li>
 					</ul>
 				</form>
-    
-    
 			</div>
 			<div class="side-bar pull-left">
 				<h3>第三方账号登录</h3>
 				<a href="" class="btn btn-block btn-weibo"><i class="icon icon-weibo"></i> 微博登录</a>
-
-				<a href="" class="btn btn-block btn-qq"><i class="icon icon-qq"></i> QQ 登录</a>
-
+				<a href="{{ url('/qqlogin') }}" class="btn btn-block btn-qq"><i class="icon icon-qq"></i> QQ 登录</a>
 				<a href="" class="btn btn-block btn-wechat">
 					<i class="icon icon-wechat"></i> 微信扫一扫登录
 					<div class="img">

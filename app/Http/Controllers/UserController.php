@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Common\UserModel;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Laravel\Socialite\Facades\Socialite;
 use Ramsey\Uuid\Uuid;
 use App\Http\Controllers\Common\SpecialCharacterController;
 use Illuminate\Support\Facades\Session;
@@ -165,5 +166,17 @@ class UserController extends Controller
     {
         $users = UserModel::orderBy('count_fans','desc')->paginate('15');
         return view('ask.user.hotlist',['users'=>$users]);
+    }
+
+    //qq登录
+    public function qqLogin()
+    {
+        return Socialite::with('qq')->redirect();
+    }
+
+    public function qqUrl()
+    {
+        $user = Socialite::driver('qq')->user();
+        dd($user);
     }
 }

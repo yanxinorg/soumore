@@ -17,18 +17,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\EventListener',
         ],
     	//QQ社会化监听器
-    	'SocialiteProviders\Manager\SocialiteWasCalled' => [
-    		'SocialiteProviders\Qq\QqExtendSocialite@handle',
-    	],
-    	//微博社会化监听
-    	'SocialiteProviders\Manager\SocialiteWasCalled' => [
-    		'SocialiteProviders\Weibo\WeiboExtendSocialite@handle',
-    	],
-    	//微信社会化监听
-    	 SocialiteWasCalled::class => [        
-        \SocialiteProviders\Weixin\WeixinExtendSocialite::class,    
-    	],
-    		
+        'SocialiteProviders\Manager\SocialiteWasCalled' => [
+            'SocialiteProviders\QQ\QqExtendSocialite@handle',
+        ],
     ];
 
     /**

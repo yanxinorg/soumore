@@ -2,10 +2,19 @@
 
 // 首页
 Route::get('/',  'Front\PostController@index');
+//关于
+Route::get('/about',  'Front\IndexController@about');
+//下载
+Route::get('/download',  'Front\IndexController@download');
+//文档
+Route::get('/docs',  'Front\IndexController@docs');
 //登录
 Route::get('/login', function () {return view('ask.user.login');});
 //验证登录信息
 Route::post('/login','UserController@login');
+//QQ登录信息
+Route::get('/qqlogin','UserController@qqLogin');
+Route::get('/qqurl','UserController@qqUrl');
 //登出
 Route::get('/logout','UserController@logout');
 // 注册
@@ -201,6 +210,7 @@ Route::group(['middleware' => 'authed'], function () {
 		//添加评论
 		Route::post('/comment/create', 'CommentController@create');
 	});
+
 	//新后台管理
 	Route::group(['prefix' => 'back','middleware' => ['role:administrators']], function()
 	{
