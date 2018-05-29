@@ -430,32 +430,35 @@ class PersonController extends Controller
     	)->orderBy('tags.created_at','desc')->paginate('20');
     	return view('wenda.topic.topiced',['tags'=>$datas]);
     }
+
+
     //我的私信
     public function letter()
     {
-    	$fromUserIds = DB::table('messages')
+    	$UserIds = DB::table('messages')
     	->leftjoin('users', 'messages.from_user_id', '=', 'users.id')
-    	->where('messages.to_user_id','=',Auth::id())
+    	->where('messages.to_user_id',Auth::id())
+        ->orWhere('messages.from_user_id',Auth::id())
     	->orderBy('messages.created_at','desc')
-    	->pluck('messages.from_user_id')->toArray();
-    	//数据去重
-    	$fromUserIds = array_unique($fromUserIds);
-    	//查找唯一私信
+    	->pluck('messages.from_user_id','messages.to_user_id')->toArray();
+        $UserIds = array_except($UserIds,Auth::id());
+        //查找唯一私信
     	$datas = DB::table('messages')
-    	->leftjoin('users', 'messages.from_user_id', '=', 'users.id')
-    	->whereIn('messages.from_user_id', $fromUserIds)
+    	->leftjoin('users as A', 'messages.to_user_id', '=', 'A.id')
+        ->leftjoin('users as B', 'messages.from_user_id', '=', 'B.id')
+    	->whereIn('messages.from_user_id', $UserIds)
+        ->orWhereIn('messages.to_user_id', $UserIds)
     	->select(
-    			'users.id as id',
-    			'users.name as username',
-                'users.avator as avator',
+    			'A.id as id',
+    			'A.name as username',
+                'A.avator as avator',
     			'messages.content as content',
     			'messages.to_user_id as to_user_id',
     			'messages.from_user_id as from_user_id',
     			'messages.created_at as created_at'
     	)->orderBy('messages.created_at','desc')
     	->paginate('10');
-    	
-    	return view('wenda.person.receivedLetter',['datas'=>$datas]);
+    	return view('ask.person.receivedLetter',['datas'=>$datas]);
     }
     //私信详情
     public function letterDetail(Request $request)
@@ -473,12 +476,13 @@ class PersonController extends Controller
 	    	->select(
 	    			'users.id as id',
 	    			'users.name as username',
+                    'users.avator as avator',
 	    			'messages.content as content',
 	    			'messages.to_user_id as to_user_id',
 	    			'messages.from_user_id as from_user_id',
 	    			'messages.created_at as created_at'
 	    	)->orderBy('messages.created_at','desc')->paginate('10');
-    		return view('wenda.person.letterDetail',
+    		return view('ask.person.letterDetail',
     				[
     					'datas'=>$datas,
     					'to_user'=>Auth::id() == $request->get('from_user_id')?$request->get('to_user_id'):$request->get('from_user_id'),
@@ -492,7 +496,7 @@ class PersonController extends Controller
     public function sendLetter()
     {
     	$users = UserModel::where('id','!=',Auth::id())->get();
-    	return view('wenda.person.sendLetter',['users'=>$users]);
+    	return view('ask.person.sendLetter',['users'=>$users]);
     }
     
     public function storeLetter(Request $request)

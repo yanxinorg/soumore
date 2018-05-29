@@ -142,7 +142,7 @@ jQuery(function(){
 		'.chosen-select-no-single' : {disable_search_threshold:10},
 		'.chosen-select-no-results': {no_results_text:'未找到该标签'},
 		'.chosen-select-width'     : {width:"100%"}
-	}
+	};
 	for (var selector in config) {
 		$(selector).chosen(config[selector]);
 	}

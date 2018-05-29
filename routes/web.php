@@ -209,6 +209,8 @@ Route::group(['middleware' => 'authed'], function () {
         Route::post('/video/collectCancel', 'VideoController@collectCancel');
 		//添加评论
 		Route::post('/comment/create', 'CommentController@create');
+        //动态
+        Route::get('/dynamic', 'DynamicController@index');
 	});
 
 	//新后台管理

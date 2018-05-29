@@ -59,8 +59,8 @@
 								<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
 								<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i>话题</a></li>
                                 <li><a href="{{ url('/video') }}" class="{{ (Request::getPathinfo() == '/video')  ? 'active':'' }}"><i class="icon icon-video"></i>视频</a></li>
-                                <li><a href=""><i class="icon icon-list"></i>作品</a></li>
                                 <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" class="{{ (Request::getPathinfo() == '/person') ? 'active':'' }}"><i class="icon icon-home"></i> 动态</a></li>
+								<li><a href="{{ url('/dynamic') }}"><i class="icon icon-list"></i>发现</a></li>
 							</ul>
 						</nav>
 					</div>
@@ -91,7 +91,7 @@
 						</a>
 						<div class="aw-dropdown dropdown-list pull-right">
 							<ul class="aw-dropdown-list">
-								<li><a href=""><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread" style="display: none;">0</span></a></li>
+								<li><a href="{{ url('/person/letter') }}"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread" style="display: none;">0</span></a></li>
 								<li class="hidden-xs"><a href="{{ url('/person/info') }}"><i class="icon icon-setting"></i> 设置</a></li>
 								@role('administrators')
 								<li class="hidden-xs"><a href="{{ url('/back/panel') }}"><i class="icon icon-job"></i> 管理</a></li>

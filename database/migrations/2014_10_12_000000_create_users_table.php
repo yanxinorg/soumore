@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('status')->default(1)->comment('用户状态:	0-待审核，1已审核'); 
             $table->tinyInteger('lock')->default(0)->comment('是否锁定:	0-否，1-是');
             $table->tinyInteger('gender')->nullable()->comment('性别: 1-男,2-女,0-保密   可以用枚举类型');       
-            $table->tinyInteger('affectivestatus')->nullable()->comment('性别: 0-未婚,1-已婚,2-离异');
+            $table->tinyInteger('affectivestatus')->nullable()->comment('婚姻: 0-未婚,1-已婚,2-离异');
             $table->string('avator')->nullable()->comment('用户头像');
             $table->string('face50')->nullable()->comment('用户头像50*50');
             $table->string('face80')->nullable()->comment('用户头像80*80');
