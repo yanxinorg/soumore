@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Common\MessageModel;
 use App\Models\Common\UserModel;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,14 @@ class AppServiceProvider extends ServiceProvider
     	\Carbon\Carbon::setLocale('zh');
         view()->composer('layouts/ask', function ($view) {
             $userInfo = UserModel::where('id',Auth::id())->pluck('avator')?UserModel::where('id',Auth::id())->pluck('avator'):'';
-            $view->with('thumb',$userInfo);
+            $countNotice = MessageModel::where([
+                'to_user_id'=>Auth::id(),
+                'is_read'=>null
+            ])->count();
+            $view->with([
+                'thumb'=>$userInfo,
+                'countNotice'=>$countNotice
+            ]);
         });
 
     }

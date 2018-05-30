@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -431,35 +432,70 @@ class PersonController extends Controller
     	return view('wenda.topic.topiced',['tags'=>$datas]);
     }
 
-
     //我的私信
     public function letter()
     {
-    	$UserIds = DB::table('messages')
-    	->leftjoin('users', 'messages.from_user_id', '=', 'users.id')
-    	->where('messages.to_user_id',Auth::id())
-        ->orWhere('messages.from_user_id',Auth::id())
-    	->orderBy('messages.created_at','desc')
-    	->pluck('messages.from_user_id','messages.to_user_id')->toArray();
-        $UserIds = array_except($UserIds,Auth::id());
+        $UserIds = DB::table('messages')->where('messages.to_user_id',Auth::id())
+            ->orWhere('messages.from_user_id',Auth::id())
+            ->orderBy('messages.created_at','desc')->select('from_user_id','to_user_id')->get()->map(function ($value) {
+            return (array)$value;
+        })->toArray();
+        $UserIds = array_flatten($UserIds);
+        $UserIds = array_unique($UserIds);
+        //去除本身id
+        foreach ($UserIds as $key=>$value)
+        {
+            if ($value === Auth::id())
+                unset($UserIds[$key]);
+        }
         //查找唯一私信
-    	$datas = DB::table('messages')
-    	->leftjoin('users as A', 'messages.to_user_id', '=', 'A.id')
-        ->leftjoin('users as B', 'messages.from_user_id', '=', 'B.id')
-    	->whereIn('messages.from_user_id', $UserIds)
-        ->orWhereIn('messages.to_user_id', $UserIds)
-    	->select(
-    			'A.id as id',
-    			'A.name as username',
-                'A.avator as avator',
-    			'messages.content as content',
-    			'messages.to_user_id as to_user_id',
-    			'messages.from_user_id as from_user_id',
-    			'messages.created_at as created_at'
-    	)->orderBy('messages.created_at','desc')
-    	->paginate('10');
+        $datas = [];
+        foreach ($UserIds as $k=>$v)
+        {
+            $firstId = DB::table('messages')->where(['to_user_id'=>Auth::id(),'from_user_id'=>$v])->orderBy('created_at','desc')->limit(1)->pluck('id');
+            $secondId = DB::table('messages')->where(['to_user_id'=>$v,'from_user_id'=>Auth::id()])->orderBy('created_at','desc')->limit(1)->pluck('id');
+            if($firstId > $secondId)
+            {
+                $datas[$k] = DB::table('messages')
+                    ->leftjoin('users', 'messages.from_user_id', '=', 'users.id')
+                    ->where('messages.from_user_id',$v)
+                    ->orderBy('messages.created_at','desc')
+                    ->select(
+                        'users.id as id',
+                        'users.name as username',
+                        'users.avator as avator',
+                        'messages.content as content',
+                        'messages.to_user_id as to_user_id',
+                        'messages.from_user_id as from_user_id',
+                        'messages.created_at as created_at')
+                    ->orderBy('messages.created_at','desc')->limit(1)->get();
+                //未读消息数
+                $datas[$k]['countNotice'] = DB::table('messages')->where('to_user_id',Auth::id())->where('is_read',null)->count();
+                //对话总数
+                $datas[$k]['countMessage'] = DB::table('messages')->whereIn('messages.from_user_id', [Auth::id(),$v])->whereIn('messages.to_user_id',[Auth::id(),$v])->count();
+            }else{
+                $datas[$k] = DB::table('messages')
+                    ->leftjoin('users', 'messages.to_user_id', '=', 'users.id')
+                    ->where('messages.to_user_id',$v)
+                    ->orderBy('messages.created_at','desc')
+                    ->select(
+                        'users.id as id',
+                        'users.name as username',
+                        'users.avator as avator',
+                        'messages.content as content',
+                        'messages.to_user_id as to_user_id',
+                        'messages.from_user_id as from_user_id',
+                        'messages.created_at as created_at')
+                    ->orderBy('messages.created_at','desc')->limit(1)->get();
+                //未读消息数
+                $datas[$k]['countNotice'] = "";
+                //对话总数
+                $datas[$k]['countMessage'] = DB::table('messages')->whereIn('messages.from_user_id', [Auth::id(),$v])->whereIn('messages.to_user_id',[Auth::id(),$v])->count();
+            }
+        }
     	return view('ask.person.receivedLetter',['datas'=>$datas]);
     }
+
     //私信详情
     public function letterDetail(Request $request)
     {
@@ -469,29 +505,37 @@ class PersonController extends Controller
     	]);
     	if($request->get('from_user_id') == Auth::id() || $request->get('to_user_id') == Auth::id())
     	{
-    		$datas = DB::table('messages')
-	    	->leftjoin('users', 'messages.from_user_id', '=', 'users.id')
-	    	->where(['messages.from_user_id'=>$request->get('from_user_id'),'messages.to_user_id'=>$request->get('to_user_id')])
-	    	->orWhere(['messages.from_user_id'=>$request->get('to_user_id'),'messages.to_user_id'=>$request->get('from_user_id')])
-	    	->select(
-	    			'users.id as id',
-	    			'users.name as username',
-                    'users.avator as avator',
-	    			'messages.content as content',
-	    			'messages.to_user_id as to_user_id',
-	    			'messages.from_user_id as from_user_id',
-	    			'messages.created_at as created_at'
-	    	)->orderBy('messages.created_at','desc')->paginate('10');
-    		return view('ask.person.letterDetail',
-    				[
-    					'datas'=>$datas,
-    					'to_user'=>Auth::id() == $request->get('from_user_id')?$request->get('to_user_id'):$request->get('from_user_id'),
-    					'from_user_id'=>$request->get('from_user_id'),
-    					'to_user_id'=>$request->get('to_user_id')
-    				]);
-    	}
+            $datas = DB::table('messages')
+                ->leftjoin('users as A', 'messages.from_user_id', '=', 'A.id')
+                ->leftjoin('users as B', 'messages.to_user_id', '=', 'B.id')
+                ->whereIn('messages.from_user_id', [$request->get('from_user_id'),$request->get('to_user_id')])
+                ->whereIn('messages.to_user_id', [$request->get('from_user_id'),$request->get('to_user_id')])
+                ->select(
+                    'A.id as a_id',
+                    'A.name as a_username',
+                    'A.avator as a_avator',
+                    'B.id as b_id',
+                    'B.name as b_username',
+                    'B.avator as b_avator',
+                    'messages.content as content',
+                    'messages.to_user_id as to_user_id',
+                    'messages.from_user_id as from_user_id',
+                    'messages.created_at as created_at'
+                )->orderBy('messages.created_at', 'desc')->get();
+            if ($request->get('from_user_id') == Auth::id())
+            {
+                $toUser = User::where('id',$request->get('to_user_id'))->get();
+            }else{
+                $toUser = User::where('id',$request->get('from_user_id'))->get();
+            }
+            $authUser = User::where('id',Auth::id())->get();
+            //更新阅读状态
+            $request->get('from_user_id') == Auth::id()?DB::table('messages')->where(['messages.from_user_id'=>$request->get('to_user_id'),'messages.to_user_id'=>Auth::id()])->update(['is_read'=>'1']):DB::table('messages')->where(['messages.from_user_id'=>$request->get('from_user_id'),'messages.to_user_id'=>Auth::id()])->update(['is_read'=>'1']);
+            return view('ask.person.letterDetail',['datas'=>$datas,'toUser'=>$toUser,'authUser'=>$authUser[0]]);
+        }
     	abort('403');
     }
+
     //写私信
     public function sendLetter()
     {

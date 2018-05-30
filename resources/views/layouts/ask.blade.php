@@ -88,10 +88,18 @@
                                 @else
                                 <img src="">
                             @endif
+							@if(!empty($countNotice))
+								<span class="badge badge-important">{{ $countNotice }}</span>
+							@endif
 						</a>
 						<div class="aw-dropdown dropdown-list pull-right">
 							<ul class="aw-dropdown-list">
-								<li><a href="{{ url('/person/letter') }}"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread" style="display: none;">0</span></a></li>
+								<li><a href="{{ url('/person/letter') }}"><i class="icon icon-inbox"></i> 私信
+										@if(!empty($countNotice))
+											<span class="badge badge-important collapse">{{ $countNotice }}</span>
+										@endif
+									</a>
+								</li>
 								<li class="hidden-xs"><a href="{{ url('/person/info') }}"><i class="icon icon-setting"></i> 设置</a></li>
 								@role('administrators')
 								<li class="hidden-xs"><a href="{{ url('/back/panel') }}"><i class="icon icon-job"></i> 管理</a></li>
