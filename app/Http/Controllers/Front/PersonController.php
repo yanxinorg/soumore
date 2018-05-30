@@ -459,6 +459,7 @@ class PersonController extends Controller
                 $datas[$k] = DB::table('messages')
                     ->leftjoin('users', 'messages.from_user_id', '=', 'users.id')
                     ->where('messages.from_user_id',$v)
+                    ->where('messages.to_user_id',Auth::id())
                     ->orderBy('messages.created_at','desc')
                     ->select(
                         'users.id as id',
@@ -477,6 +478,7 @@ class PersonController extends Controller
                 $datas[$k] = DB::table('messages')
                     ->leftjoin('users', 'messages.to_user_id', '=', 'users.id')
                     ->where('messages.to_user_id',$v)
+                    ->where('messages.from_user_id',Auth::id())
                     ->orderBy('messages.created_at','desc')
                     ->select(
                         'users.id as id',

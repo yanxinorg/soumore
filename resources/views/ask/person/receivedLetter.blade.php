@@ -30,7 +30,6 @@
                                                                 @if($data['countMessage'])
                                                                     <a href="{{ URL::action('Front\PersonController@letterDetail', ['from_user_id'=>$data[0]->from_user_id,'to_user_id'=>$data[0]->to_user_id]) }}" >共 {{ $data['countMessage'] }} 条消息</a> &nbsp;
                                                                 @endif
-                                                                <a href="{{ URL::action('Front\PersonController@letterDetail', ['from_user_id'=>$data[0]->from_user_id,'to_user_id'=>$data[0]->to_user_id]) }}" class="text-color-999" >展开</a>
                                                             </span>
 														</div>
 													</div>

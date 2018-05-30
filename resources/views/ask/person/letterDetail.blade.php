@@ -40,7 +40,7 @@
 									@foreach($datas as $data)
 										@if($data->from_user_id == Auth::id())
 											<li class="active">
-												<a href="" data-id="4" class="aw-user-img aw-border-radius-5"><img src="{{ $data->a_avator }}" ></a>
+												<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}" data-id="4" class="aw-user-img aw-border-radius-5"><img src="{{ $data->a_avator }}" ></a>
 												<div class="aw-item">
 													<p><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}">我</a>: {{ $data->content }}</p>
 													<p class="text-color-999">{{ $data->created_at }}</p>
