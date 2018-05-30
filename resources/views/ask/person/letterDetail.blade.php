@@ -42,8 +42,8 @@
 											<li class="active">
 												<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}" data-id="4" class="aw-user-img aw-border-radius-5"><img src="{{ $data->a_avator }}" ></a>
 												<div class="aw-item">
-													<p><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}">我</a>: {{ $data->content }}</p>
-													<p class="text-color-999">{{ $data->created_at }}</p>
+													<p><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}">我</a>：<span class="pull-right">{{ $data->created_at }}</span></p>
+													<p class="text-color-999"  style="font-size: 14px;">{{ $data->content }}</p>
 													<i class="i-private-replay-triangle"></i>
 												</div>
 											</li>
@@ -51,8 +51,8 @@
 											<li>
 												<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}" class="aw-user-img aw-border-radius-5"><img src="{{ $data->a_avator }}" ></a>
 												<div class="aw-item">
-													<p><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}">{{ $data->a_username }}</a>: {{ $data->content }}</p>
-													<p class="text-color-999">{{ $data->created_at }}</p>
+													<p><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}">{{ $data->a_username }}</a>：<span class="pull-right">{{ $data->created_at }}</span></p>
+													<p class="text-color-999" style="font-size: 14px;">{{ $data->content }}</p>
 													<i class="i-private-replay-triangle"></i>
 												</div>
 											</li>
