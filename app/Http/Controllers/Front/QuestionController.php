@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Models\Common\SupportModel;
 use App\Models\Common\UserModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,6 +15,7 @@ use App\Models\Common\QuestionTagModel;
 use Illuminate\Support\Facades\DB;
 use App\Models\Front\CollectionModel;
 use App\Models\Common\AnswerModel;
+use Illuminate\Support\Facades\Session;
 
 class QuestionController extends Controller
 {
@@ -105,7 +107,7 @@ class QuestionController extends Controller
     	]);
         //浏览数自增
         DB::table("questions")->where('id',$request->get('id'))->increment("views");
-    	//查询文章
+    	//查询问答
     	$datas = DB::table('questions')
     	->leftjoin('users', 'questions.user_id', '=', 'users.id')
     	->leftjoin('category', 'questions.cate_id', '=', 'category.id')
@@ -144,21 +146,33 @@ class QuestionController extends Controller
     					'answers.status as status',
     					'users.name as commentator',
     					'users.avator as avator')
-    			->orderBy('answers.created_at','asc')
+    			->orderBy('answers.created_at','desc')
     			->paginate('15');
+        //点赞数
+        $supports = SupportModel::where(['source_id'=>$request->get('id'),'source_type'=>'2','rating'=>'1'])->count();
     	//是否收藏
     	if(!empty(Auth::id()))
     		{
+    		    //是否收藏
     			if(CollectionModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('id'),'source_type'=>'2'])->exists())
     			{
     					$isCollected = true;
     			}else{
     					$isCollected = false;
     			}
+
+                //是否点赞
+                if(SupportModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('id'),'source_type'=>'2','rating'=>'1'])->exists())
+                {
+                    $isSupported = true;
+                }else{
+                    $isSupported = false;
+                }
     		}else{
     			$isCollected = false;
+                $isSupported = false;
     		}
-    	return view('ask.question.detail',['datas'=>$datas[0],'tagss'=>$tagss,'answers'=>$answers,'id'=>$request->get('id'),'isCollected'=>$isCollected]);
+    	return view('ask.question.detail',['datas'=>$datas[0],'tagss'=>$tagss,'answers'=>$answers,'supports'=>$supports,'id'=>$request->get('id'),'isCollected'=>$isCollected,'isSupported'=>$isSupported]);
     }
     
     //问答收藏
@@ -371,11 +385,21 @@ class QuestionController extends Controller
     {
     	$this->validate($request, [
     			'answer'=>'required|min:1',
+                'captcha'=>'required',
     			'question_id'=>'required|exists:questions,id',
     			'to_user_id'=>'sometimes|exists:answers,user_id',
     			'answer_id'=>'sometimes|exists:answers,id',
     			'user_id'=>'required|exists:users,id'
-    	]);
+    	],[
+            'required'=>':attribute 不能为空'
+        ],[
+            'captcha'=>'验证码'
+        ]);
+        //验证码验证
+        if($request->get('captcha') !== Session::get('code'))
+        {
+            return redirect()->back()->withErrors(['captcha'=>'验证码错误'])->withInput();
+        }
     	$result = AnswerModel::create([
     			'user_id'=>$request->get('user_id'),
     			'question_id'=>$request->get('question_id'),
@@ -472,10 +496,8 @@ class QuestionController extends Controller
     			'title'    => trim($request->get('title')),
     			'content'  => $request->get('content'),
     	];
-    	
     	//更新
     	$questionId = QuestionModel::updateOrCreate(array('id' => $request->get('id')), $data);
-
         //话题文章总数自减一
         $tagIds = QuestionTagModel::where(['questions_id'=>$request->get('id')])->pluck('tags_id');
         if(!($tagIds->isEmpty()))

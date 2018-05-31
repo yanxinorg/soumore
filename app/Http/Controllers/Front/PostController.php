@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Models\Common\SupportModel;
 use App\Models\Common\UserModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Front\CollectionModel;
+use Illuminate\Support\Facades\Session;
+use App\Models\Common\CommentModel;
 
 class PostController extends Controller
 {
@@ -486,22 +489,32 @@ class PostController extends Controller
             'comments.status as status',
         	'users.name as commentator',
         	'users.avator as avator')
-        ->orderBy('comments.created_at','asc')
+        ->orderBy('comments.created_at','desc')
         ->paginate('10');
-        
+
+        $supports = SupportModel::where(['source_id'=>$request->get('id'),'source_type'=>'1','rating'=>'1'])->count();
         //是否收藏
         if(!empty(Auth::id()))
         {
+            //是否收藏
         	if(CollectionModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('id'),'source_type'=>'1'])->exists())
         	{
         		$isCollected = true;
         	}else{
         		$isCollected = false;
         	}
+        	//是否点赞
+            if(SupportModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('id'),'source_type'=>'1','rating'=>'1'])->exists())
+            {
+                $isSupported = true;
+            }else{
+                $isSupported = false;
+            }
         }else{
         	$isCollected = false;
+            $isSupported = false;
         }
-        return view('ask.post.detail',['datas'=>$datas[0],'tagss'=>$tagss,'comments'=>$comments,'id'=>$request->get('id'),'isCollected'=>$isCollected]);
+        return view('ask.post.detail',['datas'=>$datas[0],'tagss'=>$tagss,'comments'=>$comments,'supports'=>$supports,'id'=>$request->get('id'),'isCollected'=>$isCollected,'isSupported'=>$isSupported]);
     }
 		    
     //文章分类筛选列表
@@ -886,6 +899,42 @@ class PostController extends Controller
     			'msg'=>'取消收藏'
     	];
     	return $data;
+    }
+
+    //添加评论
+    public function commentCreate(Request $request)
+    {
+        $this->validate($request, [
+            'comment'=>'required|min:1',
+            'captcha'=>'required',
+            'post_id'=>'required|exists:posts,id',
+            'to_user_id'=>'sometimes|exists:comments,user_id',
+            'comment_id'=>'sometimes|exists:comments,id',
+            'user_id'=>'required|exists:users,id'
+        ],[
+            'required'=>':attribute 不能为空'
+        ],[
+            'captcha'=>'验证码'
+        ]);
+        //验证码验证
+        if($request->get('captcha') !== Session::get('code'))
+        {
+            return redirect()->back()->withErrors(['captcha'=>'验证码错误'])->withInput();
+        }
+        $result = CommentModel::create([
+            'user_id'=>$request->get('user_id'),
+            'post_id'=>$request->get('post_id'),
+            'content'=>$request->get('comment'),
+            'to_user_id'=>$request->get('to_user_id')
+        ]);
+        //评论数加一
+        PostModel::where('id','=',$request->get('post_id'))->increment("comments");
+        if($result)
+        {
+            return redirect()->action('Front\PostController@detail',['id'=>$request->get('post_id')]);
+        }else{
+            return redirect()->back();
+        }
     }
 }
 

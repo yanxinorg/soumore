@@ -30,33 +30,45 @@
 						<li>
 							<input type="text" id="aw-login-user-name" class="form-control" placeholder="邮箱 /用户名" name="nameoremail" value="{{ old('nameoremail') }}">
 						</li>
-						
+						@if ($errors->has('nameoremail'))
+							<li class="alert alert-danger error_message">
+								<i class="icon icon-delete"></i>
+								<em>
+									{{ $errors->first('nameoremail') }}
+								</em>
+							</li>
+						@endif
 						<li>
 							<input type="password" id="aw-login-user-password" class="form-control" placeholder="密码" name="password" value="{{ old('password') }}" >
 						</li>
-							@if ($errors->has('nameoremail'))
-                                <li class="alert alert-danger error_message">
-        							<i class="icon icon-delete"></i>
-        							<em>
-                                     {{ $errors->first('nameoremail') }}
-                                    </em>
-    							</li>
-                     		@endif
-                     		@if ($errors->has('password'))
-                             <li class="alert alert-danger error_message">
+						@if ($errors->has('password'))
+						 <li class="alert alert-danger error_message">
+							<i class="icon icon-delete"></i>
+							<em>
+							 {{ $errors->first('password') }}
+							</em>
+						</li>
+						@endif
+						<li>
+							<div class="input-group col-md-8">
+							 <span class="input-group-btn" >
+								 <input type="text" class="form-control InputCaptcha" name="captcha" placeholder="验证码">
+									<a onclick="javascript:re_captcha();" >
+									   <img src="{{ url('/captcha/1') }}"  alt="验证码" title="刷新图片" class="InputImg"  id="c2c98f0de5a04167a9e427d883690ff6" border="0">
+									</a>
+							 </span>
+							</div>
+						</li>
+						@if ($errors->has('captcha'))
+							<li class="alert alert-danger error_message">
 								<i class="icon icon-delete"></i>
-								<em>
-                                 {{ $errors->first('password') }}
-                              	</em>
+								<em>{{ $errors->first('captcha') }}</em>
 							</li>
-                         	@endif
-                             	
+						@endif
 						<li class="last">
 							<input type="submit" class="pull-right btn btn-large btn-primary" value="登陆">
-							<label>
-								<input type="checkbox" value="1" name="net_auto_login">
-								记住我							</label>
-							<a href="">&nbsp;&nbsp;忘记密码</a>
+							<label><input type="checkbox" value="1" name="net_auto_login">记住我</label>
+							<a href="">忘记密码</a>
 						</li>
 					</ul>
 				</form>
@@ -81,13 +93,17 @@
 </div>
 <script type="text/javascript" src="{{ asset('ask/login_files/login.js') }}"></script>
     <div class="aw-footer-wrap">
-    	<div class="aw-footer">
-    		Copyright © 2018, All Rights Reserved
-    		<span class="hidden-xs">Powered By <a href="http://www.soumore.cn" target="blank">Soumore</a></span>
-    	</div>
+        <div class="aw-footer">
+            Copyright © 2018, All Rights Reserved
+            <span class="hidden-xs">Powered By <a href="http://www.soumore.cn" target="blank">Soumore</a></span>
+        </div>
     </div>
-<a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});"><i class="icon icon-up"></i></a>
-<div id="aw-ajax-box" class="aw-ajax-box"></div>
-
-<div style="display:none;" id="__crond"><img src="{{ asset('ask/login_files/saved_resource') }}" width="1" height="1"></div>
-</body></html>
+<script>
+function re_captcha() {
+    $url = "{{ url('/captcha') }}";
+    $url = $url + "/" + Math.random();
+    document.getElementById('c2c98f0de5a04167a9e427d883690ff6').src=$url;
+}
+</script>
+</body>
+</html>

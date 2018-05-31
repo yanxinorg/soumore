@@ -195,6 +195,8 @@ Route::group(['middleware' => 'authed'], function () {
 		Route::post('/post/update', 'PostController@update');
 		//文章删除
 		Route::post('/post/del', 'PostController@del');
+        //文章添加评论
+        Route::post('/post/comment', 'PostController@commentCreate');
 		//我收藏的文章
 		Route::get('/post/myCollect', 'PostController@myCollect');
         //新增视频
@@ -207,10 +209,13 @@ Route::group(['middleware' => 'authed'], function () {
         Route::post('/video/collect', 'VideoController@collect');
         //取消收藏
         Route::post('/video/collectCancel', 'VideoController@collectCancel');
-		//添加评论
-		Route::post('/comment/create', 'CommentController@create');
         //动态
         Route::get('/dynamic', 'DynamicController@index');
+
+        //文章点赞
+        Route::get('/support/post', 'SupportController@post');
+        //问答点赞
+        Route::get('/support/question', 'SupportController@question');
 	});
 
 	//新后台管理

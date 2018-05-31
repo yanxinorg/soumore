@@ -118,7 +118,7 @@ class UserController extends Controller
     {
     	$this->validate($request, [
     			'nameoremail'=>'required',
-//     			'captcha'=>'required',
+     			'captcha'=>'required',
     			'password'=>'required'
     	],[
     			'required'=>':attribute 不能为空',
@@ -129,10 +129,10 @@ class UserController extends Controller
     	]);
     	
 //     	//验证码验证
-//     	if($request->get('captcha') !== Session::get('code'))
-//     	{
-//     		return redirect()->back()->withErrors(['captcha'=>'验证码错误'])->withInput();
-//     	}
+     	if($request->get('captcha') !== Session::get('code'))
+     	{
+     		return redirect()->back()->withErrors(['captcha'=>'验证码错误'])->withInput();
+     	}
     	//验证码密码
     	if(Auth::attempt(['email' => $request->get('nameoremail'), 'password' => $request->get('password')]) || Auth::attempt(['name' => $request->get('nameoremail'), 'password' => $request->get('password')]))
     	{
