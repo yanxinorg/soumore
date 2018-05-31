@@ -3,6 +3,11 @@
 <?php
 use App\Models\Common\UserModel;
 ?>
+<style>
+    .aw-question-detail{
+        margin: 0 12px;
+    }
+</style>
 <div class="aw-container-wrap">
     <div class="container1">
         <div class="row">

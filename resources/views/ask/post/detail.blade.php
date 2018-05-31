@@ -3,11 +3,15 @@
 <?php
 use App\Models\Common\UserModel;
 ?>
-
+<style>
+    .aw-question-detail{
+        margin: 0 12px;
+    }
+</style>
 <div class="aw-container-wrap">
-    <div class="container1" >
+    <div class="container1 " >
         <div class="row">
-            <div class="aw-content-wrap clearfix">
+            <div class="aw-content-wrap clearfix ">
                 <div class="col-sm-12 col-md-9 aw-main-content aw-article-content">
                     <div class="aw-mod aw-topic-bar" data-type="article" >
                         <div class="tag-bar clearfix">
@@ -21,7 +25,7 @@ use App\Models\Common\UserModel;
                         </div>
                     </div>
 
-                        <div class="aw-mod aw-question-detail">
+                        <div class="aw-mod aw-question-detail " >
                         	<div class="mod-head">
                             	<h1>{{ $datas->title  }}</h1>
                                <div class="operate clearfix">
