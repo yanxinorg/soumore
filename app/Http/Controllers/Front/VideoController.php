@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Front;
 
 use App\Models\Common\CategoryModel;
+use App\Models\Common\CommentModel;
 use App\Models\Common\OtherTagModel;
+use App\Models\Common\SupportModel;
 use App\Models\Common\TagModel;
 use App\Models\Common\VideoModel;
 use App\Models\Front\CollectionModel;
@@ -11,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Qiniu\Storage\UploadManager;
 
@@ -202,7 +205,8 @@ class VideoController extends Controller
         //标签
         $tagss = DB::table('other_tag')
             ->leftjoin('tags', 'other_tag.tags_id', '=', 'tags.id')
-            ->where('other_tag.videos_id','=',$request->get('id'))
+            ->where('other_tag.source_id','=',$request->get('id'))
+            ->where('other_tag.source_type','=','3')
             ->select(
                 'tags.name as name',
                 'tags.id as id'
@@ -212,19 +216,22 @@ class VideoController extends Controller
         //评论内容
         $comments = DB::table('comments')
             ->leftjoin('users', 'comments.user_id', '=', 'users.id')
-            ->where('comments.video_id','=',$request->get('id'))
+            ->where('comments.source_id','=',$request->get('id'))
             ->where('comments.status','=','1')
+            ->where('comments.source_type','=','3')
             ->select('comments.id as comment_id',
                 'comments.user_id as user_id',
-                'comments.video_id as video_id',
-                'comments.excerpt as excerpt',
+                'comments.source_id as video_id',
+                'comments.content as content',
                 'comments.to_user_id as to_user_id',
                 'comments.created_at as created_at',
                 'comments.status as status',
                 'users.name as commentator',
                 'users.avator as avator')
-            ->orderBy('comments.created_at','asc')
+            ->orderBy('comments.created_at','desc')
             ->paginate('10');
+        //点赞总数
+        $supports = SupportModel::where(['source_id'=>$request->get('id'),'source_type'=>'3','rating'=>'1'])->count();
         //是否收藏
         if(!empty(Auth::id()))
         {
@@ -234,11 +241,146 @@ class VideoController extends Controller
             }else{
                 $isCollected = false;
             }
+            //是否点赞
+            if(SupportModel::where(['user_id'=>Auth::id(),'source_id'=>$request->get('id'),'source_type'=>'3','rating'=>'1'])->exists())
+            {
+                $isSupported = true;
+            }else{
+                $isSupported = false;
+            }
+
         }else{
             $isCollected = false;
+            $isSupported = false;
         }
-        return view('ask.video.detail',['datas'=>$datas[0],'tagss'=>$tagss,'comments'=>$comments,'id'=>$request->get('id'),'isCollected'=>$isCollected]);
+        return view('ask.video.detail',['datas'=>$datas[0],'tagss'=>$tagss,'comments'=>$comments,'supports'=>$supports,'id'=>$request->get('id'),'isCollected'=>$isCollected,'isSupported'=>$isSupported]);
     }
+
+    //视频编辑
+    public function edit(Request $request)
+    {
+        $this->validate($request, [
+            'id'=>'required|numeric|exists:videos,id'
+        ]);
+        $datas =VideoModel::where([
+            'id'=>$request->get('id'),
+            'user_id'=>Auth::id()
+        ])->get();
+
+        //该视频选中的标签
+        $selectedTags = DB::table('other_tag')
+            ->leftjoin('tags', 'other_tag.tags_id', '=', 'tags.id')
+            ->where('other_tag.source_id','=',$request->get('id'))
+            ->where('other_tag.source_type','=','3')
+            ->pluck('tags.id as id')->toArray();
+        $tags = TagModel::all();
+        $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
+        return view('ask.post.edit',[
+            'cates'=>$cates,
+            'tags'=>$tags,
+            'selectedTags'=>$selectedTags,
+            'datas'=>$datas[0]
+        ]);
+    }
+    //更新保存
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'id'=>'required|numeric|exists:posts,id',
+            'cid'=>'required|numeric|exists:category,id',
+            'title'=>'required|min:2',
+            'content'=>'required|min:10',
+            'tags.*'=>'sometimes|max:18',
+            'status'=>'required|numeric|min:0|max:1'
+        ],[
+            'required'=>':attribute为必填项',
+            'min'=>':attribute至少 :min个字节长',
+            'max'=>':attribute超出限制',
+            'mimes'=>'图片格式错误'
+        ],[
+            'cid'=>'分类',
+            'title'=>'标题',
+            'cover'=>'图片',
+            'content'=>'内容',
+            'tags.*'=>'标签',
+            'status'=>'状态',
+        ]);
+        if($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $data = [
+            'user_id'  => Auth::user()->id,
+            'cate_id'  => $request->get('cid'),
+            'title'    => trim($request->get('title')),
+            'content'  => $request->get('content'),
+            'status'   => $request->get('status'),
+        ];
+        //图片上传
+        if($request->hasFile('cover'))
+        {
+            $file = $request->file('cover');
+            $file = $file[0];
+            $extention = $file->getClientOriginalExtension();
+            $data['mime'] = $file->getClientMimeType();
+            //存储原始图片
+            $thumb = FileController::savePostImg($file);
+            //图片原始尺寸
+            $orgheight = Image::make(storage_path().'/app/'.$thumb)->height();
+            //图片原始宽度
+            $orgwidth = Image::make(storage_path().'/app/'.$thumb)->width();
+            //开始压缩图片
+            $img = Image::make(storage_path().'/app/'.$thumb);
+            if($orgwidth >= $orgheight)
+            {
+                //压缩
+                $img->resize(168, 168*($orgheight/$orgwidth));
+            }else{
+                //压缩
+                $img->resize(168*($orgwidth/$orgheight), 168);
+            }
+            $fileName = uniqid(str_random(10)).'.'.$extention;
+            $smallfilepath = 'article/'.gmdate("Y")."/".gmdate("m")."/".$fileName;
+            $img->save(storage_path().'/app/'.$smallfilepath);
+            $data['thumb'] = $thumb;
+            $data['thumb_small'] = $smallfilepath;
+        }
+        //更新
+        $postId = PostModel::updateOrCreate(array('id' => $request->get('id')), $data);
+        //话题文章总数自减一
+        $tagIds = PostTagModel::where(['posts_id'=>$request->get('id')])->pluck('tags_id');
+        if(!($tagIds->isEmpty()))
+        {
+            foreach ($tagIds as $k)
+            {
+                DB::table('tags')->where('id', $k)->where('posts', '>', 0)->decrement("posts");
+            }
+        }
+        //清除原有标签
+        PostTagModel::where(['posts_id'=>$request->get('id')])->delete();
+        //新增标签
+        if(!empty($request->get('tags')[0]))
+        {
+            //只取前5个标签存入
+            $tmpArr = array_only($request->get('tags'), ['0','1','2','3','4']);
+
+            foreach($tmpArr as $tag)
+            {
+                //话题文章总数自增一
+                DB::table('tags')->where('id',$tag)->increment("posts");
+
+                PostTagModel::updateOrCreate([
+                    'posts_id'=>$postId->id,
+                    'tags_id'=>$tag
+                ],[
+                    'posts_id'=>$postId->id,
+                    'tags_id'=>$tag
+                ]);
+            }
+        }
+        return redirect('/post');
+    }
+
 
     //视频删除
     public function del(Request $request)
@@ -313,5 +455,42 @@ class VideoController extends Controller
             'msg'=>'取消收藏'
         ];
         return $data;
+    }
+
+    //添加评论
+    public function commentCreate(Request $request)
+    {
+        $this->validate($request, [
+            'comment'=>'required|min:1',
+            'captcha'=>'required',
+            'video_id'=>'required|exists:videos,id',
+            'to_user_id'=>'sometimes|exists:comments,user_id',
+            'comment_id'=>'sometimes|exists:comments,id',
+            'user_id'=>'required|exists:users,id'
+        ],[
+            'required'=>':attribute 不能为空'
+        ],[
+            'captcha'=>'验证码'
+        ]);
+        //验证码验证
+        if($request->get('captcha') !== Session::get('code'))
+        {
+            return redirect()->back()->withErrors(['captcha'=>'验证码错误'])->withInput();
+        }
+        $result = CommentModel::create([
+            'user_id'=>$request->get('user_id'),
+            'source_id'=>$request->get('video_id'),
+            'source_type'=>'3',     //3视频
+            'content'=>$request->get('comment'),
+            'to_user_id'=>$request->get('to_user_id')
+        ]);
+        //评论数加一
+        VideoModel::where('id','=',$request->get('video_id'))->increment("comments");
+        if($result)
+        {
+            return redirect()->action('Front\VideoController@detail',['id'=>$request->get('video_id')]);
+        }else{
+            return redirect()->back();
+        }
     }
 }

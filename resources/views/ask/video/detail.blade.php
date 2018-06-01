@@ -68,9 +68,15 @@ use App\Models\Common\UserModel;
                             </div>
 
                             <div class="meta clearfix">
-                                <div class="aw-article-vote pull-left disabled">
-                                    <a href="javascript:;" class="agree" onclick=""><i class="icon icon-agree"></i> <b>0</b></a>
+                                @auth()
+                                <div class="aw-article-vote pull-left ">
+                                    @if($isSupported)
+                                        <a class="agree active" href="{{ URL::action('Front\SupportController@video', ['video_id'=>$datas->video_id,'user_id'=>Auth::id()]) }}" ><i class="icon icon-agree"></i> <b>{{ $supports }}</b></a>
+                                    @else
+                                        <a href="{{ URL::action('Front\SupportController@video', ['video_id'=>$datas->video_id,'user_id'=>Auth::id()]) }}" class="agree"><i class="icon icon-agree"></i> <b>{{ $supports }}</b></a>
+                                    @endif
                                 </div>
+                                @endauth
                                 <span class="pull-right  more-operate">
                                     @if(Auth::id() == $datas->user_id)
                                             <a class="text-color-999" href="{{ URL::action('Front\PostController@edit', ['id'=>$datas->video_id]) }}"><i class="icon icon-edit"></i>编辑</a>
@@ -148,7 +154,7 @@ use App\Models\Common\UserModel;
                     <!-- 回复编辑器 -->
                     <div class="panel">
                         <div class="panel-body">
-                            <form class="form-horizontal" method="post" action="{{ url('/comment/create') }}" id="Form">
+                            <form class="form-horizontal" method="post" action="{{ url('/video/comment') }}" id="Form">
                                 {{ csrf_field() }}
                                 <div class="form-group" hidden>
                                     <div class="col-md-6">
@@ -162,12 +168,20 @@ use App\Models\Common\UserModel;
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <textarea rows="4" class="form-control" name="comment" id="comment" placeholder="写下你的评论..."></textarea>
+                                        <textarea rows="4" class="form-control" name="comment" id="comment" placeholder="写下你的评论..." required></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-md-offset-10 col-md-6">
-                                        <button type="submit" class="btn btn-primary">提交评论</button>
+                                    <div class="input-group col-md-2 ">
+                                         <span class="input-group-btn ">
+                                             <input type="text" class="form-control InputCaptcha"  style="margin-left: 15px;" name="captcha" placeholder="验证码" required>
+                                                <a onclick="javascript:re_captcha();" >
+                                                   <img src="{{ url('/captcha/1') }}" style="max-height: 34px;" alt="验证码" title="刷新图片" class="InputImg"  id="c2c98f0de5a04167a9e427d883690ff6" border="0">
+                                                </a>
+                                         </span>
+                                    </div>
+                                    <div class="col-md-offset-10 col-md-2">
+                                        <button type="submit" class="btn btn-primary ">提交评论</button>
                                     </div>
                                 </div>
                             </form>
@@ -278,6 +292,12 @@ use App\Models\Common\UserModel;
         var tmpInput=$("<input type='hidden' name='to_user_id' />");
         tmpInput.attr("value", $userId);
         myform.append(tmpInput);
+    }
+    //验证码
+    function re_captcha() {
+        $url = "{{ url('/captcha') }}";
+        $url = $url + "/" + Math.random();
+        document.getElementById('c2c98f0de5a04167a9e427d883690ff6').src=$url;
     }
 </script>
 @stop

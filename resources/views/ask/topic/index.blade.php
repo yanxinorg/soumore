@@ -12,25 +12,6 @@
                     <!-- end tab切换 -->
                     <!-- 我关注的话题 -->
                     <div class="aw-mod aw-topic-list">
-        				<div class="aw-mod aw-topic-category">
-                            <div class="mod-body clearfix">
-                            <ul>
-                                @if(empty($cid))
-                                    <li><a class="active" href="{{ URL::action('Front\TopicController@index') }}">话题分类</a></li>
-                                @else
-                                    <li><a  href="{{ URL::action('Front\TopicController@index') }}">话题分类</a></li>
-                                @endif
-                                @foreach($cates as $cate)
-                					@if($cate->id == $cid)
-                					 <li ><a class="active" style="text-decoration:none;" href="{{ URL::action('Front\TopicController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
-                					@else
-                					 <li><a style="text-decoration:none;" href="{{ URL::action('Front\TopicController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
-                					@endif
-                        		@endforeach()
-                          	</ul>
-                            </div>
-                    	</div>
-                                	
                         <div class="mod-body clearfix">
                             @foreach($tags as $tag )
                                 <div class="aw-item">
@@ -104,6 +85,31 @@
                             </div>
                         </div>
                         <!-- end 新增话题 -->
+                        <!-- 话题分类 -->
+                        <div class="aw-mod new-topic">
+                            <div class="mod-head">
+                                <h3>话题分类</h3>
+                            </div>
+                            <div class="mod-body clearfix">
+                                <div class="aw-topic-bar">
+                                    <div class="topic-bar clearfix">
+                                        @if(empty($cid))
+                                            <span class="topic-tag"><a class="text active" style="background-color: red;" href="{{ URL::action('Front\TopicController@index') }}">话题分类</a></span>
+                                        @else
+                                            <span class="topic-tag"><a  class="text" href="{{ URL::action('Front\TopicController@index') }}">话题分类</a></span>
+                                        @endif
+                                        @foreach($cates as $cate)
+                                            @if($cate->id == $cid)
+                                                <span class="topic-tag"><a class="text active" style="text-decoration:none;background-color: red;" href="{{ URL::action('Front\TopicController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></span>
+                                            @else
+                                                <span class="topic-tag"><a class="text" style="text-decoration:none;" href="{{ URL::action('Front\TopicController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></span>
+                                            @endif
+                                        @endforeach()
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end 话题分类 -->
                  </div>
                 <!-- end 侧边栏 -->
             </div>

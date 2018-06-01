@@ -79,9 +79,10 @@ class TopicController extends Controller
         ]);
         $posts = DB::table('posts')
             ->leftjoin('users', 'posts.user_id', '=', 'users.id')
-            ->leftjoin('post_tag', 'posts.id', '=', 'post_tag.posts_id')
+            ->leftjoin('other_tag', 'posts.id', '=', 'other_tag.source_id')
             ->leftjoin('category', 'category.id', '=', 'posts.cate_id')
-            ->where('post_tag.tags_id','=',$request->get('id'))
+            ->where('other_tag.tags_id','=',$request->get('id'))
+            ->where('other_tag.source_type','=','1')
             ->where('posts.status','=','1')
             ->select('posts.id as post_id',
                 'posts.title as title',
@@ -126,9 +127,10 @@ class TopicController extends Controller
         //问答
         $questions = DB::table('questions')
             ->leftjoin('users', 'users.id', '=', 'questions.user_id')
-            ->leftjoin('question_tag', 'question_tag.questions_id', '=', 'questions.id')
+            ->leftjoin('other_tag', 'other_tag.source_id', '=', 'questions.id')
             ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
-            ->where('question_tag.tags_id','=',$request->get('id'))
+            ->where('other_tag.tags_id','=',$request->get('id'))
+            ->where('other_tag.source_type','=','2')
             ->select('users.id as user_id','users.avator as avator','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id','questions.comments as comments','questions.views as views', 'questions.content as content','questions.created_at as created_at')
             ->orderBy('questions.created_at','desc')
             ->paginate('15');
@@ -158,9 +160,10 @@ class TopicController extends Controller
         //该话题视频
         $videos = DB::table('videos')
             ->leftjoin('users', 'users.id', '=', 'videos.user_id')
-            ->leftjoin('other_tag', 'other_tag.videos_id', '=', 'videos.id')
+            ->leftjoin('other_tag', 'other_tag.source_id', '=', 'videos.id')
             ->leftjoin('category', 'videos.cate_id', '=', 'category.id')
             ->where('other_tag.tags_id','=',$request->get('id'))
+            ->where('other_tag.source_type','=','3')
             ->select('videos.id as id',
                 'videos.title as title',
                 'users.id as user_id',

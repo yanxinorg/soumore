@@ -10,7 +10,7 @@ class CommentModel extends Model
     //
 	protected $table = 'comments';
 	public $timestamps = TRUE;
-	protected $fillable = ['user_id','post_id','to_user_id','content','status','created_at','updated_at'];
+	protected $fillable = ['user_id','source_id','source_type','to_user_id','content','status','created_at','updated_at'];
 	
 	public function getCreatedAtAttribute($date)
 	{

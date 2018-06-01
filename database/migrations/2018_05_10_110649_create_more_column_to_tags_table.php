@@ -18,6 +18,7 @@ class CreateMoreColumnToTagsTable extends Migration
             $table->integer('likes')->unsigned()->default(0)->comment('点赞该标签数');
             $table->integer('posts')->unsigned()->default(0)->comment('该标签文章总数');
             $table->integer('questions')->unsigned()->default(0)->comment('该标签问答总数');
+            $table->integer('videos')->unsigned()->default(0)->comment('该标签视频总数');
         });
     }
 

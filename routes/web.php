@@ -205,10 +205,16 @@ Route::group(['middleware' => 'authed'], function () {
         Route::post('/video/store',[ 'middleware' => ['permission:video-store'], 'uses' =>'VideoController@store']);
         //视频删除
         Route::post('/video/del',[ 'middleware' => ['permission:video-delete'], 'uses' =>'VideoController@del'] );
+        //编辑文章
+        Route::get('/video/edit', 'VideoController@edit');
+        //更新文章
+        Route::post('/video/update', 'VideoController@update');
         //视频收藏
         Route::post('/video/collect', 'VideoController@collect');
         //取消收藏
         Route::post('/video/collectCancel', 'VideoController@collectCancel');
+        //视频添加评论
+        Route::post('/video/comment', 'VideoController@commentCreate');
         //动态
         Route::get('/dynamic', 'DynamicController@index');
 
@@ -216,6 +222,8 @@ Route::group(['middleware' => 'authed'], function () {
         Route::get('/support/post', 'SupportController@post');
         //问答点赞
         Route::get('/support/question', 'SupportController@question');
+        //视频点赞
+        Route::get('/support/video', 'SupportController@video');
 	});
 
 	//新后台管理
