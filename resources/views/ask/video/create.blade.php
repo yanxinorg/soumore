@@ -88,7 +88,7 @@
 								<div class="mod-body">
 									<h3>视频标题:</h3>
 									<div class="aw-publish-title">
-                                        <!-- 文章标题 -->
+                                        <!-- 视频标题 -->
 										<input type="text" name="title"　value="{{ old('title') }}" class="form-control">
 										{{--分类--}}
 										<div class="dropdown " id="cate">

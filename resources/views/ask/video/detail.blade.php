@@ -48,6 +48,9 @@ use App\Models\Common\UserModel;
                                         <div class="dropdown-menu aw-dropdown pull-right" aria-labelledby="dropdownMenu">
                                             <ul class="aw-dropdown-list">
                                                 <li>
+                                                    <a href="{{ URL::action('Front\VideoController@edit', ['id'=>$datas->video_id]) }}" >编辑视频</a>
+                                                </li>
+                                                <li>
                                                     <a  href="javascript:;" onclick="del({{ $datas->video_id }})">删除视频</a>
                                                 </li>
                                             </ul>
@@ -78,8 +81,8 @@ use App\Models\Common\UserModel;
                                 </div>
                                 @endauth
                                 <span class="pull-right  more-operate">
-                                    @if(Auth::id() == $datas->user_id)
-                                            <a class="text-color-999" href="{{ URL::action('Front\PostController@edit', ['id'=>$datas->video_id]) }}"><i class="icon icon-edit"></i>编辑</a>
+                                        @if(Auth::id() == $datas->user_id)
+                                            <a class="text-color-999" href="{{ URL::action('Front\VideoController@edit', ['id'=>$datas->video_id]) }}"><i class="icon icon-edit"></i>编辑</a>
                                         @endif()
                                         @if(!empty(Auth::id()))
                                             @if($isCollected)

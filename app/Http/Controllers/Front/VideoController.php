@@ -266,7 +266,6 @@ class VideoController extends Controller
             'id'=>$request->get('id'),
             'user_id'=>Auth::id()
         ])->get();
-
         //该视频选中的标签
         $selectedTags = DB::table('other_tag')
             ->leftjoin('tags', 'other_tag.tags_id', '=', 'tags.id')
@@ -275,7 +274,7 @@ class VideoController extends Controller
             ->pluck('tags.id as id')->toArray();
         $tags = TagModel::all();
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-        return view('ask.post.edit',[
+        return view('ask.video.edit',[
             'cates'=>$cates,
             'tags'=>$tags,
             'selectedTags'=>$selectedTags,
