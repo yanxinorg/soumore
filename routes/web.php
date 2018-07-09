@@ -1,19 +1,18 @@
 <?php
 
 // 首页
-Route::get('/',  'Front\PostController@index');
-//关于
-Route::get('/about',  'Front\IndexController@about');
-//下载
-Route::get('/download',  'Front\IndexController@download');
-//文档
-Route::get('/docs',  'Front\IndexController@docs');
+Route::get('/',  'Front\IndexController@index');
+//首页
+Route::get('/index',  'Front\IndexController@index');
+//资源详情页
+Route::get('/torrent/detail',  'Front\TorrentController@detail');
 //登录
 Route::get('/login', function () {return view('ask.user.login');});
 //验证登录信息
 Route::post('/login','UserController@login');
 //QQ登录信息
 Route::get('/qqlogin','UserController@qqLogin');
+
 Route::get('/qqurl','UserController@qqUrl');
 //登出
 Route::get('/logout','UserController@logout');
@@ -39,6 +38,8 @@ Route::get('/search/video','Front\SearchController@video');
 Route::get('/search/topic','Front\SearchController@topic');
 //用户全文搜索
 Route::get('/search/user','Front\SearchController@user');
+//torrent全文搜索
+Route::get('/search/torrent','Front\SearchController@torrent');
 //文章列表
 Route::get('/post', 'Front\PostController@index');
 //推荐文章
@@ -217,7 +218,8 @@ Route::group(['middleware' => 'authed'], function () {
         Route::post('/video/comment', 'VideoController@commentCreate');
         //动态
         Route::get('/dynamic', 'DynamicController@index');
-
+        //资源
+        Route::get('/torrent',  'TorrentController@index');
         //文章点赞
         Route::get('/support/post', 'SupportController@post');
         //问答点赞

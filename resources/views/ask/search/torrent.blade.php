@@ -20,8 +20,8 @@
 										<li><a href="{{ URL::action('Front\SearchController@user', ['wd'=>$wd]) }}" >用户<span class="badge">{{ $userCount }}</span></a></li>
 										<li><a href="{{ URL::action('Front\SearchController@topic', ['wd'=>$wd]) }}" >话题<span class="badge">{{  $tagCount }}</span></a></li>
 										<li><a href="{{ URL::action('Front\SearchController@wenda', ['wd'=>$wd]) }}" >问答<span class="badge">{{ $questionCount }}</span></a></li>
-										<li class="active"><a href="{{ URL::action('Front\SearchController@post', ['wd'=>$wd]) }}" >文章<span class="badge">{{ $postCount }}</span></a></li>
-										<li><a href="{{ URL::action('Front\SearchController@torrent', ['wd'=>$wd]) }}" >资源<span class="badge">{{ $btCount }}</span></a></li>
+										<li ><a href="{{ URL::action('Front\SearchController@post', ['wd'=>$wd]) }}" >文章<span class="badge">{{ $postCount }}</span></a></li>
+										<li class="active"><a href="{{ URL::action('Front\SearchController@torrent', ['wd'=>$wd]) }}" >资源<span class="badge">{{ $btCount }}</span></a></li>
 										<h2 class="hidden-xs"><p>搜索 - <span id="aw-search-type">全部</span></p></h2>
 									</ul>
 								</div>
@@ -34,9 +34,9 @@
 												@foreach($datas as $data)
 													<div class="aw-item article" >
 														<div class="aw-question-content">
-															<h4><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->id]) }}">{{ $data->title }}</a></h4>
+															<h4><a href="{{ URL::action('Front\TorrentController@detail', ['id'=>$data->id]) }}">{{ $data->name }}</a></h4>
 															<p>
-																<span class="text-color-999">{{ $data->comments }} 个评论 • {{ $data->hits }} 次浏览 • {{ $data->created_at }}</span>
+																<span class="text-color-999">{{ $data->requests }} 次下载 • {{ $data->create_time }}</span>
 																<span class="text-color-999 related-topic collapse"> • 来自相关话题</span>
 															</p>
 														</div>

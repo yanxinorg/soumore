@@ -143,7 +143,7 @@ class UserController extends Controller
     			'latest_login_time'=>Carbon::now(),
     			'latest_login_ip'=>$request->ip()
     		]);
-    		return redirect('/post');
+    		return redirect('/index');
     	}
     	return redirect()->back()->withErrors(['nameoremail'=>'用户名或者密码错误'])->withInput(Input::except('password'));
     	

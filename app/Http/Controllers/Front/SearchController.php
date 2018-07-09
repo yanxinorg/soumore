@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Models\Common\TorrentModel;
 use App\Models\Common\VideoModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,11 +21,12 @@ class SearchController extends Controller
     protected $tagCount;
     protected $videoCount;
     protected $userCount;
+    protected $btCount;
 
     public function __construct(Request $request) 
     {
         $validator = Validator::make($request->all(), [
-            'wd' =>'required|min:1|max:128',
+            'wd' =>'required|max:128',
         ]);
         if ($validator->fails())
         {
@@ -44,47 +46,55 @@ class SearchController extends Controller
         $this->userCount = count(UserModel::search($request->get('wd'))->get());
         //视频个数
         $this->videoCount = count(VideoModel::search($request->get('wd'))->get());
+        //torrent个数
+        $this->btCount = count(TorrentModel::search($request->get('wd'))->get());
     }
     //默认是文章
     public function index(Request $request)
     {
-        $datas = PostModel::search($request->get('wd'))->paginate(10);
-    	return view('ask.search.post',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'wd'=>$this->wd]);
+        $datas = PostModel::paginate(10);
+    	return view('ask.search.post',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'btCount'=>$this->btCount,'wd'=>$this->wd]);
     }
     
     //文章搜索
     public function post(Request $request)
     {
     	$datas = PostModel::search($request->get('wd'))->paginate(10);
-        return view('ask.search.post',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'wd'=>$this->wd]);
+        return view('ask.search.post',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'btCount'=>$this->btCount,'wd'=>$this->wd]);
     }
 
     //视频搜索
     public function video(Request $request)
     {
         $datas = VideoModel::search($request->get('wd'))->paginate(10);
-        return view('ask.search.video',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'wd'=>$this->wd]);
+        return view('ask.search.video',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'btCount'=>$this->btCount,'wd'=>$this->wd]);
     }
-
 
     //问答搜索
     public function wenda(Request $request)
     {
     	$datas = QuestionModel::search($request->get('wd'))->paginate(10);
-        return view('ask.search.question',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'wd'=>$this->wd]);
+        return view('ask.search.question',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'btCount'=>$this->btCount,'wd'=>$this->wd]);
     }
     
     //话题搜索
     public function topic(Request $request)
     {
     	$datas = TagModel::search($request->get('wd'))->paginate(10);
-        return view('ask.search.topic',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'wd'=>$this->wd]);
+        return view('ask.search.topic',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'btCount'=>$this->btCount,'wd'=>$this->wd]);
+    }
+
+    //torrent搜索
+    public function torrent(Request $request)
+    {
+        $datas = TorrentModel::search($request->get('wd'))->paginate(10);
+        return view('ask.search.torrent',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'btCount'=>$this->btCount,'wd'=>$this->wd]);
     }
     
     //用户搜索
     public function user(Request $request)
     {
     	$datas = UserModel::search($request->get('wd'))->paginate(10);
-        return view('ask.search.user',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'wd'=>$this->wd]);
+        return view('ask.search.user',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'btCount'=>$this->btCount,'wd'=>$this->wd]);
     }
 }
