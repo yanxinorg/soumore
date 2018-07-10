@@ -13,6 +13,9 @@
         video::-webkit-media-controls-panel {
             width: calc(100% + 30px);
         }
+        .aw-article-content .aw-question-detail h1 {
+            max-width: 90%;
+        }
     </style>
     @parent
     <link href="{{ asset('ask/zoom/dist/zoomify.min.css') }}" rel="stylesheet">

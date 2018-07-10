@@ -7,6 +7,9 @@ use App\Models\Common\UserModel;
     .aw-question-detail{
         margin: 0 12px;
     }
+    .aw-article-content .aw-question-detail h1 {
+        max-width: 90%;
+    }
 </style>
 <div class="aw-container-wrap">
     <div class="container1">

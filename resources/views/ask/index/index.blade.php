@@ -1,5 +1,30 @@
 @extends('layouts.ask')
 @section('content')
+   <style>
+      .aw-side-bar .aw-mod{
+         padding: 10px 0px;
+      }
+      .aw-common-list .aw-item {
+         position: relative;
+         z-index: 0;
+         min-height: 56px;
+         padding: 7px 0 7px 50px;
+      }
+      .btn-block {
+         display: block;
+         width: 80%;
+         margin:0 auto;
+      }
+      .aw-side-bar .aw-mod .mod-head {
+         padding-bottom: 0px;
+      }
+      .alert {
+         padding: 15px;
+         margin-bottom: 20px;
+         border: 1px solid transparent;
+         border-radius: 4px;
+      }
+   </style>
    <div class="aw-container-wrap">
       @if(empty(Auth::id()))
       <div class="jumbotron text-center hidden-xs">
@@ -8,12 +33,10 @@
       </div>
       @endif
       <div class="container1" >
-
          <div class="row">
-
             <div class="aw-content-wrap clearfix">
                <!-- 文章 -->
-               <div class="col-sm-12 col-md-4 aw-side-bar">
+               <div class="col-sm-12 col-md-3 aw-side-bar">
                   {{--热门文章--}}
                   <div class="aw-mod new-topic">
                      <div class="mod-head">
@@ -25,12 +48,12 @@
                            <div class="aw-common-list">
                               @foreach($hotPost as $data)
                                  <div class="aw-item article" data-topic-id="3,">
-                                    <a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" rel="nofollow"><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
+                                    <a class="aw-user-name" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" rel="nofollow"><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
                                     <div class="aw-question-content">
                                        <h4><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ $data->title }}</a></h4>
                                        <p>
                                           <a class="aw-question-tags" href="{{ URL::action('Front\PostController@cate',['cid'=>$data->cate_id]) }}">{{ $data->cate_name }}</a>
-                                          <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->author }}</a> <span class="text-color-999">发表了文章 • {{ $data->countcomment }} 个评论 • {{ $data->hits }} 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
+                                          <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->author }}</a> <span class="text-color-999">发布 • {{ $data->countcomment }} 个评论 • {{ $data->hits }} 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
                                        </p>
                                     </div>
                                  </div>
@@ -50,12 +73,12 @@
                            <div class="aw-common-list">
                               @foreach($recomPost as $data)
                                  <div class="aw-item article" data-topic-id="3,">
-                                    <a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" rel="nofollow"><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
+                                    <a class="aw-user-name" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" rel="nofollow"><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
                                     <div class="aw-question-content">
                                        <h4><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ $data->title }}</a></h4>
                                        <p>
                                           <a class="aw-question-tags" href="{{ URL::action('Front\PostController@cate',['cid'=>$data->cate_id]) }}">{{ $data->cate_name }}</a>
-                                          <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->author }}</a> <span class="text-color-999">发表了文章 • {{ $data->countcomment }} 个评论 • {{ $data->hits }} 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
+                                          <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->author }}</a> <span class="text-color-999">发布 • {{ $data->countcomment }} 个评论 • {{ $data->hits }} 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
                                        </p>
                                     </div>
                                  </div>
@@ -64,39 +87,11 @@
                         </div>
                      </div>
                   </div>
-
-                  <!-- 最新文章 -->
-                  <div class="aw-mod new-topic">
-                     <div class="mod-head">
-                        <a href="{{ url('/post') }}" class="pull-right">更多 &gt;</a>
-                        <h3>最新文章</h3>
-                     </div>
-                     <div class="mod-body clearfix">
-                        <div class="aw-topic-bar">
-                           <div class="aw-common-list">
-                              @foreach($latestPost as $data)
-                                 <div class="aw-item article" data-topic-id="3,">
-                                    <a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" rel="nofollow"><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
-                                    <div class="aw-question-content">
-                                       <h4><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ $data->title }}</a></h4>
-                                       <p>
-                                          <a class="aw-question-tags" href="{{ URL::action('Front\PostController@cate',['cid'=>$data->cate_id]) }}">{{ $data->cate_name }}</a>
-                                          <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->author }}</a> <span class="text-color-999">发表了文章 • {{ $data->countcomment }} 个评论 • {{ $data->hits }} 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
-                                       </p>
-                                    </div>
-                                 </div>
-                              @endforeach()
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <!-- end 最新文章 -->
-
                </div>
                <!-- end 文章 -->
 
-               <!-- 话题 -->
-               <div class="col-sm-12 col-md-4 aw-side-bar">
+               <!-- 问答 -->
+               <div class="col-sm-12 col-md-3 aw-side-bar">
                   <!-- 最新问答 -->
                   <div class="aw-mod new-topic">
                      <div class="mod-head">
@@ -108,7 +103,7 @@
                            <div class="aw-common-list">
                               @foreach( $latestQuestions as $latest)
                                  <div class="aw-item article" data-topic-id="3,">
-                                    <a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$latest->user_id]) }}" rel="nofollow"><img src="{{ $latest->avator }}" alt="{{ $latest->author }}"></a>
+                                    <a class="aw-user-name" href="{{ URL::action('Front\HomeController@index', ['uid'=>$latest->user_id]) }}" rel="nofollow"><img src="{{ $latest->avator }}" alt="{{ $latest->author }}"></a>
                                     <div class="aw-question-content">
                                        <h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$latest->question_id]) }}">{{ $latest->title }}</a></h4>
                                        <p>
@@ -123,7 +118,6 @@
                      </div>
                   </div>
                   <!-- end 最新问答 -->
-
                   <div class="aw-mod new-topic">
                      <div class="mod-head">
                         <a href="{{ url('/question/hotCate') }}" class="pull-right">更多 &gt;</a>
@@ -134,7 +128,7 @@
                            <div class="aw-common-list">
                               @foreach( $hotQuestions as $hot)
                                  <div class="aw-item article" data-topic-id="3,">
-                                    <a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$hot->user_id]) }}" rel="nofollow"><img src="{{ $hot->avator }}" alt="{{ $hot->author }}"></a>
+                                    <a class="aw-user-name" href="{{ URL::action('Front\HomeController@index', ['uid'=>$hot->user_id]) }}" rel="nofollow"><img src="{{ $hot->avator }}" alt="{{ $hot->author }}"></a>
                                     <div class="aw-question-content">
                                        <h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$hot->question_id]) }}">{{ $hot->title }}</a></h4>
                                        <p>
@@ -148,35 +142,12 @@
                         </div>
                      </div>
                   </div>
-                  <div class="aw-mod new-topic">
-                     <div class="mod-head">
-                        <a href="{{ url('/question/remainCate')  }}" class="pull-right">更多 &gt;</a>
-                        <h3>待回答</h3>
-                     </div>
-                     <div class="mod-body clearfix">
-                        <div class="aw-topic-bar">
-                           <div class="aw-common-list">
-                              @foreach( $remainQuestions as $remain)
-                                 <div class="aw-item article" data-topic-id="3,">
-                                    <a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$remain->user_id]) }}" rel="nofollow"><img src="{{ $remain->avator }}" alt="{{ $remain->author }}"></a>
-                                    <div class="aw-question-content">
-                                       <h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$remain->question_id]) }}">{{ $remain->title }}</a></h4>
-                                       <p>
-                                          <a class="aw-question-tags" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$remain->cate_id]) }}">{{ $remain->cate_name  }}</a>
-                                          <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$remain->user_id]) }}" class="aw-user-name">{{ $remain->author }}</a> <span class="text-color-999">发布 • {{ $remain->comments }}个评论 • {{ $remain->views }} 次浏览 • {{\Carbon\Carbon::parse($remain->created_at)->diffForHumans()}}</span>
-                                       </p>
-                                    </div>
-                                 </div>
-                              @endforeach()
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+
                </div>
                <!-- end 问答 -->
 
                <!-- 资源 -->
-               <div class="col-sm-12 col-md-4 aw-side-bar ">
+               <div class="col-sm-12 col-md-3 aw-side-bar">
                   <!-- 最新资源 -->
                   <div class="aw-mod new-topic">
                      <div class="mod-head">
@@ -187,7 +158,7 @@
                         <div class="aw-topic-bar">
                            <div class="aw-common-list">
                               @foreach( $btDatas as $data)
-                                 <div class="aw-item article" style="min-height: 68px;padding:4px 0px;" >
+                                 <div class="aw-item article" style="min-height: 58px;padding:4px 0px;" >
                                     <div class="aw-question-content">
                                        <h4><a href="{{ URL::action('Front\TorrentController@detail', ['id'=>$data->id]) }}">{{ $data->name }}</a></h4>
                                        <p>
@@ -201,6 +172,7 @@
                      </div>
                   </div>
                   <!-- end 最新资源 -->
+                  {{--热门资源--}}
                   <div class="aw-mod  new-topic">
                      <div class="mod-head">
                         <a href="{{ url('/torrent') }}" class="pull-right">更多 &gt;</a>
@@ -210,7 +182,7 @@
                         <div class="aw-topic-bar">
                            <div class="aw-common-list">
                               @foreach( $hotDatas as $data)
-                                 <div class="aw-item article" style="min-height: 68px;padding:4px 0px;" >
+                                 <div class="aw-item article" style="min-height: 58px;padding:4px 0px;" >
                                     <div class="aw-question-content">
                                        <h4><a href="{{ URL::action('Front\TorrentController@detail', ['id'=>$data->id]) }}">{{ $data->name }}</a></h4>
                                        <p>
@@ -221,6 +193,73 @@
                               @endforeach()
                            </div>
                         </div>
+                     </div>
+                  </div>
+                  {{--end 热门资源--}}
+               </div>
+               <!-- end 资源 -->
+
+               <!-- 侧边栏 -->
+               <div class="col-sm-12 col-md-3 aw-side-bar ">
+                  {{--新增文章--}}
+                  <div class="aw-mod aw-text-align-justify">
+                     <div class="mod-head">
+                        <h3 style="text-align: center;padding-bottom: 8px;color: red;font-size: 18px;">最新公告</h3>
+                        <div class="side-alert alert " style="margin-bottom: 12px;background-color: #F4F4F4">
+                           {!! $notice->content !!}
+                        </div>
+                     </div>
+                     <div class="mod-body">
+                        <div class="side-alert alert alert-link">
+                           <a href="{{ url('/post/create') }}" class="btn btn-primary btn-block">发布文章</a>
+                           <a href="{{ url('/question/create') }}" class="btn btn-warning btn-block">我要提问</a>
+                        </div>
+                     </div>
+                  </div>
+
+                  {{--热门话题--}}
+                  <div class="aw-mod aw-text-align-justify">
+                     <div class="mod-head">
+                        <a href="{{ url('/topic') }}" class="pull-right">更多 &gt;</a>
+                        <h3>热门话题</h3>
+                     </div>
+                     <div class="mod-body">
+                        @foreach($hotTags as $hottag)
+                           <dl>
+                              <dt class="pull-left aw-border-radius-5">
+                                 <a href="{{ URL::action('Front\TopicController@detail', ['id'=>$hottag->id]) }}"><img alt="" src="{{ $hottag->thumb }}"></a>
+                              </dt>
+                              <dd class="pull-left">
+                                 <p class="clearfix">
+                                    <span class="topic-tag">
+                                        <a href="{{ URL::action('Front\TopicController@detail', ['id'=>$hottag->id]) }}" class="text" data-id="2">{{ $hottag->name }}</a>
+                                    </span>
+                                 </p>
+                                 <p><b>{{ $hottag->posts }}</b> 篇文章, <b>{{ $hottag->watchs }}</b> 人关注</p>
+                              </dd>
+                           </dl>
+                        @endforeach()
+                     </div>
+                  </div>
+                  {{--热门用户--}}
+                  <div class="aw-mod aw-text-align-justify">
+                     <div class="mod-head">
+                        <a href="{{ url('/user/hot')  }}" class="pull-right">更多 &gt;</a>
+                        <h3>热门用户</h3>
+                     </div>
+                     <div class="mod-body">
+                        @foreach($hotUsers as $user)
+                           <dl>
+                              <dt class="pull-left aw-border-radius-5">
+                                 <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}"><img  src="{{ $user->avator }}-sm_thumb_small"></a>
+                              </dt>
+                              <dd class="pull-left">
+                                 <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}" data-id="2" class="aw-user-name">{{ $user->name  }}</a>
+                                 <p class="signature"></p>
+                                 <p><b>0</b> 个问题, <b>0</b> 次赞同</p>
+                              </dd>
+                           </dl>
+                        @endforeach()
                      </div>
                   </div>
                </div>

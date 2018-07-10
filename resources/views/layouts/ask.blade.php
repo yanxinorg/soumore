@@ -19,12 +19,12 @@
 @show
 <style>
     .container1{
-        width: 82%;
+        width: 76%;
         margin: 0 auto;
     }
     .container{
         margin: 0 auto;
-        width: 82%;
+        width: 76%;
         padding-right: 0px;
         padding-left: 0px;
     }
@@ -61,8 +61,8 @@
 								<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i>话题</a></li>
                                 <li><a href="{{ url('/video') }}" class="{{ (Request::getPathinfo() == '/video')  ? 'active':'' }}"><i class="icon icon-video"></i>视频</a></li>
                                 <li><a href="{{ url('/torrent') }}" class="{{ (Request::getPathinfo() == '/torrent')  ? 'active':'' }}"><i class="icon icon-log"></i>bt资源</a></li>
-                                <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" class="{{ (Request::getPathinfo() == '/person') ? 'active':'' }}"><i class="icon icon-home"></i> 动态</a></li>
-								<li><a href="{{ url('/dynamic') }}"><i class="icon icon-list"></i>发现</a></li>
+                                <li><a href="{{ url('/dynamic') }}"><i class="icon icon-home"></i> 动态</a></li>
+								<li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" class="{{ (Request::getPathinfo() == '/person') ? 'active':'' }}"><i class="icon icon-list"></i>发现</a></li>
 							</ul>
 						</nav>
 					</div>

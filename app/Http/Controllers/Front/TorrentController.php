@@ -11,7 +11,7 @@ class TorrentController extends Controller
     //首页
     public function index()
     {
-        $datas = TorrentModel::paginate('30');
+        $datas = TorrentModel::orderBy('create_time','desc')->paginate('30');
         return view('ask.torrent.index',['datas'=>$datas]);
     }
 

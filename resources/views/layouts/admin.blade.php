@@ -59,11 +59,7 @@
                         <li><a href="{{ url('/back/post/list') }}">文章管理</a></li>
                         <li><a href="{{ url('/back/topic/list') }}">话题管理</a></li>
                         <li><a href="{{ url('/back/link/list') }}">链接管理</a></li>
-                        <li><a href="graph_chartjs.html">Chart.js</a></li>
-                        <li><a href="graph_chartist.html">Chartist</a></li>
-                        <li><a href="c3.html">c3 charts</a></li>
-                        <li><a href="graph_peity.html">Peity Charts</a></li>
-                        <li><a href="graph_sparkline.html">Sparkline Charts</a></li>
+                        <li><a href="{{ url('/back/notice/list') }}">公告管理</a></li>
                     </ul>
                 </li>
                     {{--会员管理--}}

@@ -313,6 +313,18 @@ Route::group(['middleware' => 'authed'], function () {
 	    Route::post('/link/delete', [ 'middleware' => ['permission:link-delete'], 'uses' => 'Admin\LinkController@delete'] );
  	    //更改链接状态
 	    Route::post('/link/status', [ 'middleware' => ['permission:link-status'], 'uses' => 'Admin\LinkController@status'] );
+
+        //新增公告
+        Route::get('/notice/add', [ 'uses' =>  'Admin\NoticeController@add']);
+        //保存公告
+        Route::post('/notice/store', [ 'uses' =>  'Admin\NoticeController@store']);
+        //编辑公告
+        Route::get('/notice/edit', [  'uses' => 'Admin\NoticeController@edit'] );
+       //公告列表
+        Route::get('/notice/list', [ 'uses' => 'Admin\NoticeController@index'] );
+       //删除公告
+        Route::post('/notice/delete', ['uses' => 'Admin\NoticeController@delete'] );
+
 	    //文章列表
 	    Route::get('/post/list', [ 'middleware' => ['permission:post-list'], 'uses' =>'Admin\PostController@index'] );
 	    //删除文章
