@@ -934,7 +934,6 @@ class PostController extends Controller
     {
         $this->validate($request, [
             'comment'=>'required|min:1',
-            'captcha'=>'required',
             'post_id'=>'required|exists:posts,id',
             'to_user_id'=>'sometimes|exists:comments,user_id',
             'comment_id'=>'sometimes|exists:comments,id',
@@ -942,13 +941,8 @@ class PostController extends Controller
         ],[
             'required'=>':attribute 不能为空'
         ],[
-            'captcha'=>'验证码'
+            'comment'=>'评论内容',
         ]);
-        //验证码验证
-        if($request->get('captcha') !== Session::get('code'))
-        {
-            return redirect()->back()->withErrors(['captcha'=>'验证码错误'])->withInput();
-        }
         $result = CommentModel::create([
             'user_id'=>$request->get('user_id'),
             'source_id'=>$request->get('post_id'),

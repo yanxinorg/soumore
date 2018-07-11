@@ -163,18 +163,10 @@ use App\Models\Common\UserModel;
                                         </div>
                                         <div class="form-group">
                                             <div class="col-md-12">
-                                                <textarea rows="4" class="form-control" name="answer" id=answer  placeholder="写下你的评论..." required></textarea>
+                                                <textarea rows="4" class="form-control" name="answer" id=answer  placeholder="写下你的回答..." required></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="input-group col-md-2 ">
-                                                 <span class="input-group-btn ">
-                                                     <input type="text" class="form-control InputCaptcha"  style="margin-left: 15px;" name="captcha" placeholder="验证码" required>
-                                                        <a onclick="javascript:re_captcha();" >
-                                                           <img src="{{ url('/captcha/1') }}" style="max-height: 34px;" alt="验证码" title="刷新图片" class="InputImg"  id="c2c98f0de5a04167a9e427d883690ff6" border="0">
-                                                        </a>
-                                                 </span>
-                                            </div>
                                             <div class="col-md-offset-10 col-md-2">
                                                 <button type="submit" class="btn btn-primary ">提交评论</button>
                                             </div>
@@ -283,12 +275,6 @@ function reply($userId,$userName)
     var tmpInput=$("<input type='hidden' name='to_user_id' />");
     tmpInput.attr("value", $userId);
     myform.append(tmpInput);
-}
-//验证码
-function re_captcha() {
-    $url = "{{ url('/captcha') }}";
-    $url = $url + "/" + Math.random();
-    document.getElementById('c2c98f0de5a04167a9e427d883690ff6').src=$url;
 }
 </script>
 @stop

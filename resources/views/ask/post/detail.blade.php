@@ -160,14 +160,6 @@ use App\Models\Common\UserModel;
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="input-group col-md-2 ">
-                                                 <span class="input-group-btn ">
-                                                     <input type="text" class="form-control InputCaptcha"  style="margin-left: 15px;" name="captcha" placeholder="验证码" required>
-                                                        <a onclick="javascript:re_captcha();" >
-                                                           <img src="{{ url('/captcha/1') }}" style="max-height: 34px;" alt="验证码" title="刷新图片" class="InputImg"  id="c2c98f0de5a04167a9e427d883690ff6" border="0">
-                                                        </a>
-                                                 </span>
-                                            </div>
                                             <div class="col-md-offset-10 col-md-2">
                                                 <button type="submit" class="btn btn-primary ">提交评论</button>
                                             </div>
@@ -276,12 +268,6 @@ use App\Models\Common\UserModel;
         var tmpInput=$("<input type='hidden' name='to_user_id' />");
         tmpInput.attr("value", $userId);
         myform.append(tmpInput);
-    }
-    //验证码
-    function re_captcha() {
-        $url = "{{ url('/captcha') }}";
-        $url = $url + "/" + Math.random();
-        document.getElementById('c2c98f0de5a04167a9e427d883690ff6').src=$url;
     }
 </script>
 @stop

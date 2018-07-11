@@ -390,7 +390,6 @@ class QuestionController extends Controller
     {
     	$this->validate($request, [
     			'answer'=>'required|min:1',
-                'captcha'=>'required',
     			'question_id'=>'required|exists:questions,id',
     			'to_user_id'=>'sometimes|exists:answers,user_id',
     			'answer_id'=>'sometimes|exists:answers,id',
@@ -398,13 +397,8 @@ class QuestionController extends Controller
     	],[
             'required'=>':attribute 不能为空'
         ],[
-            'captcha'=>'验证码'
+            'answer'=>'回答内容'
         ]);
-        //验证码验证
-        if($request->get('captcha') !== Session::get('code'))
-        {
-            return redirect()->back()->withErrors(['captcha'=>'验证码错误'])->withInput();
-        }
     	$result = AnswerModel::create([
     			'user_id'=>$request->get('user_id'),
     			'question_id'=>$request->get('question_id'),
