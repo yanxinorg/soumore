@@ -12,7 +12,7 @@ use App\Models\Common\UserModel;
     }
 </style>
 <div class="aw-container-wrap">
-    <div class="container1 " >
+    <div class="container1">
         <div class="row">
             <div class="aw-content-wrap clearfix ">
                 <div class="col-sm-12 col-md-9 aw-main-content aw-article-content">
@@ -27,8 +27,7 @@ use App\Models\Common\UserModel;
                              @endif
                         </div>
                     </div>
-
-                        <div class="aw-mod aw-question-detail" >
+                        <div class="aw-mod aw-question-detail">
                         	<div class="mod-head">
                             	<h1>{{ $datas->title  }}</h1>
                                <div class="operate clearfix">
