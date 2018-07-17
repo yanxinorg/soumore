@@ -71,7 +71,7 @@ class PostModel extends Model
 				'posts.comments as countcomment',
 		        'posts.hits as hits',
 				'posts.status as status'
-				);
+				)->whereNull('posts.deleted_at');
 		return $datas;
 				
 	}
@@ -94,7 +94,7 @@ class PostModel extends Model
 				$datas = self::select();
 				return $datas->where([
 					'posts.user_id'=>$user_id,
-					'posts.status'=>$status
+					'posts.status'=>$status,
 				])->orderBy("posts.$condition",'desc')->paginate('15');
 			}
 			$datas = self::select();

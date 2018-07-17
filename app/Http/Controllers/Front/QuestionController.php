@@ -108,12 +108,13 @@ class QuestionController extends Controller
     			'id'=>'required|numeric|exists:questions,id'
     	]);
         //浏览数自增
-        DB::table("questions")->where('id',$request->get('id'))->increment("views");
+        DB::table("questions")->where('id',$request->get('id')) ->whereNull('deleted_at')->increment("views");
     	//查询问答
     	$datas = DB::table('questions')
     	->leftjoin('users', 'questions.user_id', '=', 'users.id')
     	->leftjoin('category', 'questions.cate_id', '=', 'category.id')
     	->where('questions.id','=',$request->get('id'))
+        ->whereNull('questions.deleted_at')
     	->select('questions.id as question_id',
     			'questions.title as title',
     			'users.name as author',

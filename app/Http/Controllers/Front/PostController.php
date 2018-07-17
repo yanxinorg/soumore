@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Models\Common\OtherTagModel;
 use App\Models\Common\SupportModel;
 use App\Models\Common\UserModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Common\CategoryModel;
@@ -116,6 +117,7 @@ class PostController extends Controller
             ->where('other_tag.source_type','=','1')
     		->where('posts.cate_id','=',$request->get('cid'))
     		->where('posts.status','=','1')
+            ->whereNull('posts.deleted_at')
     		->select('posts.id as post_id',
     				'posts.title as title',
     				'users.name as author',
@@ -154,6 +156,7 @@ class PostController extends Controller
     		->where('collections.user_id','=',Auth::id())
     		->where('collections.source_type','=',$request->get('source_type','1'))
     		->where('posts.cate_id','=',$request->get('cid'))
+            ->whereNull('posts.deleted_at')
     		->select('posts.id as post_id',
     				'posts.title as title',
     				'users.name as author',
@@ -189,6 +192,7 @@ class PostController extends Controller
     		->where('collections.user_id','=',Auth::id())
     		->where('collections.source_type','=',$request->get('source_type','1'))
     		->where('posts.cate_id','=',$request->get('cid'))
+            ->whereNull('posts.deleted_at')
     		->select('posts.id as post_id',
     				'posts.title as title',
     				'users.name as author',
@@ -221,6 +225,7 @@ class PostController extends Controller
     		->leftjoin('posts', 'collections.source_id', '=', 'posts.id')
     		->where('collections.user_id','=',Auth::id())
     		->where('collections.source_type','=',$request->get('source_type','1'))
+            ->whereNull('posts.deleted_at')
     		->select('posts.id as post_id',
     				'posts.title as title',
     				'users.name as author',
@@ -457,12 +462,13 @@ class PostController extends Controller
             'id'=>'required|numeric|exists:posts,id'
         ]);
         //浏览数自增
-        DB::table("posts")->where('id',$request->get('id'))->increment("hits");
+        DB::table("posts")->where('id',$request->get('id'))->whereNull('posts.deleted_at')->increment("hits");
         //查询文章
         $datas = DB::table('posts')
         ->leftjoin('users', 'posts.user_id', '=', 'users.id')
         ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
         ->where('posts.id','=',$request->get('id'))
+        ->whereNull('posts.deleted_at')
         ->select('posts.id as post_id',
             'posts.title as title', 
             'users.name as author',
@@ -555,6 +561,7 @@ class PostController extends Controller
             ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
             ->where($sql)
             ->where('posts.status','=','1')
+            ->whereNull('posts.deleted_at')
             ->select(
                 'users.name as author',
                 'users.avator as avator',
@@ -626,6 +633,7 @@ class PostController extends Controller
             ->leftjoin('other_tag', 'posts.id', '=', 'other_tag.source_id')
             ->where($sql)
             ->where('posts.status','=','1')
+            ->whereNull('posts.deleted_at')
             ->select(
                 'users.name as author',
                 'users.avator as avator',
@@ -710,6 +718,7 @@ class PostController extends Controller
             ->leftjoin('other_tag', 'posts.id', '=', 'other_tag.source_id')
             ->where($sql)
             ->where('posts.status','=','1')
+            ->whereNull('posts.deleted_at')
             ->select(
                 'users.name as author',
                 'users.avator as avator',
@@ -796,6 +805,7 @@ class PostController extends Controller
             ->where('other_tag.source_type','=','1')
     		->where('other_tag.tags_id','=',$request->get('tid'))
     		->where('posts.status','=','1')
+            ->whereNull('posts.deleted_at')
     		->select('posts.id as post_id',
     				'posts.title as title',
     				'users.name as author',
@@ -834,6 +844,7 @@ class PostController extends Controller
             ->where('other_tag.source_type','=','1')
     		->where('other_tag.tags_id','=',$request->get('tid'))
     		->where('posts.cate_id','=',$request->get('cid'))
+            ->whereNull('posts.deleted_at')
     		->select('posts.id as post_id',
     				'posts.title as title',
     				'users.name as author',
@@ -860,25 +871,30 @@ class PostController extends Controller
     	$this->validate($request, [
     			'id'=>'required|numeric|exists:posts,id'
     	]);
-    	$result = DB::table('posts')->where([
-    			'id'=>$request->get('id'),
-    			'user_id'=>Auth::id()
-    	])->delete();
-        // 标签文章删除
-        DB::table('tags')->leftjoin('other_tag', 'other_tag.tags_id', '=', 'tags.id')->where('other_tag.source_id','=',$request->get('id'))->where('other_tag.source_type','=','1')->where('tags.posts', '>', 0)->decrement('posts');
+        //删除文章
+        $result = DB::table('posts')->where('id','=',$request->get('id'))->where('user_id','=',Auth::id())->update(['deleted_at' => Carbon::now()]);
+        //用户文章数减1
+        DB::table('users')->where('id', '=',Auth::id())->where('count_post','>','0')->decrement('count_post', 1);
+        //标签文章减1
+        DB::table('tags')
+            ->leftjoin('other_tag', 'other_tag.tags_id', '=', 'tags.id')
+            ->where('other_tag.source_id','=',$request->get('id'))
+            ->where('other_tag.source_type','=','1')
+            ->where('tags.posts', '>', 0)
+            ->decrement('posts',1);
         if($result)
-    	{
-    		$data = [
-    				'code'=>'1',
-    				'msg'=>'删除成功'
-    		];
-    	}else{
-    		$data = [
-    				'code'=>'0',
-    				'msg'=>'删除失败'
-    		];
-    	}
-    	return $data;
+        {
+            $data = [
+                'code'=>'1',
+                'msg'=>'删除成功'
+            ];
+        }else{
+            $data = [
+                'code'=>'0',
+                'msg'=>'删除失败'
+            ];
+        }
+        return $data;
     }
     
     //文章收藏

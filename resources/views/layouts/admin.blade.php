@@ -57,6 +57,7 @@
                     <ul class="nav nav-second-level collapse">
                         <li><a href="{{ url('/back/cate/list') }}">分类管理</a></li>
                         <li><a href="{{ url('/back/post/list') }}">文章管理</a></li>
+                        <li><a href="{{ url('/back/question/list') }}">问答管理</a></li>
                         <li><a href="{{ url('/back/topic/list') }}">话题管理</a></li>
                         <li><a href="{{ url('/back/link/list') }}">链接管理</a></li>
                         <li><a href="{{ url('/back/notice/list') }}">公告管理</a></li>

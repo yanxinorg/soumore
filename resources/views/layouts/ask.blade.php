@@ -44,29 +44,29 @@
 	<div class="aw-top-menu-wrap">
 		<div class="container" >
 			@auth
-				<!-- 导航 -->
-					<div class="aw-top-nav navbar">
-						<div class="navbar-header">
-							<button class="navbar-toggle pull-left">
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-						</div>
-						<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
-							<ul class="nav navbar-nav">
-								<li><a href="{{ url('/index') }}" class="{{ (Request::getPathinfo() == '/index')  ? 'active':'' }}"><i class="icon icon-about"></i>首页</a></li>
-								<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-file"></i>文章</a></li>
-								<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
-								<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i>话题</a></li>
-                                <li><a href="{{ url('/video') }}" class="{{ (Request::getPathinfo() == '/video')  ? 'active':'' }}"><i class="icon icon-video"></i>视频</a></li>
-                                <li><a href="{{ url('/torrent') }}" class="{{ (Request::getPathinfo() == '/torrent')  ? 'active':'' }}"><i class="icon icon-log"></i>bt资源</a></li>
-                                <li><a href="{{ url('/dynamic') }}"><i class="icon icon-home"></i> 动态</a></li>
-								<li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" class="{{ (Request::getPathinfo() == '/person') ? 'active':'' }}"><i class="icon icon-list"></i>发现</a></li>
-							</ul>
-						</nav>
-					</div>
-					<!-- end 导航 -->
+                <!-- 导航 -->
+                <div class="aw-top-nav navbar">
+                    <div class="navbar-header">
+                        <button class="navbar-toggle pull-left">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="{{ url('/index') }}" class="{{ (Request::getPathinfo() == '/index')  ? 'active':'' }}"><i class="icon icon-about"></i>首页</a></li>
+                            <li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-file"></i>文章</a></li>
+                            <li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
+                            <li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i>话题</a></li>
+                            <li><a href="{{ url('/video') }}" class="{{ (Request::getPathinfo() == '/video')  ? 'active':'' }}"><i class="icon icon-video"></i>视频</a></li>
+                            <li><a href="{{ url('/torrent') }}" class="{{ (Request::getPathinfo() == '/torrent')  ? 'active':'' }}"><i class="icon icon-log"></i>bt资源</a></li>
+                            <li><a href="{{ url('/dynamic') }}"><i class="icon icon-home"></i> 动态</a></li>
+                            <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" class="{{ (Request::getPathinfo() == '/person') ? 'active':'' }}"><i class="icon icon-list"></i>发现</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- end 导航 -->
 
                     <!-- 搜索框 -->
                     <div class="aw-search-box  hidden-xs hidden-sm">
@@ -77,8 +77,6 @@
                             @else
                                 <input class="form-control search-query" type="text" placeholder="搜索资源、问题、话题、用户" autocomplete="off" name="wd" >
                             @endif
-
-
                         </form>
                     </div>
                     <!-- end 搜索框 -->
@@ -174,11 +172,25 @@
 
 	@yield('content')
 
-    <div class="aw-footer-wrap" style="background-color: white;color:black;width:100%;height:186px;margin-top: 24px;">
+    <div class="aw-footer-wrap" style="background-color: white;color:black;margin-top: 24px;">
         <div class="aw-footer">
             <div class="container1" >
-                <p>QQ群①：627375769 </p>
-                <p><a href="http://www.miitbeian.gov.cn" target="blank">苏ICP备15023456号-2</a></p>
+				<div class="row">
+					<div class="col-md-3">
+						<p>QQ群①：627375769 </p>
+						<p>QQ群①：627375769 </p>
+					</div>
+					<div class="col-md-3">
+						<p>QQ群①：627375769 </p>
+					</div>
+					<div class="col-md-3">
+						<p>QQ群①：627375769 </p>
+					</div>
+					<div class="col-md-3">
+						<p>QQ群①：627375769 </p>
+					</div>
+				</div>
+				<p><a href="http://www.miitbeian.gov.cn" target="blank">苏ICP备15023456号-2</a></p>
             </div>
         </div>
     </div>

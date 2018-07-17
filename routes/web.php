@@ -331,6 +331,10 @@ Route::group(['middleware' => 'authed'], function () {
 	    Route::post('/post/delete', [ 'middleware' => ['permission:post-delete'], 'uses' => 'Admin\PostController@delete'] );
 	    //更改文章状态
 	    Route::post('/post/status', [ 'middleware' => ['permission:post-status'], 'uses' =>'Admin\PostController@status'] );
+        //问答列表
+        Route::get('/question/list', ['uses' =>'Admin\QuestionController@index'] );
+        //删除文档
+        Route::post('/question/delete', ['uses' => 'Admin\QuestionController@delete'] );
         //用户搜索
         Route::match(['get', 'post'],'/search/user', [ 'middleware' => ['permission:search-user'], 'uses' => 'Admin\SearchController@userSearch'] );
         //分类搜索

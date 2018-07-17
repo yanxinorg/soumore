@@ -256,7 +256,7 @@
                               <dd class="pull-left">
                                  <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}" data-id="2" class="aw-user-name">{{ $user->name  }}</a>
                                  <p class="signature"></p>
-                                 <p><b>0</b> 个问题, <b>0</b> 次赞同</p>
+                                 <p ><a style="color: #999999;" href="{{ URL::action('Front\HomeController@post', ['uid'=>$user->id]) }}"><b>{{ $user->count_post }}</b></a> 篇文章, <a style="color: #999999;" href="{{ URL::action('Front\HomeController@question', ['uid'=>$user->id]) }}"><b>{{ $user->count_question }}</b></a> 个提问</p>
                               </dd>
                            </dl>
                         @endforeach()
