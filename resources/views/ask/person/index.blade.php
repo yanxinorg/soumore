@@ -166,7 +166,6 @@
                                 </div>
                                 <!-- end 联系方式 -->
 
-
                                 <!-- 教育经历 -->
                                 <div class="aw-mod aw-user-educate">
                                     <div class="mod-head">

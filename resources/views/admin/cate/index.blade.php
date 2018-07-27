@@ -90,6 +90,7 @@
         </div>
     </div>
 </div>
+</div>
 @section('js')
 @parent
 <script>
