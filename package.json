@@ -99,7 +99,7 @@
     "flagged-respawn": "^0.3.2",
     "for-in": "^1.0.2",
     "first-chunk-stream": "^1.0.0",
-    "fresh": "^0.3.0",
+    "fresh": "^0.5.2",
     "for-own": "^1.0.0",
     "fs-exists-sync": "^0.1.0",
     "glob": "^4.5.3",
