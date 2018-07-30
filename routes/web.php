@@ -10,6 +10,9 @@ Route::get('/torrent/detail',  'Front\TorrentController@detail');
 Route::get('/login', function () {return view('ask.user.login');});
 //验证登录信息
 Route::post('/login','UserController@login');
+//密码重置
+Route::get('/reset', function () {return view('ask.user.reset');});
+Route::post('/reset','UserController@reset');
 //QQ登录信息
 Route::get('/qqlogin','UserController@qqLogin');
 
@@ -26,6 +29,8 @@ Route::post('/user/check', 'UserController@isExist');
 Route::get('/captcha/{tmp}', 'Common\CaptchaController@captcha');
 // 邮件验证码
 Route::post('/email/captcha', 'Common\EmailController@sendRegCaptcha');
+//重置密码验证码
+Route::post('/email/resetCaptcha', 'Common\EmailController@sendReSetCaptcha');
 //全文搜索
 Route::match(['get', 'post'], '/search/index', 'Front\SearchController@index');
 //全文搜索

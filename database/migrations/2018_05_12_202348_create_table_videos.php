@@ -22,6 +22,7 @@ class CreateTableVideos extends Migration
             $table->string('thumb')->nullable()->comment('视频缩略图');
             $table->mediumText('excerpt')->nullable()->comment('视频摘要');
             $table->string('url')->nullable()->comment('视频地址');
+            $table->string('online_url')->nullable()->comment('第三方视频地址');
             $table->string('download_url')->nullable()->comment('视频下载地址');
             $table->unsignedTinyInteger('comment_status')->default(1)->comment('视频是否允许评论 1:允许，2:不允许');
             $table->unsignedInteger('hits')->default(0)->comment('视频点击数');

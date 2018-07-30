@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Mail;
-class RegisterEmailSend implements ShouldQueue
+class ResetPassEmailSend implements ShouldQueue
 {
 	protected $email;
 	protected $captcha;
@@ -34,8 +34,8 @@ class RegisterEmailSend implements ShouldQueue
     {
     	$email = $this->email;
     	$captcha = $this->captcha;
-    	Mail::send('ask.email.send_register_email_captcha',['captcha'=>$captcha],function($message) use($email){
-    		$message->to($email)->subject('搜more注册验证码');
+    	Mail::send('ask.email.send_resetpasswd_email_captcha',['captcha'=>$captcha],function($message) use($email){
+    		$message->to($email)->subject('搜more密码重置验证码');
     	});
     }
 }

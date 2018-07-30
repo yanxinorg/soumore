@@ -86,10 +86,9 @@ class VideoController extends Controller
         $validator = Validator::make($request->all(),[
             'cid'=>'required|numeric|exists:category,id',
             'title'=>'required|min:2',
-            'thumb.0'=>'required|image|max:2048',
+            'thumb'=>'required|image|max:2048',
             'excerpt'=>'required|min:10',
-            'local_video'=>$request->file('local_video')?'required|mimetypes:video/avi,video/mpeg,video/quicktime,video/x-m4v':'',
-            'third_video'=>$request->get('third_video') ?'required|url':'',
+            'local_video'=>'required|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime,video/x-m4v',
             'status'=>'required|numeric|min:0|max:1'
         ],[
             'required'=>':attribute为必填项',
@@ -101,19 +100,17 @@ class VideoController extends Controller
         ],[
             'cid'=>'分类',
             'title'=>'标题',
-            'thumb.0'=>'头图',
+            'thumb'=>'头图',
             'excerpt'=>'简介',
             'local_video'=>'视频',
-            'third_video'=>'地址',
             'status'=>'状态',
         ]);
         if($validator->fails())
         {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        //存储视频头图
+        //存储图片
         $filePath = $request->file('thumb');
-        $filePath = $filePath[0];
         $type = $filePath->getMimeType();
         $upManager = new UploadManager();
         $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
@@ -125,23 +122,18 @@ class VideoController extends Controller
         }else{
             $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
         }
-        //视频是否存在
-        if(!empty($request->file('local_video')))
-        {
-            $filePath = $request->file('local_video');
-            $type = $request->file('local_video')->getMimeType();
-            $upManager = new UploadManager();
-            $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
-            $token = $auth->uploadToken(env('QINIU_BUCKET'));
-            $key = md5(time().rand(1,9999));
-            list($ret,$error) = $upManager->putFile($token,$key,$filePath,null,$type,false);
-            if($error){
-                return redirect()->back()->withErrors(['error'=>'保存失败']);
-            }else{
-                $videoPath = env('QINIU_DOMAIN').'/'.$ret['key'];
-            }
+        //存储视频
+        $filePath = $request->file('local_video');
+        $type = $request->file('local_video')->getMimeType();
+        $upManager = new UploadManager();
+        $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
+        $token = $auth->uploadToken(env('QINIU_BUCKET'));
+        $key = md5(time().rand(1,9999));
+        list($ret,$error) = $upManager->putFile($token,$key,$filePath,null,$type,false);
+        if($error){
+            return redirect()->back()->withErrors(['error'=>'保存失败']);
         }else{
-            $videoPath = $request->get('third_video');
+            $videoPath = env('QINIU_DOMAIN').'/'.$ret['key'];
         }
         $data = [
             'user_id'  => Auth::user()->id,
@@ -164,11 +156,13 @@ class VideoController extends Controller
                 //话题视频总数自增一
                 DB::table("tags")->where('id',$tag)->increment("videos");
                 OtherTagModel::updateOrCreate([
-                    'videos_id'=>$videoId->id,
-                    'tags_id'=>$tag
+                    'source_id'=>$videoId->id,
+                    'tags_id'=>$tag,
+                    'source_type'=>'3'
                 ],[
-                    'videos_id'=>$videoId->id,
-                    'tags_id'=>$tag
+                    'source_id'=>$videoId->id,
+                    'tags_id'=>$tag,
+                    'source_type'=>'3'
                 ]);
             }
         }
@@ -392,7 +386,12 @@ class VideoController extends Controller
             'user_id'=>Auth::id()
         ])->delete();
         // 标签视频总数减一
-        DB::table('tags')->leftjoin('other_tag', 'other_tag.tags_id', '=', 'tags.id')->where('other_tag.videos_id','=',$request->get('id'))->where('tags.videos', '>', 0)->decrement('videos');
+        DB::table('tags')
+            ->leftjoin('other_tag', 'other_tag.tags_id', '=', 'tags.id')
+            ->where('other_tag.source_id','=',$request->get('id'))
+            ->where('other_tag.source_type','=','3')
+            ->where('tags.videos', '>', 0)
+            ->decrement('videos',1);
         if($result)
         {
             $data = [

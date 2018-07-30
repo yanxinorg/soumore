@@ -42,7 +42,7 @@ use App\Models\Common\UserModel;
 
                     <div class="aw-mod aw-question-detail">
                         <div class="mod-head">
-                            <h1>{{ $datas->title  }}</h1>
+                            <h1>{{ $datas->title}}</h1>
                             <div class="operate clearfix">
                              @if($datas->user_id == Auth::id())
                                 <!-- 下拉菜单 -->
@@ -65,10 +65,10 @@ use App\Models\Common\UserModel;
                         </div>
                         <div class="mod-body">
                             <div class="content markitup-box">
-                                <embed src='{{ $datas->url }}' allowFullScreen='true' quality='high' width='100%' height='600' align='middle' allowScriptAccess='always' type='application/x-shockwave-flash'></embed>
+                                <video  width='100%' src="{{ $datas->url }}" controls="controls"></video>
                             </div>
                             <div class="meta clearfix">
-                                <div class="content markitup-box">
+                                <div class="content ">
                                     {!! $datas->excerpt !!}
                                 </div>
                             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\Jobs\ResetPassEmailSend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -18,6 +19,8 @@ class EmailController extends Controller
 	protected  $Code = "";
 	//邮件已注册
 	const  Email_Exits = 201;
+    //邮件未注册
+    const  Email_notExits = 205;
 	//邮件格式错误
 	const  Email_Format = 202;
 	//邮件已发送
@@ -77,6 +80,60 @@ class EmailController extends Controller
     		}
     	}
     	return json_encode(['Success'=>$this->Success,'Msg'=>$this->Msg,'Code'=>$this->Code]);
+    }
+
+    //发送  "找回密码邮件"  验证码
+    public function sendReSetCaptcha(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'email'=>'required|exists:users,email'
+        ]);
+        if($validator->fails())
+        {
+            $errors = $validator->errors();
+            if(!empty($errors->first('email')))
+            {
+                $this->Success = false;
+                $this->Msg = "该邮箱未注册!";
+                $this->Code = self::Email_notExits;
+            }else{
+                $this->Success = false;
+                $this->Msg = "邮箱格式错误!";
+                $this->Code = self::Email_Format;
+            }
+        }else{
+            //限制发送次数
+            if(self::emailLimit($request->get('email')))
+            {
+                //验证码生成
+                $captcha = CaptchaController::getCaptcha();
+                //存入数据库
+                $result = CaptchaModel::updateOrCreate(
+                    [
+                        'email' => $request->get('email'),
+                        'type' => '2'
+                    ],
+                    [
+                        'email' => $request->get('email'),
+                        'email_code' => $captcha,
+                        'type' => '2',														//注册邮件发送
+                        'valid_time'=>(\Carbon\Carbon::now()->addMinutes(3))				//验证码有效期 3分钟
+                    ]);
+                if($result)
+                {
+                    //发送邮件
+                    dispatch(new ResetPassEmailSend($request->get('email'), $captcha));
+                    $this->Success = true;
+                    $this->Msg = "验证码已发送注意查收!";
+                    $this->Code = self::Email_Sended;
+                }
+            }else{
+                $this->Success = false;
+                $this->Msg = "邮件发送过于频繁请15分钟后再发送!";
+                $this->Code = self::Email_Limited;
+            }
+        }
+        return json_encode(['Success'=>$this->Success,'Msg'=>$this->Msg,'Code'=>$this->Code]);
     }
     
     //验证格式是否是邮箱

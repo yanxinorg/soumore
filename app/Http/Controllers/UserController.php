@@ -110,7 +110,7 @@ class UserController extends Controller
     				'password'=>bcrypt($request->get('password'))
     		]);
     		//注册成功 跳转登录页面
-    		return redirect('/login')->with('result', '注册成功，请登录');;
+    		return redirect('/login')->withErrors(['success'=>'注册成功，请登录！']);
     	}
     }
     //用户登录
@@ -128,15 +128,17 @@ class UserController extends Controller
     			'password'=>'密码'
     	]);
     	
-//     	//验证码验证
+     	//验证码验证
      	if($request->get('captcha') !== Session::get('code'))
      	{
      		return redirect()->back()->withErrors(['captcha'=>'验证码错误'])->withInput();
      	}
+     	//记住密码
+     	$remember = $request->get('net_auto_login')?true:false;
     	//验证码密码
-    	if(Auth::attempt(['email' => $request->get('nameoremail'), 'password' => $request->get('password')]) || Auth::attempt(['name' => $request->get('nameoremail'), 'password' => $request->get('password')]))
+    	if(Auth::attempt(['email' => $request->get('nameoremail'), 'password' => $request->get('password')],$remember) || Auth::attempt(['name' => $request->get('nameoremail'), 'password' => $request->get('password')],$remember))
     	{
-    		//验证成功 及 登录成功  todo
+    		//验证成功 及 登录成功
     		UserModel::updateOrCreate([
     			'id'=>Auth::id()
     		],[
@@ -160,6 +162,51 @@ class UserController extends Controller
     	Auth::logout();
     	return redirect('/login');
     }
+
+    //忘记密码
+    public function reset(Request $request)
+    {
+        $this->validate($request, [
+            'email'=>'required|exists:users,email',
+            'captcha'=>'required',
+            'password'=>'required|min:6|confirmed',
+            'password_confirmation'=>'required|min:6'
+        ],[
+            'required'=>':attribute 不能为空',
+            'min'=>':attribute 至少 :min 位',
+            'max'=>':attribute 最多 :max 位',
+            'confirmed'=>'两次 :attribute 不一致'
+        ],[
+            'email'=>'邮箱',
+            'captcha'=>'验证码',
+            'password'=>'密码',
+            'password_confirmation'=>'重复密码',
+        ]);
+        //验证验证码
+        $data = DB::table('captchas')
+            ->where('email', $request->get('email'))
+            ->where('type', '2')
+            ->where('valid_time','>=',Carbon::now())
+            ->where('email_code','=',$request->get('captcha'))
+            ->get();
+        if(empty($data[0]))
+        {
+            return redirect()->back()->withErrors(['captcha'=>'验证码错误!'])->withInput() ;
+        }else{
+            //存储用户
+            $result = UserModel::where('email',$request->get('email'))->update([
+                'password'=>bcrypt($request->get('password'))
+            ]);
+            //重置成功 跳转登录页面
+            return redirect('/login')->withErrors(['success'=>'密码重置成功，请登录！']);
+        }
+
+    }
+
+
+
+
+
 
     //热门用户
     public function index()

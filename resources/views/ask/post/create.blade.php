@@ -64,6 +64,13 @@
 											</select>
 										</div>
 									</div>
+									@if ($errors->has('title'))
+										<li class="alert alert-danger error_message" style="margin-top: 12px;">
+											<i class="icon icon-delete"></i>
+											<em>{{ $errors->first('title') }}</em>
+										</li>
+									@endif
+
 									<!-- end 文章标题 -->
 									<h3>文章内容:</h3>
 									<div class="aw-mod aw-editor-box">
@@ -73,6 +80,12 @@
 											</div>
 										</div>
 									</div>
+									@if ($errors->has('content'))
+										<li class="alert alert-danger error_message" style="margin-top: 12px;">
+											<i class="icon icon-delete"></i>
+											<em>{{ $errors->first('content') }}</em>
+										</li>
+									@endif
 
                                     <div class="row">
                                         <div class="col-md-8 col-sm-8 ">

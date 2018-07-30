@@ -4,7 +4,7 @@
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
 <meta name="renderer" content="webkit">
-<title>登录Soumores</title>
+<title>登录SOUMORE</title>
 <!--<base href="http://ask.com/?/">--><base href="."><!--[if IE]></base><![endif]-->
 <link rel="stylesheet" type="text/css" href="{{ asset('ask/login_files/bootstrap.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('ask/login_files/icon.css') }}">
@@ -27,6 +27,15 @@
 				<form id="login_form" method="post" action="{{ url('/login') }}">
 					{{ csrf_field() }}
 					<ul>
+						@if ($errors->has('success'))
+							<li class="alert alert-success error_message">
+								<i class="icon icon-delete"></i>
+								<em>
+									{{ $errors->first('success') }}
+								</em>
+							</li>
+						@endif
+
 						<li>
 							<input type="text" id="aw-login-user-name" class="form-control" placeholder="邮箱 /用户名" name="nameoremail" value="{{ old('nameoremail') }}">
 						</li>
@@ -68,7 +77,7 @@
 						<li class="last">
 							<input type="submit" class="pull-right btn btn-large btn-primary" value="登陆">
 							<label><input type="checkbox" value="1" name="net_auto_login">记住我</label>
-							<a href="">忘记密码</a>
+							<a href="{{ url('/reset') }}">忘记密码？</a>
 						</li>
 					</ul>
 				</form>
