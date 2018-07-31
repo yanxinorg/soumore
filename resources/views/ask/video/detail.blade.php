@@ -64,7 +64,7 @@ use App\Models\Common\UserModel;
                             </div>
                         </div>
                         <div class="mod-body">
-                            <div class="content markitup-box">
+                            <div class="content markitup-box" style="margin: 24px;">
                                 <video  width='100%' src="{{ $datas->url }}" controls="controls"></video>
                             </div>
                             <div class="meta clearfix">

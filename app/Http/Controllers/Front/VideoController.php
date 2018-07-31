@@ -88,7 +88,7 @@ class VideoController extends Controller
             'title'=>'required|min:2',
             'thumb'=>'required|image|max:2048',
             'excerpt'=>'required|min:10',
-            'local_video'=>'required|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime,video/x-m4v',
+            'local_video'=>'required|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime,video/x-m4v,video/webm',
             'status'=>'required|numeric|min:0|max:1'
         ],[
             'required'=>':attribute为必填项',
@@ -278,100 +278,113 @@ class VideoController extends Controller
     //更新保存
     public function update(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'id'=>'required|numeric|exists:posts,id',
-            'cid'=>'required|numeric|exists:category,id',
-            'title'=>'required|min:2',
-            'content'=>'required|min:10',
-            'tags.*'=>'sometimes|max:18',
-            'status'=>'required|numeric|min:0|max:1'
-        ],[
-            'required'=>':attribute为必填项',
-            'min'=>':attribute至少 :min个字节长',
-            'max'=>':attribute超出限制',
-            'mimes'=>'图片格式错误'
-        ],[
-            'cid'=>'分类',
-            'title'=>'标题',
-            'cover'=>'图片',
-            'content'=>'内容',
-            'tags.*'=>'标签',
-            'status'=>'状态',
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|numeric|exists:videos,id',
+            'cid' => 'required|numeric|exists:category,id',
+            'title' => 'required|min:2',
+            'thumb' => $request->get('thumb') ? 'required|image|max:2048' : "",
+            'excerpt' => 'required|min:10',
+            'local_video' => $request->get('local_video') ? 'required|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime,video/x-m4v,video/webm' : "",
+            'status' => 'required|numeric|min:0|max:1'
+        ], [
+            'required' => ':attribute为必填项',
+            'min' => ':attribute至少 :min个字节长',
+            'max' => ':attribute超出限制',
+            'image' => ':attribute格式错误',
+            'mimetypes' => ':attribute格式错误',
+            'url' => ':attribute格式错误'
+        ], [
+            'cid' => '分类',
+            'title' => '标题',
+            'thumb' => '头图',
+            'excerpt' => '简介',
+            'local_video' => '视频',
+            'status' => '状态',
         ]);
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+        if (!empty($request->file('thumb')))
+        {
+            //存储图片
+            $filePath = $request->file('thumb');
+            $type = $filePath->getMimeType();
+            $upManager = new UploadManager();
+            $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
+            $token = $auth->uploadToken(env('QINIU_BUCKET'));
+            $key = md5(time().rand(1,9999));
+            list($ret,$error) = $upManager->putFile($token,$key,$filePath,null,$type,false);
+            if($error){
+                return redirect()->back()->withErrors(['error'=>'保存失败']);
+            }else{
+                $imgPath = env('QINIU_DOMAIN').'/'.$ret['key'];
+            }
+        }else{
+                $imgPath = DB::table('videos')->where('id',$request->get('id'))->pluck('thumb');
+                $imgPath = $imgPath[0];
+        }
+        if(!empty($request->file('local_video')))
+        {
+            //存储视频
+            $filePath = $request->file('local_video');
+            $type = $request->file('local_video')->getMimeType();
+            $upManager = new UploadManager();
+            $auth = new \Qiniu\Auth(env('QINIU_ACCESS_KEY'), env('QINIU_SECRET_KEY'));
+            $token = $auth->uploadToken(env('QINIU_BUCKET'));
+            $key = md5(time().rand(1,9999));
+            list($ret,$error) = $upManager->putFile($token,$key,$filePath,null,$type,false);
+            if($error){
+                return redirect()->back()->withErrors(['error'=>'保存失败']);
+            }else{
+                $videoPath = env('QINIU_DOMAIN').'/'.$ret['key'];
+            }
+        }else{
+                $videoPath = DB::table('videos')->where('id',$request->get('id'))->pluck('url');
+                $videoPath = $videoPath[0];
+        }
+
         $data = [
             'user_id'  => Auth::user()->id,
             'cate_id'  => $request->get('cid'),
             'title'    => trim($request->get('title')),
-            'content'  => $request->get('content'),
+            'excerpt'  => $request->get('excerpt'),
+            'thumb'  => $imgPath,
+            'url'  =>  $videoPath,
             'status'   => $request->get('status'),
         ];
-        //图片上传
-        if($request->hasFile('cover'))
+
+        $videoId = VideoModel::where('id',$request->get('id'))->update($data);
+
+        //原有标签视频减一
+        $orignTagIds = DB::table('other_tag')->where(['source_id'=>$request->get('id'),'source_type'=>'3'])->pluck('tags_id');
+        if(!empty($orignTagIds))
         {
-            $file = $request->file('cover');
-            $file = $file[0];
-            $extention = $file->getClientOriginalExtension();
-            $data['mime'] = $file->getClientMimeType();
-            //存储原始图片
-            $thumb = FileController::savePostImg($file);
-            //图片原始尺寸
-            $orgheight = Image::make(storage_path().'/app/'.$thumb)->height();
-            //图片原始宽度
-            $orgwidth = Image::make(storage_path().'/app/'.$thumb)->width();
-            //开始压缩图片
-            $img = Image::make(storage_path().'/app/'.$thumb);
-            if($orgwidth >= $orgheight)
-            {
-                //压缩
-                $img->resize(168, 168*($orgheight/$orgwidth));
-            }else{
-                //压缩
-                $img->resize(168*($orgwidth/$orgheight), 168);
-            }
-            $fileName = uniqid(str_random(10)).'.'.$extention;
-            $smallfilepath = 'article/'.gmdate("Y")."/".gmdate("m")."/".$fileName;
-            $img->save(storage_path().'/app/'.$smallfilepath);
-            $data['thumb'] = $thumb;
-            $data['thumb_small'] = $smallfilepath;
-        }
-        //更新
-        $postId = PostModel::updateOrCreate(array('id' => $request->get('id')), $data);
-        //话题文章总数自减一
-        $tagIds = PostTagModel::where(['posts_id'=>$request->get('id')])->pluck('tags_id');
-        if(!($tagIds->isEmpty()))
-        {
-            foreach ($tagIds as $k)
-            {
-                DB::table('tags')->where('id', $k)->where('posts', '>', 0)->decrement("posts");
-            }
+            DB::table('tags')
+                ->whereIn('id', $orignTagIds)->decrement('videos',1);
         }
         //清除原有标签
-        PostTagModel::where(['posts_id'=>$request->get('id')])->delete();
-        //新增标签
-        if(!empty($request->get('tags')[0]))
+        OtherTagModel::where(['source_id'=>$request->get('id'),'source_type'=>'3'])->delete();
+        //tags不为空
+        if(!empty($request->get('tags')))
         {
             //只取前5个标签存入
-            $tmpArr = array_only($request->get('tags'), ['0','1','2','3','4']);
-
+            $tmpArr = array_only($request->get('tags'),['0','1','2','3','4']);
             foreach($tmpArr as $tag)
             {
-                //话题文章总数自增一
-                DB::table('tags')->where('id',$tag)->increment("posts");
-
-                PostTagModel::updateOrCreate([
-                    'posts_id'=>$postId->id,
-                    'tags_id'=>$tag
+                //话题视频总数自增一
+                DB::table("tags")->where('id',$tag)->increment("videos",1);
+                OtherTagModel::updateOrCreate([
+                    'source_id'=>$request->get('id'),
+                    'tags_id'=>$tag,
+                    'source_type'=>'3'
                 ],[
-                    'posts_id'=>$postId->id,
-                    'tags_id'=>$tag
+                    'source_id'=>$request->get('id'),
+                    'tags_id'=>$tag,
+                    'source_type'=>'3'
                 ]);
             }
         }
-        return redirect('/post');
+        return redirect('/video');
     }
 
 
@@ -392,6 +405,8 @@ class VideoController extends Controller
             ->where('other_tag.source_type','=','3')
             ->where('tags.videos', '>', 0)
             ->decrement('videos',1);
+        //清除该视频的标签
+        OtherTagModel::where(['source_id'=>$request->get('id'),'source_type'=>'3'])->delete();
         if($result)
         {
             $data = [

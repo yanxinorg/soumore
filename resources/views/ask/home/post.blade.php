@@ -30,55 +30,42 @@
                                      @if(!empty($userinfo->occupation))  <span><i class="icon icon-job"></i> {{ $userinfo->occupation }}</span>@endif
                                     </p>
                             </div>
-                            <div class="mod-body">
-                                <div class="meta">
-                                    <span><i class="icon icon-prestige"></i> 威望 : <em class="aw-text-color-green">0</em></span>
-                                    <span><i class="icon icon-agree"></i> 赞同 : <em class="aw-text-color-orange">0</em></span>
-                                    <span><i class="icon icon-thank"></i> 感谢 : <em class="aw-text-color-orange">0</em></span>
-                                </div>
-                            </div>
                             <div class="mod-footer">
                                 <ul class="nav nav-tabs aw-nav-tabs">
-                                    <li><a href="" id="page_overview" data-toggle="tab">概述</a></li>
-                                    <li><a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}">问答<span class="badge">{{ $countQuestion }}</span></a></li>
-                                    <li><a href="" id="page_answers" data-toggle="tab">回复<span class="badge">0</span></a></li>
+                                    <li><a href="" id="page_actions" data-toggle="tab">动态</a></li>
                                     <li class="active"><a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}">文章<span class="badge">{{ $countPost }}</span></a></li>
+                                    <li><a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}">问答<span class="badge">{{ $countQuestion }}</span></a></li>
                                     <li ><a href="{{ URL::action('Front\HomeController@video', ['uid'=>$uid]) }}">视频<span class="badge">{{ $countVideo }}</span></a></li>
                                     <li ><a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}">关注的人<span class="badge">{{  $countUsers }}</span></a></li>
                                     <li ><a href="{{ URL::action('Front\HomeController@topics', ['uid'=>$uid]) }}">关注的话题<span class="badge">{{ $countTopics }}</span></a></li>
                                     <li ><a href="{{ URL::action('Front\HomeController@topicedUser', ['uid'=>$uid]) }}">粉丝<span class="badge">{{ $countFans  }}</span></a></li>
-                                    <li><a href="" id="page_actions" data-toggle="tab">动态</a></li>
-                                    <li><a href="" id="page_detail" data-toggle="tab">详细资料</a></li>
+                                    <li><a href="{{ URL::action('Front\HomeController@info', ['uid'=>$uid]) }}" >详细资料</a></li>
                                 </ul>
                             </div>
                         </div>
                         <!-- end 用户数据内容 -->
                         <div class="aw-user-center-tab">
                             <div class="tab-content">
-                                <div class="tab-pane active" id="articles">
+                                <div class="tab-pane active" >
                                     <div class="aw-mod">
-                                        <div class="mod-head">
-                                            <h3>文章</h3>
-                                        </div>
-                                        <div class="mod-body">
-                                                <div class="aw-profile-publish-list" id="contents_user_actions_articles">
-                                                    @foreach($datas as $data)
-                                                        <div class="aw-item">
-                                                            <div class="aw-mod">
-                                                                <div class="mod-head">
-                                                                    <h4 class="aw-hide-txt">
-                                                                        <a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ $data->title  }}</a>
-                                                                    </h4>
-                                                                </div>
-                                                                <div class="mod-body">
-                                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>0</span>
-                                                                    <p class="text-color-999">1 次浏览 • 1 个关注 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</p>
-                                                                </div>
-                                                            </div>
+                                        <div class="mod-body" >
+                                            <div class="aw-common-list" >
+                                                <div style="clear: both;"></div>
+                                                @foreach($datas as $data)
+                                                    <div class="aw-item article">
+                                                        <a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" ><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
+                                                        <div class="aw-question-content">
+                                                            <a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ $data->title }}</a>
+                                                            <p>
+                                                                <a class="aw-question-tags" href="{{ URL::action('Front\PostController@cate',['cid'=>$data->cate_id]) }}">{{ $data->cate_name }}</a>
+                                                                <span>&nbsp;</span><span class="text-color-999"> {{ $data->countcomment }} 个评论 • {{ $data->hits }} 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
+                                                                <span class="text-color-999 related-topic collapse"> • 来自相关话题</span>
+                                                            </p>
                                                         </div>
-                                                    @endforeach()
-                                                     <div class="paginate" style="text-align:center;">{!! $datas->appends(array('uid'=>$uid ))->render() !!}</div>
-                                                </div>
+                                                    </div>
+                                                @endforeach()
+                                            </div>
+                                           <div class="paginate" style="text-align:center;">{!! $datas->appends(array('uid'=>$uid ))->render() !!}</div>
                                         </div>
                                     </div>
                                 </div>

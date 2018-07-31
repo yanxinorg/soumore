@@ -70,6 +70,7 @@ class PostModel extends Model
 				'posts.created_at as created_at',
 				'posts.comments as countcomment',
 		        'posts.hits as hits',
+                'posts.comments as comments',
 				'posts.status as status'
 				)->whereNull('posts.deleted_at');
 		return $datas;

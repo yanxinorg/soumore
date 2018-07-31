@@ -15,11 +15,11 @@ use App\Models\Common\AttentionModel;
 	<div class="container">
 		<div class="row">
 			<div class="aw-content-wrap clearfix">
-				<div class="col-sm-12 col-md-9 aw-main-content">
+				<div class="col-md-9 col-sm-12  aw-main-content">
 					<div class="aw-mod aw-topic-detail-title">
 						<div class="mod-body">
-							<img style="width:50px;" src="{{ $datas->thumb }}" alt="地方">
-							<h2 class="pull-left">
+							<img style="width:76px;height: 76px;" src="{{ $datas->thumb }}" alt="地方">
+							<h2 style="margin-left: 12px;">
 								<span>{{ $datas->name }}</span>
 								<p class="text-color-999">
 									<span>{{ $datas->watchs }} 个关注</span>
@@ -57,20 +57,21 @@ use App\Models\Common\AttentionModel;
 							</div>
 						</div>
 
-						<div class="mod-body">
+						<div class="aw-user-center-tab">
 							<!-- tab 切换内容 -->
-							<div class="tab-content">
-								<div class="tab-pane active" id="about">
-									<div class="aw-topic-detail-about text-color-666 markitup-box">
-										<div class="aw-common-list">
-											@foreach($posts as $post)
-												<div class="aw-item article" data-topic-id="3,">
-													<a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$post->user_id]) }}" rel="nofollow"><img src="{{ $post->avator }}-sm_thumb_middle" /></a>
+							<div class="tab-pane active" >
+								<div class="aw-mod">
+									<div class="mod-body" >
+										<div class="aw-common-list" >
+											<div style="clear: both;"></div>
+											@foreach($posts as $data)
+												<div class="aw-item article">
+													<a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" ><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
 													<div class="aw-question-content">
-														<h4><a href="{{ URL::action('Front\PostController@detail', ['id'=>$post->post_id]) }}">{{ $post->title }}</a></h4>
+														<a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->post_id]) }}">{{ $data->title }}</a>
 														<p>
-															<a class="aw-question-tags" href="{{ URL::action('Front\PostController@cate',['cid'=>$post->cate_id]) }}">{{ $post->cate_name }}</a>
-															<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$post->user_id]) }}" class="aw-user-name">{{ $post->author }}</a> <span class="text-color-999">发表了文章 • {{ $post->countcomment }} 个评论 • {{ $post->hits }} 次浏览 • {{\Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</span>
+															<a class="aw-question-tags" href="{{ URL::action('Front\PostController@cate',['cid'=>$data->cate_id]) }}">{{ $data->cate_name }}</a>
+															<span>&nbsp;</span><span class="text-color-999"> {{ $data->countcomment }} 个评论 • {{ $data->hits }} 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
 															<span class="text-color-999 related-topic collapse"> • 来自相关话题</span>
 														</p>
 													</div>

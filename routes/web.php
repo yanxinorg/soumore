@@ -95,6 +95,8 @@ Route::get('/home/topicedUser', 'Front\HomeController@topicedUser');
 Route::get('/home/topics', 'Front\HomeController@topics');
 //个人主页回答
 Route::get('/home/answer', 'Front\HomeController@answer');
+//个人主页详细信息
+Route::get('/home/info', 'Front\HomeController@info');
 //加载省份城市信息
 Route::get('/common/loadCity/{province_id}', 'Common\CommonController@loadCity')->where(['province_id'=>'[0-9]+']);
 //个人发布的文章

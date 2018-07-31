@@ -275,7 +275,7 @@
                                     <h3>原图：</h3>
 									<div class="row">
 										<div class="col-md-6 col-sm-6" >
-											<img src="{{ $datas->thumb }}" draggable="false">
+											<img src="{{ $datas->thumb }}" style="max-height: 200px;">
 										</div>
 									</div>
 

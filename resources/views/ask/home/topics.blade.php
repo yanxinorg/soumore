@@ -30,61 +30,41 @@
                                     @if(!empty($userinfo->occupation))  <span><i class="icon icon-job"></i> {{ $userinfo->occupation }}</span>@endif
                                 </p>
                             </div>
-                            <div class="mod-body">
-                                <div class="meta">
-                                    <span><i class="icon icon-prestige"></i> 威望 : <em class="aw-text-color-green">0</em></span>
-                                    <span><i class="icon icon-agree"></i> 赞同 : <em class="aw-text-color-orange">0</em></span>
-                                    <span><i class="icon icon-thank"></i> 感谢 : <em class="aw-text-color-orange">0</em></span>
-                                </div>
-                            </div>
                             <div class="mod-footer">
                                 <ul class="nav nav-tabs aw-nav-tabs">
-                                    <li><a href="" id="page_overview" data-toggle="tab">概述</a></li>
-                                    <li><a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}">问答<span class="badge">{{ $countQuestion }}</span></a></li>
-                                    <li><a href="" id="page_answers" data-toggle="tab">回复<span class="badge">0</span></a></li>
+                                    <li><a href="" id="page_actions" data-toggle="tab">动态</a></li>
                                     <li><a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}">文章<span class="badge">{{ $countPost }}</span></a></li>
+                                    <li ><a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}">问答<span class="badge">{{ $countQuestion }}</span></a></li>
                                     <li ><a href="{{ URL::action('Front\HomeController@video', ['uid'=>$uid]) }}">视频<span class="badge">{{ $countVideo }}</span></a></li>
                                     <li ><a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}">关注的人<span class="badge">{{  $countUsers }}</span></a></li>
                                     <li class="active"><a href="{{ URL::action('Front\HomeController@topics', ['uid'=>$uid]) }}">关注的话题<span class="badge">{{ $countTopics }}</span></a></li>
                                     <li ><a href="{{ URL::action('Front\HomeController@topicedUser', ['uid'=>$uid]) }}">粉丝<span class="badge">{{ $countFans  }}</span></a></li>
-                                    <li><a href="" id="page_actions" data-toggle="tab">动态</a></li>
-                                    <li><a href="" id="page_detail" data-toggle="tab">详细资料</a></li>
+                                    <li><a href="{{ URL::action('Front\HomeController@info', ['uid'=>$uid]) }}">详细资料</a></li>
                                 </ul>
                             </div>
                         </div>
                         <!-- end 用户数据内容 -->
                         <div class="aw-user-center-tab">
                             <div class="tab-content">
-                                <div class="tab-pane active" id="focus">
+                                <div class="tab-pane active">
                                     <!-- 自定义切换 -->
                                     <div class="aw-mod">
+                                        <div class="mod-head">　</div>
                                         <div class="mod-body">
-                                            <div class="aw-tab-content">
-                                                <div class="aw-mod aw-user-center-follow-mod ">
-                                                    <div class="mod-body">
-                                                        <ul id="contents_user_topics" class="clearfix">
-                                                            @foreach($topics as $topic)
-                                                                <li>
-                                                                    <div class="mod-head">
-                                                                        <a class="aw-topic-img pull-left aw-border-radius-5" href="{{ URL::action('Front\TopicController@detail', ['id'=>$topic->tag_id]) }}">
-                                                                            <img style="width: 50px;" src="{{ $topic->tag_thumb }}" >
-                                                                        </a>
-                                                                        <p><a class="aw-topic-name" data-id="3" href="{{ URL::action('Front\TopicController@detail', ['id'=>$topic->tag_id]) }}"><span>{{ $topic->tag_name  }}</span></a></p>
-                                                                    </div>
-                                                                    <div class="mod-footer">
-                                                                        <p class="aw-user-center-follow-meta">
-                                                                            1 个讨论			 •
-                                                                            1 个关注
-                                                                        </p>
-                                                                    </div>
-                                                                </li>
-                                                             @endforeach()
-                                                        </ul>
+                                            <div class="row">
+                                                @foreach($topics as $topic)
+                                                    <div class="col-md-3" style="text-align: center;">
+                                                        <a class="img aw-border-radius-5" href="{{ URL::action('Front\TopicController@detail', ['id'=>$topic->tag_id]) }}">
+                                                            <img style="width:60px;height: 60px;" src="{{ $topic->tag_thumb }}" alt="{{ $topic->tag_name }}">
+                                                        </a>
+                                                        <p class="clearfix" >
+                                                            <a class="text" href="{{ URL::action('Front\TopicController@detail', ['id'=>$topic->tag_id]) }}">{{ $topic->tag_name  }}</a>
+                                                        </p>
                                                     </div>
-                                                </div>
-                                                <div class="paginate" style="text-align:center;">{!! $topicUsers->appends(array('uid'=>$uid ))->render() !!}</div>
+                                                @endforeach()
                                             </div>
                                         </div>
+                                        <div class="paginate" style="text-align:center;">{!! $topicUsers->appends(array('uid'=>$uid ))->render() !!}</div>
                                     </div>
                                     <!-- end 自定义切换 -->
                                 </div>

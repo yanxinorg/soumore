@@ -95,7 +95,13 @@ class HomeController extends Controller
         //文章总数
         $this->countPost = PostModel::where('user_id',$request->get('uid'))->count();
         //问答
-        $this->questions = QuestionModel::where('user_id',$request->get('uid'))->paginate('15');
+        $this->questions =  DB::table('questions')
+            ->leftjoin('users', 'users.id', '=', 'questions.user_id')
+            ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
+            ->where('questions.user_id',$request->get('uid'))
+            ->select('users.id as user_id','users.avator as avator','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id','questions.comments as comments','questions.views as views', 'questions.content as content','questions.created_at as created_at')
+            ->orderBy('questions.created_at','desc')
+            ->paginate('15');
         //问答总数
         $this->countQuestion = QuestionModel::where('user_id',$request->get('uid'))->count();
         //视频
@@ -418,7 +424,8 @@ class HomeController extends Controller
             'countTopics'=>$this->countTopics,
             'uid'=>$this->uid,
             'islooked'=>$this->islooked,
-            'recents'=>$this->recents]);
+            'recents'=>$this->recents
+        ]);
 
     }
 
@@ -439,13 +446,37 @@ class HomeController extends Controller
                 $this->islooked = false;
             }
         }
-        return view('wenda.home.answer',[
+        return view('ask.home.answer',[
             'userinfo'=>$this->userinfo,
             'questions'=>$this->questions,
             'province'=>$this->province,
             'city'=>$this->city,
             'uid'=>$this->uid,
-            'islooked'=>$this->islooked]);
+            'islooked'=>$this->islooked
+        ]);
+    }
+
+    //个人主页详细信息
+    public function info(Request $request)
+    {
+        return view('ask.home.info', [
+            'userinfo'=>$this->userinfo,
+            'province'=>$this->province,
+            'city'=>$this->city,
+            'countPost'=>$this->countPost,
+            'countQuestion'=>$this->countQuestion,
+            'videos'=>$this->videos,
+            'countVideo'=>$this->countVideo,
+            'topicUsers'=>$this->topicUsers,
+            'countUsers'=>$this->countUsers,
+            'fans'=>$this->fans,
+            'countFans'=>$this->countFans,
+            'topics'=>$this->topics,
+            'countTopics'=>$this->countTopics,
+            'uid'=>$this->uid,
+            'islooked'=>$this->islooked,
+            'recents'=>$this->recents
+        ]);
     }
 
 }

@@ -3,6 +3,11 @@
 <?php
 use App\Models\Common\AttentionModel;
 ?>
+<style>
+	li {
+		list-style-type:none;
+	}
+</style>
 <div class="aw-container-wrap">
 	<div class="container1">
 		<div class="row">
@@ -18,8 +23,8 @@ use App\Models\Common\AttentionModel;
 				<div class="col-sm-12 col-md-9 aw-main-content">
 					<div class="aw-mod aw-topic-detail-title">
 						<div class="mod-body">
-							<img style="width:50px;" src="{{ $datas->thumb }}" alt="地方">
-							<h2 class="pull-left">
+							<img style="width:76px;height: 76px;" src="{{ $datas->thumb }}" alt="地方">
+							<h2 style="margin-left: 12px;">
 								<span>{{ $datas->name }}</span>
 								<p class="text-color-999">
 									<span>{{ $datas->watchs }} 个关注</span>
@@ -57,29 +62,24 @@ use App\Models\Common\AttentionModel;
 							</div>
 						</div>
 
-						<div class="mod-body">
 							<!-- tab 切换内容 -->
-							<div class="tab-content">
-								<div class="tab-pane active" id="about">
-									<div class="aw-topic-detail-about text-color-666 markitup-box">
-										<div class="aw-common-list">
-											<div class="mod-body clearfix">
-												@foreach($videos as $video)
-													<div class="aw-item col-md-3" >
-														<a class="img aw-border-radius-5" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">
-															<img style="width:180px;height: 120px;" src="{{ $video->thumb }}" alt="{{ $video->title }}">
-														</a>
-														<p class="clearfix" style="margin-top: 12px;">
-															<a class="text" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">{{ str_limit($video->title,36) }}</a>
-														</p>
-														<p class="text-color-999">
-															<span>作者：<a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$video->user_id]) }}" rel="nofollow">{{ $video->author }}</a></span>
-														</p>
-														<p class="text-color-999">
-															<span>发布时间：{{ substr($video->created_at,0,11) }}</span>
-														</p>
-													</div>
-												@endforeach()
+							<div class="aw-user-center-tab">
+								<div class="tab-content">
+									<div class="tab-pane active" >
+										<div class="aw-mod">
+											<div class="mod-head">　</div>
+											<div class="mod-body">
+												<div class="row">
+													@foreach($videos as $video )
+														<div class="col-md-3"  style="margin-bottom: 24px;">
+															<a class="img aw-border-radius-5" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">
+																<img style="width:180px;height: 120px;" src="{{ $video->thumb }}" alt="{{ $video->title }}">
+															</a>
+															<li style="padding-top: 10px;" ><a class="text" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">{{ str_limit($video->title,24) }}</a></li>
+															<li><span>发布时间：{{ substr($video->created_at,0,11) }}</span></li>
+														</div>
+													@endforeach()
+												</div>
 											</div>
 											<div class="paginate" style="text-align:center;">{!! $videos->appends(array('id'=>$tid))->render() !!}</div>
 										</div>
@@ -87,7 +87,6 @@ use App\Models\Common\AttentionModel;
 								</div>
 							</div>
 							<!-- end tab 切换内容 -->
-						</div>
 					</div>
 				</div>
 

@@ -11,15 +11,14 @@ use App\Models\Common\AttentionModel;
 			</div>
 		</div>
 	</div>
-
 	<div class="container">
 		<div class="row">
 			<div class="aw-content-wrap clearfix">
 				<div class="col-sm-12 col-md-9 aw-main-content">
 					<div class="aw-mod aw-topic-detail-title">
 						<div class="mod-body">
-							<img style="width:50px;" src="{{ $datas->thumb }}" alt="地方">
-							<h2 class="pull-left">
+							<img style="width:76px;height: 76px;" src="{{ $datas->thumb }}" alt="地方">
+							<h2 style="margin-left: 12px;">
                                 <span>{{ $datas->name }}</span>
                                 <p class="text-color-999">
                                     <span>{{ $datas->watchs }} 个关注</span>
