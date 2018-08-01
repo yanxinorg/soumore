@@ -614,7 +614,7 @@ class PersonController extends Controller
                     'messages.to_user_id as to_user_id',
                     'messages.from_user_id as from_user_id',
                     'messages.created_at as created_at'
-                )->orderBy('messages.created_at', 'desc')->get();
+                )->orderBy('messages.created_at', 'desc')->paginate('16');
             if ($request->get('from_user_id') == Auth::id())
             {
                 $toUser = User::where('id',$request->get('to_user_id'))->get();

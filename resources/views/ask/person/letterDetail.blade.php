@@ -66,6 +66,9 @@
 											<a class="pull-left" ></a>
 										@endif
 									@endforeach()
+									<div class="mod-footer clearfix">
+										<div class="paginate" style="text-align:right;">{!! $datas->appends(array('from_user_id'=>Auth::id(),'to_user_id'=>$toUser[0]->id ))->render() !!}</div>
+									</div>
 								</ul>
 								<!-- end 私信内容列表 -->
 							</div>
