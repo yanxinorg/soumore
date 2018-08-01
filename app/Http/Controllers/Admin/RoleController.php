@@ -64,10 +64,9 @@ class RoleController extends Controller
     public function update(Request $request)
     {
     	$this->validate($request, [
-    			'id'=>'required|numeric|exists:roles,id',
-    			'rolename'=>'required'
+    			'id'=>'required|numeric|exists:roles,id'
     	]);
-    	$result = Role::updateOrCreate(array('id' => $request->get('id')), array('name' => $request->get('rolename'),'display_name'=>$request->get('rolealias'),'description'=>$request->get('roleremark')));
+    	$result = Role::updateOrCreate(array('id' => $request->get('id')), array('display_name'=>$request->get('rolealias'),'description'=>$request->get('roleremark')));
     	if($result)
     	{
     		//删除之前的角色
@@ -77,7 +76,7 @@ class RoleController extends Controller
     		{
     			foreach($request->get('permits') as $permit)
     			{
-    				DB::table('permission_role')->insert(['permission_id' => $permit, 'role_id' => $request->get('id')]);
+    				DB::table('permission_role')->insert(['permission_id' => $permit,'role_id' => $request->get('id')]);
     			}
     		}
     		return redirect('/back/role/list');

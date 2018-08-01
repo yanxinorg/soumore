@@ -77,7 +77,7 @@
                                 <ul>
                                     <li><a href="{{ URL::action('Front\PersonController@post') }}" ><i class="icon icon-home"></i>我的文章</a></li>
                                     <li><a href="{{ url('/person/answer') }}"  class="active"><i class="icon icon-home"></i>我的问答</a></li>
-                                    <li><a href="{{ URL::action('Front\PersonController@post') }}"><i class="icon icon-draft"></i>我的视频</a></li>
+                                    <li><a href="{{ url('/person/video') }}"><i class="icon icon-draft"></i>我的视频</a></li>
                                     <li><a href="{{ url('/person/postCollect') }}"><i class="icon icon-favor"></i>我的收藏</a></li>
                                     <li><a href="{{ url('/person/topicAttention') }}" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
                                     <li><a href="" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>

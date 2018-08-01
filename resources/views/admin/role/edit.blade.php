@@ -24,7 +24,7 @@
                                 <div class="form-group">
                                 	<label class="col-sm-2 control-label">角色名称</label>
                                     <div class="col-sm-6">
-                                    	<input type="text" class="form-control" name="rolename" value="{{ $data->name }}"  placeholder="eg：administrator">
+                                    	<input type="text" class="form-control" value="{{ $data->name }}" readonly >
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
