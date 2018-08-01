@@ -73,8 +73,8 @@
 						<div class="aw-mod side-nav">
 							<div class="mod-body">
 								<ul>
-									<li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}"  ><i class="icon icon-home"></i>最新文章</a></li>
-									<li><a href="{{ url('/person/answer') }}" ><i class="icon icon-home"></i>最新问答</a></li>
+									<li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}"  ><i class="icon icon-home"></i>我的文章</a></li>
+									<li><a href="{{ url('/person/answer') }}" ><i class="icon icon-home"></i>我的问答</a></li>
 									<li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'0']) }}" ><i class="icon icon-draft"></i>我的草稿</a></li>
 									<li><a href="{{ url('/person/postCollect') }}"><i class="icon icon-favor"></i>我的收藏</a></li>
 									<li><a href="{{ url('/person/topicAttention') }}" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>

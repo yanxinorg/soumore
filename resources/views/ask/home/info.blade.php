@@ -1,5 +1,11 @@
 @extends('layouts.ask')
 @section('content')
+    <style>
+        .form-group{
+            margin-top: 24px;
+            padding: 12px 6px;
+        }
+    </style>
     <link  rel="stylesheet" type="text/css" href="{{ asset('ask/user_files/user.css') }}">
     <div class="aw-container-wrap">
         <div class="container1">
@@ -46,91 +52,117 @@
                         <!-- end 用户数据内容 -->
                         <div class="aw-user-center-tab">
                             <div class="tab-content">
-                                <div class="tab-pane active" id="articles">
-                                        <div class="form-group">
-                                            <label  class="col-md-6 col-sm-2 control-label" >用户名</label>
-                                            <div class="col-md-6 col-sm-10">
-                                                <input type="text" class="form-control" value="{{ $userinfo->name }}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label  class="col-md-6 col-sm-2 control-label">真实姓名</label>
-                                            <div class="col-md-6 col-sm-10">
-                                                <input type="text" class="form-control" value="{{ $userinfo->realname }}" name="realname">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-6 col-sm-2 control-label">邮箱</label>
-                                            <div class="col-md-6 col-sm-8">
-                                                <input type="email" class="form-control" value="{{ $userinfo->email }}" name="email" >
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-6 col-sm-2 control-label">手机号</label>
-                                            <div class="col-md-6 col-sm-10">
-                                                <input type="text" class="form-control" value="{{ $userinfo->mobile }}" name="mobile" >
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-6 col-sm-2 control-label">生日</label>
-                                            <div class="col-md-6 col-sm-10" >
-                                                <input class="form-control form-control-inline input-medium default-date-picker" name="birth" value="{{ $userinfo->birthday }}"/>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-6 col-sm-2 control-label">个人主页</label>
-                                            <div class="col-md-6 col-sm-10">
-                                                <input type="url" class="form-control"  name="url" value="{{ $userinfo->site }}" placeholder="http://www.soumore.cn">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-6 col-sm-2 control-label">QQ</label>
-                                            <div class="col-md-6 col-sm-10">
-                                                <input type="text" class="form-control" value="{{ $userinfo->qq }}" name="qq" >
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-6 col-sm-2 control-label">微信号</label>
-                                            <div class="col-md-6 col-sm-10">
-                                                <input type="text" class="form-control" value="{{ $userinfo->weixin }}" name="weixin" >
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-6 col-sm-2 control-label">所在城市</label>
-                                            <div class="col-md-6 col-sm-10">
-                                                <div class="input-group input-large " >
-                                                    <span class="input-group-addon">省</span>
-
-                                                    <span class="input-group-addon">市</span>
-
+                                <div class="tab-pane active">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @if(!empty($userinfo->name))
+                                                <div class="form-group">
+                                                    <label  class="col-md-3 col-sm-2 control-label" >用户名</label>
+                                                    <div class="col-md-9 col-sm-10">
+                                                        <input type="text" class="form-control" value="{{ $userinfo->name }}" readonly>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
+                                            @if(!empty($userinfo->realname))
+                                                <div class="form-group">
+                                                    <label  class="col-md-3 col-sm-2 control-label">真实姓名</label>
+                                                    <div class="col-md-9 col-sm-10">
+                                                        <input type="text" class="form-control" value="{{ $userinfo->realname }}" readonly>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @if(!empty($userinfo->email))
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-2 control-label">邮箱</label>
+                                                    <div class="col-md-9 col-sm-8">
+                                                        <input type="email" class="form-control" value="{{ $userinfo->email }}" readonly>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @if(!empty($userinfo->mobile))
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-2 control-label">手机号</label>
+                                                    <div class="col-md-9 col-sm-10">
+                                                        <input type="text" class="form-control" value="{{ $userinfo->mobile }}" readonly>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @if(!empty($userinfo->birthday))
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-2 control-label">生日</label>
+                                                    <div class="col-md-9 col-sm-10" >
+                                                        <input class="form-control form-control-inline input-medium default-date-picker" value="{{ $userinfo->birthday }}" readonly/>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                             @if(!empty( $userinfo->qq))
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-2 control-label">QQ</label>
+                                                    <div class="col-md-9 col-sm-10">
+                                                        <input type="text" class="form-control" value="{{ $userinfo->qq }}" readonly>
+                                                    </div>
+                                                </div>
+                                             @endif
+                                             @if(!empty($userinfo->weixin))
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-2 control-label">微信号</label>
+                                                    <div class="col-md-9 col-sm-10">
+                                                        <input type="text" class="form-control" value="{{ $userinfo->weixin }}" readonly>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-md-6 col-sm-2 control-label">毕业院校</label>
-                                            <div class="col-md-6 col-sm-10">
-                                                <input type="text" class="form-control" value="{{ $userinfo->graduateschool }}" name="school" >
-                                            </div>
+                                        <div class="col-md-6">
+                                            @if(!empty( $province ))
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-2 control-label">所在城市</label>
+                                                    <div class="col-md-9 col-sm-10">
+                                                        <input type="text" class="form-control" value="{{ $province }}，{{ $city }}市" readonly>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @if(!empty($userinfo->graduateschool))
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-2 control-label">毕业院校</label>
+                                                    <div class="col-md-9 col-sm-10">
+                                                        <input type="text" class="form-control" value="{{ $userinfo->graduateschool }}" readonly>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @if(!empty($userinfo->company))
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-2 control-label">公司名称</label>
+                                                    <div class="col-md-9 col-sm-10">
+                                                        <input type="text" class="form-control" value="{{ $userinfo->company }}" readonly>
+                                                    </div>
+                                                </div>
+                                             @endif
+                                             @if(!empty($userinfo->occupation))
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-2 control-label">职业</label>
+                                                    <div class="col-md-9 col-sm-10">
+                                                        <input type="text" class="form-control" value="{{ $userinfo->occupation }}" readonly>
+                                                    </div>
+                                                </div>
+                                             @endif
+                                             @if(!empty($userinfo->site))
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-2 control-label">个人主页</label>
+                                                    <div class="col-md-9 col-sm-10">
+                                                        <input type="url" class="form-control" value="{{ $userinfo->site }}" readonly>
+                                                    </div>
+                                                </div>
+                                             @endif
+                                             @if(!empty($userinfo->bio))
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-2 control-label">个性签名</label>
+                                                    <div class="col-md-9 col-sm-10">
+                                                        <textarea rows="4" class="form-control" readonly>{{ $userinfo->bio }}</textarea>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-md-6 col-sm-2 control-label">公司名称</label>
-                                            <div class="col-md-6 col-sm-10">
-                                                <input type="text" class="form-control" value="{{ $userinfo->company }}" name="company" >
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-6 col-sm-2 control-label">职业</label>
-                                            <div class="col-md-6 col-sm-10">
-                                                <input type="text" class="form-control" value="{{ $userinfo->occupation }}" name="profession" >
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-6 col-sm-2 control-label">个性签名</label>
-                                            <div class="col-md-6 col-sm-10">
-                                                <textarea rows="4" class="form-control" name="signature" >{{ $userinfo->bio }}</textarea>
-                                            </div>
-                                        </div>
-
+                                    </div>
                                 </div>
                             </div>
                         </div>

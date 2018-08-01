@@ -54,11 +54,11 @@
                                 <div class="aw-item" data-history-id="8">
                                     <div class="mod-head">
                                         <a data-id="1" class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}"><img src="{{ $data->avator }}" ></a>
+                                        <h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$data->question_id]) }}">{{ $data->title  }}</a></h4>
                                         <p class="text-color-999">
                                             <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->user_name }}</a> 发表了问答 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}} •
                                             <a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->question_id]) }}" class="text-color-999">{{ $data->countcomment }} 个评论</a>
                                         </p>
-                                        <h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$data->question_id]) }}">{{ $data->title  }}</a></h4>
                                     </div>
                                 </div>
                                 @endforeach
@@ -75,9 +75,9 @@
                         <div class="aw-mod side-nav">
                             <div class="mod-body">
                                 <ul>
-                                    <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" ><i class="icon icon-home"></i>最新文章</a></li>
-                                    <li><a href="{{ url('/person/answer') }}" class="active"><i class="icon icon-home"></i>最新问答</a></li>
-                                    <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'0']) }}"><i class="icon icon-draft"></i>我的草稿</a></li>
+                                    <li><a href="{{ URL::action('Front\PersonController@post') }}" ><i class="icon icon-home"></i>我的文章</a></li>
+                                    <li><a href="{{ url('/person/answer') }}"  class="active"><i class="icon icon-home"></i>我的问答</a></li>
+                                    <li><a href="{{ URL::action('Front\PersonController@post') }}"><i class="icon icon-draft"></i>我的视频</a></li>
                                     <li><a href="{{ url('/person/postCollect') }}"><i class="icon icon-favor"></i>我的收藏</a></li>
                                     <li><a href="{{ url('/person/topicAttention') }}" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
                                     <li><a href="" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>

@@ -5,52 +5,40 @@
             <div class="row">
                 <div class="aw-content-wrap clearfix">
                     <div class="col-sm-12 col-md-9 aw-main-content">
-                        <!-- 新消息通知 -->
-                        <div class="aw-mod aw-notification-box collapse" id="index_notification">
-                            <div class="mod-head common-head">
-                                <h2>
-                                    <span class="pull-right"><a href="http://ask.com/?/account/setting/privacy/#notifications" class="text-color-999"><i class="icon icon-setting"></i> 通知设置</a></span>
-                                    <i class="icon icon-bell"></i>新通知<em class="badge badge-important" name="notification_unread_num">0</em>
-                                </h2>
-                            </div>
-                            <div class="mod-body">
-                                <ul id="notification_list"></ul>
-                            </div>
-                            <div class="mod-footer clearfix">
-                                <a href="javascript:;" onclick="AWS.Message.read_notification(false, 0, false);" class="pull-left btn btn-mini btn-default">我知道了</a>
-                                <a href="http://ask.com/?/notifications/" class="pull-right btn btn-mini btn-success">查看所有</a>
-                            </div>
-                        </div>
-                        <!-- end 新消息通知 -->
-
-                        <a name="c_contents"></a>
                         <div class="aw-mod clearfix">
                             <div class="mod-head common-head">
-                                <h2 id="main_title">关注的话题</h2>
+                                <h2 >关注的话题</h2>
                             </div>
-                            <div class="mod-body aw-feed-list clearfix aw-topic-list" id="main_contents">
-
-                                @foreach($topics as $topic)
-                                <div class="aw-item">
-                                    <!-- 话题图片 -->
-                                    <a class="img aw-border-radius-5" href="{{ URL::action('Front\TopicController@detail', ['id'=>$topic->tag_id]) }}" ><img style="width: 50px;" src="{{ $topic->tag_thumb }}" ></a>
-                                    <!-- end 话题图片 -->
-                                    <p class="clearfix">
-                                        <!-- 话题内容 -->
-                                        <span class="topic-tag"><a class="text" href="{{ URL::action('Front\TopicController@detail', ['id'=>$topic->tag_id]) }}" >{{ $topic->tag_name }}</a></span>
-                                        <!-- end 话题内容 -->
-                                    </p>
-                                    <p class="text-color-999">
-                                        <span>{{ $topic->tag_watchs }} 个关注</span>
-                                        <span>{{ $topic->tag_posts }} 个文章</span>
-                                        <span>{{ $topic->tag_questions }} 个问答</span>
-                                    </p>
+                            <div class="mod-body aw-feed-list" >
+                                <div class="row">
+                                    @foreach($topics as $tag )
+                                        <div class="col-md-6" style="margin-top: 16px;">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <a class="img aw-border-radius-5" href="{{ URL::action('Front\TopicController@detail', ['id'=>$tag->tag_id]) }}">
+                                                        <img style="width:100%;" src="{{ $tag->tag_thumb }}" alt="{{ $tag->tag_name }}">
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <p class="clearfix" >
+                                                        <a class="text" href="{{ URL::action('Front\TopicController@detail', ['id'=>$tag->tag_id]) }}">{{ $tag->tag_name }}</a>
+                                                    </p>
+                                                    <p class="text-color-999">
+                                                        <span>{{ $tag->tag_watchs }} 个关注</span>
+                                                        <span> • </span>
+                                                        <span>{{ $tag->tag_posts }} 个文章</span>
+                                                        <span> • </span>
+                                                        <span>{{ $tag->tag_questions }} 个问答</span>
+                                                        <span> • </span>
+                                                        <span>{{ $tag->tag_videos }} 个视频</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach()
                                 </div>
-                                @endforeach()
                             </div>
                             <div class="paginate" style="text-align:center;">{{ $topics->links() }}</div>
-                            <div class="mod-footer">
-                            </div>
                         </div>
                     </div>
                     <!-- 侧边栏 -->
@@ -59,8 +47,8 @@
                         <div class="aw-mod side-nav">
                             <div class="mod-body">
                                 <ul>
-                                    <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}"  ><i class="icon icon-home"></i>最新文章</a></li>
-                                    <li><a href="{{ url('/person/answer') }}" ><i class="icon icon-home"></i>最新问答</a></li>
+                                    <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}"  ><i class="icon icon-home"></i>我的文章</a></li>
+                                    <li><a href="{{ url('/person/answer') }}" ><i class="icon icon-home"></i>我的问答</a></li>
                                     <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'0']) }}"><i class="icon icon-draft"></i>我的草稿</a></li>
                                     <li><a href="{{ url('/person/postCollect') }}"><i class="icon icon-favor"></i>我的收藏</a></li>
                                     <li><a href="{{ url('/person/topicAttention') }}" class="active"><i class="icon icon-mytopic"></i>我关注的话题</a></li>

@@ -59,7 +59,6 @@
                                                             <p>
                                                                 <a class="aw-question-tags" href="{{ URL::action('Front\PostController@cate',['cid'=>$data->cate_id]) }}">{{ $data->cate_name }}</a>
                                                                 <span>&nbsp;</span><span class="text-color-999"> {{ $data->countcomment }} 个评论 • {{ $data->hits }} 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
-                                                                <span class="text-color-999 related-topic collapse"> • 来自相关话题</span>
                                                             </p>
                                                         </div>
                                                     </div>

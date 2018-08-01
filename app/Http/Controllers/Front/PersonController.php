@@ -50,6 +50,8 @@ class PersonController extends Controller
 	    		'min'=>':attribute至少:min个字节长',
 	    		'max'=>':attribute超出限制',
 	    		'url'=>'网站地址错误',
+                'regex'=>':attribute格式错误',
+                'numeric'=>':attribute格式错误',
 	    		],[
 	    		'realname'=>'真实姓名',
 	    		'email'=>'邮箱',
@@ -57,8 +59,7 @@ class PersonController extends Controller
 	    		'url'=>'个人主页',
 	    		'qq'=>'qq号']);
 	    	//更新数据
-	      	DB::table('users')->where('id', Auth::id())
-	      					  ->update([
+	      	$result = DB::table('users')->where('id', Auth::id())->update([
 					          	'realname'=>$request->get('realname'),
 					          	'email'=>$request->get('email'),
 					          	'mobile'=>$request->get('mobile'),
@@ -74,7 +75,12 @@ class PersonController extends Controller
 					          	'occupation'=>$request->get('profession'),
 					          	'bio'=>$request->get('signature')
 				          		]);
-            return redirect()->back()->withErrors(['success'=>'更新成功']);
+            if($result)
+            {
+                return redirect()->back()->withErrors(['success'=>'更新成功']);
+            }else{
+                return redirect()->back();
+            }
     	}
     	
     }
@@ -166,50 +172,62 @@ class PersonController extends Controller
     {
     	$this->validate($request, [
     			'cid'=>$request->get('cid') != null ?'required|numeric|exists:category,id':'',
+                'status'=>$request->get('status') != null ?'required|numeric|min:0|max:1':'',
     	]);
-    	if($request->get('status','-1') >= 0)
-    	{
-    		if(!empty($request->get('cid')))
-    		{
-    			//查询该分类下的发布文章
-    			$datas = PostModel::lists(Auth::id(),$request->get('status'),$request->get('cid'));
-    		}else{
-    			$datas = PostModel::lists(Auth::id(),$request->get('status'));
-    		}
-    		//查询该用户发布文章的分类
-    		$cateIds = DB::table('posts')->where('user_id','=',Auth::id())->pluck('cate_id');
-    		$cates = DB::table('category')->whereIn('id', $cateIds)->get();
-    		return view('ask.person.post',['datas'=>$datas,'cates'=>$cates,'cid'=>$request->get('cid')?$request->get('cid'):'','status'=>$request->get('status')]);
-    	}else{
-    		//只查询分类
-    		if(!empty($request->get('cid')))
-    		{
-    			//查询该分类下的发布文章
-    			$datas = DB::table('posts')
-				->leftjoin('users', 'posts.user_id', '=', 'users.id')
-				->select('posts.id as post_id',
-						'posts.title as title',
-						'users.name as author',
-						'users.id as user_id',
-                        'users.avator as avator',
-						'posts.excerpt as excerpt',
-						'posts.content as content',
-						'posts.thumb as thumb',
-						'posts.created_at as created_at',
-						'posts.comments as countcomment',
-						'posts.status as status'
-						)
-				->where('posts.user_id','=',Auth::id())
-				->where('posts.cate_id','=',$request->get('cid'))
-				->paginate('15');
-    		}else{
-    			$datas = PostModel::lists(Auth::id());
-    		}
-    	}
+        //未发布文章
+        if($request->get('status') == '0'){
+            $datas = DB::table('posts')
+                ->leftjoin('users', 'posts.user_id', '=', 'users.id')
+                ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
+                ->where('posts.status',$request->get('status'))
+                ->where('posts.user_id',Auth::id())
+                ->select('posts.id as post_id',
+                    'posts.title as title',
+                    'users.name as author',
+                    'users.avator as avator',
+                    'posts.user_id as user_id',
+                    'posts.cate_id as cateid',
+                    'posts.excerpt as excerpt',
+                    'posts.content as content',
+                    'posts.thumb as thumb',
+                    'posts.status as status',
+                    'posts.created_at as created_at',
+                    'posts.comments as countcomment'
+                )->orderBy('posts.created_at','desc')->paginate('16');
+            //查询该用户发布文章的分类
+            $cateIds = DB::table('posts')->where('user_id','=',Auth::id())->pluck('cate_id');
+            $cates = DB::table('category')->whereIn('id', $cateIds)->get();
+            return view('ask.person.post',['datas'=>$datas,'cates'=>$cates,'cid'=>$request->get('cid')?$request->get('cid'):'','status'=>$request->get('status')]);
+        }
+        //分类文章
+        if(!empty($request->get('cid')))
+        {
+            //查询该分类下的发布文章
+            $datas = DB::table('posts')
+                ->leftjoin('users', 'posts.user_id', '=', 'users.id')
+                ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
+                ->where('posts.cate_id',$request->get('cid'))
+                ->where('posts.user_id',Auth::id())
+                ->select('posts.id as post_id',
+                    'posts.title as title',
+                    'users.name as author',
+                    'users.avator as avator',
+                    'posts.user_id as user_id',
+                    'posts.cate_id as cateid',
+                    'posts.excerpt as excerpt',
+                    'posts.content as content',
+                    'posts.thumb as thumb',
+                    'posts.status as status',
+                    'posts.created_at as created_at',
+                    'posts.comments as countcomment'
+                )->orderBy('posts.created_at','desc')->paginate('16');
+        }else{
+            $datas = PostModel::lists(Auth::id());
+        }
     	//查询该用户发布文章的分类
     	$cateIds = DB::table('posts')->where('user_id','=',Auth::id())->pluck('cate_id');
     	$cates = DB::table('category')->whereIn('id', $cateIds)->get();
-    	return view('ask.person.post',['datas'=>$datas,'cates'=>$cates,'cid'=>$request->get('cid')?$request->get('cid'):'','status'=>$request->get('status')?$request->get('status'):'-1']);
+    	return view('ask.person.post',['datas'=>$datas,'cates'=>$cates,'cid'=>$request->get('cid')?$request->get('cid'):'','status'=>'']);
     }
 
     //我发布的问答
@@ -240,7 +258,79 @@ class PersonController extends Controller
     	$cates = DB::table('category')->whereIn('id', $cateIds)->get();
     	return view('ask.person.question',['questions'=>$questions,'cates'=>$cates,'cid'=>$request->get('cid')]);
     }
-    
+
+    //我发布的视频
+    public function video(Request $request)
+    {
+        $this->validate($request, [
+            'cid'=>$request->get('cid') != null ?'required|numeric|exists:category,id':'',
+            'status'=>$request->get('status') != null ?'required|numeric|min:0|max:1':'',
+        ]);
+        //未发布视频
+        if($request->get('status') == '0'){
+            $videos =  DB::table('videos')
+                ->leftjoin('users', 'videos.user_id', '=', 'users.id')
+                ->where('videos.user_id','=',Auth::id())
+                ->where('videos.status',$request->get('status'))
+                ->select('videos.id as id',
+                    'videos.title as title',
+                    'users.id as user_id',
+                    'users.name as author',
+                    'videos.thumb as thumb',
+                    'videos.hits as hits',
+                    'videos.status as status',
+                    'videos.comments as comments',
+                    'videos.created_at as created_at'
+                )
+                ->orderBy('videos.created_at','desc')
+                ->paginate('16');
+            //查询该用户发布视频的分类
+            $cateIds = DB::table('questions')->where('user_id','=',Auth::id())->pluck('cate_id');
+            $cates = DB::table('category')->whereIn('id', $cateIds)->get();
+            return view('ask.person.video',['videos'=>$videos,'cates'=>$cates,'cid'=>$request->get('cid'),'status'=>$request->get('status')]);
+        }
+
+        if(!empty($request->get('cid')))
+        {
+            $videos =  DB::table('videos')
+                ->leftjoin('users', 'videos.user_id', '=', 'users.id')
+                ->where('videos.cate_id','=',$request->get('cid'))
+                ->where('videos.user_id','=',Auth::id())
+                ->select('videos.id as id',
+                    'videos.title as title',
+                    'users.id as user_id',
+                    'users.name as author',
+                    'videos.thumb as thumb',
+                    'videos.hits as hits',
+                    'videos.status as status',
+                    'videos.comments as comments',
+                    'videos.created_at as created_at'
+                )
+                ->orderBy('videos.created_at','desc')
+                ->paginate('16');
+        }else{
+            $videos =  DB::table('videos')
+                ->leftjoin('users', 'videos.user_id', '=', 'users.id')
+                ->where('videos.user_id','=',Auth::id())
+                ->select('videos.id as id',
+                    'videos.title as title',
+                    'users.id as user_id',
+                    'users.name as author',
+                    'videos.thumb as thumb',
+                    'videos.hits as hits',
+                    'videos.status as status',
+                    'videos.comments as comments',
+                    'videos.created_at as created_at'
+                )
+                ->orderBy('videos.created_at','desc')
+                ->paginate('16');
+        }
+        //查询该用户发布视频的分类
+        $cateIds = DB::table('questions')->where('user_id','=',Auth::id())->pluck('cate_id');
+        $cates = DB::table('category')->whereIn('id', $cateIds)->get();
+        return view('ask.person.video',['videos'=>$videos,'cates'=>$cates,'cid'=>$request->get('cid'),'status'=>'']);
+    }
+
     //我收藏的文章
     public function postCollect(Request $request)
     {
@@ -373,6 +463,7 @@ class PersonController extends Controller
                 'tags.watchs as tag_watchs',
                 'tags.posts as tag_posts',
                 'tags.questions as tag_questions',
+                'tags.videos as tag_videos',
     			'tags.desc as tag_desc'
     	)->orderBy('tags.created_at','desc')->paginate('15');
     	return view('ask.person.topic',['topics'=>$topics]);

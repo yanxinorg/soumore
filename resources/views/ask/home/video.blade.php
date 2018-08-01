@@ -63,7 +63,7 @@
                                                         </a>
                                                         <p class="clearfix">
                                                             <li ><a class="text" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">{{ str_limit($video->title,24) }}</a></li>
-                                                            <li><span>发布时间：{{ substr($video->created_at,0,11) }}</span></li>
+                                                            <li class="text-color-999"><span>发布时间：{{ substr($video->created_at,0,11) }}</span></li>
                                                         </p>
                                                     </div>
                                                 @endforeach()

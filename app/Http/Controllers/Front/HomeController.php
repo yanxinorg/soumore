@@ -63,17 +63,17 @@ class HomeController extends Controller
         $this->userinfo = UserModel::where('id','=',$request->get('uid'))->get();
         $this->userinfo = ($this->userinfo)[0];
         //用户所在省份
-        if(!empty($this->userInfo[0]->province))
+        if(!empty($this->userinfo->province))
         {
-            $this->province = AreaModel::where('id',$this->userInfo[0]->province)->pluck('name')->toArray();
+            $this->province = AreaModel::where('id',$this->userinfo->province)->pluck('name')->toArray();
             $this->province = $this->province[0];
         }else{
             $this->province = '';
         }
         //用户所在城市
-        if(!empty($this->userInfo[0]->city))
+        if(!empty($this->userinfo->city))
         {
-            $this->city = AreaModel::where('id',$this->userInfo[0]->city)->pluck('name')->toArray();
+            $this->city = AreaModel::where('id',$this->userinfo->city)->pluck('name')->toArray();
             $this->city = $this->city[0];
         }else{
             $this->city = '';
@@ -91,9 +91,9 @@ class HomeController extends Controller
             ]);
         }
         //文章信息
-        $this->posts = PostModel::lists($request->get('uid'));
+        $this->posts = PostModel::lists($request->get('uid'),'1');
         //文章总数
-        $this->countPost = PostModel::where('user_id',$request->get('uid'))->count();
+        $this->countPost = PostModel::where('user_id',$request->get('uid'))->where('status','1')->count();
         //问答
         $this->questions =  DB::table('questions')
             ->leftjoin('users', 'users.id', '=', 'questions.user_id')

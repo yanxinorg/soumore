@@ -76,7 +76,7 @@ use App\Models\Common\AttentionModel;
 																<img style="width:180px;height: 120px;" src="{{ $video->thumb }}" alt="{{ $video->title }}">
 															</a>
 															<li style="padding-top: 10px;" ><a class="text" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">{{ str_limit($video->title,24) }}</a></li>
-															<li><span>发布时间：{{ substr($video->created_at,0,11) }}</span></li>
+															<li class="text-color-999"><span>发布时间：{{ substr($video->created_at,0,11) }}</span></li>
 														</div>
 													@endforeach()
 												</div>

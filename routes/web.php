@@ -99,10 +99,7 @@ Route::get('/home/answer', 'Front\HomeController@answer');
 Route::get('/home/info', 'Front\HomeController@info');
 //加载省份城市信息
 Route::get('/common/loadCity/{province_id}', 'Common\CommonController@loadCity')->where(['province_id'=>'[0-9]+']);
-//个人发布的文章
-Route::get('/person/post', 'Front\PersonController@post');
-//个人发布的问答
-Route::get('/person/answer', 'Front\PersonController@answer');
+
 //分类筛选
 Route::get('/cate', 'Front\CategoryController@index');
 //文章分类筛选
@@ -171,6 +168,12 @@ Route::group(['middleware' => 'authed'], function () {
 		Route::post('/person/storeLetter', 'PersonController@storeLetter');
 		//私信展开
 		Route::get('/person/letterDetail', 'PersonController@letterDetail');
+        //我发布的文章
+        Route::get('/person/post', 'PersonController@post');
+        //我发布的问答
+        Route::get('/person/answer', 'PersonController@answer');
+        //我发布的视频
+        Route::get('/person/video', 'PersonController@video');
 		//我收藏的文章
 		Route::get('/person/postCollect', 'PersonController@postCollect');
 		//我收藏的问答
