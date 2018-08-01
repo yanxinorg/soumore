@@ -32,17 +32,24 @@
 					<div class="col-sm-12 col-md-9 aw-main-content">
                             <div class="mod-head common-head">
                                 <h2><a href="{{ url('/person/letter') }}"  class="pull-right btn btn-mini btn-success">私信列表</a>
-                                    <span class="pull-right aw-setting-inbox hidden-xs"></span>写私信
+                                    <span class="pull-right aw-setting-inbox hidden-xs"></span>写私信<span style="font-size: 12px;">(只能发送自己关注的人)</span>
                                 </h2>
                             </div>
 								<div class="panel">
 									<div class="panel-body">
 										<form class="form-horizontal" method="post" action="{{ url('/person/storeLetter') }}" >
+											@if ($errors->has('error'))
+												<div class="form-group">
+													<div class="col-md-12 col-sm-12">
+														<div class="alert alert-error ">
+															{{ $errors->first('error') }}
+														</div>
+													</div>
+												</div>
+											@endif
 											{{ csrf_field() }}
 											<div class="form-group" hidden>
-												<div class="col-lg-12">
-													<input name="from_user_id" value="{{ Auth::id() }}" class="form-control" >
-												</div>
+												<input name="from_user_id" value="{{ Auth::id() }}" class="form-control" >
 											</div>
 											<div class="form-group">
 												<div class="col-md-4">

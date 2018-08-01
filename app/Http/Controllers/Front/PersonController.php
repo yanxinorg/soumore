@@ -632,7 +632,12 @@ class PersonController extends Controller
     //写私信
     public function sendLetter()
     {
-    	$users = UserModel::where('id','!=',Auth::id())->get();
+        //只有自己关注的人才能发私信
+        $users = DB::table('attentions')
+            ->leftjoin('users', 'attentions.source_id', '=', 'users.id')
+            ->where('attentions.source_type','=','1')
+            ->where('attentions.user_id','=',Auth::id())
+            ->select('users.id as id','users.name as name','users.avator as avator')->orderBy('attentions.created_at','desc')->get();
     	return view('ask.person.sendLetter',['users'=>$users]);
     }
     
@@ -640,13 +645,23 @@ class PersonController extends Controller
     {
     	if($request->get('from_user_id') != Auth::id())
     	{
-    		return redirect()->back();
+    		return redirect()->back()->withErrors(['error'=>'私信发送失败，请稍后重试！(提示：只能发送给自己关注的人)']);
     	}
     	$this->validate($request, [
     		'from_user_id'=>'required|numeric|exists:users,id',
     		'to_user_id'=>'required|numeric|exists:users,id',
     		'content'=>'required|min:1',
     	]);
+        //验证是否已经关注该用户
+        $isAtten = DB::table('attentions')->where([
+            'user_id'=>Auth::id(),
+            'source_id'=>$request->get('to_user_id'),
+            'source_type'=>'1',
+        ])->exists();
+        if(!$isAtten)
+        {
+            return redirect()->back()->withErrors(['error'=>'私信发送失败，请稍后重试！(提示：只能发送给自己关注的人)']);
+        }
     	MessageModel::create([
     		'from_user_id'=>$request->get('from_user_id'),
     		'to_user_id'=>$request->get('to_user_id'),
