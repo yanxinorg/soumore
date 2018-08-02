@@ -1,24 +1,23 @@
 @extends('layouts.ask')
 @section('content')
 @section('css')
-    <style>
-        video::-internal-media-controls-download-button {
-            display:none;
-        }
+<style>
+    video::-internal-media-controls-download-button {
+        display:none;
+    }
 
-        video::-webkit-media-controls-enclosure {
-            overflow:hidden;
-        }
+    video::-webkit-media-controls-enclosure {
+        overflow:hidden;
+    }
 
-        video::-webkit-media-controls-panel {
-            width: calc(100% + 30px);
-        }
-        .aw-article-content .aw-question-detail h1 {
-            max-width: 90%;
-        }
-    </style>
-    @parent
-    <link href="{{ asset('ask/zoom/dist/zoomify.min.css') }}" rel="stylesheet">
+    video::-webkit-media-controls-panel {
+        width: calc(100% + 30px);
+    }
+    .aw-article-content .aw-question-detail h1 {
+        max-width: 90%;
+    }
+</style>
+@parent
 @stop
 <?php
 use App\Models\Common\UserModel;

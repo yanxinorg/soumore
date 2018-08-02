@@ -127,7 +127,8 @@ class PersonController extends Controller
     //个人头像修改
     public function thumb()
     {
-    	return view('ask.person.thumb');
+        $thumbSrc = DB::table('users')->where('id',Auth::id())->pluck('avator');
+    	return view('ask.person.thumb',['thumbSrc'=>$thumbSrc[0]]);
     }
 
     //保持个人头像
