@@ -61,15 +61,37 @@ class IndexController extends Controller
         $latestQuestions = DB::table('questions')
             ->leftjoin('users', 'users.id', '=', 'questions.user_id')
             ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
-            ->select('users.id as user_id','users.avator as avator','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id','questions.comments as comments','questions.views as views', 'questions.content as content','questions.created_at as created_at')
-            ->orderBy('questions.created_at','desc')
+            ->select(
+                'users.id as user_id',
+                'users.avator as avator',
+                'users.name as author',
+                'category.id as cate_id',
+                'category.name as cate_name',
+                'questions.title as title',
+                'questions.id as question_id',
+                'questions.comments as comments',
+                'questions.views as views',
+                'questions.content as content',
+                'questions.created_at as created_at'
+            )->orderBy('questions.created_at','desc')
             ->limit('5')->get();
         //热门问答
         $hotQuestions = DB::table('questions')
             ->leftjoin('users', 'users.id', '=', 'questions.user_id')
             ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
-            ->select('users.id as user_id','users.avator as avator','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id','questions.comments as comments','questions.views as views', 'questions.content as content','questions.created_at as created_at')
-            ->orderBy('questions.likes','desc')
+            ->select(
+                'users.id as user_id',
+                'users.avator as avator',
+                'users.name as author',
+                'category.id as cate_id',
+                'category.name as cate_name',
+                'questions.title as title',
+                'questions.id as question_id',
+                'questions.comments as comments',
+                'questions.views as views',
+                'questions.content as content',
+                'questions.created_at as created_at'
+            )->orderBy('questions.likes','desc')
             ->limit('5')->get();
         //最新资源
         $btDatas = TorrentModel::orderBy('create_time','desc')->paginate('5');
@@ -81,7 +103,17 @@ class IndexController extends Controller
         $hotUsers = UserModel::limit('15')->get();
         //公告
         $notice = NoticeModel::orderBy('created_at','desc')->limit("1")->get();
-        return view('ask.index.index',['recomPost'=>$recomPost,'hotPost'=>$hotPost,'latestQuestions'=>$latestQuestions,'hotQuestions'=>$hotQuestions,'btDatas'=>$btDatas,'hotDatas'=>$hotDatas,'notice'=>$notice[0],'hotTags'=>$hotTags,'hotUsers'=>$hotUsers]);
+        return view('ask.index.index',[
+            'recomPost'=>$recomPost,
+            'hotPost'=>$hotPost,
+            'latestQuestions'=>$latestQuestions,
+            'hotQuestions'=>$hotQuestions,
+            'btDatas'=>$btDatas,
+            'hotDatas'=>$hotDatas,
+            'notice'=>$notice[0],
+            'hotTags'=>$hotTags,
+            'hotUsers'=>$hotUsers
+        ]);
     }
 
 

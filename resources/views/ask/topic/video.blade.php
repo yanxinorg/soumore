@@ -46,9 +46,9 @@ use App\Models\Common\AttentionModel;
 								<!-- tab 切换 -->
 								<ul class="nav nav-tabs aw-nav-tabs hidden-xs">
 									<li ><a href="{{ URL::action('Front\TopicController@detail', ['id'=>$tid]) }}" >关于话题</a></li>
-									<li ><a href="{{ URL::action('Front\TopicController@post', ['id'=>$tid]) }}" >文章<span class="badge">{{ $datas->posts }}</span></a></li>
-									<li ><a href="{{ URL::action('Front\TopicController@question', ['id'=>$tid]) }}" >问答<span class="badge">{{ $datas->questions }}</span></a></li>
-    								<li class="active"><a href="{{ URL::action('Front\TopicController@video', ['id'=>$tid]) }}" >视频<span class="badge">{{ $datas->videos }}</span></a></li>
+									<li ><a href="{{ URL::action('Front\TopicController@post', ['id'=>$tid]) }}" >文章<span class="badge">{{ $countposts }}</span></a></li>
+									<li ><a href="{{ URL::action('Front\TopicController@question', ['id'=>$tid]) }}" >问答<span class="badge">{{ $countquestions }}</span></a></li>
+    								<li class="active"><a href="{{ URL::action('Front\TopicController@video', ['id'=>$tid]) }}" >视频<span class="badge">{{ $countvideos }}</span></a></li>
 									<div class="aw-search-bar pull-right hidden-xs">
 										<i class="icon icon-search"></i>
 										<input type="text" id="question-input" class="search-query form-control" placeholder="搜索...">
@@ -71,7 +71,7 @@ use App\Models\Common\AttentionModel;
 											<div class="mod-body">
 												<div class="row">
 													@foreach($videos as $video )
-														<div class="col-md-3"  style="margin-bottom: 24px;">
+														<div class="col-md-3"  style="margin: 0px auto;margin-bottom: 24px;text-align: center">
 															<a class="img aw-border-radius-5" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">
 																<img style="width:180px;height: 120px;" src="{{ $video->thumb }}" alt="{{ $video->title }}">
 															</a>

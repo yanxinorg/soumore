@@ -115,7 +115,7 @@ class TopicController extends Controller
             ->limit('15')->get()->toArray();
         //关注该话题的总人数
         $attenCount = DB::table('attentions')->where('source_type','3')->where('source_id',$request->get('id'))->count();
-        return view('ask.topic.post',['datas'=>$datas[0],'posts'=>$posts,'attenUsers'=>$attenUser,'attenCount'=>$attenCount,'tid'=>$request->get('id')]);
+        return view('ask.topic.post',['datas'=>$datas[0],'posts'=>$posts,'countposts'=>self::countContent($request->get('id'))['countposts'],'countquestions'=>self::countContent($request->get('id'))['countquestions'],'countvideos'=>self::countContent($request->get('id'))['countvideos'],'attenUsers'=>$attenUser,'attenCount'=>$attenCount,'tid'=>$request->get('id')]);
     }
 
     //该话题问答
@@ -148,7 +148,7 @@ class TopicController extends Controller
             ->limit('15')->get()->toArray();
         //关注该话题的总人数
         $attenCount = DB::table('attentions')->where('source_type','3')->where('source_id',$request->get('id'))->count();
-        return view('ask.topic.question',['datas'=>$datas[0],'questions'=>$questions,'attenUsers'=>$attenUser,'attenCount'=>$attenCount,'tid'=>$request->get('id')]);
+        return view('ask.topic.question',['datas'=>$datas[0],'countposts'=>self::countContent($request->get('id'))['countposts'],'countquestions'=>self::countContent($request->get('id'))['countquestions'],'countvideos'=>self::countContent($request->get('id'))['countvideos'],'questions'=>$questions,'attenUsers'=>$attenUser,'attenCount'=>$attenCount,'tid'=>$request->get('id')]);
     }
 
     //该话题文章
@@ -189,7 +189,32 @@ class TopicController extends Controller
             ->limit('15')->get()->toArray();
         //关注该话题的总人数
         $attenCount = DB::table('attentions')->where('source_type','3')->where('source_id',$request->get('id'))->count();
-        return view('ask.topic.video',['datas'=>$datas[0],'videos'=>$videos,'attenUsers'=>$attenUser,'attenCount'=>$attenCount,'tid'=>$request->get('id')]);
+        return view('ask.topic.video',['datas'=>$datas[0],'countposts'=>self::countContent($request->get('id'))['countposts'],'countquestions'=>self::countContent($request->get('id'))['countquestions'],'countvideos'=>self::countContent($request->get('id'))['countvideos'],'videos'=>$videos,'attenUsers'=>$attenUser,'attenCount'=>$attenCount,'tid'=>$request->get('id')]);
 
+    }
+
+    private static function countContent($id)
+    {
+        //该话题文章总数
+        $countPosts = DB::table('posts')
+            ->leftjoin('other_tag', 'posts.id', '=','other_tag.source_id' )
+            ->where('other_tag.source_type','=','1')
+            ->where('other_tag.tags_id','=',$id)
+            ->where('posts.status','=','1')
+            ->count();
+        //该话题问答总数
+        $countQuestions = DB::table('questions')
+            ->leftjoin('other_tag', 'questions.id', '=','other_tag.source_id' )
+            ->where('other_tag.source_type','=','2')
+            ->where('other_tag.tags_id','=',$id)
+            ->count();
+        //该话题视频总数
+        $countVideos = DB::table('videos')
+            ->leftjoin('other_tag', 'videos.id', '=','other_tag.source_id' )
+            ->where('other_tag.source_type','=','3')
+            ->where('other_tag.tags_id','=',$id)
+            ->where('videos.status','=','1')
+            ->count();
+        return ['countposts'=>$countPosts,'countquestions'=>$countQuestions,'countvideos'=>$countVideos];
     }
 }
