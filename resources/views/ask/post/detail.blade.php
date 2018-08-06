@@ -168,7 +168,10 @@ use App\Models\Common\UserModel;
                             </div>
                             <!-- 回复编辑器 -->
                         @endauth
+
+
                 </div>
+
                 <!-- 侧边栏 -->
                     <div class="col-sm-12 col-md-3 aw-side-bar hidden-sm hidden-xs">
                        <div class="aw-mod user-detail">
