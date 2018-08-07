@@ -41,17 +41,9 @@ use App\Models\Common\AttentionModel;
 								<!-- tab 切换 -->
 								<ul class="nav nav-tabs aw-nav-tabs hidden-xs">
 									<li class="active"><a href="{{ URL::action('Front\TopicController@detail', ['id'=>$tid]) }}" >关于话题</a></li>
-									<li><a href="{{ URL::action('Front\TopicController@post', ['id'=>$tid]) }}" >文章<span class="badge">{{ $datas->posts }}</span></a></li>
-									<li><a href="{{ URL::action('Front\TopicController@question', ['id'=>$tid]) }}" >问答<span class="badge">{{ $datas->questions }}</span></a></li>
-    								<li><a href="{{ URL::action('Front\TopicController@video', ['id'=>$tid]) }}" >视频<span class="badge">{{ $datas->videos }}</span></a></li>
-									<div class="aw-search-bar pull-right hidden-xs">
-										<i class="icon icon-search"></i>
-										<input type="text" id="question-input" class="search-query form-control" placeholder="搜索...">
-										<div class="aw-dropdown">
-											<p class="title">没有找到相关结果</p>
-											<ul class="aw-dropdown-list"></ul>
-										</div>
-									</div>
+									<li><a href="{{ URL::action('Front\TopicController@post', ['id'=>$tid]) }}" >文章<span class="badge">{{ $countposts }}</span></a></li>
+									<li><a href="{{ URL::action('Front\TopicController@question', ['id'=>$tid]) }}" >问答<span class="badge">{{ $countquestions }}</span></a></li>
+    								<li><a href="{{ URL::action('Front\TopicController@video', ['id'=>$tid]) }}" >视频<span class="badge">{{ $countvideos }}</span></a></li>
 								</ul>
 								<!-- end tab 切换 -->
 							</div>
@@ -62,7 +54,7 @@ use App\Models\Common\AttentionModel;
 							<div class="tab-content">
 								<div class="tab-pane active" id="about">
 									<div class="aw-topic-detail-about text-color-666 markitup-box">
-										{{ $datas->desc }}
+										{!! $datas->desc !!}
 									</div>
 								</div>
 							</div>
@@ -73,16 +65,6 @@ use App\Models\Common\AttentionModel;
 
 				<!-- 侧边栏 -->
 				<div class="col-sm-12 col-md-3 aw-side-bar hidden-xs">
-					<!-- 话题描述 -->
-					<div class="aw-mod aw-text-align-justify">
-						<div class="mod-head">
-							<h3>话题描述</h3>
-						</div>
-						<div class="mod-body">
-							<a href="http://ask.com/?/topic/edit/2" class="icon-inverse"><i class="icon icon-edit"></i> 添加描述</a>
-						</div>
-					</div>
-					<!-- end 话题描述 -->
 					<!-- xx人关注该话题 -->
 					<div class="aw-mod topic-status">
 						<div class="mod-head">
@@ -97,20 +79,6 @@ use App\Models\Common\AttentionModel;
 						</div>
 					</div>
 					<!-- end xx人关注该话题 -->
-
-					<div class="aw-mod">
-						<div class="mod-head">
-							<h3>管理</h3>
-						</div>
-						<div class="mod-body">
-							<ul>
-								<li><a href="http://ask.com/?/topic/edit/2">编辑话题</a></li>
-								<li><a href="http://ask.com/?/topic/manage/2">管理话题</a></li>
-								<li><a href="javascript:;" onclick="">锁定话题</a></li>
-								<li><a href="javascript:;" onclick="">删除话题</a></li>
-							</ul>
-						</div>
-					</div>
 				</div>
 				<!-- end 侧边栏 -->
 			</div>

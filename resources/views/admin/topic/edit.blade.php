@@ -5,6 +5,7 @@
 <link href="{{ asset('back/admin/css/fileinput.min.css') }} " rel="stylesheet" type="text/css" />
 <link href="{{ asset('back/admin/css/style.css') }} " rel="stylesheet">
 <div class="wrapper wrapper-content animated fadeInRight">
+@include('UEditor::head')
  <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
@@ -106,10 +107,10 @@
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                	<label class="col-sm-2 control-label">备注</label>
+                                	<label class="col-sm-2 control-label">话题描述</label>
                                      <div class="col-sm-6">
-                                    	<textarea class="form-control" rows="3" name="desc">{{ $topic->desc }}</textarea>
-                                     </div> 
+                                         <script id="container" name="desc" type="text/plain" >{!! $topic->desc !!}</script>
+                                     </div>
                                 </div>
                                 
                                <div class="hr-line-dashed"></div>
@@ -134,6 +135,29 @@
         $(document).ready(function(){
 // 			头像上传初始化
 			$("#input-id").fileinput();
+            //编辑器初始化
+            var editor = UE.getEditor('container',{
+                //这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
+                toolbars:[['bold', 'italic', 'underline','superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist','cleardoc', '|',
+                    'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+                    'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|','indent', '|','justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|',
+                    'link','simpleupload', 'insertimage', 'emotion','insertvideo','attachment','insertcode','horizontal','spechars',
+                    'searchreplace',]],
+                //focus时自动清空初始化时的内容
+                autoClearinitialContent:true,
+                //关闭字数统计
+                wordCount:false,
+                //关闭elementPath
+                elementPathEnabled:false,
+                //默认的编辑区域高度
+                initialFrameHeight:400,
+                autoClearinitialContent:true
+            });
+            // 设置初始化内容
+            var proinfo=$("#container").text();
+            editor.ready(function() {//编辑器初始化完成再赋值
+                editor.setContent(proinfo);  //赋值给UEditor
+            });
         });
         var config = {
                 '.chosen-select'           : {},

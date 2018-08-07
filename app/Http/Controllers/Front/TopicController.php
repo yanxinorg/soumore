@@ -14,9 +14,9 @@ class TopicController extends Controller
     //首页
     public function index(Request $request)
     {
-    	$tags = TagModel::paginate('14');
+    	$tags = TagModel::where('status','1')->paginate('14');
         //今日话题
-        $todayTag = TagModel::orderBy('created_at','desc')->limit(1)->get()->toArray();
+        $todayTag = TagModel::where('status','1')->orderBy('created_at','desc')->limit(1)->get()->toArray();
         //话题分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
 
@@ -28,12 +28,11 @@ class TopicController extends Controller
     {
         $this->validate($request, ['cid'=>'required|numeric|exists:category,id']);
         
-        $tags = TagModel::where('cate_id',$request->get('cid'))->paginate('14');
+        $tags = TagModel::where(['cate_id'=>$request->get('cid'),'status'=>'1'])->paginate('14');
         //话题分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
         //今日话题
-        $todayTag = TagModel::orderBy('created_at','desc')->limit(1)->get()->toArray();
-
+        $todayTag = TagModel::where('status','1')->orderBy('created_at','desc')->limit(1)->get()->toArray();
 
         return view('ask.topic.index',['tags'=>$tags,'todayTag'=>$todayTag[0],'cates'=>$cates,'cid'=>$request->get('cid')]);
     }
@@ -41,7 +40,7 @@ class TopicController extends Controller
     
     public function hot()
     {
-    	$tags = TagModel::orderBy('watchs','desc')->paginate('20');
+    	$tags = TagModel::where('status','1')->orderBy('watchs','desc')->paginate('20');
     	return view('wenda.topic.hot',['tags'=>$tags]);
     }
     
@@ -51,10 +50,10 @@ class TopicController extends Controller
         $this->validate($request, [
     			'id'=>'required|numeric|exists:tags,id'
     	]);
-        $datas = TagModel::where('id',$request->get('id'))->get();
+        $datas = TagModel::where(['id'=>$request->get('id'),'status'=>'1'])->get();
         //相关话题
-        $attenCateId = TagModel::where('id',$request->get('id'))->pluck('cate_id');
-        $relateAttens = TagModel::where('cate_id',$attenCateId)->get();
+        $attenCateId = TagModel::where(['id'=>$request->get('id'),'status'=>'1'])->pluck('cate_id');
+        $relateAttens = TagModel::where(['cate_id'=>$attenCateId,'status'=>'1'])->get();
         //关注该话题的人
         $attenUser = DB::table('attentions')
     		->leftjoin('users', 'attentions.user_id', '=', 'users.id')
@@ -68,7 +67,7 @@ class TopicController extends Controller
     		->limit('15')->get()->toArray();
         //关注该话题的总人数
         $attenCount = DB::table('attentions')->where('source_type','3')->where('source_id',$request->get('id'))->count();
-        return view('ask.topic.detail',['datas'=>$datas[0],'relateAttens'=>$relateAttens,'attenUsers'=>$attenUser,'attenCount'=>$attenCount,'tid'=>$request->get('id')]);
+        return view('ask.topic.detail',['datas'=>$datas[0],'countposts'=>self::countContent($request->get('id'))['countposts'],'countquestions'=>self::countContent($request->get('id'))['countquestions'],'countvideos'=>self::countContent($request->get('id'))['countvideos'],'relateAttens'=>$relateAttens,'attenUsers'=>$attenUser,'attenCount'=>$attenCount,'tid'=>$request->get('id')]);
     }
 
     //该话题文章
@@ -101,7 +100,7 @@ class TopicController extends Controller
             )
             ->orderBy('posts.created_at','desc')
             ->paginate('15');
-        $datas = TagModel::where('id',$request->get('id'))->get();
+        $datas = TagModel::where(['id'=>$request->get('id'),'status'=>'1'])->get();
         //关注该话题的人
         $attenUser = DB::table('attentions')
             ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
@@ -134,7 +133,7 @@ class TopicController extends Controller
             ->select('users.id as user_id','users.avator as avator','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id','questions.comments as comments','questions.views as views', 'questions.content as content','questions.created_at as created_at')
             ->orderBy('questions.created_at','desc')
             ->paginate('15');
-        $datas = TagModel::where('id',$request->get('id'))->get();
+        $datas = TagModel::where(['id'=>$request->get('id'),'status'=>'1'])->get();
         //关注该话题的人
         $attenUser = DB::table('attentions')
             ->leftjoin('users', 'attentions.user_id', '=', 'users.id')
@@ -175,7 +174,7 @@ class TopicController extends Controller
             )
             ->orderBy('videos.created_at','desc')
             ->paginate('16');
-        $datas = TagModel::where('id',$request->get('id'))->get();
+        $datas = TagModel::where(['id'=>$request->get('id'),'status'=>'1'])->get();
         //关注该话题的人
         $attenUser = DB::table('attentions')
             ->leftjoin('users', 'attentions.user_id', '=', 'users.id')

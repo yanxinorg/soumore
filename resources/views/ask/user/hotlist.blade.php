@@ -24,9 +24,8 @@ use App\Models\Common\AttentionModel;
                                     </p>
                                     <p class="text-color-999 signature"></p>
                                     <div class="meta">
-                                        <span><i class="icon icon-prestige"></i>威望 <b>0</b></span>
-                                        <span><i class="icon icon-agree"></i>赞同 <b>0</b></span>
-                                        <span><i class="icon icon-thank"></i>感谢 <b>0</b></span>
+                                        <span><i class="icon icon-prestige"></i>金币 <b>0</b></span>
+                                        <span><i class="icon icon-agree"></i>经验 <b>0</b></span>
                                     </div>
 
                                    {{--关注用户--}}
@@ -35,9 +34,6 @@ use App\Models\Common\AttentionModel;
                                         @if( AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$user->id,'source_type'=>'1'])->exists())
                                             <div class="operate">
                                                 <a class="follow btn btn-normal btn-success active" href="{{ URL::action('Front\AttentionController@cancelUser', ['uid'=>$user->id]) }}">取消关注</a>
-                                                <a class="text-color-999">问Ta</a>
-                                                <em class="text-color-999">•</em>
-                                                <a class="text-color-999">私信</a>
                                             </div>
                                         @else
                                             @if(Auth::id() !== $user->id )

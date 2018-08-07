@@ -49,59 +49,40 @@ use App\Models\Common\AttentionModel;
 									<li ><a href="{{ URL::action('Front\TopicController@post', ['id'=>$tid]) }}" >文章<span class="badge">{{ $countposts }}</span></a></li>
 									<li ><a href="{{ URL::action('Front\TopicController@question', ['id'=>$tid]) }}" >问答<span class="badge">{{ $countquestions }}</span></a></li>
     								<li class="active"><a href="{{ URL::action('Front\TopicController@video', ['id'=>$tid]) }}" >视频<span class="badge">{{ $countvideos }}</span></a></li>
-									<div class="aw-search-bar pull-right hidden-xs">
-										<i class="icon icon-search"></i>
-										<input type="text" id="question-input" class="search-query form-control" placeholder="搜索...">
-										<div class="aw-dropdown">
-											<p class="title">没有找到相关结果</p>
-											<ul class="aw-dropdown-list"></ul>
-										</div>
-									</div>
 								</ul>
 								<!-- end tab 切换 -->
 							</div>
 						</div>
-
-							<!-- tab 切换内容 -->
-							<div class="aw-user-center-tab">
-								<div class="tab-content">
-									<div class="tab-pane active" >
-										<div class="aw-mod">
-											<div class="mod-head">　</div>
-											<div class="mod-body">
-												<div class="row">
-													@foreach($videos as $video )
-														<div class="col-md-3"  style="margin: 0px auto;margin-bottom: 24px;text-align: center">
-															<a class="img aw-border-radius-5" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">
-																<img style="width:180px;height: 120px;" src="{{ $video->thumb }}" alt="{{ $video->title }}">
-															</a>
-															<li style="padding-top: 10px;" ><a class="text" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">{{ str_limit($video->title,24) }}</a></li>
-															<li class="text-color-999"><span>发布时间：{{ substr($video->created_at,0,11) }}</span></li>
-														</div>
-													@endforeach()
-												</div>
+						<!-- tab 切换内容 -->
+						<div class="aw-user-center-tab">
+							<div class="tab-content">
+								<div class="tab-pane active" >
+									<div class="aw-mod">
+										<div class="mod-head">　</div>
+										<div class="mod-body">
+											<div class="row">
+												@foreach($videos as $video )
+													<div class="col-md-3"  style="margin: 0px auto;margin-bottom: 24px;text-align: center">
+														<a class="img aw-border-radius-5" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">
+															<img style="width:180px;height: 120px;" src="{{ $video->thumb }}" alt="{{ $video->title }}">
+														</a>
+														<li style="padding-top: 10px;" ><a class="text" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">{{ str_limit($video->title,24) }}</a></li>
+														<li class="text-color-999"><span>发布时间：{{ substr($video->created_at,0,11) }}</span></li>
+													</div>
+												@endforeach()
 											</div>
-											<div class="paginate" style="text-align:center;">{!! $videos->appends(array('id'=>$tid))->render() !!}</div>
 										</div>
+										<div class="paginate" style="text-align:center;">{!! $videos->appends(array('id'=>$tid))->render() !!}</div>
 									</div>
 								</div>
 							</div>
-							<!-- end tab 切换内容 -->
+						</div>
+						<!-- end tab 切换内容 -->
 					</div>
 				</div>
 
 				<!-- 侧边栏 -->
 				<div class="col-sm-12 col-md-3 aw-side-bar hidden-xs">
-					<!-- 话题描述 -->
-					<div class="aw-mod aw-text-align-justify">
-						<div class="mod-head">
-							<h3>话题描述</h3>
-						</div>
-						<div class="mod-body">
-							<a href="http://ask.com/?/topic/edit/2" class="icon-inverse"><i class="icon icon-edit"></i> 添加描述</a>
-						</div>
-					</div>
-					<!-- end 话题描述 -->
 					<!-- xx人关注该话题 -->
 					<div class="aw-mod topic-status">
 						<div class="mod-head">
@@ -116,20 +97,6 @@ use App\Models\Common\AttentionModel;
 						</div>
 					</div>
 					<!-- end xx人关注该话题 -->
-
-					<div class="aw-mod">
-						<div class="mod-head">
-							<h3>管理</h3>
-						</div>
-						<div class="mod-body">
-							<ul>
-								<li><a href="http://ask.com/?/topic/edit/2">编辑话题</a></li>
-								<li><a href="http://ask.com/?/topic/manage/2">管理话题</a></li>
-								<li><a href="javascript:;" onclick="">锁定话题</a></li>
-								<li><a href="javascript:;" onclick="">删除话题</a></li>
-							</ul>
-						</div>
-					</div>
 				</div>
 				<!-- end 侧边栏 -->
 			</div>

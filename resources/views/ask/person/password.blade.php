@@ -88,58 +88,6 @@
                                 </ul>
                             </div>
                         </div>
-
-                        <!-- 可能感兴趣的人/或话题 -->
-                        <div class="aw-mod interest-user">
-                            <div class="mod-head"><h3>可能感兴趣的人或话题</h3></div>
-                            <div class="mod-body">
-                                <dl>
-                                    <dt class="pull-left aw-border-radius-5">
-                                        <a href="http://ask.com/?/people/admin" data-id="4" class="aw-user-name"><img alt="admin" src="./动态 - WeCenter_files/avatar-min-img.png"></a>
-                                    </dt>
-                                    <dd class="pull-left">
-                                        <a href="http://ask.com/?/people/admin" data-id="4" class="aw-user-name"><span>admin</span></a>
-                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), &#39;user&#39;, 4);AWS.ajax_request(G_BASE_URL + &#39;/account/ajax/clean_user_recommend_cache/&#39;);"></a>
-                                        <p class="signature"></p>
-                                        <p></p>
-                                    </dd>
-                                </dl>
-                                <dl>
-                                    <dt class="pull-left aw-border-radius-5">
-                                        <a href="http://ask.com/?/people/admin" data-id="2" class="aw-user-name"><img alt="admin" src="./动态 - WeCenter_files/avatar-min-img.png"></a>
-                                    </dt>
-                                    <dd class="pull-left">
-                                        <a href="http://ask.com/?/people/admin" data-id="2" class="aw-user-name"><span>admin</span></a>
-                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), &#39;user&#39;, 2);AWS.ajax_request(G_BASE_URL + &#39;/account/ajax/clean_user_recommend_cache/&#39;);"></a>
-                                        <p class="signature"></p>
-                                        <p></p>
-                                    </dd>
-                                </dl>
-                                <dl>
-                                    <dt class="pull-left aw-border-radius-5">
-                                        <a href="http://ask.com/?/people/admin" data-id="3" class="aw-user-name"><img alt="admin" src="./动态 - WeCenter_files/avatar-min-img.png"></a>
-                                    </dt>
-                                    <dd class="pull-left">
-                                        <a href="http://ask.com/?/people/admin" data-id="3" class="aw-user-name"><span>admin</span></a>
-                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), &#39;user&#39;, 3);AWS.ajax_request(G_BASE_URL + &#39;/account/ajax/clean_user_recommend_cache/&#39;);"></a>
-                                        <p class="signature"></p>
-                                        <p></p>
-                                    </dd>
-                                </dl>
-                                <dl>
-                                    <dt class="pull-left aw-border-radius-5">
-                                        <a href=""><img alt="默认话题" src=""></a>
-                                    </dt>
-                                    <dd class="pull-left">
-                                        <span class="topic-tag">
-                                            <a href="" class="text">默认话题</a>
-                                        </span>&nbsp;
-                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), &#39;topic&#39;, 1);AWS.ajax_request(G_BASE_URL + &#39;/account/ajax/clean_user_recommend_cache/&#39;);"></a>
-                                        <p></p>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </div>
                     </div>
                     <!-- end 侧边栏 -->
                 </div>

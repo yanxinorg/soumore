@@ -66,7 +66,7 @@
                                     <dd class="pull-left"></dd>
                                 </dl>
                                 <!-- 话题描述 -->
-                                <p><span></span>...<a href="{{ URL::action('Front\TopicController@detail', ['id'=>$todayTag['id']]) }}">进入话题 »</a></p>
+                                <p><a href="{{ URL::action('Front\TopicController@detail', ['id'=>$todayTag['id']]) }}">新增话题 »</a></p>
                                 <!-- end 话题描述 -->
                             </div>
                         </div>

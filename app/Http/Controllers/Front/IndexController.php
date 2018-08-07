@@ -98,7 +98,7 @@ class IndexController extends Controller
         $hotDatas = TorrentModel::orderBy('requests','desc')->paginate('5');
 
         //热门话题
-        $hotTags = TagModel::orderBy('watchs','desc')->limit('15')->get();
+        $hotTags = TagModel::where('status','1')->orderBy('watchs','desc')->limit('15')->get();
         //热门用户
         $hotUsers = UserModel::limit('15')->get();
         //公告
