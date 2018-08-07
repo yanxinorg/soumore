@@ -459,6 +459,20 @@ class HomeController extends Controller
     //个人主页详细信息
     public function info(Request $request)
     {
+        //是否关注
+        if(empty(Auth::id()))
+        {
+            $this->islooked = false;
+        }else{
+            //查看该用户是否已经关注该主页用户
+            if(AttentionModel::where(['user_id'=>Auth::id(),'source_id'=>$this->uid,'source_type'=>'1'])->exists())
+            {
+                //关注了该用户
+                $this->islooked = true;
+            }else{
+                $this->islooked = false;
+            }
+        }
         return view('ask.home.info', [
             'userinfo'=>$this->userinfo,
             'province'=>$this->province,

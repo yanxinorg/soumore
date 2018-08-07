@@ -16,7 +16,7 @@
                                 </span>
                                 @elseif( $islooked )
                                     <span class="pull-right operate">
-                                        <a class="text-color-999" onclick=""><i class="icon icon-inbox"></i> 私信</a><a onclick="" class="text-color-999 hidden-xs"><i class="icon icon-at"></i> 问Ta</a><a href="{{ URL::action('Front\AttentionController@cancelUser', ['uid'=>$uid]) }}" class="follow btn btn-normal btn-success active" ><span>取消关注</span></a>
+                                        <a class="text-color-999" href="{{ url('/person/sendLetter') }}"><i class="icon icon-inbox"></i> 私信</a><a href="{{ URL::action('Front\AttentionController@cancelUser', ['uid'=>$uid]) }}" class="follow btn btn-normal btn-success active" ><span>取消关注</span></a>
                                     </span>
                                  @else
                                      <span class="pull-right operate">
