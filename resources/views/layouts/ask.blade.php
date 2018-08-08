@@ -56,13 +56,12 @@
                     <nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li><a href="{{ url('/index') }}" class="{{ (Request::getPathinfo() == '/index')  ? 'active':'' }}"><i class="icon icon-about"></i>首页</a></li>
-                            <li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-file"></i>文章</a></li>
+                            <li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-file"></i>发现</a></li>
                             <li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
                             <li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i>话题</a></li>
                             <li><a href="{{ url('/video') }}" class="{{ (Request::getPathinfo() == '/video')  ? 'active':'' }}"><i class="icon icon-video"></i>视频</a></li>
                             <li><a href="{{ url('/torrent') }}" class="{{ (Request::getPathinfo() == '/torrent')  ? 'active':'' }}"><i class="icon icon-log"></i>bt资源</a></li>
-                            <li><a href="{{ url('/dynamic') }}"><i class="icon icon-home"></i> 动态</a></li>
-                            <li><a href="{{ URL::action('Front\PersonController@post', ['status'=>'1']) }}" class="{{ (Request::getPathinfo() == '/person') ? 'active':'' }}"><i class="icon icon-list"></i>发现</a></li>
+                            <li><a href="{{ url('/dynamic') }}" class=""><i class="icon icon-home"></i>动态</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -138,7 +137,7 @@
 					<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
 						<ul class="nav navbar-nav">
                             <li><a href="{{ url('/index') }}" class="{{ (Request::getPathinfo() == '/index')  ? 'active':'' }}"><i class="icon icon-about"></i>首页</a></li>
-							<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-file"></i> 文章</a></li>
+							<li><a href="{{ url('/post') }}" class="{{ (Request::getPathinfo() == '/post')  ? 'active':'' }}"><i class="icon icon-file"></i> 发现</a></li>
 							<li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
 							<li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i> 话题</a></li>
                             <li><a href="{{ url('/video') }}" class="{{ (Request::getPathinfo() == '/video')  ? 'active':'' }}"><i class="icon icon-video"></i>视频</a></li>

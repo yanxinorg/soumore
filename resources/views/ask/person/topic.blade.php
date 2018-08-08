@@ -47,6 +47,7 @@
                         <div class="aw-mod side-nav">
                             <div class="mod-body">
                                 <ul>
+                                    <li><a href="{{ url('/dynamic') }}" ><i class="icon icon-home"></i>最新动态</a></li>
                                     <li><a href="{{ url('/person/post') }}"  ><i class="icon icon-home"></i>我的文章</a></li>
                                     <li><a href="{{ url('/person/answer') }}" ><i class="icon icon-home"></i>我的问答</a></li>
                                     <li><a href="{{ url('/person/video') }}"><i class="icon icon-draft"></i>我的视频</a></li>

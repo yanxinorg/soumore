@@ -49,12 +49,12 @@
 						<div class="aw-mod side-nav">
 							<div class="mod-body">
 								<ul>
+									<li><a href="{{ url('/dynamic') }}" ><i class="icon icon-home"></i>最新动态</a></li>
 									<li><a href="{{ URL::action('Front\PersonController@post') }}" ><i class="icon icon-home"></i>我的文章</a></li>
-									<li><a href="{{ url('/person/answer') }}"><i class="icon icon-home"></i>我的问答</a></li>
+									<li><a href="{{ url('/person/answer') }}"  ><i class="icon icon-home"></i>我的问答</a></li>
 									<li><a href="{{ url('/person/video') }}"><i class="icon icon-draft"></i>我的视频</a></li>
 									<li><a href="{{ url('/person/postCollect') }}"><i class="icon icon-favor"></i>我的收藏</a></li>
-									<li><a href="{{ url('/person/topicAttention') }}" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
-									<li><a href="" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
+									<li><a href="{{ url('/person/topicAttention') }}" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我的话题</a></li>
 								</ul>
 							</div>
 						</div>
@@ -63,8 +63,7 @@
 							<div class="mod-body">
 								<ul>
 									<li><a href="{{ url('/topic') }}"><i class="icon icon-topic"></i>所有话题</a></li>
-									<li><a href="http://ask.com/?/people/"><i class="icon icon-user"></i>所有用户</a></li>
-									<li><a href="http://ask.com/?/invitation/"><i class="icon icon-inviteask"></i>邀请好友加入 <em class="badge">10</em></a></li>
+									<li><a href="{{ url('/user/hot') }}"><i class="icon icon-user"></i>所有用户</a></li>
 								</ul>
 							</div>
 						</div>

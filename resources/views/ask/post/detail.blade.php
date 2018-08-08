@@ -10,6 +10,13 @@ use App\Models\Common\UserModel;
     .aw-article-content .aw-question-detail h1 {
         max-width: 90%;
     }
+    .content{
+        width: 100%;
+        height: auto;
+        word-wrap:break-word;
+        word-break:break-all;
+        overflow: hidden;
+    }
 </style>
 <div class="aw-container-wrap">
     <div class="container1">
@@ -53,9 +60,7 @@ use App\Models\Common\UserModel;
                             	</div>
                             </div>
                             <div class="mod-body">
-                                    <div class="content" >
-                                        {!! $datas->content !!}
-                                    </div>
+                                    <div class="content">{!! $datas->content !!}</div>
                                     <div class="meta clearfix">
                                             @auth()
                                             <div class="aw-article-vote pull-left ">
@@ -168,8 +173,6 @@ use App\Models\Common\UserModel;
                             </div>
                             <!-- 回复编辑器 -->
                         @endauth
-
-
                 </div>
 
                 <!-- 侧边栏 -->

@@ -54,15 +54,14 @@
 								<div class="aw-common-list">
 									@foreach($questions as $data)
 									<div class="aw-item article" data-topic-id="3,">
-											<a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" rel="nofollow"><img src="{{ $data->avator }}" alt="{{ $data->author }}"></a>
-											<div class="aw-question-content">
-												<h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$data->question_id]) }}">{{ $data->title }}</a></h4>
-												<p>
-													<a class="aw-question-tags" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$data->cate_id]) }}">{{ $data->cate_name  }}</a>
-													<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->author }}</a> <span class="text-color-999">发表了文章 • {{ $data->comments }}个评论 • {{ $data->views }} 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
-													<span class="text-color-999 related-topic collapse"> • 来自相关话题</span>
-												</p>
-											</div>
+										<a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" rel="nofollow"><img src="{{ $data->avator }}" alt="{{ $data->author }}"></a>
+										<div class="aw-question-content">
+											<h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$data->question_id]) }}">{{ $data->title }}</a></h4>
+											<p>
+												<a class="aw-question-tags" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$data->cate_id]) }}">{{ $data->cate_name  }}</a>
+												<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->author }}</a> <span class="text-color-999">发布了提问 • {{ $data->comments }}个评论 • {{ $data->views }} 次浏览 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
+											</p>
+										</div>
 									</div>
 									@endforeach()
 									<div class="paginate" style="text-align:center;">{!! $questions->appends(array('cid'=>$cid,'tid'=>$tid))->render() !!}</div>
