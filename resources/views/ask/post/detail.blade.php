@@ -11,11 +11,7 @@ use App\Models\Common\UserModel;
         max-width: 90%;
     }
     .content{
-        width: 100%;
-        height: auto;
-        word-wrap:break-word;
-        word-break:break-all;
-        overflow: hidden;
+        overflow: auto;
     }
 </style>
 <div class="aw-container-wrap">

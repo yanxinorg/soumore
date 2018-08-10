@@ -10,6 +10,9 @@ use App\Models\Common\UserModel;
     .aw-article-content .aw-question-detail h1 {
         max-width: 90%;
     }
+    .content{
+        overflow: auto;
+    }
 </style>
 <div class="aw-container-wrap">
     <div class="container1">
@@ -33,35 +36,35 @@ use App\Models\Common\UserModel;
                             	<h1>{{ $datas->title }}</h1>
                                <div class="operate clearfix">
                                @if($datas->user_id == Auth::id())
-                                   <!-- 下拉菜单 -->
-                                       <div class="btn-group pull-left ">
-                                           <a class="btn btn-gray dropdown-toggle" data-toggle="dropdown" href="javascript:;">...</a>
-                                           <div class="aw-dropdown pull-right" role="menu" aria-labelledby="dropdownMenu">
-                                               <ul class="aw-dropdown-list">
-                                                   <li>
-                                                       <a href="">修改记录</a>
-                                                   </li>
-                                                   <li>
-                                                       <a href="{{ URL::action('Front\QuestionController@edit', ['id'=>$datas->question_id]) }}" >编辑问题</a>
-                                                   </li>
-                                                   <li>
-                                                       <a href="javascript:;" onClick="del({{ $datas->question_id }});">删除问题</a>
-                                                   </li>
-                                                   <li class="hidden-xs">
-                                                       <a href="javascript:;" onclick="">问题重定向</a>
-                                                   </li>
-                                                   <li>
-                                                       <a href="javascript:;" title="">IP 地址</a>
-                                                   </li>
-                                                   <li><a href="javascript:;" onclick="">推荐问题</a>
-                                                   </li>
-                                                   <li>
-                                                       <a href="javascript:;" onclick="">添加到帮助中心</a>
-                                                   </li>
-                                               </ul>
-                                           </div>
+                               <!-- 下拉菜单 -->
+                                   <div class="btn-group pull-left ">
+                                       <a class="btn btn-gray dropdown-toggle" data-toggle="dropdown" href="javascript:;">...</a>
+                                       <div class="aw-dropdown pull-right" role="menu" aria-labelledby="dropdownMenu">
+                                           <ul class="aw-dropdown-list">
+                                               <li>
+                                                   <a href="">修改记录</a>
+                                               </li>
+                                               <li>
+                                                   <a href="{{ URL::action('Front\QuestionController@edit', ['id'=>$datas->question_id]) }}" >编辑问题</a>
+                                               </li>
+                                               <li>
+                                                   <a href="javascript:;" onClick="del({{ $datas->question_id }});">删除问题</a>
+                                               </li>
+                                               <li class="hidden-xs">
+                                                   <a href="javascript:;" onclick="">问题重定向</a>
+                                               </li>
+                                               <li>
+                                                   <a href="javascript:;" title="">IP 地址</a>
+                                               </li>
+                                               <li><a href="javascript:;" onclick="">推荐问题</a>
+                                               </li>
+                                               <li>
+                                                   <a href="javascript:;" onclick="">添加到帮助中心</a>
+                                               </li>
+                                           </ul>
                                        </div>
-                                       <!-- end 下拉菜单 -->
+                                   </div>
+                                   <!-- end 下拉菜单 -->
                                @endif
                             	</div>
                             </div>
