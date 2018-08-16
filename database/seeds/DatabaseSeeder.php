@@ -11,10 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-    	//先调用一些初始化数据
-    	$this->call(InitSeeder::class);
-    	//填充城市数据
+        //填充城市数据
         $this->call(AreaSeeder::class);
-       
+    	//先调用一些初始化数据
+    	$this->call(Rbac::class);
     }
 }

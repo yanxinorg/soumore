@@ -133,7 +133,7 @@
 									@foreach($hotUsers as $user)
                             		 <dl>
                             			<dt class="pull-left aw-border-radius-5">
-                            				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}"><img  src="{{ $user->avator }}-sm_thumb_small"></a>
+                            				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}"><img  src="{{ $user->avator }}-sm_thumb_small" onerror="this.src='{{ asset('ask/img/default_avator.jpg') }}'"></a>
                             			</dt>
                             			<dd class="pull-left">
                             				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}" data-id="2" class="aw-user-name">{{ $user->name  }}</a>

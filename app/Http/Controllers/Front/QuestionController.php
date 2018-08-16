@@ -89,11 +89,11 @@ class QuestionController extends Controller
                     DB::table("tags")->where('id',$tag)->increment("questions");
 	    			OtherTagModel::updateOrCreate([
 	    					'source_id'=>$questionId->id,
-	    					'tags_id'=>$tag,
+	    					'tag_id'=>$tag,
                             'source_type'=>'2'
 	    			],[
 	    					'source_id'=>$questionId->id,
-	    					'tags_id'=>$tag,
+	    					'tag_id'=>$tag,
                             'source_type'=>'2'
 	    			]);
 	    		}
@@ -128,7 +128,7 @@ class QuestionController extends Controller
     			)->orderBy('questions.created_at','desc')->get();
     	//标签
     	$tagss = DB::table('other_tag')
-    			->leftjoin('tags', 'other_tag.tags_id', '=', 'tags.id')
+    			->leftjoin('tags', 'other_tag.tag_id', '=', 'tags.id')
     			->where('other_tag.source_id','=',$request->get('id'))
                 ->where('other_tag.source_type','=','2')
     			->select(
@@ -358,7 +358,7 @@ class QuestionController extends Controller
     		->leftjoin('questions', 'other_tag.source_id', '=', 'questions.id')
     		->whereIn('other_tag.source_id', $questionIds)
             ->where('other_tag.source_type','=','2')
-    		->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+    		->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
     		//去重
     		$tagIds = array_unique($tagIds);
     		$tags = DB::table('tags')
@@ -368,7 +368,7 @@ class QuestionController extends Controller
     		$questions = DB::table('questions')
     		->leftjoin('users', 'questions.user_id', '=', 'users.id')
     		->leftjoin('other_tag', 'questions.id', '=', 'other_tag.source_id')
-    		->where('other_tag.tags_id','=',$request->get('tid'))
+    		->where('other_tag.tag_id','=',$request->get('tid'))
             ->where('other_tag.source_type','=','2')
     		->where('questions.cate_id','=',$request->get('cid'))
     		->select(
@@ -427,7 +427,7 @@ class QuestionController extends Controller
     			'user_id'=>Auth::id()
     	])->delete();
         // 标签问答删除
-        DB::table('tags')->leftjoin('other_tag', 'other_tag.tags_id', '=', 'tags.id')->where('other_tag.source_id',$request->get('id'))->where('other_tag.source_type','2')->where('tags.questions','>', 0)->decrement('questions');
+        DB::table('tags')->leftjoin('other_tag', 'other_tag.tag_id', '=', 'tags.id')->where('other_tag.source_id',$request->get('id'))->where('other_tag.source_type','2')->where('tags.questions','>', 0)->decrement('questions');
     	if($result)
     	{
     		$data = [
@@ -455,7 +455,7 @@ class QuestionController extends Controller
     	])->get();
     	//该问答选中的标签
     	$selectedTags = DB::table('other_tag')
-    	->leftjoin('tags', 'other_tag.tags_id', '=', 'tags.id')
+    	->leftjoin('tags', 'other_tag.tag_id', '=', 'tags.id')
     	->where('other_tag.source_id','=',$request->get('id'))
         ->where('other_tag.source_type','=','2')
         ->pluck('tags.id as id')->toArray();
@@ -500,7 +500,7 @@ class QuestionController extends Controller
     	//更新
     	$questionId = QuestionModel::updateOrCreate(array('id' => $request->get('id')), $data);
         //话题文章总数自减一
-        $tagIds = OtherTagModel::where(['source_id'=>$request->get('id'),'source_type'=>'2'])->pluck('tags_id');
+        $tagIds = OtherTagModel::where(['source_id'=>$request->get('id'),'source_type'=>'2'])->pluck('tag_id');
         if(!($tagIds->isEmpty()))
         {
             foreach ($tagIds as $k)
@@ -522,11 +522,11 @@ class QuestionController extends Controller
                 DB::table('tags')->where('id',$tag)->increment("questions");
     			OtherTagModel::updateOrCreate([
     					'source_id'=>$questionId->id,
-    					'tags_id'=>$tag,
+    					'tag_id'=>$tag,
                         'source_type'=>'2'
     			],[
     					'source_id'=>$questionId->id,
-    					'tags_id'=>$tag,
+    					'tag_id'=>$tag,
                         'source_type'=>'2'
     			]);
     		}

@@ -20,7 +20,7 @@ class TopicController extends Controller
         //话题分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
 
-    	return view('ask.topic.index',['tags'=>$tags,'todayTag'=>$todayTag[0],'cates'=>$cates,'cid'=>'']);
+    	return view('ask.topic.index',['tags'=>$tags,'todayTag'=>$todayTag,'cates'=>$cates,'cid'=>'']);
     }
     
     //话题分类筛选列表
@@ -80,7 +80,7 @@ class TopicController extends Controller
             ->leftjoin('users', 'posts.user_id', '=', 'users.id')
             ->leftjoin('other_tag', 'posts.id', '=', 'other_tag.source_id')
             ->leftjoin('category', 'category.id', '=', 'posts.cate_id')
-            ->where('other_tag.tags_id','=',$request->get('id'))
+            ->where('other_tag.tag_id','=',$request->get('id'))
             ->where('other_tag.source_type','=','1')
             ->where('posts.status','=','1')
             ->select('posts.id as post_id',
@@ -128,7 +128,7 @@ class TopicController extends Controller
             ->leftjoin('users', 'users.id', '=', 'questions.user_id')
             ->leftjoin('other_tag', 'other_tag.source_id', '=', 'questions.id')
             ->leftjoin('category', 'questions.cate_id', '=', 'category.id')
-            ->where('other_tag.tags_id','=',$request->get('id'))
+            ->where('other_tag.tag_id','=',$request->get('id'))
             ->where('other_tag.source_type','=','2')
             ->select('users.id as user_id','users.avator as avator','users.name as author','category.id as cate_id','category.name as cate_name', 'questions.title as title','questions.id as question_id','questions.comments as comments','questions.views as views', 'questions.content as content','questions.created_at as created_at')
             ->orderBy('questions.created_at','desc')
@@ -161,7 +161,7 @@ class TopicController extends Controller
             ->leftjoin('users', 'users.id', '=', 'videos.user_id')
             ->leftjoin('other_tag', 'other_tag.source_id', '=', 'videos.id')
             ->leftjoin('category', 'videos.cate_id', '=', 'category.id')
-            ->where('other_tag.tags_id','=',$request->get('id'))
+            ->where('other_tag.tag_id','=',$request->get('id'))
             ->where('other_tag.source_type','=','3')
             ->select('videos.id as id',
                 'videos.title as title',
@@ -198,20 +198,20 @@ class TopicController extends Controller
         $countPosts = DB::table('posts')
             ->leftjoin('other_tag', 'posts.id', '=','other_tag.source_id' )
             ->where('other_tag.source_type','=','1')
-            ->where('other_tag.tags_id','=',$id)
+            ->where('other_tag.tag_id','=',$id)
             ->where('posts.status','=','1')
             ->count();
         //该话题问答总数
         $countQuestions = DB::table('questions')
             ->leftjoin('other_tag', 'questions.id', '=','other_tag.source_id' )
             ->where('other_tag.source_type','=','2')
-            ->where('other_tag.tags_id','=',$id)
+            ->where('other_tag.tag_id','=',$id)
             ->count();
         //该话题视频总数
         $countVideos = DB::table('videos')
             ->leftjoin('other_tag', 'videos.id', '=','other_tag.source_id' )
             ->where('other_tag.source_type','=','3')
-            ->where('other_tag.tags_id','=',$id)
+            ->where('other_tag.tag_id','=',$id)
             ->where('videos.status','=','1')
             ->count();
         return ['countposts'=>$countPosts,'countquestions'=>$countQuestions,'countvideos'=>$countVideos];

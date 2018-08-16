@@ -33,7 +33,7 @@
 					<div class="col-sm-12 col-md-9 aw-main-content">
 						<!-- tab 切换 -->
 						<ul class="nav nav-tabs aw-nav-tabs active">
-							@role('administrators')
+							@role('admins')
 							<li><a href="{{ url('/video/create') }}">视频</a></li>
 							@endrole
 							<li><a href="{{ url('/post/create') }}">文章</a></li>

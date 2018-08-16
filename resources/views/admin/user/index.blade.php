@@ -49,10 +49,9 @@
                                         <th>角色</th>
                                         <th>注册时间</th>
                                         <th>状态</th>
-                                        <th class="text-right" >操作</th>
+                                        <th >操作</th>
                                     </tr>
                                 </thead>
-                                
                                 <tbody>
                                 @foreach($users as $user)
                                 <tr>
@@ -67,20 +66,24 @@
                                     </td>
                                     <td>{{ $user->created_at }}</td>
                                     <td>
-	                                    <select class="form-control" id="user_status">
-            					            @if($user->status == 1)
-            		                            <option selected value="{{ $user->id }}"><span class="label label-primary">启用</span></option>
-            		                            <option value="{{ $user->id }}"><span class="label label-danger">禁用</span></option>
-            								@else
-            									<option value="{{ $user->id }}"><span class="label label-primary">启用</span></option>
-            									<option selected value="{{ $user->id }}"><span class="label label-danger">禁用</span></option>
-            								@endif
-	                                    </select>
+                                        @if(empty($user->admin))
+                                            <select class="form-control" id="user_status">
+                                                @if($user->status == 1)
+                                                    <option selected value="{{ $user->id }}"><span class="label label-primary">启用</span></option>
+                                                    <option value="{{ $user->id }}"><span class="label label-danger">禁用</span></option>
+                                                @else
+                                                    <option value="{{ $user->id }}"><span class="label label-primary">启用</span></option>
+                                                    <option selected value="{{ $user->id }}"><span class="label label-danger">禁用</span></option>
+                                                @endif
+                                            </select>
+                                        @endif
                                     </td>
                                     <td class="text-right footable-visible footable-last-column">
                                         <div class="btn-group">
                                             <a class="btn btn-white" href="{{ URL::action('Admin\UserController@edit', ['id'=>$user->id]) }}"><i class="fa fa-edit"></i></a>
+                                            @if(empty($user->admin))
                                             <a class="btn btn-white " href="javascript:void(0);" onclick="del({{ $user->id }});"><i class="fa fa-trash"></i></a>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

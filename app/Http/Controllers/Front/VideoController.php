@@ -157,11 +157,11 @@ class VideoController extends Controller
                 DB::table("tags")->where('id',$tag)->increment("videos");
                 OtherTagModel::updateOrCreate([
                     'source_id'=>$videoId->id,
-                    'tags_id'=>$tag,
+                    'tag_id'=>$tag,
                     'source_type'=>'3'
                 ],[
                     'source_id'=>$videoId->id,
-                    'tags_id'=>$tag,
+                    'tag_id'=>$tag,
                     'source_type'=>'3'
                 ]);
             }
@@ -198,7 +198,7 @@ class VideoController extends Controller
             )->orderBy('videos.created_at','desc')->get();
         //标签
         $tagss = DB::table('other_tag')
-            ->leftjoin('tags', 'other_tag.tags_id', '=', 'tags.id')
+            ->leftjoin('tags', 'other_tag.tag_id', '=', 'tags.id')
             ->where('other_tag.source_id','=',$request->get('id'))
             ->where('other_tag.source_type','=','3')
             ->select(
@@ -262,7 +262,7 @@ class VideoController extends Controller
         ])->get();
         //该视频选中的标签
         $selectedTags = DB::table('other_tag')
-            ->leftjoin('tags', 'other_tag.tags_id', '=', 'tags.id')
+            ->leftjoin('tags', 'other_tag.tag_id', '=', 'tags.id')
             ->where('other_tag.source_id','=',$request->get('id'))
             ->where('other_tag.source_type','=','3')
             ->pluck('tags.id as id')->toArray();
@@ -356,7 +356,7 @@ class VideoController extends Controller
         $videoId = VideoModel::where('id',$request->get('id'))->update($data);
 
         //原有标签视频减一
-        $orignTagIds = DB::table('other_tag')->where(['source_id'=>$request->get('id'),'source_type'=>'3'])->pluck('tags_id');
+        $orignTagIds = DB::table('other_tag')->where(['source_id'=>$request->get('id'),'source_type'=>'3'])->pluck('tag_id');
         if(!empty($orignTagIds))
         {
             DB::table('tags')
@@ -375,11 +375,11 @@ class VideoController extends Controller
                 DB::table("tags")->where('id',$tag)->increment("videos",1);
                 OtherTagModel::updateOrCreate([
                     'source_id'=>$request->get('id'),
-                    'tags_id'=>$tag,
+                    'tag_id'=>$tag,
                     'source_type'=>'3'
                 ],[
                     'source_id'=>$request->get('id'),
-                    'tags_id'=>$tag,
+                    'tag_id'=>$tag,
                     'source_type'=>'3'
                 ]);
             }
@@ -400,7 +400,7 @@ class VideoController extends Controller
         ])->delete();
         // 标签视频总数减一
         DB::table('tags')
-            ->leftjoin('other_tag', 'other_tag.tags_id', '=', 'tags.id')
+            ->leftjoin('other_tag', 'other_tag.tag_id', '=', 'tags.id')
             ->where('other_tag.source_id','=',$request->get('id'))
             ->where('other_tag.source_type','=','3')
             ->where('tags.videos', '>', 0)

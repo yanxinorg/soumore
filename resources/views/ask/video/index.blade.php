@@ -33,9 +33,9 @@
                                 <div class="mod-body clearfix">
                                     <ul>
                                         @if(empty($cid))
-                                            <li><a class="active" href="{{ URL::action('Front\VideoController@index') }}">视频分类</a></li>
+                                            <li><a class="active" href="{{ URL::action('Front\VideoController@index') }}">全部分类</a></li>
                                         @else
-                                            <li><a  href="{{ URL::action('Front\VideoController@index') }}">视频分类</a></li>
+                                            <li><a  href="{{ URL::action('Front\VideoController@index') }}">全部分类</a></li>
                                         @endif
                                         @foreach($cates as $cate)
                                             @if($cate->id == $cid)

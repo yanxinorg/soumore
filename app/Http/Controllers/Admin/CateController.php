@@ -124,7 +124,7 @@ class CateController extends Controller
     	$this->validate($request, [
     			'id'=>'required|numeric|exists:category,id'
     	]);
-    	$trees = CategoryModel::all();
+    	$trees = CategoryModel::where('id','!=',$request->get('id'))->get();
     	$trees = CommonController::treeCreate($trees);
     	$cate =  CategoryModel::where('id','=',$request->get('id'))->get();
     	return view('admin.cate.edit',[

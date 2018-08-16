@@ -13,12 +13,12 @@
     background-color: #fff;
     background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #ffffff), color-stop(50%, #f6f6f6), color-stop(52%, #ffffff), color-stop(100%, #ffffff));
     background: -webkit-linear-gradient(top, #ffffff 20%, #ffffff 50%, #ffffff 52%, #ffffff 100%);
-
 	background: -moz-linear-gradient(top, #ffffff 20%, #ffffff 50%, #eeeeee 52%, #ffffff 100%);
 	background: -o-linear-gradient(top, #ffffff 20%, #ffffff 50%, #eeeeee 52%, #ffffff 100%);
 	background: linear-gradient(top, #ffffff 20%, #ffffff 50%, #eeeeee 52%, #ffffff 100%);
 	background-clip: padding-box;
 	/* box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1); */
+
 	/* color: #444; */
 	text-decoration: none;
 	white-space: nowrap;
@@ -33,7 +33,7 @@
 					<div class="col-sm-12 col-md-9 aw-main-content">
 						<!-- tab 切换 -->
 						<ul class="nav nav-tabs aw-nav-tabs active">
-							@role('administrators')
+							@role('admins')
 							<li><a href="{{ url('/video/create') }}">视频</a></li>
 							@endrole
 							<li class="active"><a href="{{ url('/post/create') }}">文章</a></li>

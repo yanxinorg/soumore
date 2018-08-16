@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<!-- saved from url=(0031)http://ask.com/?/account/login/ -->
-<html class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
-<meta name="renderer" content="webkit">
+<html>
+<head>
 <title>注册Soumores</title>
-<link rel="stylesheet" type="text/css" href="{{ asset('ask/register_files/bootstrap.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('ask/register_files/icon.css') }}">
-<link href="{{ asset('ask/register_files/common.css') }}" rel="stylesheet" type="text/css">
-<link href="{{ asset('ask/register_files/link.css') }}" rel="stylesheet" type="text/css">
-<link href="{{ asset('ask/register_files/style.css') }}" rel="stylesheet" type="text/css">
-<link href="{{ asset('ask/register_files/register.css') }}" rel="stylesheet" type="text/css">
-<script src="{{ asset('ask/register_files/jquery.2.js') }}" type="text/javascript"></script>
-<script src="{{ asset('ask/register_files/jquery.form.js') }}" type="text/javascript"></script>
-<script src="{{ asset('ask/register_files/plug-in_module.js') }}" type="text/javascript"></script>
-<script src="{{ asset('ask/register_files/aws.js') }}" type="text/javascript"></script>
-<script type="text/javascript" src="{{ asset('ask/register_files/compatibility.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('ask/css/bootstrap.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('ask/css/icon.css') }}">
+<link href="{{ asset('ask/css/common.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('ask/css/link.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('ask/css/style.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('ask/css/register.css') }}" rel="stylesheet" type="text/css">
+<script src="{{ asset('ask/js/jquery.2.js') }}" type="text/javascript"></script>
+<script src="{{ asset('ask/js/jquery.form.js') }}" type="text/javascript"></script>
+<script src="{{ asset('ask/js/plug-in_module.js') }}" type="text/javascript"></script>
+<script src="{{ asset('ask/js/aws.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('ask/js/compatibility.js') }}"></script>
 <body screen_capture_injected="true">
 <div class="aw-register-box">
     <div class="mod-head">

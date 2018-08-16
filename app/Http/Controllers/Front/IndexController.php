@@ -93,24 +93,19 @@ class IndexController extends Controller
                 'questions.created_at as created_at'
             )->orderBy('questions.likes','desc')
             ->limit('5')->get();
-        //最新资源
-        $btDatas = TorrentModel::orderBy('create_time','desc')->paginate('5');
-        $hotDatas = TorrentModel::orderBy('requests','desc')->paginate('5');
-
         //热门话题
         $hotTags = TagModel::where('status','1')->orderBy('watchs','desc')->limit('15')->get();
         //热门用户
         $hotUsers = UserModel::limit('15')->get();
         //公告
-        $notice = NoticeModel::orderBy('created_at','desc')->limit("1")->get();
+        $notice = DB::table('notice')->orderBy('created_at', 'desc')->first();
+
         return view('ask.index.index',[
             'recomPost'=>$recomPost,
             'hotPost'=>$hotPost,
             'latestQuestions'=>$latestQuestions,
             'hotQuestions'=>$hotQuestions,
-            'btDatas'=>$btDatas,
-            'hotDatas'=>$hotDatas,
-            'notice'=>$notice[0],
+            'notice'=>$notice,
             'hotTags'=>$hotTags,
             'hotUsers'=>$hotUsers
         ]);

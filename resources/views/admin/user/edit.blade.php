@@ -76,11 +76,10 @@
 								         @endif
                               		</div>
                                 </div>
-                                
-			                   <div class="hr-line-dashed"></div>
-			                   <div class="form-group">
-			                		<label class="col-lg-2 control-label">角色</label>
-				                	<div class=" col-lg-6">
+                               <div class="hr-line-dashed"></div>
+                               <div class="form-group" @if(!empty($user->admin )) hidden @endif>
+                                    <label class="col-lg-2 control-label">角色</label>
+                                    <div class="col-lg-6">
                                         <select data-placeholder="Choose a Role..." class="chosen-select form-control" name="roles[]" multiple  tabindex="4">
                                             @foreach($roles as $role )
                                                 @if(in_array($role->id,$selectedRoles))
@@ -90,39 +89,38 @@
                                                 @endif
                                             @endforeach()
                                         </select>
-					                </div>
-				                </div>
-				                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                	<label class="col-lg-2 control-label">状态</label>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group" @if(!empty($user->admin )) hidden @endif>
+                                    <label class="col-lg-2 control-label">状态</label>
                                     <div class="col-lg-6">
-                                    	 @if($user->status == 1)
-	                						<div class="radio radio-info radio-inline">
-	                                            <input type="radio" id="inlineRadio1" value="1" name="status" checked="checked">
-	                                            <label for="inlineRadio1">启用</label>
-	                                        </div>
-	                                        <div class="radio radio-inline">
-	                                            <input type="radio" id="inlineRadio2" value="0" name="status">
-	                                            <label for="inlineRadio2">禁用</label>
-	                                        </div>
-		                				@else
-		                					<div class="radio radio-info radio-inline">
-	                                            <input type="radio" id="inlineRadio1" value="1" name="status" >
-	                                            <label for="inlineRadio1">启用</label>
-	                                        </div>
-	                                        <div class="radio radio-inline">
-	                                            <input type="radio" id="inlineRadio2" value="0" name="status" checked="checked">
-	                                            <label for="inlineRadio2">禁用</label>
-	                                        </div>
-		                				@endif
+                                         @if($user->status == 1)
+                                            <div class="radio radio-info radio-inline">
+                                                <input type="radio" id="inlineRadio1" value="1" name="status" checked="checked">
+                                                <label for="inlineRadio1">启用</label>
+                                            </div>
+                                            <div class="radio radio-inline">
+                                                <input type="radio" id="inlineRadio2" value="0" name="status">
+                                                <label for="inlineRadio2">禁用</label>
+                                            </div>
+                                        @else
+                                            <div class="radio radio-info radio-inline">
+                                                <input type="radio" id="inlineRadio1" value="1" name="status" >
+                                                <label for="inlineRadio1">启用</label>
+                                            </div>
+                                            <div class="radio radio-inline">
+                                                <input type="radio" id="inlineRadio2" value="0" name="status" checked="checked">
+                                                <label for="inlineRadio2">禁用</label>
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="col-sm-2">
-	                              		 @if ($errors->has('status'))
-	                              		 	<span class="label label-danger">{{ $errors->first('status') }}</span>
-								         @endif
-	                              	</div>
+                                         @if ($errors->has('status'))
+                                            <span class="label label-danger">{{ $errors->first('status') }}</span>
+                                         @endif
+                                    </div>
                                 </div>
-                                
                                <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <div class="col-sm-2 col-sm-offset-7">

@@ -36,7 +36,7 @@ class PostController extends Controller
         $tagIds = DB::table('other_tag')
             ->where('other_tag.source_type','1')
             ->leftjoin('posts', 'other_tag.source_id', '=', 'posts.id')
-            ->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+            ->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
         //去重
         $tagIds = array_unique($tagIds);
         $relateTags = DB::table('tags')
@@ -60,7 +60,7 @@ class PostController extends Controller
         $tagIds = DB::table('other_tag')
             ->where('other_tag.source_type','1')
             ->leftjoin('posts', 'other_tag.source_id', '=', 'posts.id')
-            ->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+            ->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
         //去重
         $tagIds = array_unique($tagIds);
         $relateTags = DB::table('tags')
@@ -84,7 +84,7 @@ class PostController extends Controller
         $tagIds = DB::table('other_tag')
             ->where('other_tag.source_type','1')
             ->leftjoin('posts', 'other_tag.source_id', '=', 'posts.id')
-            ->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+            ->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
         //去重
         $tagIds = array_unique($tagIds);
         $relateTags = DB::table('tags')
@@ -109,11 +109,11 @@ class PostController extends Controller
     		//查询
     		$datas = DB::table('posts')
     		->leftjoin('users', 'posts.user_id', '=', 'users.id')
-    		->leftjoin('other_tag', 'posts.id', '=', 'other_tag.posts_id')
+    		->leftjoin('other_tag', 'posts.id', '=', 'other_tag.post_id')
     		->leftjoin('collections', 'posts.id', '=', 'collections.source_id')
     		->where('collections.user_id','=',Auth::id())
     		->where('collections.source_type','=','1')
-    		->where('other_tag.tags_id','=',$request->get('tid'))
+    		->where('other_tag.tag_id','=',$request->get('tid'))
             ->where('other_tag.source_type','=','1')
     		->where('posts.cate_id','=',$request->get('cid'))
     		->where('posts.status','=','1')
@@ -128,9 +128,7 @@ class PostController extends Controller
     				'posts.created_at as created_at',
     				'posts.comments as comments',
     		        'posts.hits as hits'
-    		    )
-    				->orderBy('posts.created_at','desc')
-    				->paginate('15');
+    		    )->orderBy('posts.created_at','desc')->paginate('15');
     
     		$postIds  = DB::table('posts')->where('cate_id','=',$request->get('cid'))->pluck('id');
     		//查询该分类下面的标签文章
@@ -138,7 +136,7 @@ class PostController extends Controller
     		->leftjoin('posts', 'other_tag.source_id', '=', 'posts.id')
             ->where('other_tag.source_type','=','1')
     		->whereIn('other_tag.source_id', $postIds)
-    		->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+    		->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
     		//去重
     		$tagIds = array_unique($tagIds);
     		$tags = DB::table('tags')
@@ -166,20 +164,17 @@ class PostController extends Controller
     				'posts.content as content',
     				'posts.thumb as thumb',
     				'posts.created_at as created_at',
-    				'posts.comments as countcomment')
-    				->orderBy('posts.created_at','desc')->paginate('15');
+    				'posts.comments as countcomment')->orderBy('posts.created_at','desc')->paginate('15');
     		$postIds  = DB::table('posts')->where('cate_id','=',$request->get('cid'))->pluck('id');
     		//查询该分类下面的标签文章
     		$tagIds = DB::table('other_tag')
     		->leftjoin('posts', 'other_tag.source_id', '=', 'posts.id')
             ->where('other_tag.source_type','=','1')
     		->whereIn('other_tag.source_id', $postIds)
-    		->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+    		->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
     		//去重
     		$tagIds = array_unique($tagIds);
-    		$tags = DB::table('tags')
-    		->whereIn('tags.id', $tagIds)
-    		->get();
+    		$tags = DB::table('tags')->whereIn('tags.id', $tagIds)->get();
     		$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
     		return view('wenda.post.index',['datas'=>$datas,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
     	}
@@ -210,12 +205,10 @@ class PostController extends Controller
     				->leftjoin('posts', 'other_tag.source_id', '=', 'posts.id')
                     ->where('other_tag.source_type','=','1')
     				->whereIn('other_tag.source_id', $postIds)
-    				->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+    				->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
     				//去重
     				$tagIds = array_unique($tagIds);
-    				$tags = DB::table('tags')
-    				->whereIn('tags.id', $tagIds)
-    				->get();
+    				$tags = DB::table('tags')->whereIn('tags.id', $tagIds)->get();
     				$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
     				return view('wenda.post.index',['datas'=>$datas,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
     	}
@@ -235,8 +228,7 @@ class PostController extends Controller
     				'posts.content as content',
     				'posts.thumb as thumb',
     				'posts.created_at as created_at',
-    				'posts.comments as countcomment')
-    				->orderBy('posts.created_at','desc')->paginate('15');
+    				'posts.comments as countcomment')->orderBy('posts.created_at','desc')->paginate('15');
     	$tags = TagModel::all();
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
     	return view('wenda.post.index',['datas'=>$datas,'cid'=>$request->get('cid'),'tid'=>$request->get('tid'),'cates'=>$cates,'tags'=>$tags]);
@@ -247,10 +239,7 @@ class PostController extends Controller
     {
     	$tags = TagModel::all();
     	$cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
-        return view('ask.post.create',[
-        	'cates'=>$cates,
-        	'tags'=>$tags
-        ]);
+        return view('ask.post.create',['cates'=>$cates,'tags'=>$tags]);
     }
     //保存文章
     public function store(Request $request)
@@ -316,11 +305,11 @@ class PostController extends Controller
                 DB::table("tags")->where('id',$tag)->increment("posts");
     			OtherTagModel::updateOrCreate([
     					'source_id'=>$postId->id,
-    					'tags_id'=>$tag,
+    					'tag_id'=>$tag,
                         'source_type'=>'1'
     			],[
     					'source_id'=>$postId->id,
-    					'tags_id'=>$tag,
+    					'tag_id'=>$tag,
                         'source_type'=>'1'
     			]);
     		}
@@ -341,7 +330,7 @@ class PostController extends Controller
     	
     	//该文章选中的标签
     	$selectedTags = DB::table('other_tag')
-    	->leftjoin('tags', 'other_tag.tags_id', '=', 'tags.id')
+    	->leftjoin('tags', 'other_tag.tag_id', '=', 'tags.id')
     	->where('other_tag.source_id','=',$request->get('id'))
         ->where('other_tag.source_type','=','1')
         ->pluck('tags.id as id')->toArray();
@@ -420,7 +409,7 @@ class PostController extends Controller
     	//更新
     	$postId = PostModel::updateOrCreate(array('id' => $request->get('id')), $data);
         //话题文章总数自减一
-        $tagIds = OtherTagModel::where(['source_id'=>$request->get('id'),'source_type'=>'1'])->pluck('tags_id');
+        $tagIds = OtherTagModel::where(['source_id'=>$request->get('id'),'source_type'=>'1'])->pluck('tag_id');
         if(!($tagIds->isEmpty()))
         {
             foreach ($tagIds as $k)
@@ -443,11 +432,11 @@ class PostController extends Controller
 
                     OtherTagModel::updateOrCreate([
     						'source_id'=>$postId->id,
-    						'tags_id'=>$tag,
+    						'tag_id'=>$tag,
                             'source_type'=>'1'
     				],[
     						'source_id'=>$postId->id,
-    						'tags_id'=>$tag,
+    						'tag_id'=>$tag,
                             'source_type'=>'1'
     				]);
     			}
@@ -485,7 +474,7 @@ class PostController extends Controller
             )->orderBy('posts.created_at','desc')->get();
         //标签
         $tagss = DB::table('other_tag')
-        ->leftjoin('tags', 'other_tag.tags_id', '=', 'tags.id')
+        ->leftjoin('tags', 'other_tag.tag_id', '=', 'tags.id')
         ->where('other_tag.source_id','=',$request->get('id'))
         ->where('other_tag.source_type','=','1')
         ->select(
@@ -548,7 +537,7 @@ class PostController extends Controller
         {
             $sql = [
                 'posts.cate_id'=>$request->get('cid'),
-                'other_tag.tags_id'=>$request->get('tid'),
+                'other_tag.tag_id'=>$request->get('tid'),
                 'other_tag.source_type'=>'1'
             ];
         }else{
@@ -592,7 +581,7 @@ class PostController extends Controller
     	->leftjoin('posts', 'other_tag.source_id', '=', 'posts.id')
     	->whereIn('other_tag.source_id', $postIds)
         ->where('other_tag.source_type','1')
-    	->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+    	->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
     	//去重
     	$tagIds = array_unique($tagIds);
         $relateTags = DB::table('tags')
@@ -612,7 +601,7 @@ class PostController extends Controller
         {
             $sql = [
                 'posts.cate_id'=>$request->get('cid'),
-                'other_tag.tags_id'=>$request->get('tid'),
+                'other_tag.tag_id'=>$request->get('tid'),
                 'other_tag.source_type'=>'1'
             ];
         }elseif ($request->get('cid'))
@@ -623,7 +612,7 @@ class PostController extends Controller
         }elseif ($request->get('tid'))
         {
             $sql = [
-                'other_tag.tags_id'=>$request->get('tid'),
+                'other_tag.tag_id'=>$request->get('tid'),
                 'other_tag.source_type'=>'1'
             ];
         }
@@ -648,9 +637,7 @@ class PostController extends Controller
                 'posts.created_at as created_at',
                 'posts.comments as countcomment',
                 'posts.hits as hits'
-            )
-            ->orderBy('posts.isrecommond','desc')
-            ->paginate('15');
+            )->orderBy('posts.isrecommond','desc')->paginate('15');
         //查询分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
         //热门话题
@@ -665,7 +652,7 @@ class PostController extends Controller
                 ->leftjoin('posts', 'other_tag.source_id', '=', 'posts.id')
                 ->where('other_tag.source_type','=','1')
                 ->whereIn('other_tag.source_id', $postIds)
-                ->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+                ->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
             //去重
             $tagIds = array_unique($tagIds);
             $relateTags = DB::table('tags')
@@ -676,7 +663,7 @@ class PostController extends Controller
             $tagIds = DB::table('other_tag')
                 ->leftjoin('posts', 'other_tag.source_id', '=', 'posts.id')
                 ->where('other_tag.source_type','=','1')
-                ->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+                ->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
             //去重
             $tagIds = array_unique($tagIds);
             $relateTags = DB::table('tags')
@@ -697,7 +684,7 @@ class PostController extends Controller
         {
             $sql = [
                 'posts.cate_id'=>$request->get('cid'),
-                'other_tag.tags_id'=>$request->get('tid'),
+                'other_tag.tag_id'=>$request->get('tid'),
                 'other_tag.source_type'=>'1'
             ];
         }elseif ($request->get('cid'))
@@ -708,7 +695,7 @@ class PostController extends Controller
         }elseif ($request->get('tid'))
         {
             $sql = [
-                'other_tag.tags_id'=>$request->get('tid'),
+                'other_tag.tag_id'=>$request->get('tid'),
                 'other_tag.source_type'=>'1'
             ];
         }
@@ -750,7 +737,7 @@ class PostController extends Controller
                 ->leftjoin('posts', 'other_tag.source_id', '=', 'posts.id')
                 ->whereIn('other_tag.source_id', $postIds)
                 ->where('other_tag.source_type','1')
-                ->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+                ->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
             //去重
             $tagIds = array_unique($tagIds);
             $relateTags = DB::table('tags')
@@ -761,7 +748,7 @@ class PostController extends Controller
             $tagIds = DB::table('other_tag')
                 ->leftjoin('posts', 'other_tag.source_id', '=', 'posts.id')
                 ->where('other_tag.source_type','=','1')
-                ->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+                ->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
             //去重
             $tagIds = array_unique($tagIds);
             $relateTags = DB::table('tags')
@@ -782,7 +769,7 @@ class PostController extends Controller
         $tagIds = DB::table('other_tag')
             ->leftjoin('posts', 'other_tag.source_id', '=', 'posts.id')
             ->where('other_tag.source_type','=','1')
-            ->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+            ->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
         //去重
         $tagIds = array_unique($tagIds);
         $relateTags = DB::table('tags')
@@ -803,7 +790,7 @@ class PostController extends Controller
             ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
     		->leftjoin('other_tag', 'posts.id', '=', 'other_tag.source_id')
             ->where('other_tag.source_type','=','1')
-    		->where('other_tag.tags_id','=',$request->get('tid'))
+    		->where('other_tag.tag_id','=',$request->get('tid'))
     		->where('posts.status','=','1')
             ->whereNull('posts.deleted_at')
     		->select('posts.id as post_id',
@@ -829,7 +816,7 @@ class PostController extends Controller
     		->leftjoin('posts', 'other_tag.source_id', '=', 'posts.id')
             ->where('other_tag.source_type','=','1')
     		->whereIn('other_tag.source_id', $postIds)
-    		->select('other_tag.tags_id as tag_id')->pluck('tag_id')->toArray();
+    		->select('other_tag.tag_id as tag_id')->pluck('tag_id')->toArray();
     		//去重
     		$tagIds = array_unique($tagIds);
             $relateTags = DB::table('tags')
@@ -842,7 +829,7 @@ class PostController extends Controller
     		->leftjoin('other_tag', 'posts.id', '=', 'other_tag.source_id')
     		->where('posts.status','=','1')
             ->where('other_tag.source_type','=','1')
-    		->where('other_tag.tags_id','=',$request->get('tid'))
+    		->where('other_tag.tag_id','=',$request->get('tid'))
     		->where('posts.cate_id','=',$request->get('cid'))
             ->whereNull('posts.deleted_at')
     		->select('posts.id as post_id',
@@ -877,7 +864,7 @@ class PostController extends Controller
         DB::table('users')->where('id', '=',Auth::id())->where('count_post','>','0')->decrement('count_post', 1);
         //标签文章减1
         DB::table('tags')
-            ->leftjoin('other_tag', 'other_tag.tags_id', '=', 'tags.id')
+            ->leftjoin('other_tag', 'other_tag.tag_id', '=', 'tags.id')
             ->where('other_tag.source_id','=',$request->get('id'))
             ->where('other_tag.source_type','=','1')
             ->where('tags.posts', '>', 0)

@@ -1,21 +1,19 @@
 <!DOCTYPE html>
-<html class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
-<meta name="renderer" content="webkit">
+<html>
+<head>
 <title>发现</title>
 @section('css')
-<link rel="stylesheet" type="text/css" href="{{ asset('ask/index_files/bootstrap.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('ask/index_files/icon.css') }}">
-<link href="{{ asset('ask/index_files/common.css') }}" rel="stylesheet" type="text/css">
-<link href="{{ asset('ask/index_files/link.css') }}" rel="stylesheet" type="text/css">
-<link href="{{ asset('ask/index_files/style.css') }}" rel="stylesheet" type="text/css">
+<link  href="{{ asset('ask/css/bootstrap.css') }}" rel="stylesheet" type="text/css" >
+<link  href="{{ asset('ask/css/icon.css') }}" rel="stylesheet" type="text/css" >
+<link href="{{ asset('ask/css/common.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('ask/css/link.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('ask/css/style.css') }}" rel="stylesheet" type="text/css">
 @show
 @section('js')
-<script src="{{ asset('ask/index_files/jquery.2.js') }}" type="text/javascript"></script>
-<script src="{{ asset('ask/index_files/jquery.form.js') }}" type="text/javascript"></script>
-<script src="{{ asset('ask/index_files/plug-in_module.js') }}" type="text/javascript"></script>
-<script type="text/javascript" src="{{ asset('ask/index_files/compatibility.js') }}"></script>
+<script src="{{ asset('ask/js/jquery.2.js') }}" type="text/javascript"></script>
+<script src="{{ asset('ask/js/jquery.form.js') }}" type="text/javascript"></script>
+<script src="{{ asset('ask/js/plug-in_module.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('ask/js/compatibility.js') }}"></script>
 @show
 <style>
     .container1{
@@ -60,7 +58,6 @@
                             <li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
                             <li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i>话题</a></li>
                             <li><a href="{{ url('/video') }}" class="{{ (Request::getPathinfo() == '/video')  ? 'active':'' }}"><i class="icon icon-video"></i>视频</a></li>
-                            <li><a href="{{ url('/torrent') }}" class="{{ (Request::getPathinfo() == '/torrent')  ? 'active':'' }}"><i class="icon icon-log"></i>bt资源</a></li>
                             <li><a href="{{ url('/dynamic') }}" class=""><i class="icon icon-home"></i>动态</a></li>
                         </ul>
                     </nav>
@@ -72,9 +69,9 @@
                         <form class="navbar-search" action="{{ url('/search/index') }}" method="post">
                             {{ csrf_field() }}
                             @if(!empty($wd))
-                                <input class="form-control search-query" type="text" placeholder="搜索资源、问题、话题、用户" autocomplete="off" name="wd" value="{{ $wd }}">
+                                <input class="form-control search-query" type="text" placeholder="搜索问题、话题、用户" autocomplete="off" name="wd" value="{{ $wd }}">
                             @else
-                                <input class="form-control search-query" type="text" placeholder="搜索资源、问题、话题、用户" autocomplete="off" name="wd" >
+                                <input class="form-control search-query" type="text" placeholder="搜索问题、话题、用户" autocomplete="off" name="wd" >
                             @endif
                         </form>
                     </div>
@@ -85,7 +82,7 @@
 						<!-- 登陆&注册栏 -->
 						<a href="{{ URL::action('Front\HomeController@index', ['uid'=>Auth::id()]) }}" class="aw-user-nav-dropdown">
                             @if(!empty($thumb))
-							    <img src="{{ $thumb[0] }}-sm_thumb_small">
+							    <img src="{{ $thumb[0] }}-sm_thumb_small" onerror="this.src='{{ asset('ask/img/default_avator.jpg') }}'" >
                                 @else
                                 <img src="">
                             @endif
@@ -102,7 +99,7 @@
 									</a>
 								</li>
 								<li class="hidden-xs"><a href="{{ url('/person/info') }}"><i class="icon icon-setting"></i> 设置</a></li>
-								@role('administrators')
+								@role('admins')
 								<li class="hidden-xs"><a href="{{ url('/back/panel') }}"><i class="icon icon-job"></i> 管理</a></li>
 								@endrole
 								<li><a href="{{  url('/logout') }}"><i class="icon icon-logout"></i> 退出</a></li>
@@ -118,7 +115,7 @@
 							<ul>
 								<li><a href="{{ url('/post/create') }}">文章</a></li>
 								<li><a href="{{ url('/question/create') }}">问题</a></li>
-								@role('administrators')
+								@role('admins')
 								<li><a href="{{ url('/video/create') }}">视频</a></li>
 								@endrole
 							</ul>
@@ -151,9 +148,9 @@
                     <form class="navbar-search" action="{{ url('/search/index') }}" method="post" >
                         {{ csrf_field() }}
                         @if(!empty($wd))
-                            <input class="form-control search-query" type="text" placeholder="搜索资源、问题、话题、用户" autocomplete="off" name="wd" value="{{ $wd }}">
+                            <input class="form-control search-query" type="text" placeholder="搜索问题、话题、用户" autocomplete="off" name="wd" value="{{ $wd }}">
                         @else
-                            <input class="form-control search-query" type="text" placeholder="搜索资源、问题、话题、用户" autocomplete="off" name="wd" >
+                            <input class="form-control search-query" type="text" placeholder="搜索问题、话题、用户" autocomplete="off" name="wd" >
                         @endif
                         <span title="搜索" id="global_search_btns"><i class="icon icon-search"></i></span>
                     </form>

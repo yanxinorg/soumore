@@ -58,15 +58,19 @@
                                 <dl>
                                     <dt class="pull-left">
                                         <!-- 话题图片 -->
+                                        @if(!empty($todayTag))
                                         <a data-id="" class="img aw-border-radius-5" href="{{ URL::action('Front\TopicController@detail', ['id'=>$todayTag['id']]) }}">
                                             <img src="{{ $todayTag['thumb']  }}" alt="{{ $todayTag['name']  }}">
                                         </a>
+                                        @endif
                                         <!-- end 话题图片 -->
                                     </dt>
                                     <dd class="pull-left"></dd>
                                 </dl>
                                 <!-- 话题描述 -->
-                                <p><a href="{{ URL::action('Front\TopicController@detail', ['id'=>$todayTag['id']]) }}">新增话题 »</a></p>
+                                @if(!empty($todayTag))
+                                    <p><a href="{{ URL::action('Front\TopicController@detail', ['id'=>$todayTag['id']]) }}">新增话题 »</a></p>
+                                @endif
                                 <!-- end 话题描述 -->
                             </div>
                         </div>

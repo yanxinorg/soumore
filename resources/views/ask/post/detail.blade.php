@@ -180,7 +180,7 @@ use App\Models\Common\UserModel;
                             <div class="mod-body">
                                 <dl>
                                     <dt class="pull-left aw-border-radius-5">
-                                        <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}"><img src="{{ $datas->avator }}-sm_thumb_small"></a>
+                                        <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}"><img src="{{ $datas->avator }}-sm_thumb_small" onerror="this.src='{{ asset('ask/img/default_avator.jpg') }}'"></a>
                                     </dt>
                                     <dd class="pull-left">
                                         <a class="aw-user-name" href="{{ URL::action('Front\HomeController@index', ['uid'=>$datas->user_id]) }}" data-id="1">{{ $datas->author }}</a>

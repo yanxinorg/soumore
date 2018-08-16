@@ -36,7 +36,7 @@
          <div class="row">
             <div class="aw-content-wrap clearfix">
                <!-- 文章 -->
-               <div class="col-sm-12 col-md-3 aw-side-bar">
+               <div class="col-sm-12 col-md-5 aw-side-bar">
                   {{--热门文章--}}
                   <div class="aw-mod new-topic">
                      <div class="mod-head">
@@ -91,7 +91,7 @@
                <!-- end 文章 -->
 
                <!-- 问答 -->
-               <div class="col-sm-12 col-md-3 aw-side-bar">
+               <div class="col-sm-12 col-md-4 aw-side-bar">
                   <!-- 最新问答 -->
                   <div class="aw-mod new-topic">
                      <div class="mod-head">
@@ -146,67 +146,15 @@
                </div>
                <!-- end 问答 -->
 
-               <!-- 资源 -->
-               <div class="col-sm-12 col-md-3 aw-side-bar">
-                  <!-- 最新资源 -->
-                  <div class="aw-mod new-topic">
-                     <div class="mod-head">
-                        <a href="{{ url('/torrent') }}" class="pull-right">更多 &gt;</a>
-                        <h3>最新资源</h3>
-                     </div>
-                     <div class="mod-body clearfix">
-                        <div class="aw-topic-bar">
-                           <div class="aw-common-list">
-                              @foreach( $btDatas as $data)
-                                 <div class="aw-item article" style="min-height: 58px;padding:4px 0px;" >
-                                    <div class="aw-question-content">
-                                       <h4><a href="{{ URL::action('Front\TorrentController@detail', ['id'=>$data->id]) }}">{{ $data->name }}</a></h4>
-                                       <p>
-                                          <a style="color:green;" href="magnet:?xt=urn:btih:{{ $data->info_hash }}">[磁力链接] </a><span class="text-color-999">文件大小：2.3 GB　 • 创建时间：{{ substr($data->create_time,0,10) }}　 • 热度：{{ $data->requests }} 次下载</span>
-                                       </p>
-                                    </div>
-                                 </div>
-                              @endforeach()
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <!-- end 最新资源 -->
-                  {{--热门资源--}}
-                  <div class="aw-mod  new-topic">
-                     <div class="mod-head">
-                        <a href="{{ url('/torrent') }}" class="pull-right">更多 &gt;</a>
-                        <h3>热门资源</h3>
-                     </div>
-                     <div class="mod-body ">
-                        <div class="aw-topic-bar">
-                           <div class="aw-common-list">
-                              @foreach( $hotDatas as $data)
-                                 <div class="aw-item article" style="min-height: 58px;padding:4px 0px;" >
-                                    <div class="aw-question-content">
-                                       <h4><a href="{{ URL::action('Front\TorrentController@detail', ['id'=>$data->id]) }}">{{ $data->name }}</a></h4>
-                                       <p>
-                                          <a style="color:green;" href="magnet:?xt=urn:btih:{{ $data->info_hash }}">[磁力链接] </a><span class="text-color-999">文件大小：2.3 GB　 • 创建时间：{{ substr($data->create_time,0,10) }}　 • 热度：{{ $data->requests }} 次下载</span>
-                                       </p>
-                                    </div>
-                                 </div>
-                              @endforeach()
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  {{--end 热门资源--}}
-               </div>
-               <!-- end 资源 -->
-
                <!-- 侧边栏 -->
                <div class="col-sm-12 col-md-3 aw-side-bar ">
-                  {{--新增文章--}}
                   <div class="aw-mod aw-text-align-justify">
                      <div class="mod-head">
                         <h3 style="text-align: center;padding-bottom: 8px;color: red;font-size: 18px;">最新公告</h3>
                         <div class="side-alert alert " style="margin-bottom: 12px;background-color: #F4F4F4">
-                           {!! $notice->content !!}
+                           @if(!empty($notice))
+                              {!! $notice->content !!}
+                           @endif
                         </div>
                      </div>
                      <div class="mod-body">
@@ -251,7 +199,7 @@
                         @foreach($hotUsers as $user)
                            <dl>
                               <dt class="pull-left aw-border-radius-5">
-                                 <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}"><img  src="{{ $user->avator }}-sm_thumb_small"></a>
+                                 <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}"><img  src="{{ $user->avator }}-sm_thumb_small" onerror="this.src='{{ asset('ask/img/default_avator.jpg') }}'"></a>
                               </dt>
                               <dd class="pull-left">
                                  <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}" data-id="2" class="aw-user-name">{{ $user->name  }}</a>

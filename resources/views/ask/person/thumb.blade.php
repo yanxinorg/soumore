@@ -16,7 +16,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6" style="border-right: 1px solid #E6E6E6; text-align: center" >
-                                    <img src="{{ $thumbSrc }}" style="width: 60%;margin: 48px;" >
+                                    <img src="{{ $thumbSrc }}" style="width: 60%;margin: 48px;" onerror="this.src='{{ asset('ask/img/default_avator.jpg') }}'">
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mod-body aw-feed-list clearfix" >

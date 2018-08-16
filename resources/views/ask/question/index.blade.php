@@ -33,20 +33,20 @@
 					<div class="aw-mod aw-explore-list">
     						<div class="aw-mod aw-topic-category">
                                 <div class="mod-body clearfix">
-                                <ul>
-									@if(empty($cid))
-										<li><a class="active" href="{{ url('/question') }}">全部分类</a></li>
-									@else
-										<li><a href="{{ url('/question') }}">全部分类</a></li>
-									@endif
-                                    @foreach($cates as $cate)
-                    					@if($cate->id == $cid)
-                    					 <li ><a class="active" style="text-decoration:none;" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
-                    					@else
-                    					 <li><a style="text-decoration:none;" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
-                    					@endif
-                            		@endforeach()
-                              	</ul>
+									<ul>
+										@if(empty($cid))
+											<li><a class="active" href="{{ url('/question') }}">全部分类</a></li>
+										@else
+											<li><a href="{{ url('/question') }}">全部分类</a></li>
+										@endif
+										@foreach($cates as $cate)
+											@if($cate->id == $cid)
+											 <li ><a class="active" style="text-decoration:none;" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
+											@else
+											 <li><a style="text-decoration:none;" href="{{ URL::action('Front\QuestionController@cate', ['cid'=>$cate->id]) }}">{{ $cate->name }}</a></li>
+											@endif
+										@endforeach()
+									</ul>
                                 </div>
                         	</div>
                     	
@@ -107,7 +107,7 @@
 									@foreach($hotUsers as $user)
                             		 <dl>
                             			<dt class="pull-left aw-border-radius-5">
-                            				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}"><img alt="{{ $user->name }}" src="{{  $user->avator }}-sm_thumb_small"></a>
+                            				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}"><img src="{{  $user->avator }}-sm_thumb_small" onerror="this.src='{{ asset('ask/img/default_avator.jpg') }}'"></a>
                             			</dt>
                             			<dd class="pull-left">
                             				<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$user->id]) }}" data-id="2" class="aw-user-name">{{ $user->name  }}</a>

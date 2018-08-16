@@ -4,8 +4,6 @@
 Route::get('/',  'Front\IndexController@index');
 //首页
 Route::get('/index',  'Front\IndexController@index');
-//资源详情页
-Route::get('/torrent/detail',  'Front\TorrentController@detail');
 //登录
 Route::get('/login', function () {return view('ask.user.login');});
 //验证登录信息
@@ -43,8 +41,7 @@ Route::get('/search/video','Front\SearchController@video');
 Route::get('/search/topic','Front\SearchController@topic');
 //用户全文搜索
 Route::get('/search/user','Front\SearchController@user');
-//torrent全文搜索
-Route::get('/search/torrent','Front\SearchController@torrent');
+
 //文章列表
 Route::get('/post', 'Front\PostController@index');
 //推荐文章
@@ -217,9 +214,9 @@ Route::group(['middleware' => 'authed'], function () {
         //视频删除
         Route::post('/video/del',[ 'middleware' => ['permission:video-delete'], 'uses' =>'VideoController@del'] );
         //编辑文章
-        Route::get('/video/edit', 'VideoController@edit');
+        Route::get('/video/edit',[ 'middleware' => ['permission:video-edit'], 'uses' => 'VideoController@edit'] );
         //更新文章
-        Route::post('/video/update', 'VideoController@update');
+        Route::post('/video/update',[ 'middleware' => ['permission:video-update'], 'uses' => 'VideoController@update']  );
         //视频收藏
         Route::post('/video/collect', 'VideoController@collect');
         //取消收藏
@@ -228,8 +225,6 @@ Route::group(['middleware' => 'authed'], function () {
         Route::post('/video/comment', 'VideoController@commentCreate');
         //动态
         Route::get('/dynamic', 'DynamicController@index');
-        //资源
-        Route::get('/torrent',  'TorrentController@index');
         //文章点赞
         Route::get('/support/post', 'SupportController@post');
         //问答点赞
@@ -239,7 +234,7 @@ Route::group(['middleware' => 'authed'], function () {
 	});
 
 	//新后台管理
-	Route::group(['prefix' => 'back','middleware' => ['role:administrators']], function()
+	Route::group(['prefix' => 'back','middleware' => ['role:admins']], function()
 	{
         //后台首页
         Route::get('/panel', 'Admin\IndexController@index');
@@ -283,8 +278,6 @@ Route::group(['middleware' => 'authed'], function () {
 	    Route::post('/user/delete', [ 'middleware' => ['permission:user-delete'], 'uses' =>'Admin\UserController@delete'] );
         //更改用户状态
         Route::post('/user/status', [ 'middleware' => ['permission:user-status'], 'uses' =>  'Admin\UserController@status']);
-        //用户导出
-        Route::get('/user/export', [ 'uses' =>'Admin\UserController@export'] );
 	    //话题列表
 	    Route::get('/topic/list', [ 'middleware' => ['permission:topic-list'], 'uses' =>  'Admin\TopicController@index']);
 	    //新增话题
@@ -325,15 +318,15 @@ Route::group(['middleware' => 'authed'], function () {
 	    Route::post('/link/status', [ 'middleware' => ['permission:link-status'], 'uses' => 'Admin\LinkController@status'] );
 
         //新增公告
-        Route::get('/notice/add', [ 'uses' =>  'Admin\NoticeController@add']);
+        Route::get('/notice/add', [ 'middleware' => ['permission:notice-add'],'uses' =>  'Admin\NoticeController@add']);
         //保存公告
-        Route::post('/notice/store', [ 'uses' =>  'Admin\NoticeController@store']);
+        Route::post('/notice/store', ['middleware' => ['permission:notice-store'], 'uses' =>  'Admin\NoticeController@store']);
         //编辑公告
-        Route::get('/notice/edit', [  'uses' => 'Admin\NoticeController@edit'] );
+        Route::get('/notice/edit', [ 'middleware' => ['permission:notice-edit'], 'uses' => 'Admin\NoticeController@edit'] );
        //公告列表
-        Route::get('/notice/list', [ 'uses' => 'Admin\NoticeController@index'] );
+        Route::get('/notice/list', [ 'middleware' => ['permission:notice-list'],'uses' => 'Admin\NoticeController@index'] );
        //删除公告
-        Route::post('/notice/delete', ['uses' => 'Admin\NoticeController@delete'] );
+        Route::post('/notice/delete', [ 'middleware' => ['permission:notice-delete'],'uses' => 'Admin\NoticeController@delete'] );
 
 	    //文章列表
 	    Route::get('/post/list', [ 'middleware' => ['permission:post-list'], 'uses' =>'Admin\PostController@index'] );
@@ -342,9 +335,9 @@ Route::group(['middleware' => 'authed'], function () {
 	    //更改文章状态
 	    Route::post('/post/status', [ 'middleware' => ['permission:post-status'], 'uses' =>'Admin\PostController@status'] );
         //问答列表
-        Route::get('/question/list', ['uses' =>'Admin\QuestionController@index'] );
-        //删除文档
-        Route::post('/question/delete', ['uses' => 'Admin\QuestionController@delete'] );
+        Route::get('/question/list', ['middleware' => ['permission:question-list'],'uses' =>'Admin\QuestionController@index'] );
+        //删除问答
+        Route::post('/question/delete', ['middleware' => ['permission:question-delete'],'uses' => 'Admin\QuestionController@delete'] );
         //用户搜索
         Route::match(['get', 'post'],'/search/user', [ 'middleware' => ['permission:search-user'], 'uses' => 'Admin\SearchController@userSearch'] );
         //分类搜索

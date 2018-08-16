@@ -1,22 +1,18 @@
 <!DOCTYPE html>
-<!-- saved from url=(0031)http://ask.com/?/account/login/ -->
-<html class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
-<meta name="renderer" content="webkit">
+<html >
+<head>
 <title>登录SOUMORE</title>
-<!--<base href="http://ask.com/?/">--><base href="."><!--[if IE]></base><![endif]-->
-<link rel="stylesheet" type="text/css" href="{{ asset('ask/login_files/bootstrap.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('ask/login_files/icon.css') }}">
-<link href="{{ asset('ask/login_files/common.css') }}" rel="stylesheet" type="text/css">
-<link href="{{ asset('ask/login_files/link.css') }}" rel="stylesheet" type="text/css">
-<link href="{{ asset('ask/login_files/style.css') }}" rel="stylesheet" type="text/css">
-<link href="{{ asset('ask/login_files/login.css') }}" rel="stylesheet" type="text/css">
-<script src="{{ asset('ask/login_files/jquery.2.js') }}" type="text/javascript"></script>
-<script src="{{ asset('ask/login_files/jquery.form.js') }}" type="text/javascript"></script>
-<script src="{{ asset('ask/login_files/plug-in_module.js') }}" type="text/javascript"></script>
-<script src="{{ asset('ask/login_files/aws.js') }}" type="text/javascript"></script>
-<script type="text/javascript" src="{{ asset('ask/login_files/compatibility.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('ask/css/bootstrap.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('ask/css/icon.css') }}">
+<link href="{{ asset('ask/css/common.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('ask/css/link.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('ask/css/style.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('ask/css/login.css') }}" rel="stylesheet" type="text/css">
+<script src="{{ asset('ask/js/jquery.2.js') }}" type="text/javascript"></script>
+<script src="{{ asset('ask/js/jquery.form.js') }}" type="text/javascript"></script>
+<script src="{{ asset('ask/js/plug-in_module.js') }}" type="text/javascript"></script>
+<script src="{{ asset('ask/js/aws.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('ask/js/compatibility.js') }}"></script>
 <style type="text/css">.fancybox-margin{margin-right:0px;}</style>
 <body screen_capture_injected="true">
 <div id="wrapper">
@@ -100,7 +96,7 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="{{ asset('ask/login_files/login.js') }}"></script>
+<script type="text/javascript" src="{{ asset('ask/js/login.js') }}"></script>
     <div class="aw-footer-wrap">
         <div class="aw-footer">
             Copyright © 2018, All Rights Reserved

@@ -101,7 +101,9 @@ class UserController extends Controller
     	$this->validate($request, [
     			'id'=>'required|numeric|exists:users,id'
     	]);
-    	$user = UserModel::where('id',$request->get('id'))->get();
+    	$user = UserModel::where([
+            'id'=>$request->get('id')
+        ])->get();
     	$roles = Role::all();
         $selectedRoles = DB::table('role_user')
             ->leftjoin('roles', 'role_user.role_id', '=', 'roles.id')
@@ -169,17 +171,17 @@ class UserController extends Controller
             }else{
                 $data['avator'] = env('QINIU_DOMAIN').'/'.$ret['key'];
             }
-            UserModel::where('id','=',$request->get('id'))->update($data);
+            UserModel::where(['id'=>$request->get('id')])->update($data);
         }else{
             //无缩略图
-            UserModel::where('id','=',$request->get('id'))->update($data);
+            UserModel::where(['id'=>$request->get('id')])->update($data);
         }
         //清除之前的角色
         DB::table('role_user')->where('user_id','=',$request->get('id'))->delete();
         //角色不为空
         if(!empty($request->get('roles')))
         {
-            $user = UserModel::where('id','=',$request->get('id'))->first();
+            $user = UserModel::where(['id'=>$request->get('id')])->first();
             //用户分配角色
             foreach ($request->get('roles') as $role)
             {
@@ -194,7 +196,10 @@ class UserController extends Controller
     	$this->validate($request, [
     			'id'=>'required|numeric|exists:users,id'
     	]);
-    	$result = User::where('id','=',$request->get('id'))->delete();
+    	$result = User::where([
+            'id'=>$request->get('id'),
+            'admin'=>''
+        ])->delete();
         if($result)
         {
             $data = [
@@ -216,7 +221,7 @@ class UserController extends Controller
         $this->validate($request, [
             'id'=>'required|numeric|exists:users,id'
         ]);
-        if(UserModel::where(['id'=>$request->get('id'),'status'=>'1'])->update(['status'=>'0']) || UserModel::where(['id'=>$request->get('id'),'status'=>'0'])->update(['status'=>'1']))
+        if(UserModel::where(['id'=>$request->get('id'),'status'=>'1','admin'=>''])->update(['status'=>'0']) || UserModel::where(['id'=>$request->get('id'),'status'=>'0','admin'=>''])->update(['status'=>'1']))
         {
             $data = [
                 'code'=>'1',

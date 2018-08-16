@@ -31,7 +31,7 @@
 											<input name="to_user_id" value="{{ $toUser[0]->id }}" class="form-control" >
 										</div>
 									</div>
-									<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$authUser->id]) }}" data-id="4" class="aw-user-img aw-border-radius-5"><img src="{{ $authUser->avator }}" ></a>
+									<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$authUser->id]) }}" data-id="4" class="aw-user-img aw-border-radius-5"><img src="{{ $authUser->avator }}" onerror="this.src='{{ asset('ask/img/default_avator.jpg') }}'"></a>
 									<textarea rows="3" class="form-control message" placeholder="私信内容?" type="text" name="content"></textarea>
 									<p>
 										<input class="btn btn-mini btn-success" type="submit" value="发送" />
@@ -47,7 +47,7 @@
 									@foreach($datas as $data)
 										@if($data->from_user_id == Auth::id())
 											<li >
-												<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}" data-id="4" class="aw-user-img aw-border-radius-5"><img src="{{ $data->a_avator }}" ></a>
+												<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}" data-id="4" class="aw-user-img aw-border-radius-5"><img src="{{ $data->a_avator }}" onerror="this.src='{{ asset('ask/img/default_avator.jpg') }}'"></a>
 												<div class="aw-item">
 													<p><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}">我</a>：<span class="pull-right">{{ $data->created_at }}</span></p>
 													<p class="text-color-999"  style="font-size: 14px;">{{ $data->content }}</p>
@@ -56,7 +56,7 @@
 											</li>
 										@else
 											<li class="active">
-												<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}" class="aw-user-img aw-border-radius-5"><img src="{{ $data->a_avator }}" ></a>
+												<a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}" class="aw-user-img aw-border-radius-5"><img src="{{ $data->a_avator }}" onerror="this.src='{{ asset('ask/img/default_avator.jpg') }}'"></a>
 												<div class="aw-item">
 													<p><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->from_user_id]) }}">{{ $data->a_username }}</a>：<span class="pull-right">{{ $data->created_at }}</span></p>
 													<p class="text-color-999" style="font-size: 14px;">{{ $data->content }}</p>
