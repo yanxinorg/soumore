@@ -1,22 +1,22 @@
 @extends('layouts.ask')
 @section('content')
-    <style>
-        .aw-topic-list .aw-item .img {
-            position: static;
-            left: 5px;
-            top: 20px;
-        }
-        .aw-topic-list .aw-item {
-            width: auto;
-            padding: 20px 15px 20px 15px;
-        }
-        p{
-            margin: 0px;
-        }
-        .aw-topic-list .aw-item p + p {
-            margin: 0px;
-        }
-    </style>
+<style>
+    .aw-topic-list .aw-item .img {
+        position: static;
+        left: 5px;
+        top: 20px;
+    }
+    .aw-topic-list .aw-item {
+        width: auto;
+        padding: 20px 15px 20px 15px;
+    }
+    p{
+        margin: 0px;
+    }
+    .aw-topic-list .aw-item p + p {
+        margin: 0px;
+    }
+</style>
     <div class="aw-container-wrap">
         <div class="container1">
             <div class="row">

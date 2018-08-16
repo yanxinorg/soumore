@@ -17,12 +17,12 @@
 @show
 <style>
     .container1{
-        width: 76%;
+        width: 66%;
         margin: 0 auto;
     }
     .container{
         margin: 0 auto;
-        width: 76%;
+        width: 66%;
         padding-right: 0px;
         padding-left: 0px;
     }
@@ -38,7 +38,7 @@
          text-align: left;
     }
 </style>
-<body screen_capture_injected="true">
+<body>
 	<div class="aw-top-menu-wrap">
 		<div class="container" >
 			@auth

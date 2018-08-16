@@ -11,6 +11,17 @@ class Rbac extends Seeder
      */
     public function run()
     {
+        //清除用户表数据
+        DB::table('users')->delete();
+        //清除角色表数据
+        DB::table('roles')->delete();
+        //清除用户角色表数据
+        DB::table('role_user')->delete();
+        //清除权限表数据
+        DB::table('permissions')->delete();
+        //清除权限角色表数据
+        DB::table('permission_role')->delete();
+
         //初始化超管角色
         $admin = new \App\Role();
         $admin->name = 'admins';
