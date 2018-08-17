@@ -402,7 +402,5 @@ class AreaSeeder extends Seeder
     			['id' => '384','parent_id' => '31','name' => '阿里','grade' => '2'],
     			['id' => '385','parent_id' => '31','name' => '林芝','grade' => '2']
     	]);
-    	
-    	 
     }
 }

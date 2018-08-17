@@ -124,114 +124,114 @@ Route::group(['middleware' => 'authed'], function () {
 	Route::group(['namespace' => 'Front'], function()
 	{
 		//新建问答
-		Route::get('/question/create', 'QuestionController@create');
+		Route::get('/question/create',[ 'middleware' => ['permission:front-question-create'], 'uses' => 'QuestionController@create'] );
 		//新建问答保存
-		Route::post('/question/store', 'QuestionController@store');
+		Route::post('/question/store',[ 'middleware' => ['permission:front-question-store'], 'uses' => 'QuestionController@store']  );
 		//问答删除
-		Route::post('/question/del', 'QuestionController@del');
+		Route::post('/question/del', [ 'middleware' => ['permission:front-question-delete'], 'uses' => 'QuestionController@del']);
 		//编辑问答
-		Route::get('/question/edit', 'QuestionController@edit');
+		Route::get('/question/edit',[ 'middleware' => ['permission:front-question-edit'], 'uses' =>  'QuestionController@edit']);
 		//更新问答
-		Route::post('/question/update', 'QuestionController@update');
+		Route::post('/question/update',[ 'middleware' => ['permission:front-question-update'], 'uses' =>  'QuestionController@update'] );
 		//问答收藏
-		Route::post('/question/collect', 'QuestionController@collect');
+		Route::post('/question/collect', [ 'middleware' => ['permission:front-question-collect'], 'uses' =>  'QuestionController@collect']);
         //取消收藏
-        Route::post('/question/collectCancel', 'QuestionController@collectCancel');
+        Route::post('/question/collectCancel', [ 'middleware' => ['permission:front-collect-cancel'], 'uses' =>  'QuestionController@collectCancel']);
 		//问答回答提交
-		Route::post('/question/answer', 'QuestionController@answer');
-		//关注其他
-		Route::get('/attention/user', 'AttentionController@user');
-		//取消关注其他
-		Route::get('/attention/cancelUser', 'AttentionController@cancelUser');
+		Route::post('/question/answer', [ 'middleware' => ['permission:front-question-answer'], 'uses' =>  'QuestionController@answer']);
+		//关注用户
+		Route::get('/attention/user', [ 'middleware' => ['permission:front-user-attention'], 'uses' =>   'AttentionController@user']);
+		//取消关注用户
+		Route::get('/attention/cancelUser', [ 'middleware' => ['permission:front-user-cancel'], 'uses' => 'AttentionController@cancelUser'] );
 		//个人中心
-		Route::get('/person', 'PersonController@index');
+		Route::get('/person', [ 'middleware' => ['permission:front-person-index'], 'uses' => 'PersonController@index'] );
 		//个人中心信息修改
-		Route::get('/person/info', 'PersonController@info');
-		//个人中心信息修改保存
-		Route::post('/person/info', 'PersonController@info');
+        Route::match(['get', 'post'],'/person/info',[ 'middleware' => ['permission:front-person-info'], 'uses' =>  'PersonController@info']);
 		//个人密码修改
-		Route::get('/person/pass', 'PersonController@password');
+		Route::get('/person/pass',[ 'middleware' => ['permission:front-person-pass'], 'uses' =>  'PersonController@password'] );
 		//个人密码修改保存
-		Route::post('/person/storepass', 'PersonController@storePass');
+		Route::post('/person/storepass',[ 'middleware' => ['permission:front-person-passstore'], 'uses' =>  'PersonController@storePass'] );
 		//个人头像修改
-		Route::get('/person/thumb', 'PersonController@thumb');
+		Route::get('/person/thumb',[ 'middleware' => ['permission:front-person-thumb'], 'uses' =>  'PersonController@thumb'] );
 		//个人头像保存
-		Route::post('/person/thumb', 'PersonController@thumbStore');
+		Route::post('/person/thumb',[ 'middleware' => ['permission:front-person-thumbstore'], 'uses' =>  'PersonController@thumbStore'] );
 		//我的私信
-		Route::get('/person/letter', 'PersonController@letter');
+		Route::get('/person/letter',[ 'middleware' => ['permission:front-person-letter'], 'uses' =>   'PersonController@letter']);
 		//写私信
-		Route::get('/person/sendLetter', 'PersonController@sendLetter');
+		Route::get('/person/sendLetter',[ 'middleware' => ['permission:front-person-sendletter'], 'uses' =>  'PersonController@sendLetter']);
 		//发送私信
-		Route::post('/person/storeLetter', 'PersonController@storeLetter');
+		Route::post('/person/storeLetter',[ 'middleware' => ['permission:front-person-storeletter'], 'uses' => 'PersonController@storeLetter'] );
 		//私信展开
-		Route::get('/person/letterDetail', 'PersonController@letterDetail');
+		Route::get('/person/letterDetail',[ 'middleware' => ['permission:front-letter-detail'], 'uses' => 'PersonController@letterDetail']);
         //我发布的文章
-        Route::get('/person/post', 'PersonController@post');
+        Route::get('/person/post', [ 'middleware' => ['permission:front-person-post'], 'uses' =>'PersonController@post']);
         //我发布的问答
-        Route::get('/person/answer', 'PersonController@answer');
+        Route::get('/person/answer', [ 'middleware' => ['permission:front-person-answer'], 'uses' => 'PersonController@answer']);
         //我发布的视频
-        Route::get('/person/video', 'PersonController@video');
+        Route::get('/person/video', [ 'middleware' => ['permission:front-person-video'], 'uses' => 'PersonController@video']);
 		//我收藏的文章
-		Route::get('/person/postCollect', 'PersonController@postCollect');
+		Route::get('/person/postCollect', [ 'middleware' => ['permission:front-personpost-collect'], 'uses' =>  'PersonController@postCollect']);
 		//我收藏的问答
-		Route::get('/person/answerCollect', 'PersonController@answerCollect');
+		Route::get('/person/answerCollect', [ 'middleware' => ['permission:front-answer-collect'], 'uses' => 'PersonController@answerCollect']);
         //我收藏的视频
-        Route::get('/person/videoCollect', 'PersonController@videoCollect');
+        Route::get('/person/videoCollect',  [ 'middleware' => ['permission:front-personvideo-collect'], 'uses' =>'PersonController@videoCollect']);
 		//我的关注
-		Route::get('/person/attention', 'PersonController@myAttention');
+		Route::get('/person/attention', [ 'middleware' => ['permission:front-person-atten'], 'uses' =>'PersonController@myAttention'] );
 		//我关注的用户
-		Route::get('/person/userAttention', 'PersonController@userAttention');
+		Route::get('/person/userAttention', [ 'middleware' => ['permission:front-person-useratten'], 'uses' => 'PersonController@userAttention'] );
 		//我关注的话题
-		Route::get('/person/topicAttention', 'PersonController@topicAttention');
+		Route::get('/person/topicAttention',  [ 'middleware' => ['permission:front-topic-atten'], 'uses' => 'PersonController@topicAttention'] );
 		//新增我关注的话题
-		Route::get('/person/topic/create', 'PersonController@topicCreate');
+		Route::get('/person/topic/create',  [ 'middleware' => ['permission:front-topic-create'], 'uses' =>'PersonController@topicCreate'] );
 		//取消我关注的话题
-		Route::get('/person/topic/cancel', 'PersonController@topicCancel');
+		Route::get('/person/topic/cancel', [ 'middleware' => ['permission:front-topic-cancel'], 'uses' => 'PersonController@topicCancel'] );
 		//我已关注的话题
-		Route::get('/person/topiced', 'PersonController@topiced');
+		Route::get('/person/topiced', [ 'middleware' => ['permission:front-person-topiced'], 'uses' => 'PersonController@topiced']);
         //文章收藏
-        Route::post('/post/collect', 'PostController@collect');
+        Route::post('/post/collect', [ 'middleware' => ['permission:front-post-collect'], 'uses' => 'PostController@collect']);
         //取消收藏
-        Route::post('/post/collectCancel', 'PostController@collectCancel');
+        Route::post('/post/collectCancel',[ 'middleware' => ['permission:front-postcollect-cancel'], 'uses' =>'PostController@collectCancel']);
 		//文章新增
-		Route::get('/post/create', 'PostController@create');
+		Route::get('/post/create',[ 'middleware' => ['permission:front-post-create'], 'uses' =>'PostController@create']);
 		//保存文章
-		Route::post('/post/store', 'PostController@store');
+		Route::post('/post/store',[ 'middleware' => ['permission:front-post-store'], 'uses' =>'PostController@store']);
 		//编辑文章
-		Route::get('/post/edit', 'PostController@edit');
+		Route::get('/post/edit',[ 'middleware' => ['permission:front-post-edit'], 'uses' =>'PostController@edit']);
 		//更新文章
-		Route::post('/post/update', 'PostController@update');
+		Route::post('/post/update',[ 'middleware' => ['permission:front-post-update'], 'uses' => 'PostController@update']);
 		//文章删除
-		Route::post('/post/del', 'PostController@del');
+		Route::post('/post/del',[ 'middleware' => ['permission:front-post-delete'], 'uses' =>'PostController@del']);
         //文章添加评论
-        Route::post('/post/comment', 'PostController@commentCreate');
+        Route::post('/post/comment',[ 'middleware' => ['permission:front-comment-create'], 'uses' => 'PostController@commentCreate']);
 		//我收藏的文章
-		Route::get('/post/myCollect', 'PostController@myCollect');
+		Route::get('/post/myCollect',[ 'middleware' => ['permission:front-post-mycollect'], 'uses' =>  'PostController@myCollect']);
         //新增视频
-        Route::get('/video/create',[ 'middleware' => ['permission:video-create'], 'uses' =>'VideoController@create'] );
+        Route::get('/video/create',[ 'middleware' => ['permission:front-video-create'], 'uses' =>'VideoController@create'] );
         //保存视频
-        Route::post('/video/store',[ 'middleware' => ['permission:video-store'], 'uses' =>'VideoController@store']);
+        Route::post('/video/store',[ 'middleware' => ['permission:front-video-store'], 'uses' =>'VideoController@store']);
         //视频删除
-        Route::post('/video/del',[ 'middleware' => ['permission:video-delete'], 'uses' =>'VideoController@del'] );
+        Route::post('/video/del',[ 'middleware' => ['permission:front-video-delete'], 'uses' =>'VideoController@del'] );
         //编辑文章
-        Route::get('/video/edit',[ 'middleware' => ['permission:video-edit'], 'uses' => 'VideoController@edit'] );
+        Route::get('/video/edit',[ 'middleware' => ['permission:front-video-edit'], 'uses' => 'VideoController@edit'] );
         //更新文章
-        Route::post('/video/update',[ 'middleware' => ['permission:video-update'], 'uses' => 'VideoController@update']  );
+        Route::post('/video/update',[ 'middleware' => ['permission:front-video-update'], 'uses' => 'VideoController@update']);
         //视频收藏
-        Route::post('/video/collect', 'VideoController@collect');
+        Route::post('/video/collect',[ 'middleware' => ['permission:front-video-collect'], 'uses' => 'VideoController@collect']);
         //取消收藏
-        Route::post('/video/collectCancel', 'VideoController@collectCancel');
+        Route::post('/video/collectCancel',[ 'middleware' => ['permission:front-video-cancelcollect'], 'uses' => 'VideoController@collectCancel'] );
         //视频添加评论
-        Route::post('/video/comment', 'VideoController@commentCreate');
+        Route::post('/video/comment',[ 'middleware' => ['permission:front-video-comment'], 'uses' => 'VideoController@commentCreate'] );
         //动态
-        Route::get('/dynamic', 'DynamicController@index');
+        Route::get('/dynamic', [ 'middleware' => ['permission:front-dynamic-index'], 'uses' => 'DynamicController@index']);
         //文章点赞
-        Route::get('/support/post', 'SupportController@post');
+        Route::get('/support/post',[ 'middleware' => ['permission:front-support-post'], 'uses' =>'SupportController@post'] );
         //问答点赞
-        Route::get('/support/question', 'SupportController@question');
+        Route::get('/support/question',[ 'middleware' => ['permission:front-support-question'], 'uses' => 'SupportController@question'] );
         //视频点赞
-        Route::get('/support/video', 'SupportController@video');
+        Route::get('/support/video', [ 'middleware' => ['permission:front-support-video'], 'uses' =>'SupportController@video'] );
 	});
+
+
 
 	//新后台管理
 	Route::group(['prefix' => 'back','middleware' => ['role:admins']], function()
