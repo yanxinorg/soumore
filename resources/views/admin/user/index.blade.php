@@ -38,7 +38,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="table-responsive">
                             <table class="table table-bordered table-stripped">
                              	<thead>
                                     <tr>
@@ -90,8 +89,7 @@
                                 @endforeach()
                                 </tbody>
                             </table>
-                                <div class="pull-right">{!! $users->appends(array('wd'=>$wd))->render() !!}</div>
-                            </div>
+                            <div class="paginate">{!! $users->appends(array('wd'=>$wd))->render() !!}</div>
                         </div>
                     </div>
                 </div>

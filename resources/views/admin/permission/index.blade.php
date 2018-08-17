@@ -25,7 +25,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="table-responsive">
                             <table class="table table-bordered table-stripped">
                              	<thead>
                                     <tr>
@@ -53,8 +52,7 @@
                                 @endforeach()
                                 </tbody>
                             </table>
-                                <div class="paginate pull-right" >{{ $permits->links() }}</div>
-                            </div>
+                            <div class="paginate" >{{ $permits->links() }}</div>
                         </div>
                     </div>
                 </div>
