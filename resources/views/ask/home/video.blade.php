@@ -57,7 +57,7 @@
                                         <div class="mod-body">
                                             <div class="row">
                                                 @foreach($videos as $video )
-                                                    <div class="col-md-3" style="margin-bottom: 24px;text-align: center">
+                                                    <div class="col-md-3" style="margin-bottom: 24px;">
                                                         <a class="img aw-border-radius-5" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">
                                                             <img style="width:180px;height: 120px;" src="{{ $video->thumb }}" alt="{{ $video->title }}">
                                                         </a>

@@ -107,7 +107,8 @@ class UserController extends Controller
     				'uid'=>(Uuid::uuid4()->getHex()),//生成全局UID
     				'name'=>$request->get('username'),
     				'email'=>$request->get('email'),
-    				'password'=>bcrypt($request->get('password'))
+                    'password'=>bcrypt($request->get('password')),
+    				'avator'=>'http://op3nuhi8v.bkt.clouddn.com/03fe034e581431c4716a669a281e351f'       //默认头像
     		]);
     		//注册成功 跳转登录页面
     		return redirect('/login')->withErrors(['success'=>'注册成功，请登录！']);

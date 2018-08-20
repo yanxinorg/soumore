@@ -52,7 +52,7 @@
                                 @foreach($videos as $video )
                                     <div class="aw-item">
                                         <a class="img aw-border-radius-5" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">
-                                            <img style="width:180px;height: 120px;" src="{{ $video->thumb }}" alt="{{ $video->title }}">
+                                            <img style="width:180px;height: 120px;" src="{{ $video->thumb }}" >
                                         </a>
                                         <p class="clearfix" style="margin-top: 12px;">
                                             <a class="text" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">{{ str_limit($video->title,20) }}</a>

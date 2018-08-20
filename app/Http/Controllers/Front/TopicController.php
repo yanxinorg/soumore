@@ -16,7 +16,7 @@ class TopicController extends Controller
     {
     	$tags = TagModel::where('status','1')->paginate('14');
         //今日话题
-        $todayTag = TagModel::where('status','1')->orderBy('created_at','desc')->limit(1)->get()->toArray();
+        $todayTag = TagModel::where('status','1')->orderBy('created_at','desc')->first();
         //话题分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
 
@@ -32,9 +32,9 @@ class TopicController extends Controller
         //话题分类
         $cates = CategoryModel::where('status','=','1')->orderBy('created_at','desc')->get();
         //今日话题
-        $todayTag = TagModel::where('status','1')->orderBy('created_at','desc')->limit(1)->get()->toArray();
+        $todayTag = TagModel::where('status','1')->orderBy('created_at','desc')->first();
 
-        return view('ask.topic.index',['tags'=>$tags,'todayTag'=>$todayTag[0],'cates'=>$cates,'cid'=>$request->get('cid')]);
+        return view('ask.topic.index',['tags'=>$tags,'todayTag'=>$todayTag,'cates'=>$cates,'cid'=>$request->get('cid')]);
     }
     
     

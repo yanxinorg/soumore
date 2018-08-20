@@ -662,12 +662,18 @@ class RbacSeeder extends Seeder
         ]);
 
         //初始化超管用户
-        $user = \App\User::updateOrCreate(array('name' => 'chen','admin' => '1'),array('id'=>'1','name' => 'chen','email'=>'001@chenframe.com','password'=>bcrypt('123456'),'admin'=>'1'));
+        $user = \App\User::updateOrCreate(
+            ['name' => 'chen','admin' => '1'],
+            ['id'=>'1','name' => 'chen','email'=>'001@chenframe.com','password'=>bcrypt('123456'),'admin'=>'1','avator'=>'http://op3nuhi8v.bkt.clouddn.com/03fe034e581431c4716a669a281e351f']
+        );
         $user->attachRole($admin);
         $user->attachRole($normal);
 
         //初始化普通用户
-        $test = \App\User::updateOrCreate(array('name' => 'test'),array('id'=>'2','name' => 'test','email'=>'002@chenframe.com','password'=>bcrypt('test')));
+        $test = \App\User::updateOrCreate(
+            ['name' => 'test'],
+            ['id'=>'2','name' => 'test','email'=>'002@chenframe.com','password'=>bcrypt('test'),'avator'=>'http://op3nuhi8v.bkt.clouddn.com/03fe034e581431c4716a669a281e351f']
+        );
         $test->attachRole($normal);
     }
 }
