@@ -1,10 +1,5 @@
 @extends('layouts.ask')
 @section('content')
-<style>
-    li {
-        list-style-type:none;
-    }
-</style>
 <link  rel="stylesheet" type="text/css" href="{{ asset('ask/css/user.css') }}">
     <div class="aw-container-wrap">
         <div class="container1">
@@ -37,14 +32,14 @@
                             </div>
                             <div class="mod-footer">
                                 <ul class="nav nav-tabs aw-nav-tabs">
-                                    <li><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}">动态</a></li>
+                                    <li class="active"><a href="" id="page_actions" data-toggle="tab">动态</a></li>
                                     <li><a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}">文章<span class="badge">{{ $countPost }}</span></a></li>
-                                    <li ><a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}">问答<span class="badge">{{ $countQuestion }}</span></a></li>
-                                    <li class="active"><a href="{{ URL::action('Front\HomeController@video', ['uid'=>$uid]) }}">视频<span class="badge">{{ $countVideo }}</span></a></li>
+                                    <li><a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}">问答<span class="badge">{{ $countQuestion }}</span></a></li>
+                                    <li ><a href="{{ URL::action('Front\HomeController@video', ['uid'=>$uid]) }}">视频<span class="badge">{{ $countVideo }}</span></a></li>
                                     <li ><a href="{{ URL::action('Front\HomeController@topicUser', ['uid'=>$uid]) }}">关注的人<span class="badge">{{  $countUsers }}</span></a></li>
                                     <li ><a href="{{ URL::action('Front\HomeController@topics', ['uid'=>$uid]) }}">关注的话题<span class="badge">{{ $countTopics }}</span></a></li>
                                     <li ><a href="{{ URL::action('Front\HomeController@topicedUser', ['uid'=>$uid]) }}">粉丝<span class="badge">{{ $countFans  }}</span></a></li>
-                                    <li><a href="{{ URL::action('Front\HomeController@info', ['uid'=>$uid]) }}">详细资料</a></li>
+                                    <li><a href="{{ URL::action('Front\HomeController@info', ['uid'=>$uid]) }}" >详细资料</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -53,24 +48,44 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" >
                                     <div class="aw-mod">
-                                        <div class="mod-head">　</div>
-                                        <div class="mod-body">
-                                            <div class="row">
-                                                @foreach($videos as $video )
-                                                    <div class="col-md-3" style="margin-bottom: 24px;">
-                                                        <a class="img aw-border-radius-5" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">
-                                                            <img style="width:180px;height: 120px;" src="{{ $video->thumb }}" alt="{{ $video->title }}">
-                                                        </a>
-                                                        <p class="clearfix">
-                                                            <li ><a class="text" href="{{ URL::action('Front\VideoController@detail', ['id'=>$video->id]) }}">{{ str_limit($video->title,24) }}</a></li>
-                                                            <li class="text-color-999"><span>发布时间：{{ substr($video->created_at,0,11) }}</span></li>
-                                                        </p>
-                                                    </div>
-                                                @endforeach()
+                                        <div class="mod-body" >
+                                            <div class="aw-common-list" >
+                                                <div style="clear: both;"></div>
+                                                @foreach($dynamics as $data)
+                                                    @if($data->source_action == '1')
+                                                        <div class="aw-item article">
+                                                            <a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" ><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
+                                                            <div class="aw-question-content">
+                                                                <p>
+                                                                    <span>&nbsp;</span><span class="text-color-999">{{ $data->author }}</a> 发表了文章 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
+                                                                </p>
+                                                                <a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->source_id]) }}">{{ $data->subject }}</a>
+                                                            </div>
+                                                        </div>
+                                                    @elseif($data->source_action == '2')
+                                                        <div class="aw-item article">
+                                                            <a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" ><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
+                                                            <div class="aw-question-content">
+                                                                <p>
+                                                                    <span>&nbsp;</span><span class="text-color-999">{{ $data->author }}</a> 发布了问答 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
+                                                                </p>
+                                                                <a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$data->source_id]) }}">{{ $data->subject }}</a>
+                                                            </div>
+                                                        </div>
+                                                    @elseif($data->source_action == '3')
+                                                        <div class="aw-item article">
+                                                            <a class="aw-user-name hidden-xs" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" ><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
+                                                            <div class="aw-question-content">
+                                                                <p>
+                                                                    <span>&nbsp;</span><span class="text-color-999">{{ $data->author }}</a> 发布了视频 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</span>
+                                                                </p>
+                                                                <a href="{{ URL::action('Front\VideoController@detail', ['id'=>$data->source_id]) }}">{{ $data->subject }}</a>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
                                             </div>
-                                            <div class="mod-footer clearfix">
-                                                <div class="paginate" style="text-align:center;">{!! $videos->appends(array('uid'=>$uid))->render() !!}</div>
-                                            </div>
+                                           <div class="paginate" style="text-align:center;">{!! $dynamics->links() !!}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +101,7 @@
                                 <span>关注 <em class="aw-text-color-blue">{{  $countUsers }}</em>人</span>
                                 <p>
                                 @foreach($topicUsers as $topicUser)
-                                    <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$topicUser->user_id]) }}"><img src="{{ $topicUser->avator }}-sm_thumb_small" onerror="this.src='{{ asset('ask/img/default_avator.jpg') }}'"/></a>
+                                    <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$topicUser->user_id]) }}"><img src="{{ $topicUser->avator }}-sm_thumb_small" onerror="this.src='{{ asset('ask/img/default_avator.jpg') }}'" /></a>
                                 @endforeach()
                                 </p>
                             </div>
@@ -97,7 +112,7 @@
                                 <span> 被 <em class="aw-text-color-blue">{{ $countFans  }}</em> 人关注</span>
                                 <p>
                                 	@foreach($fans as $fan)
-                                    <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$fan->user_id]) }}"><img src="{{ $fan->avator }}-sm_thumb_middle" onerror="this.src='{{ asset('ask/img/default_avator.jpg') }}'"/></a>
+                                    <a class="aw-user-name" data-id="3" href="{{ URL::action('Front\HomeController@index', ['uid'=>$fan->user_id]) }}"><img src="{{ $fan->avator }}-sm_thumb_middle" onerror="this.src='{{ asset('ask/img/default_avator.jpg') }}'" /></a>
                                 	@endforeach()
                                 </p>
                             </div>

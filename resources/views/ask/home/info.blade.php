@@ -39,7 +39,7 @@
                             </div>
                             <div class="mod-footer">
                                 <ul class="nav nav-tabs aw-nav-tabs">
-                                    <li><a href="" id="page_actions" data-toggle="tab">动态</a></li>
+                                    <li><a href="{{ URL::action('Front\HomeController@index', ['uid'=>$uid]) }}">动态</a></li>
                                     <li><a href="{{ URL::action('Front\HomeController@post', ['uid'=>$uid]) }}">文章<span class="badge">{{ $countPost }}</span></a></li>
                                     <li><a href="{{ URL::action('Front\HomeController@question', ['uid'=>$uid]) }}">问答<span class="badge">{{ $countQuestion }}</span></a></li>
                                     <li ><a href="{{ URL::action('Front\HomeController@video', ['uid'=>$uid]) }}">视频<span class="badge">{{ $countVideo }}</span></a></li>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Common\DynamicModel;
 use App\Models\Common\QuestionModel;
 use Illuminate\Http\Request;
 use App\Models\Common\UserModel;
@@ -192,7 +193,21 @@ class HomeController extends Controller
                 $this->islooked = false;
             }
         }
-    	return view('ask.home.post',[
+        //用户动态
+        $dynamics = DB::table('dynamic')
+            ->leftjoin('users', 'dynamic.uid', '=', 'users.id')
+            ->where('dynamic.uid',$this->uid)
+            ->select(
+                'users.id as user_id',
+                'users.name as author',
+                'users.avator as avator',
+                'dynamic.source_id as source_id',
+                'dynamic.source_action as source_action',
+                'dynamic.subject as subject',
+                'dynamic.created_at as created_at'
+            )->orderBy('dynamic.created_at','desc')->paginate('8');
+
+    	return view('ask.home.dynamic',[
     	    'userinfo'=>$this->userinfo,
             'datas'=>$this->posts,
             'province'=>$this->province,
@@ -210,9 +225,11 @@ class HomeController extends Controller
             'countTopics'=>$this->countTopics,
             'uid'=>$this->uid,
             'islooked'=>$this->islooked,
-            'recents'=>$this->recents]);
+            'recents'=>$this->recents,
+            'dynamics'=>$dynamics
+        ]);
     }
-    
+    //文章
     public function post()
     {
         //是否关注

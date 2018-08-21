@@ -145,6 +145,12 @@ class RbacSeeder extends Seeder
         $frontSendletter->display_name = 'person sendletter';
         $frontSendletter->description = '私信发送';
         $frontSendletter->save();
+        //私信保存
+        $frontSendstore = new \App\Permission();
+        $frontSendstore->name = 'front-person-storeletter';
+        $frontSendstore->display_name = 'person storeletter';
+        $frontSendstore->description = '保存私信';
+        $frontSendstore->save();
         //私信详情
         $frontletterDetail = new \App\Permission();
         $frontletterDetail->name = 'front-letter-detail';
@@ -653,7 +659,7 @@ class RbacSeeder extends Seeder
         $normal->attachPermissions([
             $frontquestionCreate,$frontquestionStore,$frontquestionDelete,$frontquestionEdit, $frontquestionUpdate, $frontquestionCollect,
             $frontcollectCancel,$frontquestionAnswer, $frontuserAttention,$frontuserCancel,$frontpersonIndex, $frontpersonInfo,$frontpersonPass,
-            $frontPassStore, $frontpersonThumb, $frontThumbstore,$frontletter,$frontSendletter,$frontletterDetail, $frontpersonPost,$frontpersonAnswer,
+            $frontPassStore, $frontpersonThumb, $frontThumbstore,$frontletter,$frontSendletter,$frontSendstore,$frontletterDetail, $frontpersonPost,$frontpersonAnswer,
             $frontpersonVideo, $frontpersonpostCollect,$frontanswerCollect,$frontpersonvideoCollect,$frontpersonAtten,$frontpersonUseratten,$fronttopicAtten,
             $fronttopicCreate,$fronttopicCancel, $frontpersonTopiced,$frontpostCollect,$frontpostCollectcancel,$frontpostCreate,$frontpostStore,
             $frontpostEdit, $frontpostUpdate,$frontpostDelete, $frontcommentCreate,$frontpostMycollect, $frontvideoCreate, $frontvideoStore,
