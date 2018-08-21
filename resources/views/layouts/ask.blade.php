@@ -58,7 +58,7 @@
                             <li><a href="{{ url('/question') }}" class="{{ (Request::getPathinfo() == '/question')  ? 'active':'' }}"><i class="icon icon-help"></i>问答</a></li>
                             <li><a href="{{ url('/topic') }}" class="{{ (Request::getPathinfo() == '/topic')  ? 'active':'' }}"><i class="icon icon-topic"></i>话题</a></li>
                             <li><a href="{{ url('/video') }}" class="{{ (Request::getPathinfo() == '/video')  ? 'active':'' }}"><i class="icon icon-video"></i>视频</a></li>
-                            <li><a href="{{ url('/dynamic') }}" class=""><i class="icon icon-home"></i>动态</a></li>
+                            <li><a href="{{ url('/dynamic') }}" class="{{ (Request::getPathinfo() == '/dynamic')  ? 'active':'' }}"><i class="icon icon-home"></i>动态</a></li>
                         </ul>
                     </nav>
                 </div>

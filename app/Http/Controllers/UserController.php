@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Common\AttentionModel;
+use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Common\UserModel;
@@ -110,7 +111,10 @@ class UserController extends Controller
                     'password'=>bcrypt($request->get('password')),
     				'avator'=>'http://op3nuhi8v.bkt.clouddn.com/03fe034e581431c4716a669a281e351f'       //默认头像
     		]);
-    		//注册成功 跳转登录页面
+            //normal角色
+            $normal_id = Role::where('name','normals')->pluck('id');
+            $result->attachRole($normal_id[0]);
+            //注册成功 跳转登录页面
     		return redirect('/login')->withErrors(['success'=>'注册成功，请登录！']);
     	}
     }

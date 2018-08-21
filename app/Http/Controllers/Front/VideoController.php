@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Models\Common\CategoryModel;
 use App\Models\Common\CommentModel;
+use App\Models\Common\DynamicModel;
 use App\Models\Common\OtherTagModel;
 use App\Models\Common\SupportModel;
 use App\Models\Common\TagModel;
@@ -165,6 +166,26 @@ class VideoController extends Controller
                     'source_type'=>'3'
                 ]);
             }
+        }
+        //用户动态表
+        if($request->get('status'))
+        {
+            DynamicModel::updateOrCreate([
+                'uid'=>Auth::user()->id,
+                'source_id'=>$videoId->id,
+                'source_action'=>'3'
+            ],[
+                'uid'=>Auth::user()->id,
+                'source_id'=>$videoId->id,
+                'source_action'=>'3',
+                'subject'=>trim($request->get('title'))
+            ]);
+        }else{
+            DynamicModel::where([
+                'uid'=>Auth::user()->id,
+                'source_id'=>$videoId->id,
+                'source_action'=>'3'
+            ])->delete();
         }
         return redirect('/video');
     }
@@ -383,6 +404,26 @@ class VideoController extends Controller
                     'source_type'=>'3'
                 ]);
             }
+        }
+        //用户动态表
+        if($request->get('status'))
+        {
+            DynamicModel::updateOrCreate([
+                'uid'=>Auth::user()->id,
+                'source_id'=>$videoId,
+                'source_action'=>'3'
+            ],[
+                'uid'=>Auth::user()->id,
+                'source_id'=>$videoId,
+                'source_action'=>'3',
+                'subject'=>trim($request->get('title'))
+            ]);
+        }else{
+            DynamicModel::where([
+                'uid'=>Auth::user()->id,
+                'source_id'=>$videoId,
+                'source_action'=>'3'
+            ])->delete();
         }
         return redirect('/video');
     }

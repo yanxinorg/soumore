@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Models\Common\CommentModel;
+use App\Models\Common\DynamicModel;
 use App\Models\Common\OtherTagModel;
 use App\Models\Common\SupportModel;
 use App\Models\Common\UserModel;
@@ -98,6 +100,13 @@ class QuestionController extends Controller
 	    			]);
 	    		}
 	    	}
+        //用户动态表
+        DynamicModel::create([
+            'uid'=>Auth::user()->id,
+            'source_id'=>$questionId->id,
+            'source_action'=>'2',
+            'subject'=>trim($request->get('title'))
+        ]);
     	return redirect('/question');
 	    	
     }
@@ -137,21 +146,22 @@ class QuestionController extends Controller
     					)
     			->orderBy('tags.created_at','desc')
     			->paginate('5');
-    			//评论内容
-    	$answers = DB::table('answers')
-    			->leftjoin('users', 'answers.user_id', '=', 'users.id')
-    			->where('answers.question_id','=',$request->get('id'))
-    			->select('answers.id as answer_id',
-    					'answers.user_id as user_id',
-    					'answers.id as answer_id',
-    					'answers.content as content',
-    					'answers.to_user_id as to_user_id',
-    					'answers.created_at as created_at',
-    					'answers.status as status',
-    					'users.name as commentator',
-    					'users.avator as avator')
-    			->orderBy('answers.created_at','desc')
-    			->paginate('15');
+        //评论内容
+        $answers = DB::table('comments')
+            ->leftjoin('users', 'comments.user_id', '=', 'users.id')
+            ->where('comments.source_id','=',$request->get('id'))
+            ->where('comments.source_type','=','2')     //1文章
+            ->where('comments.status','=','1')
+            ->select('comments.id as answer_id',
+                'comments.user_id as user_id',
+                'comments.content as content',
+                'comments.to_user_id as to_user_id',
+                'comments.created_at as created_at',
+                'comments.status as status',
+                'users.name as commentator',
+                'users.avator as avator')
+            ->orderBy('comments.created_at','desc')
+            ->paginate('10');
         //点赞数
         $supports = SupportModel::where(['source_id'=>$request->get('id'),'source_type'=>'2','rating'=>'1'])->count();
     	//是否收藏
@@ -385,37 +395,37 @@ class QuestionController extends Controller
     	return view('wenda.question.index',['questions'=>$questions,'cates'=>$cates,'tags'=>$tags,'cid'=>$request->get('cid'),'tid'=>$request->get('tid')]);
     }
     
-    
     //添加回答
     public function answer(Request $request)
     {
-    	$this->validate($request, [
-    			'answer'=>'required|min:1',
-    			'question_id'=>'required|exists:questions,id',
-    			'to_user_id'=>'sometimes|exists:answers,user_id',
-    			'answer_id'=>'sometimes|exists:answers,id',
-    			'user_id'=>'required|exists:users,id'
-    	],[
+        $this->validate($request, [
+            'answer'=>'required|min:1',
+            'question_id'=>'required|exists:questions,id',
+            'to_user_id'=>'sometimes|exists:comments,user_id',
+            'answer_id'=>'sometimes|exists:comments,id',
+            'user_id'=>'required|exists:users,id'
+        ],[
             'required'=>':attribute 不能为空'
         ],[
-            'answer'=>'回答内容'
+            'answer'=>'回答内容',
         ]);
-    	$result = AnswerModel::create([
-    			'user_id'=>$request->get('user_id'),
-    			'question_id'=>$request->get('question_id'),
-    			'content'=>$request->get('answer'),
-    			'to_user_id'=>$request->get('to_user_id')
-    	]);
-    	//评论数加一
-    	QuestionModel::where('id','=',$request->get('question_id'))->increment("comments");
-    	if($result)
-    	{
-    		return redirect()->action('Front\QuestionController@detail',['id'=>$request->get('question_id')]);
-    	}else{
-    		return redirect()->back();
-    	}
+        $result = CommentModel::create([
+            'user_id'=>$request->get('user_id'),
+            'source_id'=>$request->get('question_id'),
+            'source_type'=>'2',
+            'content'=>$request->get('answer'),
+            'to_user_id'=>$request->get('to_user_id')
+        ]);
+        //评论数加一
+        QuestionModel::where('id','=',$request->get('question_id'))->increment("comments");
+        if($result)
+        {
+            return redirect()->action('Front\QuestionController@detail',['id'=>$request->get('question_id')]);
+        }else{
+            return redirect()->back();
+        }
     }
-    
+
     //问答删除
     public function del(Request $request)
     {

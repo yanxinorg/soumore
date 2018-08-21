@@ -10,14 +10,44 @@
                                 <h2 id="main_title">最新动态</h2>
                             </div>
 
-                            <div class="mod-body aw-feed-list clearfix" id="main_contents">
-
-
+                            <div class="mod-body aw-feed-list clearfix">
+                                @foreach($datas as $data)
+                                    @if($data->source_action == '1')
+                                    <div class="aw-item" >
+                                        <div class="mod-head">
+                                            <a class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}"><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
+                                            <p class="text-color-999">
+                                                <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->author }}</a> 发表了文章 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}
+                                            </p>
+                                            <h4><a href="{{ URL::action('Front\PostController@detail', ['id'=>$data->source_id]) }}">{{ $data->subject  }}</a></h4>
+                                        </div>
+                                    </div>
+                                    @elseif($data->source_action == '2')
+                                        <div class="aw-item" >
+                                            <div class="mod-head">
+                                                <a class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}"><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
+                                                <p class="text-color-999">
+                                                    <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->author }}</a> 发布了问答 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}
+                                                </p>
+                                                <h4><a href="{{ URL::action('Front\QuestionController@detail', ['id'=>$data->source_id]) }}">{{ $data->subject  }}</a></h4>
+                                            </div>
+                                        </div>
+                                    @elseif($data->source_action == '3')
+                                        <div class="aw-item" >
+                                            <div class="mod-head">
+                                                <a class="aw-user-img aw-border-radius-5" href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}"><img src="{{ $data->avator }}-sm_thumb_middle" /></a>
+                                                <p class="text-color-999">
+                                                    <a href="{{ URL::action('Front\HomeController@index', ['uid'=>$data->user_id]) }}" class="aw-user-name">{{ $data->author }}</a> 发布了视频 • {{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}
+                                                </p>
+                                                <h4><a href="{{ URL::action('Front\VideoController@detail', ['id'=>$data->source_id]) }}">{{ $data->subject  }}</a></h4>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
                             </div>
 
-                            <div class="mod-footer">
-
-
+                            <div class="mod-footer clearfix">
+                                <div class="paginate" style="text-align:center;">{!! $datas->links() !!}</div>
                             </div>
                         </div>
                     </div>

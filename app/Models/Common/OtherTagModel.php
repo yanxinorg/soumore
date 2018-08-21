@@ -9,5 +9,5 @@ class OtherTagModel extends Model
     //
     protected $table = 'other_tag';
     public $timestamps = TRUE;
-    protected $fillable = ['source_id','source_type','tags_id','created_at','updated_at'];
+    protected $fillable = ['source_id','source_type','tag_id','created_at','updated_at'];
 }

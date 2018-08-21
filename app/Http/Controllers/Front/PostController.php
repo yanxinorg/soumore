@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Models\Common\DynamicModel;
 use App\Models\Common\OtherTagModel;
 use App\Models\Common\SupportModel;
 use App\Models\Common\UserModel;
@@ -313,8 +314,21 @@ class PostController extends Controller
                         'source_type'=>'1'
     			]);
     		}
-    	
     	}
+    	//用户动态表
+        if($request->get('status'))
+        {
+            DynamicModel::updateOrCreate([
+                'uid'=>Auth::user()->id,
+                'source_id'=>$postId->id,
+                'source_action'=>'1'
+            ],[
+                'uid'=>Auth::user()->id,
+                'source_id'=>$postId->id,
+                'source_action'=>'1',
+                'subject'=>trim($request->get('title'))
+            ]);
+        }
     	return redirect('/post');
     }
     //文章编辑
@@ -441,6 +455,25 @@ class PostController extends Controller
     				]);
     			}
     	}
+        if($request->get('status'))
+        {
+            DynamicModel::updateOrCreate([
+                'uid'=>Auth::user()->id,
+                'source_id'=>$postId->id,
+                'source_action'=>'1'
+            ],[
+                'uid'=>Auth::user()->id,
+                'source_id'=>$postId->id,
+                'source_action'=>'1',
+                'subject'=>trim($request->get('title'))
+            ]);
+        }else{
+            DynamicModel::where([
+                'uid'=>Auth::user()->id,
+                'source_id'=>$postId->id,
+                'source_action'=>'1'
+            ])->delete();
+        }
     	return redirect('/post');
     }
     
