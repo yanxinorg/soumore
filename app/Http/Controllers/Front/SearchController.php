@@ -85,6 +85,6 @@ class SearchController extends Controller
     public function user(Request $request)
     {
     	$datas = UserModel::search($request->get('wd'))->paginate(10);
-        return view('ask.search.user',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'btCount'=>$this->btCount,'wd'=>$this->wd]);
+        return view('ask.search.user',['datas'=>$datas,'postCount'=>$this->postCount,'questionCount'=>$this->questionCount,'tagCount'=>$this->tagCount,'userCount'=>$this->userCount,'videoCount'=>$this->videoCount,'wd'=>$this->wd]);
     }
 }

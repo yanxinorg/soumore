@@ -60,7 +60,7 @@ class PersonController extends Controller
 	    		'qq'=>'qq号']);
 	    	//更新数据
 	      	$result = DB::table('users')->where('id', Auth::id())->update([
-					          	'realname'=>$request->get('realname'),
+					          	'truename'=>$request->get('realname'),
 					          	'email'=>$request->get('email'),
 					          	'mobile'=>$request->get('mobile'),
 					          	'birthday'=>$request->get('birth'),
@@ -69,7 +69,6 @@ class PersonController extends Controller
 					          	'weixin'=>$request->get('weixin'),
 	      					  	'province'=>$request->get('province'),
 	      					  	'city'=>$request->get('city'),
-					          	'address'=>$request->get('location'),
 					          	'graduateschool'=>$request->get('school'),
 					          	'company'=>$request->get('company'),
 					          	'occupation'=>$request->get('profession'),

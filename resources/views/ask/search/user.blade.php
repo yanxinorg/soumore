@@ -17,7 +17,6 @@ use App\Models\Common\AttentionModel;
 										<li><a href="{{ URL::action('Front\SearchController@topic', ['wd'=>$wd]) }}" >话题<span class="badge">{{  $tagCount }}</span></a></li>
 										<li><a href="{{ URL::action('Front\SearchController@wenda', ['wd'=>$wd]) }}" >问答<span class="badge">{{ $questionCount }}</span></a></li>
 										<li><a href="{{ URL::action('Front\SearchController@post', ['wd'=>$wd]) }}" >文章<span class="badge">{{ $postCount }}</span></a></li>
-										<li><a href="{{ URL::action('Front\SearchController@torrent', ['wd'=>$wd]) }}" >资源<span class="badge">{{ $btCount }}</span></a></li>
 										<h2 class="hidden-xs"><p>搜索 - <span id="aw-search-type">全部</span></p></h2>
 									</ul>
 								</div>
