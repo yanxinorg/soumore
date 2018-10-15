@@ -17,6 +17,7 @@
                                         @foreach($roles as $role)
                                             <option value="{{ $role->id }}">{{ $role->display_name }}</option>
                                         @endforeach
+
                                     </select>
                                 </div>
                                 <div class="col-md-6 m-b-md">
