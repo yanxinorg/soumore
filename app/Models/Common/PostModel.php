@@ -12,7 +12,7 @@ class PostModel extends Model
     use Searchable;
 	protected $table = 'posts';
 	public $timestamps = TRUE;
-	protected $fillable = ['user_id','cate_id','title','excerpt','content','thumb','thumb_small','status','mime'];
+    protected $fillable = ['user_id','cate_id','title','author','excerpt','content','thumb','thumb_small','status','mime','publish_time'];
 
     /**
      * 模型的“启动”方法.

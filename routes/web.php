@@ -328,12 +328,21 @@ Route::group(['middleware' => 'authed'], function () {
        //删除公告
         Route::post('/notice/delete', [ 'middleware' => ['permission:notice-delete'],'uses' => 'Admin\NoticeController@delete'] );
 
-	    //文章列表
-	    Route::get('/post/list', [ 'middleware' => ['permission:post-list'], 'uses' =>'Admin\PostController@index'] );
-	    //删除文章
-	    Route::post('/post/delete', [ 'middleware' => ['permission:post-delete'], 'uses' => 'Admin\PostController@delete'] );
-	    //更改文章状态
-	    Route::post('/post/status', [ 'middleware' => ['permission:post-status'], 'uses' =>'Admin\PostController@status'] );
+        //文章列表
+        Route::get('/post/list', [ 'middleware' => ['permission:post-list'], 'uses' =>'Admin\PostController@index'] );
+        //创建文章
+        Route::get('/post/create', ['uses' =>'Admin\PostController@create'] );
+        //保存文章
+        Route::post('/post/store', ['uses' =>'Admin\PostController@store'] );
+        //更新文章
+        Route::get('/post/edit', ['uses' =>'Admin\PostController@edit'] );
+        //保存文章
+        Route::post('/post/update', ['uses' =>'Admin\PostController@update'] );
+        //删除文章
+        Route::post('/post/delete', ['uses' => 'Admin\PostController@delete'] );
+        //更改文章状态
+        Route::post('/post/status', [ 'uses' =>'Admin\PostController@status'] );
+
         //问答列表
         Route::get('/question/list', ['middleware' => ['permission:question-list'],'uses' =>'Admin\QuestionController@index'] );
         //删除问答
@@ -342,6 +351,10 @@ Route::group(['middleware' => 'authed'], function () {
         Route::match(['get', 'post'],'/search/user', [ 'middleware' => ['permission:search-user'], 'uses' => 'Admin\SearchController@userSearch'] );
         //分类搜索
         Route::match(['get', 'post'],'/search/cate', [ 'uses' => 'Admin\SearchController@cateSearch'] );
+        //文章搜索
+        Route::match(['get', 'post'],'/search/post/title', ['uses' => 'Admin\SearchController@postTitleSearch'] );
+        //话题搜索
+        Route::match(['get', 'post'],'/search/topic/title', ['uses' => 'Admin\SearchController@topicTitleSearch'] );
     });
 });
 

@@ -490,6 +490,7 @@ class PostController extends Controller
         ->leftjoin('users', 'posts.user_id', '=', 'users.id')
         ->leftjoin('category', 'posts.cate_id', '=', 'category.id')
         ->where('posts.id','=',$request->get('id'))
+        ->where('posts.status','=',"1")
         ->whereNull('posts.deleted_at')
         ->select('posts.id as post_id',
             'posts.title as title', 
