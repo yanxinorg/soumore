@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>laravel</title>
+    <title>CCms</title>
     @section('css')
     <link href="{{ asset('back/admin/css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('back/admin/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
@@ -37,12 +37,21 @@
                     </div>
                 </li>
 
-                <!--  内容管理 -->
+                <!--  分类管理 -->
                 <li>
-                    <a href="index.html#"><i class="fa fa-edit"></i> <span class="nav-label">内容管理</span><span class="fa arrow"></span></a>
+                    <a href="index.html#"><i class="fa fa-th-large"></i> <span class="nav-label">分类管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li><a href="{{ url('/back/cate/list') }}">分类管理</a></li>
+                        <li><a href="{{ url('/back/cate/add') }}">新增分类</a></li>
+                    </ul>
+                </li>
+
+                <!--  内容管理 -->
+                <li>
+                    <a href="index.html#"><i class="fa fa-edit"></i> <span class="nav-label">文章管理</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
                         <li><a href="{{ url('/back/post/list') }}">文章管理</a></li>
+                        <li><a href="{{ url('/back/post/create') }}">新增文章</a></li>
                     </ul>
                 </li>
 
@@ -56,9 +65,10 @@
 
                 <!--  话题管理 -->
                 <li>
-                    <a href="index.html#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">话题管理</span><span class="fa arrow"></span></a>
+                    <a href="index.html#"><i class="fa fa-tag"></i> <span class="nav-label">话题管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li><a href="{{ url('/back/topic/list') }}">话题管理</a></li>
+                        <li><a href="{{ url('/back/topic/add') }}">新增话题</a></li>
                     </ul>
                 </li>
 
@@ -66,7 +76,8 @@
                 <li >
                     <a href="index.html"><i class="fa fa-users"></i> <span class="nav-label">用户管理</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="{{ url('/back/user/list') }}"><span class="nav-label">用户</span></a></li>
+                        <li><a href="{{ url('/back/user/list') }}"><span class="nav-label">用户管理</span></a></li>
+                        <li><a href="{{ url('/back/user/add') }}"><span class="nav-label">新增用户</span></a></li>
                     </ul>
                 </li>
 
@@ -74,8 +85,8 @@
                 <li >
                     <a href="index.html#"><i class="fa fa-bars"></i> <span class="nav-label">权限管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="{{ url('/back/role/list') }}"><span class="nav-label">角色</span></a></li>
-                        <li><a href="{{ url('/back/permit/list') }}"><span class="nav-label">权限</span></a></li>
+                        <li><a href="{{ url('/back/role/list') }}"><span class="nav-label">角色管理</span></a></li>
+                        <li><a href="{{ url('/back/permit/list') }}"><span class="nav-label">权限管理</span></a></li>
                     </ul>
                 </li>
 
